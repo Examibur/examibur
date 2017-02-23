@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import tarfile
 import json
 import csv
@@ -6,9 +7,8 @@ import collections
 
 
 def main(filename):
-    _tarfile = tarfile.open(filename)
-    project_file = _tarfile.getmember('./project.json')
-    parsed = json.load(_tarfile.extractfile(project_file))
+    t = tarfile.open(filename)
+    parsed = json.loads(t.extractfile('./project.json').read().decode())
     time_logs = []
 
     users = {
