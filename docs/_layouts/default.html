@@ -8,9 +8,15 @@
 
     <title>{{site.title}} - {{page.title}}</title>
 
-    {% assign base = '' %} {% assign depth = page.url | split: '/' | size | minus: 1 %} {% if depth
-    <=1 %}{% assign base='.' %} {% elsif depth==2 %}{% assign base='..' %} {% elsif depth==3 %}{% assign base='../..' %} {% elsif depth==4 %}{% assign base='../../..'
-        %}{% endif %} <!-- Bootstrap core CSS -->
+    {% assign base = '' %}
+    {% assign depth = page.url | split: '/' | size | minus: 1 %}
+    {% if depth <=1 %}{% assign base='.' %}
+    {% elsif depth == 2 %}{% assign base='..' %}
+    {% elsif depth == 3 %}{% assign base='../..' %}
+    {% elsif depth == 4 %}{% assign base='../../..'%}
+    {% else %}
+    {% endif %}
+
         <link href="{{base}}/website/css/bootstrap.min.css" rel="stylesheet">
         <link href="{{base}}/website/css/custom.css" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
