@@ -6,7 +6,7 @@ title: Projektplan
 # Einführung
 ## Zweck
 
-Ziel des Dokument ist es, dem Leser einen Überblick über das Projekt Examibur zu geben und so einen schnellen Einstieg in den Projektablauf zur gewähren.  Dabei wird der Projektablauf aufgeschlüsselt, die möglichen Risiken analysiert, einen Überblick über die Arbeitsweise, die Infrastruktur und die Qualitätssicherung gegeben.
+Ziel des Dokuments ist es, dem Leser einen Überblick über das Projekt Examibur zu geben und so einen schnellen Einstieg in den Projektablauf zur gewähren.  Dabei wird der Projektablauf aufgeschlüsselt, die möglichen Risiken analysiert, einen Überblick über die Arbeitsweise, die Infrastruktur und die Qualitätssicherung gegeben.
 
 ## Gültigkeitsbereich
 
@@ -21,8 +21,7 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 | Projektantrag                     | [Projektantrag](https://gitlab.com/engineering-projekt/examibur/raw/master/docs/projektantrag/Projektantrag_EPJ_Examibur.docx)[.docx](https://gitlab.com/engineering-projekt/examibur/raw/master/docs/projektantrag/Projektantrag_EPJ_Examibur.docx) |
 | Risikomanagement                  | [TechnischeRisiken.xlsx](https://gitlab.com/engineering-projekt/examibur/raw/master/docs/projektplan/TechnischeRisiken.xlsx)                                                                                                                         |
 | Glossar                           | [Glossar](https://gitlab.com/engineering-projekt/examibur/blob/master/docs/projektplan/glossar.md)                                                                                                                                                   |
-| Arbeitspakte / Zeiterfassung      | [Issue im Gitlab](https://gitlab.com/engineering-projekt/examibur/issues?scope=all&sort=due_date_asc&state=opened)                                                                                                                                   |
-| aktuelle Zeitübersicht            | TODO: Link auf aktuelle Zeitauswertung XLS, vlt später in statischer Seite integriert                                                                                                                                                                |
+| Arbeitspakte / Zeiterfassung      | [Issue im Gitlab](https://gitlab.com/engineering-projekt/examibur/issues?scope=all&sort=due_date_asc&state=opened)                                                                                                                                                                                                                                                                                                  |
 | Scrum Board                       | [Sprint 1](https://gitlab.com/engineering-projekt/examibur/boards/268063)                                                                                                                                                                            |
 | Termine                           | [Google Calendar](https://calendar.google.com/calendar/embed?src=l232n5a38terjn899fvf7fom88%40group.calendar.google.com&ctz=Europe/Zurich)                                                                                                           |
 | Continuous Integration            | [Gitlab CI](https://gitlab.com/engineering-projekt/examibur/graphs/master/ci)                                                                                                                                                                        |
@@ -42,9 +41,9 @@ Das Ziel ist es, ein Gesamtsystem für die Prüfungserstellung, -durchführung, 
 ### Sinn und Zweck & Zielsetzung
 Der Prüfungsprozess an der HSR hat sich in den letzten Jahrzehnten kaum verändert. Prüfungen werden nach wie vor auf Papier durchgeführt, die Korrektur und Noteneintragung erfolgen manuell von Hand.
 
-Für Dozierende ist der Aufwand, die Prüfungen zu korrigieren und zu benoten Zeitaufwändig.  Es passieren schnell Fehler beim Abtippen und Zusammenzählen von Punktezahlen und der manuellen Übertragung in bspw. AdUnis. Eine Analyse der Prüfung, beispielsweise wie gut welche Aufgaben gelöst wurden, um kommende Moduldurchführungen zu verbessern, ist zu aufwändig und wird deshalb wohl meist weggelassen. Diese Daten sind selbstverständlich auch für die Schulleitung und die Qualitägsbeauftragten der HSR von fundamentalem Interesse.
+Für Dozierende ist der Aufwand, die Prüfungen zu korrigieren und zu benoten Zeitaufwändig.  Es passieren schnell Fehler beim Abtippen und Zusammenzählen von Punktezahlen und der manuellen Übertragung in bspw. ADUNIS. Eine Analyse der Prüfung, beispielsweise wie gut welche Aufgaben gelöst wurden, um kommende Moduldurchführungen zu verbessern, ist zu aufwändig und wird deshalb wohl meist weggelassen. Diese Daten sind selbstverständlich auch für die Schulleitung und die Qualitätsbeauftragten der HSR von fundamentalem Interesse.
 
-Auch für die Studierenden wäre eine Zusammenfassung dieser Resultate eine Hilfe, um die eigene Leistung einordnen zu können. So wird die Prüfungseinsicht von vielen Studenten nicht wahrgenommen, da diese persönlich vor Ort zu erfolgen hat und die Notenschlüssel und Bewertungskritereien oft nicht klar ersichtlich sind.
+Auch für die Studierenden wäre eine Zusammenfassung dieser Resultate eine Hilfe, um die eigene Leistung einordnen zu können. So wird die Prüfungseinsicht von vielen Studenten nicht wahrgenommen, da diese persönlich vor Ort zu erfolgen hat und die Notenschlüssel und Bewertungskriterien oft nicht klar ersichtlich sind.
 
 Unsere Vision eines Prüfungssystems ist es, dass Prüfungen online (oder bei Bedarf auf Papier) durchgeführt und anschliessend von den Dozierenden bequem online korrigiert und nachgeprüft werden können. Ein solches System könnte die oben genannten Probleme stark vereinfachen oder ganz lösen.
 
@@ -53,7 +52,7 @@ Um das Potential unserer Lösung zu demonstrieren, möchten wir das Kernstück d
 ### Persönliche Ziele
 Im Engineering Projekt haben wir die Möglichkeit, einen komplett eigenen Softwarestack für die Planung und Durchführung eines Softwareprojekts zu verwenden. Im Gegensatz zu unseren Erfahrungen in der Privatwirtschaft ist noch keine existierende Infrastruktur vorhanden. Im Rahmen dieses Projekts möchten wir Gitlab als Engineering-Werkzeug evaluieren.
 
-Keines der Teammitglieder hat Erfahrungen mit dem weit verbreiteten Spring-Framework. Unser Ziel ist es, gut fundierte Kentnisse für die Erstellung von Spring Webapplikationen mit Datenbankanbindung zu erarbeiten.
+Keines der Teammitglieder hat Erfahrungen mit dem weit verbreiteten Spring-Framework. Unser Ziel ist es, gut fundierte Kenntnisse für die Erstellung von Spring Webapplikationen mit Datenbankanbindung zu erarbeiten.
 
 Wir möchten uns die Kenntnisse aneignen, wie eine Java-Webapplikation mit Docker entwickelt wird und für die Produktion vorbereitet werden kann.
 
@@ -78,15 +77,15 @@ Wenn noch zusätzlich Zeit bleibt, wird eine Funktion zur Bearbeitung von Rekurs
 
 ## Annahmen und Einschränkungen
 
-In der Planung des Projekts wird davon ausgegangen, dass die Abschlusspräsentation am Ende der letzten Projektwuche (Semesterwoche 15) stattfindet. Wir rechnen nicht mit einem längeren Ausfall durch z.B. Krankheit oder Unfall von Projektmitarbeitern.
+In der Planung des Projekts wird davon ausgegangen, dass die Abschlusspräsentation am Ende der letzten Projektwoche (Semesterwoche 15) stattfindet. Wir rechnen nicht mit einem längeren Ausfall durch z.B. Krankheit oder Unfall von Projektmitarbeitern.
 
-Als Endprodukt wird ein lauffähiger Proof-of-Concept angestrebt, der als Demonstration für einen potentiellen Kunden dienen kann (Minimal Viable Product). Der Zeitaufwand des Projekts ist begrenzt auf 14 Projektwuchen mit 120 Arbeitsstunden pro Person.
+Als Endprodukt wird ein lauffähiger Proof-of-Concept angestrebt, der als Demonstration für einen potentiellen Kunden dienen kann (Minimal Viable Product). Der Zeitaufwand des Projekts ist begrenzt auf 14 Projektwochen mit 120 Arbeitsstunden pro Person.
 Die Infrastruktur der lokalen Entwicklungsumgebung wird nur mit Docker realisiert, wenn damit auch eine effiziente Entwicklung möglich ist.
 
 # Projektorganisation
 ## Organisationsstruktur
 
-Unser Projektteam ist in einer flachen Hierarchie organisiert. Dies ermöglicht eine direkte und effiziente Kommunikation. Um eine möglichst gute Verteilung des Know-Hows zu erlangen, erhält jedes Projektmitglied Einsicht und Mitsprache in alle Bereiche der Arbeit. Es werden jedoch auch klare Verantwortungen in Form von Ressorts zugeteilt, um eine Qualitätssicherung zu gewährleisten.
+Unser Projektteam ist in einer flachen Hierarchie organisiert. Dies ermöglicht eine direkte und effiziente Kommunikation. Um eine möglichst gute Verteilung des Know-hows zu erlangen, erhält jedes Projektmitglied Einsicht und Mitsprache in alle Bereiche der Arbeit. Es werden jedoch auch klare Verantwortungen in Form von Ressorts zugeteilt, um eine Qualitätssicherung zu gewährleisten.
 
 
 <table>
@@ -149,7 +148,7 @@ Das Projekt wurde mit dem Kickoff am 20.02.2017 gestartet und wird spätestens a
 </tr>
 </table>
 
-Neben denn unterrichtsfreien Tage der HSR und den öffentliche Feiertagen sind keine Absenzen geplant. Durch die Flexibilität der Teammitglieder und die kurz angelegten Sprints (2 Wochen) ist bei kurzfristigen Absenzen eine rasche Umdisponierung und Neuplanung möglich.
+Neben denn unterrichtsfreien Tage der HSR und den öffentlichen Feiertagen sind keine Absenzen geplant. Durch die Flexibilität der Teammitglieder und die kurz angelegten Sprints (2 Wochen) ist bei kurzfristigen Absenzen eine rasche Umdisponierung und Neuplanung möglich.
 
 ## Zeitliche Planung
 
@@ -180,12 +179,12 @@ Die Daily-Standups sind zur Klärung folgender Fragen da:
 
 Die Sprint-Plannings ermöglichen eine saubere Planung der Arbeitspakete für die nächsten zwei Wochen und eine genaue Schätzung dieser.
 
-Um die Produktivität zu erhöhen und das Arbeitsklima auf einem hohen Stand zuhalten, findet man alle drei Wochen am Freitag von 11.00 bis 12.00 Uhr zu einer Retrospektive zusammen, um über die vergangen Tage zusprechen und um allfällige Prozesse und Mittel zu optimieren.
+Um die Produktivität zu erhöhen und das Arbeitsklima auf einem hohen Stand zu halten, findet man alle drei Wochen am Freitag von 11.00 bis 12.00 Uhr zu einer Retrospektive zusammen, um über die vergangenen Tage zusprechen und um allfällige Prozesse und Mittel zu optimieren.
 
-Dadurch entsteht mit Ausnahme der Reviews und Beratungssitzungen ein Gesamtaufwand von von 80.5 Stunden für Besprechungen. Geplante Besprechungen werden ebenfalls als Issues aufgenommen und im Sprint Planning für den jeweiligen Sprint eingeplant.
+Dadurch entsteht mit Ausnahme der Reviews und Beratungssitzungen ein Gesamtaufwand von 80.5 Stunden für Besprechungen. Geplante Besprechungen werden ebenfalls als Issues aufgenommen und im Sprint Planning für den jeweiligen Sprint eingeplant.
 
 ### Meetings mit Betreuer
-Zu den oben stehenden Zeitpunkten werden in unregelmässigen Abständen Reviews und allfällige Beratungssitzungen mit Herr Keller im Raum 1.171 stattfinden.
+Zu den obenstehenden Zeitpunkten werden in unregelmässigen Abständen Reviews und allfällige Beratungssitzungen mit Herr Keller im Raum 1.171 stattfinden.
 
 ### Protokollführung
 Offene Punkte, welche während den Besprechungen auftreten, werden direkt im Anschluss durch den Protokollführer als Issues mit einer Deadline versehen, im Gitlab erfasst. Zudem werden diese mit einem eindeutigen Label versehen, welches die Besprechung identifiziert, um so zu jedem Zeitpunkt eine Aussage über den Stand der offenen Punkte zu geben.
@@ -197,11 +196,11 @@ Eine Liste mit den wahrscheinlichsten technischen Risiken des Projekts ist im se
 
 ![](images/risikomatrix.png)
 
-Das Hauptrisiko des Projekts stellt die umfangreiche Gesamtlösung unserer Arbeit dar, welche durch die Prüfungsprozesse der HSR gegeben ist. Deswegen haben wir einen eindeutigen Scope definiert und klar formuliert, dass wir einen Prototypen für eine eventuelle Machbarkeitsstudie implementieren und noch keine einsatzfähige Gesamtlösung, um die bisherigen Prozesse zu ersetzen. Nichtsdestotrotz sollte der Prototyp am Ende lauffähig sein und eine aufschlussreiche Präsentation bieten können.
+Das Hauptrisiko des Projekts stellt die umfangreiche Gesamtlösung unserer Arbeit dar, welche durch die Prüfungsprozesse der HSR gegeben ist. Deswegen haben wir einen eindeutigen Scope definiert und klar formuliert, dass wir einen Prototyp für eine eventuelle Machbarkeitsstudie implementieren und noch keine einsatzfähige Gesamtlösung, um die bisherigen Prozesse zu ersetzen. Nichtsdestotrotz sollte der Prototyp am Ende lauffähig sein und eine aufschlussreiche Präsentation bieten können.
 
 ## Umgang mit Risiken
 
-Beim schätzen der User-Stories wird jeweils eine entsprechende Reserve eingeplant, falls diese von einem oder mehreren der oben definierten Risiken betroffen sind.
+Beim Schätzen der User-Stories wird jeweils eine entsprechende Reserve eingeplant, falls diese von einem oder mehreren der oben definierten Risiken betroffen sind.
 
 Am Ende jeder Iteration wird eine Risikobeurteilung durchgeführt. Beim Eintreten eines Risikos wird die vordefinierte Massnahme umgesetzt und die Situation neu beurteilt. Sollte dadurch der Projektzeitplan (Meilensteine) in Verzug kommen, wird auch dieser neu beurteilt und entsprechende Massnahmen eingeleitet.
 
@@ -230,7 +229,7 @@ Die Arbeitspakete, Meilensteine und Sprints werden auf gitlab.com verwaltet.
 
 ### Workstation Entwickler
 
-Jedes Projektmitglied arbeitet auf seinem persönlichem Laptop. Die Entwicklungsumgebung ist grundsätzlich Plattformunabhägig, die Projektmitglieder arbeiten aber primär mit Linux undOS X. Auf allen Geräten ist folgende Software installiert:
+Jedes Projektmitglied arbeitet auf seinem persönlichen Laptop. Die Entwicklungsumgebung ist grundsätzlich Plattformunabhängig, die Projektmitglieder arbeiten aber primär mit Linux und OS X. Auf allen Geräten ist folgende Software installiert:
 
 - OpenJDK >= 1.8.0_121
 - Gradle == 3.3
@@ -301,7 +300,7 @@ Um während dem Projekt eine möglichst hohe Qualität zu gewährleisten, werden
 | **Code Reviews**                        | Für jede User-Story | Verbesserung der allgemeinen Code-Qualität                              |
 | **Code Metriken**                       | Fortlaufend         | Überwachung der Code-Qualität                                           |
 | **Code CheckStyle**                     | Fortlaufend         | Einhaltung des Code-Styles                                              |
-| **Automatisierte Tests**                | Fortlaufend         | Fehlereliminierung und erfrühte Fehler-Erkennung                        |
+| **Automatisierte Tests**                | Fortlaufend         | Fehlereliminierung und verfrühte Fehler-Erkennung                        |
 
 
 
