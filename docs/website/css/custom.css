@@ -1,0 +1,50 @@
+.container {
+    font-size: 1.9rem;
+    line-height: 180%;
+}
+.container img {
+    max-width: 100%;
+}
+
+.container table {
+     border-collapse: collapse;
+}
+
+.container table, th, td {
+   border: 1px solid black;
+}
+
+.container td, th {
+    padding: 1rem;
+}
+.jumbotron{
+    background-color: #6b8fc6;
+}
+.jumbotron a, .jumbotron a:hover {
+    color: white;
+}
+
+a {
+    color: #6b8fc6;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.quicklink {
+    text-align: center;
+}
+.quicklink-icon {
+    font-size: 4rem;
+}
+
+.quicklink-title {
+    font-size: 2rem;
+}
+
+.list-group-item.document::before {
+    content: "\f02d";
+    font-family: FontAwesome;
+    padding-right: 1rem;
+}

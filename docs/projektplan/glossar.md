@@ -1,3 +1,7 @@
+---
+layout: default
+title: Glossar
+---
 # Glossar
 
 ## Zweck
@@ -7,17 +11,17 @@ Dieses Glossar enthält Definitionen und Erklärungen von Begriffen, die in der 
 
 Begriff         |  Beschreibung
 ----------------|----------------
- Docker         |  
- GitLab         | Online-Service für Git-Repositories (ähnlich Github) mit Projektmanagement-Funktionen, worin das ganze Examibur-Projekt verwaltet wird 
- Issue          |  
- Merge Request  |  
- Sprint Board   |  
+ Docker         |
+ GitLab         | Online-Service für Git-Repositories (ähnlich Github) mit Projektmanagement-Funktionen, worin das ganze Examibur-Projekt verwaltet wird
+ Issue          |
+ Merge Request  |
+ Sprint Board   |
     |
-    |  
-    |  
-    |  
-    |  
-    |  
+    |
+    |
+    |
+    |
+    |
 
 
 ## Quellen

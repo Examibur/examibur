@@ -1,0 +1,13 @@
+title: Examibur
+authors: Jonas Matter, Patrick Scherler, Robin Suter, Raphael Zimmermann
+
+exclude:
+    - website/docker/
+    - Makefile
+
+host: 0.0.0.0
+
+markdown: redcarpet
+highlighter: rouge
+redcarpet:
+  extensions: ["fenced_code_blocks", "tables", "with_toc_data"]
