@@ -1260,7 +1260,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Github Issue Tracker",
+											"text": "Gitlab Issue Tracker",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -5282,7 +5282,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFajo0NR1aMbd0="
 					},
-					"name": "Github Issue Tracker",
+					"name": "Gitlab Issue Tracker",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
