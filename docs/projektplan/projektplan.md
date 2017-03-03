@@ -34,7 +34,7 @@ Das Ziel ist es, ein Gesamtsystem für die Prüfungserstellung, -durchführung, 
 
 
 ## Die 3 Säulen von Examibur
-![](images/3_saeulen.png)
+![](resources/3_saeulen.png)
 
 ## Zweck und Ziel
 
@@ -157,15 +157,15 @@ Die Arbeitspakte und die Zeit wird mithilfe von Gitlab verwaltet. Zu allen Täti
 ### Phasen / Iterationen
 Das Projekt wird in 6 Sprints mit einer Dauer von je 2 Wochen und einem Abschlusssprint von einer Woche aufgeteilt. Der zusätzliche Sprint 0 ist für die Setup-Phase und Projektfindung angedacht und somit kein eigentlicher Scrum-Sprint.
 
-![](images/sprint_overview.png)
+![](resources/sprint_overview.png)
 
-![](images/sprint_details_1.png)
+![](resources/sprint_details_1.png)
 
-![](images/sprint_details_2.png)
+![](resources/sprint_details_2.png)
 
 ### Meilensteine
 
-![](images/milestones.png)
+![](resources/milestones.png)
 
 ## Besprechungen
 
@@ -194,7 +194,7 @@ Offene Punkte, welche während den Besprechungen auftreten, werden direkt im Ans
 
 Eine Liste mit den wahrscheinlichsten technischen Risiken des Projekts ist im separaten Excel-Dokument [**TechnischeRisiken.xlsx**](https://gitlab.com/engineering-projekt/examibur/raw/master/docs/projektplan/TechnischeRisiken.xlsx) definiert.
 
-![](images/risikomatrix.png)
+![](resources/risikomatrix.png)
 
 Das Hauptrisiko des Projekts stellt die umfangreiche Gesamtlösung unserer Arbeit dar, welche durch die Prüfungsprozesse der HSR gegeben ist. Deswegen haben wir einen eindeutigen Scope definiert und klar formuliert, dass wir einen Prototyp für eine eventuelle Machbarkeitsstudie implementieren und noch keine einsatzfähige Gesamtlösung, um die bisherigen Prozesse zu ersetzen. Nichtsdestotrotz sollte der Prototyp am Ende lauffähig sein und eine aufschlussreiche Präsentation bieten können.
 
@@ -221,7 +221,7 @@ Die Arbeitspakete, Meilensteine und Sprints werden auf gitlab.com verwaltet.
 
 # Infrastruktur
 
-![](images/infrastructure.svg)
+![](resources/infrastructure.svg)
 
 Übersicht der Infrastruktur: Einige Komponenten zur Übersicht wurden bewusst weggelassen
 
@@ -341,7 +341,7 @@ Der Source Code wird mit Git verwaltet und ist im Repository auf Gitlab abgelegt
 
 ### Entwicklungs-Workflow
 
-![](images/github-flow.png)
+![](resources/github-flow.png)
 
 
 Während der Construction-Phase wird der Master-Branch gesperrt, sodass dieser nur noch über Merge Requests bearbeitet werden kann.
