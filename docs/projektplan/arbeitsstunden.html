@@ -3,10 +3,16 @@ layout: default
 title: Arbeitsstunden
 ---
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">Arbeitsstunden</div>
             <div id="workTimeChart"></div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Arbeitsstunden / Issue</div>
+            <div id="workTimePerIssueChart"></div>
         </div>
     </div>
 </div>
@@ -14,4 +20,6 @@ title: Arbeitsstunden
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/heatmap.js"></script>
+<script src="https://code.highcharts.com/modules/treemap.js"></script>
 <script src="{{base}}/website/script/chart.js"></script>

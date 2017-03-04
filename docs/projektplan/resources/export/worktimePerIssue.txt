@@ -1,0 +1,20 @@
+{
+  "export_date": 1488620686203,
+  "data": {
+    "23": {
+      "name": "Sprint Planning Sprint 1",
+      "estimated": 8,
+      "spent": 4
+    },
+    "3": {
+      "name": "Projektplan schreiben",
+      "estimated": 30,
+      "spent": 48.5
+    },
+    "2": {
+      "name": "Framework Recherche",
+      "estimated": 2.5,
+      "spent": 2.5
+    }
+  }
+}

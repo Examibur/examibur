@@ -1,4 +1,7 @@
 $(function() {
+    var DATE_FORMAT = 'DD.MM.YYYY';
+    var EXPORT_DATE_KEY = 'export_date';
+
     function getWeekNumber(date) {
         date.setHours(0, 0, 0, 0);
         date.setDate(date.getDate() + 4 - (date.getDay() || 7));
@@ -9,9 +12,41 @@ $(function() {
 
     function round(valueToRound) {
         return Math.round(valueToRound * 100) / 100;
-    }
+    };
 
-    (function () {
+    function prepareHeatMapData(dataToMap) {
+      var data = [];
+        for (var key in dataToMap.data) {
+            // skip loop if the property is from prototype
+            if (!dataToMap.data.hasOwnProperty(key)) continue;
+
+            var obj = dataToMap.data[key];
+
+            data.push({
+              id: key,
+              name: obj.name,
+              value: obj.spent,
+              colorValue: obj.spent
+            });
+            data.push({
+              parent: key,
+              id: 'Ist',
+              name: 'Ist',
+              value: obj.spent,
+              colorValue: obj.spent
+            });
+            data.push({
+              parent: key,
+              id: 'Soll',
+              name: 'Soll',
+              value: obj.estimated,
+              colorValue: obj.estimated
+            });
+        }
+        return data;
+    };
+
+    (function() {
         jQuery.get('resources/export/worktime.txt', function(data) {
             var startWeek = 7;
             var weeklyHourTarget = 8.6;
@@ -28,7 +63,7 @@ $(function() {
                     type: 'column'
                 },
                 title: {
-                    text: 'Stand: ' + moment(workTimeChartData['export_date']).format('DD.MM.YYYY')
+                    text: 'Stand: ' + moment(workTimeChartData[EXPORT_DATE_KEY]).format(DATE_FORMAT)
                 },
                 xAxis: {
                     categories: [
@@ -61,7 +96,8 @@ $(function() {
                     name: 'Ist',
                     color: '#6b8fc6',
                     data: [round(workTimeChartData[rzimmerm]), round(workTimeChartData[r1suter]),
-                           round(workTimeChartData[pscherl]), round(workTimeChartData[jmatter])],
+                        round(workTimeChartData[pscherl]), round(workTimeChartData[jmatter])
+                    ],
                     pointPadding: 0.3,
                     tooltip: {
                         valueSuffix: 'h'
@@ -77,5 +113,42 @@ $(function() {
                 }]
             });
         });
+
+        jQuery.get('resources/export/worktimePerIssue.txt', function(data) {
+
+            var workTimePerIssueChartData = prepareHeatMapData(JSON.parse(data));
+
+            Highcharts.chart('workTimePerIssueChart', {
+                title: {
+                    text: 'Stand: ' + moment(workTimePerIssueChartData[EXPORT_DATE_KEY]).format(DATE_FORMAT)
+                },
+                colorAxis: {
+                    minColor: '#FFFFFF',
+                    maxColor: Highcharts.getOptions().colors[0]
+                },
+                series: [{
+                    type: 'treemap',
+                    layoutAlgorithm: 'squarified',
+                    allowDrillToNode: true,
+                    animationLimit: 1000,
+                    dataLabels: {
+                        enabled: false
+                    },
+                    levelIsConstant: false,
+                    levels: [{
+                        level: 1,
+                        dataLabels: {
+                            enabled: true
+                        },
+                        borderWidth: 3
+                    }],
+                    tooltip: {
+                        valueSuffix: 'h'
+                    },
+                    data: workTimePerIssueChartData
+                }]
+            });
+        });
+
     })();
 });
