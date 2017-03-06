@@ -47,11 +47,10 @@ $(function() {
     };
 
     (function() {
-        jQuery.get('resources/export/worktime.txt', function(data) {
+        jQuery.get('resources/export/worktime.json', function(workTimeChartData) {
             var startWeek = 7;
             var weeklyHourTarget = 8.6;
             var targetWorkTime = (getWeekNumber(new Date()) - startWeek) * weeklyHourTarget;
-            var workTimeChartData = JSON.parse(data);
 
             var rzimmerm = 'Raphael Zimmermann';
             var r1suter = 'Robin Suter';
@@ -114,13 +113,13 @@ $(function() {
             });
         });
 
-        jQuery.get('resources/export/worktimePerIssue.txt', function(data) {
+        jQuery.get('resources/export/worktimePerIssue.json', function(data) {
 
-            var workTimePerIssueChartData = prepareHeatMapData(JSON.parse(data));
+            var workTimePerIssueChartData = prepareHeatMapData(data);
 
             Highcharts.chart('workTimePerIssueChart', {
                 title: {
-                    text: 'Stand: ' + moment(workTimePerIssueChartData[EXPORT_DATE_KEY]).format(DATE_FORMAT)
+                    text: 'Stand: ' + moment(data[EXPORT_DATE_KEY]).format(DATE_FORMAT)
                 },
                 colorAxis: {
                     minColor: '#FFFFFF',
