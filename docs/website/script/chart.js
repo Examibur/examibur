@@ -14,7 +14,7 @@ $(function() {
         return Math.round(valueToRound * 100) / 100;
     };
 
-    function prepareHeatMapData(dataToMap) {
+    function prepareWorktimePerIssueData(dataToMap) {
       var data = [];
         for (var key in dataToMap.data) {
             // skip loop if the property is from prototype
@@ -50,7 +50,8 @@ $(function() {
         jQuery.get('resources/export/worktime.json', function(workTimeChartData) {
             var startWeek = 7;
             var weeklyHourTarget = 8.6;
-            var targetWorkTime = (getWeekNumber(new Date()) - startWeek) * weeklyHourTarget;
+            var projectWeekNumber = getWeekNumber(new Date()) - startWeek;
+            var targetWorkTime = round(projectWeekNumber * weeklyHourTarget);
 
             var rzimmerm = 'Raphael Zimmermann';
             var r1suter = 'Robin Suter';
@@ -63,6 +64,9 @@ $(function() {
                 },
                 title: {
                     text: 'Stand: ' + moment(workTimeChartData[EXPORT_DATE_KEY]).format(DATE_FORMAT)
+                },
+                subtitle: {
+                    text: 'Sollarbeitszeit basierend auf ' + projectWeekNumber + ' Wochen'
                 },
                 xAxis: {
                     categories: [
@@ -94,8 +98,8 @@ $(function() {
                 series: [{
                     name: 'Ist',
                     color: '#6b8fc6',
-                    data: [round(workTimeChartData[rzimmerm]), round(workTimeChartData[r1suter]),
-                        round(workTimeChartData[pscherl]), round(workTimeChartData[jmatter])
+                    data: [round(workTimeChartData.team[rzimmerm]), round(workTimeChartData.team[r1suter]),
+                        round(workTimeChartData.team[pscherl]), round(workTimeChartData.team[jmatter])
                     ],
                     pointPadding: 0.3,
                     tooltip: {
@@ -117,7 +121,7 @@ $(function() {
 
         jQuery.get('resources/export/worktimePerIssue.json', function(data) {
 
-            var workTimePerIssueChartData = prepareHeatMapData(data);
+            var workTimePerIssueChartData = prepareWorktimePerIssueData(data);
 
             Highcharts.chart('workTimePerIssueChart', {
                 title: {

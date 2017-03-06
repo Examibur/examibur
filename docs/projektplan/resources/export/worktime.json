@@ -1,7 +1,9 @@
 {
-  "Raphael Zimmermann": 18.1666666667,
-  "Robin Suter": 16.1666666667,
-  "Patrick Scherler": 16.6666666667,
-  "Jonas Matter": 16.1666666667,
-  "export_date": 1488620686203
+    "export_date": 1488620686203,
+    "team": {
+        "Raphael Zimmermann": 18.1666666667,
+        "Robin Suter": 16.1666666667,
+        "Patrick Scherler": 16.6666666667,
+        "Jonas Matter": 16.1666666667
+    }
 }
