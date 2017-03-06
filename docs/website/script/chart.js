@@ -111,6 +111,8 @@ $(function() {
                     }
                 }]
             });
+        }).fail(function() {
+            $('#workTimeChart .no-export').show();
         });
 
         jQuery.get('resources/export/worktimePerIssue.json', function(data) {
@@ -147,6 +149,8 @@ $(function() {
                     data: workTimePerIssueChartData
                 }]
             });
+        }).fail(function() {
+            $('#workTimePerIssueChart .no-export').show();
         });
 
     })();

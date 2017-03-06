@@ -17,6 +17,11 @@
 .container td, th {
     padding: 1rem;
 }
+
+.container .row .no-export {
+    display: none;
+}
+
 .jumbotron{
     background-color: #6b8fc6;
 }
