@@ -11,7 +11,7 @@ from http.cookiejar import CookieJar
 
 TARGETS = ['gitlab', 'ci_artifacts', 'projekteserver']
 
-BACKUP_LOCATION = '../../backups/'
+BACKUP_LOCATION = os.path.join(os.path.dirname(__file__), '..', 'backups/')
 BACKUP_CI_LOCATION = os.path.join(BACKUP_LOCATION, 'ci')
 BACKUP_GL_LOCATION = os.path.join(BACKUP_LOCATION, 'gitlab')
 

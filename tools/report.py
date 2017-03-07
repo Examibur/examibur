@@ -88,8 +88,11 @@ def main():
         print("Usage ./report.py BACKUP_FILE DESTINATION_DIR TARGET ...")
         print("      ./report.py BACKUP_FILE DESTINATION_DIR all")
     else:
-        project = _load_project_json(sys.argv[1])
-        export_date_str = os.path.basename(sys.argv[1])[:16]
+        source = sys.argv[1]
+        if os.path.isdir(source):
+            source = os.path.join(source, sorted(os.listdir(source))[-1])
+        project = _load_project_json(source)
+        export_date_str = os.path.basename(source)[:16]
         export_date = datetime.datetime.strptime(export_date_str, '%Y-%m-%d_%H-%M')
         output_directory = sys.argv[2]
         os.makedirs(output_directory, exist_ok=True)
