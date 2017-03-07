@@ -11,7 +11,7 @@ from http.cookiejar import CookieJar
 
 TARGETS = ['gitlab', 'ci_artifacts', 'projekteserver']
 
-BACKUP_LOCATION = '../../backups/'
+BACKUP_LOCATION = os.path.join(os.path.dirname(__file__), '..', 'backups/')
 BACKUP_CI_LOCATION = os.path.join(BACKUP_LOCATION, 'ci')
 BACKUP_GL_LOCATION = os.path.join(BACKUP_LOCATION, 'gitlab')
 
@@ -144,19 +144,18 @@ def _examibur_token():
 
 
 def main():
-    try:
-        if len(sys.argv) == 2 and sys.argv[1] == 'all':
-            for action in TARGETS:
+    if len(sys.argv) == 2 and sys.argv[1] == 'all':
+        for action in TARGETS:
+            globals()[action]()
+    elif len(sys.argv) > 1:
+        for action in sys.argv[1:]:
+            if action not in TARGETS:
+                print("skipping unknown target {}".format(action))
+            else:
                 globals()[action]()
-        elif len(sys.argv) > 1:
-            for action in sys.argv[1:]:
-                globals()[action]()
-        else:
-            print("Usage: ./backup.py TARGET...")
-            print("       ./backup.py all")
-    except KeyError as e:
-        print("Unknown target {}".format(e))
-
+    else:
+        print("Usage: ./backup.py TARGET...")
+        print("       ./backup.py all")
 
 if __name__ == "__main__":
     main()

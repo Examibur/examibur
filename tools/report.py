@@ -4,73 +4,108 @@ import json
 import csv
 import sys
 import collections
+import os
+import datetime
 
-def title_of_milestone(issue):
-    if issue.get('milestone') is not None:
-        return issue['milestone']['title']
-    return ''
+USERS = {
+    893283: 'Raphael Zimmermann',
+    1134363: 'Jonas Matter',
+    1134328: 'Patrick Scherler',
+    897664: 'Robin Suter'
+}
+
+TARGETS = ['worktime', 'worktime_per_issue']
 
 
-def main(filename):
-    t = tarfile.open(filename)
-    parsed = json.loads(t.extractfile('./project.json').read().decode())
-    time_logs = []
+def worktime(project, export_date, output_directory):
+    result = {
+                'export_date': _datetime_in_ms(export_date),
+                'team': collections.defaultdict(int)
+              }
 
-    users = {
-        893283: 'Raphael Zimmermann',
-        1134363: 'Jonas Matter',
-        1134328: 'Patrick Scherler',
-        897664: 'Robin Suter'
-    }
-
-    issues = []
-    for issue in parsed['issues']:
-        total = 0
+    for issue in project['issues']:
         for log in issue['timelogs']:
-            time_logs.append({
-                'time_spent': log['time_spent']/3600,
-                'user': users.get(log['user_id'], log['user_id']),
-                'date': log['created_at'],
-                'issue_id': issue['iid'],
-                'issue_name': issue['title']
-            })
-            total += log['time_spent']
-        issues.append({
-            'issue_id': issue['iid'],
-            'issue_name': issue['title'],
-            'assigned': users.get(issue['assignee_id'], issue['assignee_id']),
-            'estimated': issue['time_estimate']/3600,
-            'spent': total/3600,
-            'duedate': issue['due_date'],
-            'state': issue['state'],
-            'milestone': title_of_milestone(issue),
-            'use_case': ','.join([label['label']['title'] for label in issue['label_links'] if label['label']['title'][:2] == 'UC']),
-            'labels': ','.join([label['label']['title'] for label in issue['label_links']])
-        })
-    with open('{}_issue_overview.csv'.format(filename[:-7]), 'w') as f:
-        writer = csv.DictWriter(f, ['issue_id', 'issue_name', 'assigned', 'estimated', 'spent', 'duedate', 'milestone', 'use_case', 'labels', 'state'])
-        writer.writeheader()
-        for issue in issues:
-            writer.writerow(issue)
+                user = USERS.get(log['user_id'], log['user_id'])
+                time_spent = log['time_spent']/3600
+                result['team'][user] += time_spent
 
-    with open('{}_result.csv'.format(filename[:-7]), 'w') as f:
-        writer = csv.DictWriter(f, ['time_spent', 'user', 'date', 'issue_id', 'issue_name'])
-        writer.writeheader()
-        for log in time_logs:
-            writer.writerow(log)
+    _dump_json('worktime', output_directory, result)
+    _dump_csv('worktime', output_directory, ['user', 'total_spent'],
+              result['team'].items())
 
-    stats = collections.defaultdict(int)
-    for log in time_logs:
-        stats[log['user']] = stats[log['user']] + log['time_spent']
 
-    with open('{}_stats.csv'.format(filename[:-7]), 'w') as f:
-        writer = csv.DictWriter(f, ['name', 'total_spend'])
-        writer.writeheader()
-        [writer.writerow({'name': name, 'total_spend': stat}) for name, stat in stats.items()]
+def worktime_per_issue(project, export_date, output_directory):
+    result = {
+                  'export_date': _datetime_in_ms(export_date),
+                  'data': {}
+             }
+    for issue in project['issues']:
+        total_spent = 0
+        for log in issue['timelogs']:
+            total_spent += log['time_spent']
+
+        result['data'][issue['iid']] = {
+                'name': issue['title'],
+                'estimated': issue['time_estimate']/3600,
+                'spent': total_spent/3600
+                }
+    _dump_json('worktimePerIssue', output_directory, result)
+    _dump_csv('worktimePerIssue', output_directory,
+              ['issue_id', 'issue_title', 'estimated', 'spent'],
+              [[iid] + list(data.values()) for iid, data in result['data'].items()])
+
+    ['time_spent', 'user', 'date', 'issue_id', 'issue_name']
+
+
+def _datetime_in_ms(date_to_convert):
+    epoch = datetime.datetime.utcfromtimestamp(0)
+    return int((date_to_convert - epoch).total_seconds() * 1000)
+
+
+def _load_project_json(path_to_backup):
+    _tarfile = tarfile.open(path_to_backup)
+    raw = _tarfile.extractfile('./project.json').read().decode()
+    return json.loads(raw)
+
+
+def _dump_csv(report_name, output_directory, colum_names, rows):
+    destination = os.path.join(output_directory, '{}.csv'.format(report_name))
+    with open(destination, 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow(colum_names)
+        for row in rows:
+            writer.writerow(row)
+
+
+def _dump_json(report_name, output_directory, data):
+    destination = os.path.join(output_directory, '{}.json'.format(report_name))
+    with open(destination, 'w') as f:
+        json.dump(data, f)
+
+
+def main():
+    if len(sys.argv) != 4:
+        print("Usage ./report.py BACKUP_FILE DESTINATION_DIR TARGET ...")
+        print("      ./report.py BACKUP_FILE DESTINATION_DIR all")
+    else:
+        source = sys.argv[1]
+        if os.path.isdir(source):
+            source = os.path.join(source, sorted(os.listdir(source))[-1])
+        project = _load_project_json(source)
+        export_date_str = os.path.basename(source)[:16]
+        export_date = datetime.datetime.strptime(export_date_str, '%Y-%m-%d_%H-%M')
+        output_directory = sys.argv[2]
+        os.makedirs(output_directory, exist_ok=True)
+        if sys.argv[3] == 'all':
+            for action in TARGETS:
+                globals()[action](project, export_date, output_directory)
+        else:
+            for action in sys.argv[3:]:
+                if action not in TARGETS:
+                    print("Skipping unknown task {}".format(action))
+                else:
+                    globals()[action](project, export_date, output_directory)
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        main(sys.argv[1])
-    else:
-        print("Usage: ./report.py <path-to-gitlab-export-to-analyze>")
+    main()
