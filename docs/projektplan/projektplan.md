@@ -27,6 +27,7 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 | Continuous Integration            | [Gitlab CI](https://gitlab.com/engineering-projekt/examibur/graphs/master/ci)                                                                                                                                                                        |
 | Check Style                       | [Google Checkstyle](http://google.github.io/styleguide/javaguide.html)                                                                                                                                                                                                    |
 | Die 3 Säulen von Examibur - Icons | [Von symu.co](https://symu.co/freebies/icons-0/elpis-icon-set-1/)                                                                                                                                                                                                   |
+| Examibur Logo                     | [Von game-icons.net](http://game-icons.net/delapouite/originals/stabbed-note.html) |
 
 # Projekt Übersicht
 
