@@ -115,7 +115,7 @@ $(function() {
                     }
                 }]
             });
-        }).fail(function() {
+        }, 'json').fail(function() {
             $('#workTimeChart .no-export').show();
         });
 
@@ -153,7 +153,7 @@ $(function() {
                     data: workTimePerIssueChartData
                 }]
             });
-        }).fail(function() {
+        }, 'json').fail(function() {
             $('#workTimePerIssueChart .no-export').show();
         });
 
