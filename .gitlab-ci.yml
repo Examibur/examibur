@@ -6,10 +6,13 @@ generate_pages:
   image: docker:latest
   services:
     - docker:dind
-  stage: deploy
+  stage: docs
   script:
   - docker build -t engineering-projekt/examibur-website docs/website/docker/
   - docker run -t --rm --name examibur-website -u jekyll -v $(pwd)/docs/:/src/ -p 4000:4000 engineering-projekt/examibur-website jekyll build -d public
+  artifacts:
+    paths:
+    - docs/_site/
 
 pages:
   image: docker:latest
