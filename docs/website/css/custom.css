@@ -1,5 +1,6 @@
 .navbar-inverse .navbar-brand {
     color: #fff;
+    padding-top: 3px;
 }
 .navbar-inverse {
     background-color: #393e41;
@@ -7,7 +8,7 @@
 }
 .navbar-brand > img {
     display: inline-block;
-    height: 1.5em;
+    height: 2.5em;
 }
 .container {
     font-size: 1.9rem;
