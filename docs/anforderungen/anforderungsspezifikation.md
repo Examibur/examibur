@@ -5,16 +5,29 @@ title: Anforderungsspezifikation
 # Einführung
 
 ## Zweck
+Dieses Dokument beschreibt die Anforderungsspezifikation. Es wird der Fokus auf die funktionalen Anforderungen gelegt. Es ist ersichtlich, welche Use Cases Scope des Projekts sind und welche Use Cases für Folgeprojekte vorgesehen sind. Desweiteren werden die Stakeholders analysiert und ihre Anspruche mit User Stories indentifiziert.
 
 ## Gültigkeitsbereich
+Der Gültigkeitsbereich beschränkt sich auf die Projektdauer vom 20.02.17 bis 02.06.17. Während dieser Zeit wird das Dokument laufend aktualisiert und stellt zu jedem Zeitpunkt einen genauen Überblick über die Anforderungsspezifikation zur Verfügung.
 
 ## Referenzen
+In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche für die Anforderungsspezifikation von Relevanz sind. Diese Liste wird laufend auf dem aktuellen Stand gehalten.
+
+| **Name**                          | **Referenz**                                                                                                                                                                                                                                         |
+| --------------------------------- | ----------------------------- |
+|                      |
+
+## Übersicht
+`TODO`
 
 # Allgemeine Beschreibung
+`TODO`
 
 ## Einschränkungen
+`TODO`
 
 ## Abhängigkeiten
+`TODO`
 
 # Funktionale Anforderungen
 
@@ -73,6 +86,8 @@ Als Student möchte ich die Prüfung inklusiv Korrektur nach Freischaltung der N
 
 Als Student möchte ich den Rekursprozess bei Ungereinheimten anstossen, um so alle Fristen und Bedingungen für einen gültigen Rekurs einhalten zu können.
 
+
+
 ## Use Cases
 
 ### Diagramm
@@ -83,53 +98,225 @@ Als Student möchte ich den Rekursprozess bei Ungereinheimten anstossen, um so a
 Im folgenden sind alle Use Cases im fully dressed-Format aufgelistet, welche Teil des Scopes des Projekts sind.
 
 #### _UC001: Prüfungen anzeigen_
+**Primary Actor:** Korrektor, Verwaltung
+
+**Stakeholders and Interests:**
+
+- _Korrektor_ will alle Prüfungen sehen, welche ihm zugewiesen sind, um Korrekturen durchführen zu können.
+- _Reviewer_ will alle Prüfungen sehen, welche ihm zum Review zugewiesen sind, um den Review durchführen zu können.
+- _Verwaltung_ will alle Prüfungen sehen, um Metadaten (Durchführungsdatum, etc.) bearbeiten und um Notenexporte durchführen zu können.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet.
+
+**Postconditions:**
+
+- Dem _Korrektor_ werden seine zugewiesene Prüfungen angezeigt.
+- Dem _Reviewer_ werden zum Review zugewiesene Prüfungen angezeigt.
+- Der _Verwaltung_ wird alle Prüfungen angezeigt.
+
+**Main Success Scenario:**
+
+1. Der User öffnet die Übersicht/Dashboard.
+2. Das System lädt alle relevanten Prüfungen.
 
 #### _UC002: Prüfung öffnen_
-include 3, 4
+
+**Primary Actor:** Korrektor
+
+**Stakeholders and Interests:**
+
+- _Korrektor_ will eine Prüfung öffnen, um Prüfungsdurchführungen korrigieren zu können.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und befindet sich auf der Übersicht/Dashboard.
+- Die Prüfung ist dem User zugewiesen.
+
+**Postconditions:**
+
+- Dem User wird die Prüfung zur Korrektur angezeigt.
+
+**Main Success Scenario:**
+
+1. Der User wählt aus der Prüfungsliste eine Prüfung aus.
+2. Das System lädt die Prüfung.
+
+**Level:**
+
+include:
+
+ - UC003
+ - UC007
 
 #### _UC003: Prüfungsteilnahmen anzeigen_
+**Primary Actor:** Korrektor, Verwaltung
+
+**Stakeholders and Interests:**
+
+- _Korrektor_ will alle Prüfungsteilnahmen sehen, um Prüfungsteilnahmen einzeln korregieren zu können.
+- _Verwaltung_ will alle Prüfungsteilnahmen sehen, um Prüfungsteilnahmen an Studenten freigeben und um Notenexporte über alle Prüfungsteilnahmen durchführen zu können.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und hat die Prüfung geöffnet.
+
+**Postconditions:**
+
+- Dem User werden alle Prüfungsteilnahmen zur Prüfung angezeigt.
+
+**Main Success Scenario:**
+
+1. Das System lädt alle Prüfungsteilnahmen.
 
 #### _UC004: Prüfungsaufgaben anzeigen_
+**Primary Actor:** Korrektor, Verwaltung
+
+**Stakeholders and Interests:**
+
+- _Korrektor_ will alle Prüfungsaufgaben sehen, um alle Lösungen zu einer Prüfungsaufgaben korrigieren zu können.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und hat die Prüfung geöffnet.
+
+**Postconditions:**
+
+- Dem User werden alle Prüfungsaufgaben zur Prüfung angezeigt.
+
+**Main Success Scenario:**
+
+1. Das System lädt alle Prüfungsaufgaben.
 
 #### _UC005: Prüfungsteilnahme korrigieren_
-include 7
+`TODO`
+
+**Level:**
+
+include:
+
+ - UC007
 
 #### _UC006: Prüfungsaufgabe korrigieren_
-include 7
+`TODO`
+
+**Level:**
+
+include:
+
+ - UC007
 
 #### _UC007: Aufgabe korrigieren_
+`TODO`
 
 #### _UC008: Prüfung für Review freigeben_
+`TODO`
 
 #### _UC009: Prüfungsreviews anzeigen_
+`TODO`
 
 #### _UC010: Prüfungsreview öffnen_
-include 11, 12
+
+**Primary Actor:** Reviewer
+
+**Stakeholders and Interests:**
+
+- _Reviewer_ will eine Prüfung öffnen, um den Review der Korrektur durchführen zu können.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und befindet sich auf der Übersicht/Dashboard.
+- Die Prüfung ist dem User zugewiesen.
+
+**Postconditions:**
+
+- Dem User wird die Prüfung zum Review angezeigt.
+
+**Main Success Scenario:**
+
+1. Der User wählt aus der Prüfungsliste eine Prüfung aus.
+2. Das System lädt die Prüfung.
+
+**Level:**
+
+include:
+
+ - UC011
+ - UC012
 
 #### _UC011: Prüfungsteilnahme reviewen_
-include 13
+`TODO`
+
+**Level:**
+
+include:
+
+ - UC013
 
 #### _UC012: Prüfungsaufgabe reviewen_
-include 13
+`TODO`
+
+**Level:**
+
+include:
+
+ - UC013
 
 #### _UC013: Aufgabe reviewen_
+`TODO`
 
 #### _UC014: Prüfung zur Überarbeitung freigeben_
+`TODO`
 
 #### _UC016: Prüfungskorrektur abschliessen_
+`TODO`
 
 #### _UC017: Notenskala festlegen_
+`TODO`
 
 #### _UC018: Prüfung auswerten_
+`TODO`
+
 Statistik (Modul/Prüfungsebene/im Vergleich zu vorherigen Jahrgängen) über die Prüfungen dieser Moduldurchführung anzeigen
 
 #### _UC019: ToDo's anzeigen_
+`TODO`
 
-#### _UC020: Prüfungsteilnahme an Student freigeben_
+#### _UC020: Prüfung zur Verwaltung anzeigen_
+**Primary Actor:** Verwaltung
 
-#### _UC021: Notenexport durchführen_
+**Stakeholders and Interests:**
+
+- _Verwaltung_ will eine Prüfung öffnen, um Metadaten zu verwalten, den Status der Prüfungsdurchführungen zu prüfen und Notenexporte durchführen zu können.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und befindet sich auf der Übersicht/Dashboard.
+- Die Prüfung ist dem User zugewiesen.
+
+**Postconditions:**
+
+- Dem User wird die Prüfung zur Verwaltung angezeigt.
+
+**Main Success Scenario:**
+
+1. Der User wählt aus der Prüfungsliste eine Prüfung aus.
+2.  Das System lädt die Prüfung.
+
+**Level:**
+
+include:
+
+ - UC003
+
+#### _UC021: Prüfungsteilnahme an Student freigeben_
+`TODO`
+
+#### _UC022: Notenexport durchführen_
+`TODO`
+
 Um eine einfache Migrierung in anderen Systeme zu gewährleisten
-
 
 ## Erweiterungen
 
@@ -143,30 +330,46 @@ Grundsätzlich sollen sie eine Übersicht für folge Projekte bieten und aufzeig
 ### Beschreibung
 
 ### _UC101: Login durchführen_
+`TODO`
 
 ### _UC101: Registrierung durchführen_
+`TODO`
 
 ### _UC103: CRUD Prüfung_
+`TODO`
+
 darf auch Verwaltung
 
 ### _UC104: Prüfung scannen_
+`TODO`
+
 include UC105, UC106
 
 ### _UC105: Multiple-Choice-Aufgaben automatisch auswerten_
+`TODO`
 
 ### _UC106: Prüfungsaufgaben aufsplitten_
+`TODO`
 
 ### _UC108: CRUD Korrektor_
+`TODO`
 
 ### _UC109: CRUD Verwalter_
+`TODO`
 
 ### _UC110: CRUD Student_
+`TODO`
 
 ### _UC111: CRUD Benutzerrolle_
+`TODO`
 
 ### _UC112: Rekurs durchführen_
+`TODO`
 
 ### _UC113: Rekurs verwalten_
+`TODO`
 
 ### _UC114: Aktion loggen_
+`TODO`
+
 Historie über Änderungen an der Prüfung und Korrektur erstellen
