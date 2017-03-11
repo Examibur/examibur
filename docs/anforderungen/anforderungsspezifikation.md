@@ -76,6 +76,7 @@ Als Student möchte ich den Rekursprozess bei Ungereinheimten anstossen, um so a
 ## Use Cases
 
 ### Diagramm
+![](resources/UseCaseDiagram.svg)
 
 ### Beschreibung
 
@@ -84,29 +85,50 @@ Im folgenden sind alle Use Cases im fully dressed-Format aufgelistet, welche Tei
 #### _UC001: Prüfungen anzeigen_
 
 #### _UC002: Prüfung öffnen_
+include 3, 4
 
-#### _UC003:_
-#### _UC004:_
-#### _UC005:_
-#### _UC006:_
-#### _UC007:_
+#### _UC003: Prüfungsteilnahmen anzeigen_
 
-* Übersicht/Dashboard anzeigen //TODO auf Wireframes warten
-  * Liste der zu korrigierende Prüfungen anzeigen
-  * zu korrigierende Prüfung öffnen
-  * Module des Dozent anzeigen
-  * vergangenes Moduldurchführungen öffnen
-  * Statistik (Modul/Prüfungsebene/im Vergleich zu vorherigen Jahrgängen) über die Prüfungen dieser Moduldurchführung anzeigen
-* Prüfung korrigieren
-  * gleiche Prüfungsaufgaben nacheinander durchkorrigieren
-* Prüfung-Notenskala festlegen
-* Prüfung nach Korrektur reviewen (4-Augen-Prinzip)
-* Prüfung abschliessen
-  * sobald alle Rekursfristen durch sind
-* Notenexport durchführen
-  * Um eine einfache Migrierung in anderen Systeme zu gewährleisten
-* Prüfung an Student online zur Einsicht freigeben
-  * einzelne korrigierte Aufgaben können durchgesehen werden
+#### _UC004: Prüfungsaufgaben anzeigen_
+
+#### _UC005: Prüfungsteilnahme korrigieren_
+include 7
+
+#### _UC006: Prüfungsaufgabe korrigieren_
+include 7
+
+#### _UC007: Aufgabe korrigieren_
+
+#### _UC008: Prüfung für Review freigeben_
+
+#### _UC009: Prüfungsreviews anzeigen_
+
+#### _UC010: Prüfungsreview öffnen_
+include 11, 12
+
+#### _UC011: Prüfungsteilnahme reviewen_
+include 13
+
+#### _UC012: Prüfungsaufgabe reviewen_
+include 13
+
+#### _UC013: Aufgabe reviewen_
+
+#### _UC014: Prüfung zur Überarbeitung freigeben_
+
+#### _UC016: Prüfungskorrektur abschliessen_
+
+#### _UC017: Notenskala festlegen_
+
+#### _UC018: Prüfung auswerten_
+Statistik (Modul/Prüfungsebene/im Vergleich zu vorherigen Jahrgängen) über die Prüfungen dieser Moduldurchführung anzeigen
+
+#### _UC019: ToDo's anzeigen_
+
+#### _UC020: Prüfungsteilnahme an Student freigeben_
+
+#### _UC021: Notenexport durchführen_
+Um eine einfache Migrierung in anderen Systeme zu gewährleisten
 
 
 ## Erweiterungen
@@ -115,21 +137,36 @@ Im folgenden werden Use Cases kurz aufgelistet, welche das Projekt in seiner Fun
 Diese Use Cases sind nicht Teil des Scopes und werden bei Bedarf und freier Zeit eingeplannt und umgesetzt.
 Grundsätzlich sollen sie eine Übersicht für folge Projekte bieten und aufzeigen, was alles noch möglich sein könnte.
 
-### _UC101:_
+### Diagramm
+![](resources/UseCaseDiagramErweiterung.svg)
 
+### Beschreibung
 
-* Login durchführen
-* Registrierung durchführen
-* CRUD Dozent
-* CRUD Korrektor
-* CRUD Student
-* CRUD Benutzerrolle
-* Rekurs-Prozess abbilden
-* Prüfung scannen
-  * Multiple-Choice-Aufgabe automatisch auswerten
-  * Prüfungsaufgaben aufsplitten
-* CRUD Prüfung
-* Aktionen loggen
-  * Historie über Änderungen an der Prüfung und Korrektur erstellen
+### _UC101: Login durchführen_
 
-## User Stories
+### _UC101: Registrierung durchführen_
+
+### _UC103: CRUD Prüfung_
+darf auch Verwaltung
+
+### _UC104: Prüfung scannen_
+include UC105, UC106
+
+### _UC105: Multiple-Choice-Aufgaben automatisch auswerten_
+
+### _UC106: Prüfungsaufgaben aufsplitten_
+
+### _UC108: CRUD Korrektor_
+
+### _UC109: CRUD Verwalter_
+
+### _UC110: CRUD Student_
+
+### _UC111: CRUD Benutzerrolle_
+
+### _UC112: Rekurs durchführen_
+
+### _UC113: Rekurs verwalten_
+
+### _UC114: Aktion loggen_
+Historie über Änderungen an der Prüfung und Korrektur erstellen
