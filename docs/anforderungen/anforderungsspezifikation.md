@@ -32,49 +32,64 @@ Die Beschreibung der folgenden Kapitel wurde basierend auf der Vision von Examib
 
 ## Stakeholder
 
-Die Ansprüche der Stakeholder werden als Uses Stories erfasst, um so den Sinn und Zweck von Examibur klar aufzuzeigen und den Mehrwert für alle Stakeholder aufzuzeigen.
+Die Ansprüche der Stakeholder werden als Uses Stories erfasst, um so den Sinn und Zweck von Examibur und den Mehrwert für alle Stakeholder aufzuzeigen.
 
 ### Lehranstalt
-
-#### **US101** Qualitätssicherung
+#### _US101: Qualitätssicherung_
 
 Als Lehranstalt möchte ich die Qualität der Prüfungskorrekturen hochhalten, um Rekurskosten zu sparen.
 
-#### **US102** Rekurszprozess
+#### _US102: Rekurszprozess_
 
 Als Lehranstalt möchte ich den Rekursprozess abgebildet haben, um so die rechtlichen Vorgaben einhalten zu können.
 
 ### Dozent
-#### **US201** Prüfung erstellen
+#### _US201: Prüfung erstellen_
 
 Als Dozent möchte ich Prüfungen online erstellen können, um so eine einfache, zentrale und für Nachfolge transparente Ablage der Prüfung zu erreichen.
 
-#### **US202** Qualität aufrecht erhalten
+#### _US202: Qualität aufrechterhalten_
 
 Als Dozent möchte ich Prüfungskorrekturen reviewen lassen, um so die Qualität und Fairness der Bewertungen aufrecht zu halten und allfällige Flücktigkeitsfehler zu vermeiden.
 
-#### **US203** Prüfung online korrigieren
+#### _US203: Prüfung online korrigieren_
 
 Als Dozent möchte ich Prüfungen online korrigieren, um so den Papierkrieg einzudämmen, Verluste vorzubeugen und Transparenz zu gewährleisten.
 
 ### Student
-#### **US301** anoynme Korrektur
+#### _US301: anoynme Korrektur_
 
 Als Student möchte ich einen anonyme Korrektur der Prüfung erhalten, um so eine faire Beurteilung aller Studenten sicherzustellen.
 
-#### **US302** Prüfungsreview
+#### _US302: Prüfungsreview_
 
 Als Student möchte ich eine zweite Beurteilung der Korrektur nach dem 4-Augen-Prinzip, um so die Qualität der Korrekturen hoch und fair zu halten.
 
-#### **US303** Prüfungseinsicht
+#### _US303: Prüfungseinsicht_
 
 Als Student möchte ich die Prüfung inklusiv Korrektur nach Freischaltung der Noten einsehen, um so das Zustandkommen der Note zu verstehen und um Wissenslücken am Ende des Moduls zu identifizieren.
 
-#### **US304** Rekursprozess
+#### _US304: Rekursprozess_
 
 Als Student möchte ich den Rekursprozess bei Ungereinheimten anstossen, um so alle Fristen und Bedingungen für einen gültigen Rekurs einhalten zu können.
 
 ## Use Cases
+
+### Diagramm
+
+### Beschreibung
+
+Im folgenden sind alle Use Cases im fully dressed-Format aufgelistet, welche Teil des Scopes des Projekts sind.
+
+#### _UC001: Prüfungen anzeigen_
+
+#### _UC002: Prüfung öffnen_
+
+#### _UC003:_
+#### _UC004:_
+#### _UC005:_
+#### _UC006:_
+#### _UC007:_
 
 * Übersicht/Dashboard anzeigen //TODO auf Wireframes warten
   * Liste der zu korrigierende Prüfungen anzeigen
@@ -93,11 +108,15 @@ Als Student möchte ich den Rekursprozess bei Ungereinheimten anstossen, um so a
 * Prüfung an Student online zur Einsicht freigeben
   * einzelne korrigierte Aufgaben können durchgesehen werden
 
+
 ## Erweiterungen
 
 Im folgenden werden Use Cases kurz aufgelistet, welche das Projekt in seiner Funktionalität vervollständigen würden, um die angestrebte Vision zu erreichen.
 Diese Use Cases sind nicht Teil des Scopes und werden bei Bedarf und freier Zeit eingeplannt und umgesetzt.
 Grundsätzlich sollen sie eine Übersicht für folge Projekte bieten und aufzeigen, was alles noch möglich sein könnte.
+
+### _UC101:_
+
 
 * Login durchführen
 * Registrierung durchführen
