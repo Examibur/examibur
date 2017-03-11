@@ -21,7 +21,7 @@ pages:
   stage: deploy
   script:
   - docker run -t --rm -e EXAMIBUR_ACCESS_TOKEN -v $(pwd)/:/src/ python:3.6 python /src/tools/backup.py gitlab
-  - docker run -t --rm -e EXAMIBUR_ACCESS_TOKEN -v $(pwd)/:/src/ python:3.6 python /src/tools/report.py "/src/backups/gitlab/" "/src/docs/projektplan/resources/export/" all
+  - docker run -t --rm -e EXAMIBUR_ACCESS_TOKEN -v $(pwd)/:/src/ python:3.6 python /src/tools/report.py "/src/backups/gitlab/" "/src/docs/public/projektplan/resources/export/" all
   - cp -r docs/public public/
   artifacts:
     paths:
