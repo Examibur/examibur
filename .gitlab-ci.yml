@@ -12,7 +12,7 @@ generate_pages:
   - docker run -t --rm --name examibur-website -u jekyll -v $(pwd)/docs/:/src/ -p 4000:4000 engineering-projekt/examibur-website jekyll build -d public
   artifacts:
     paths:
-    - docs/_site/
+    - docs/public/
 
 pages:
   image: docker:latest
