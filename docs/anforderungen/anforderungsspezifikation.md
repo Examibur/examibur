@@ -23,16 +23,25 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 # Allgemeine Beschreibung
 `TODO`
 
+## Produkt & Vision
+`TODO Verweis auf Projektplan`
+
 ## Einschränkungen
+`TODO`
+
+## Zielgruppe
 `TODO`
 
 ## Abhängigkeiten
-`TODO`
+Die Nutzung von Examibur setzt einen aktuellen Webbrowser mit einer funktionierenden Internetverbindung voraus.
+
+Examibur verwendet diverse Bibliotheken, Frameworks und Produkte, welche sich in der Praxis bewährt haben. `TODO Verweis auf Architektur`
 
 # Funktionale Anforderungen
+Im folgenden sind die funktionalen Anforderungen anhand von Use Cases beschrieben. Es wird besonderen Wert auf die Aktoren und Stakeholder gelegt, um die Bedürfnisse der verschiedenen Anspruchsgrupppen an das Produkt zu identifizieren. Die Use Cases, welche Scope des Projekts sind, sind in fully dressed-Format aufgelistet. Use Cases für Folgeprojekte werden im brief-Format spezifiziert.
 
 ## Einschränkungen
-Die Beschreibung der folgenden Kapitel wurde basierend auf der Vision von Examibur erfasst. Im Unterkapitel Use Cases ist klar ersichtlich, welche Funktionalität Scope des Projekts Examibur ist. Um die Applikation offen für folge Projekte zu halten, wurden die anderen Anforderungen zustätzlich spezifiziert (im Brief-Format), um sich keine Hindernisse einzubauen, welche eine allfällige Erweiterung erschweren könnten.
+Die Beschreibung der folgenden Kapitel wurde basierend auf der Vision von Examibur erfasst. Im Unterkapitel Use Cases ist klar ersichtlich, welche Funktionalität Scope des Projekts Examibur ist. Um die Applikation offen für folge Projekte zu halten, wurden die anderen Anforderungen zustätzlich spezifiziert (Kapitel Erweiterungen), um sich keine Hindernisse einzubauen, welche eine allfällige Erweiterung erschweren könnten.
 
 ## Aktoren
 
@@ -87,7 +96,6 @@ Als Student möchte ich die Prüfung inklusiv Korrektur nach Freischaltung der N
 Als Student möchte ich den Rekursprozess bei Ungereinheimten anstossen, um so alle Fristen und Bedingungen für einen gültigen Rekurs einhalten zu können.
 
 
-
 ## Use Cases
 
 ### Diagramm
@@ -98,7 +106,7 @@ Als Student möchte ich den Rekursprozess bei Ungereinheimten anstossen, um so a
 Im folgenden sind alle Use Cases im fully dressed-Format aufgelistet, welche Teil des Scopes des Projekts sind.
 
 #### _UC001: Prüfungen anzeigen_
-**Primary Actor:** Korrektor, Verwaltung
+**Primary Actor:** Korrektor, Reviewer, Verwaltung
 
 **Stakeholders and Interests:**
 
@@ -123,11 +131,13 @@ Im folgenden sind alle Use Cases im fully dressed-Format aufgelistet, welche Tei
 
 #### _UC002: Prüfung öffnen_
 
-**Primary Actor:** Korrektor
+**Primary Actor:** Korrektor, Reviewer, Verwaltung
 
 **Stakeholders and Interests:**
 
 - _Korrektor_ will eine Prüfung öffnen, um Prüfungsdurchführungen korrigieren zu können.
+- _Reviewer_ will eine Prüfung öffnen, um den Review der Korrektur durchführen zu können.
+- _Verwaltung_ will eine Prüfung öffnen, um Prüfungsteilnahmen an _Studenten_ freigeben zu können.
 
 **Preconditions:**
 
@@ -136,7 +146,7 @@ Im folgenden sind alle Use Cases im fully dressed-Format aufgelistet, welche Tei
 
 **Postconditions:**
 
-- Dem User wird die Prüfung zur Korrektur angezeigt.
+- Dem User wird die Prüfung zur weiteren Verarbeitung (Korrektur, Review, Export, Auswertung) angezeigt.
 
 **Main Success Scenario:**
 
@@ -147,20 +157,22 @@ Im folgenden sind alle Use Cases im fully dressed-Format aufgelistet, welche Tei
 
 include:
 
- - UC003
- - UC007
+ - UC003: Prüfungsteilnahmen anzeigen
+ - UC004: Prüfungsaufgaben anzeigen
+ - UC018: Prüfung auswerten
 
 #### _UC003: Prüfungsteilnahmen anzeigen_
-**Primary Actor:** Korrektor, Verwaltung
+**Primary Actor:** Korrektor, Reviewer, Verwaltung
 
 **Stakeholders and Interests:**
 
 - _Korrektor_ will alle Prüfungsteilnahmen sehen, um Prüfungsteilnahmen einzeln korregieren zu können.
+- _Reviewer_ will alle Prüfungsteilnahmen sehen, um Prüfungsteilnahmen einzeln reviewern zu können.
 - _Verwaltung_ will alle Prüfungsteilnahmen sehen, um Prüfungsteilnahmen an Studenten freigeben und um Notenexporte über alle Prüfungsteilnahmen durchführen zu können.
 
 **Preconditions:**
 
-- Der User ist im System angemeldet und hat die Prüfung geöffnet.
+- Der User ist im System angemeldet und hat eine Prüfung geöffnet.
 
 **Postconditions:**
 
@@ -171,15 +183,16 @@ include:
 1. Das System lädt alle Prüfungsteilnahmen.
 
 #### _UC004: Prüfungsaufgaben anzeigen_
-**Primary Actor:** Korrektor, Verwaltung
+**Primary Actor:** Korrektor, Reviewer
 
 **Stakeholders and Interests:**
 
 - _Korrektor_ will alle Prüfungsaufgaben sehen, um alle Lösungen zu einer Prüfungsaufgaben korrigieren zu können.
+- _Reviewer_ will alle Prüfungsaufgaben sehen, um alle Bewertungen zu einer Prüfungsaufgabe reviewen zu können.
 
 **Preconditions:**
 
-- Der User ist im System angemeldet und hat die Prüfung geöffnet.
+- Der User ist im System angemeldet und hat eine Prüfung geöffnet.
 
 **Postconditions:**
 
@@ -190,7 +203,25 @@ include:
 1. Das System lädt alle Prüfungsaufgaben.
 
 #### _UC005: Prüfungsteilnahme korrigieren_
-`TODO`
+**Primary Actor:** Korrektor
+
+**Stakeholders and Interests:**
+
+- _Korrektor_ will eine Prüfungsteilnahme eines Studenten Aufgabe für Aufgabe korrigieren.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und hat die Prüfung geöffnet.
+
+**Postconditions:**
+
+- Dem User wurden alle gelöste Aufgaben eines Prüfungsteilnehmer zur Korrektur angezeigt, welche vom User korrigiert wurden.
+
+**Main Success Scenario:**
+
+1. Der User wählt aus der Liste aller Prüfungsteilnahmen eine aus und öffnet sie.
+2. UC007 durchführen.
+Wiederhole 2 bis alle Aufgaben korrigiert sind
 
 **Level:**
 
@@ -199,7 +230,25 @@ include:
  - UC007
 
 #### _UC006: Prüfungsaufgabe korrigieren_
-`TODO`
+**Primary Actor:** Korrektor
+
+**Stakeholders and Interests:**
+
+- _Korrektor_ will alle Lösungen aller Teilnehmer einer Aufgabe korrigieren.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und hat die Prüfung geöffnet.
+
+**Postconditions:**
+
+- Dem User wurden alle gelöste Aufgaben einer Aufgabe aller Prüfungsteilnehmer zur Korrektur angezeigt, welche vom User korrigiert wurden.
+
+**Main Success Scenario:**
+
+1. Der User wählt aus der Liste aller Prüfungsaufgaben eine aus und öffnet sie.
+2. UC007 durchführen.
+Wiederhole 2 bis alle Aufgaben korrigiert sind
 
 **Level:**
 
@@ -207,46 +256,69 @@ include:
 
  - UC007
 
+
 #### _UC007: Aufgabe korrigieren_
-`TODO`
+**Primary Actor:** Korrektor
+
+**Stakeholders and Interests:**
+
+- _Korrektor_ will eine gelöste Prüfungsaufgabe eines Teilnehmers korrigieren.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und kommt über UC005 oder UC006.
+
+**Postconditions:**
+
+- Der User hat die Aufgabe korrigiert.
+
+**Main Success Scenario:**
+
+1. Das System lädt die Aufgabe.
+2. Der User korrigiert die Aufgabe, fügt einen Kommentar hinzu, bewertet sie und drückt auf nächste Aufgabe korrigieren.
+
 
 #### _UC008: Prüfung für Review freigeben_
-`TODO`
+**Primary Actor:** Korrektor
 
-#### _UC009: Prüfungsreviews anzeigen_
-`TODO`
+**Stakeholders and Interests:**
 
-#### _UC010: Prüfungsreview öffnen_
+- _Korrektor_ will nach der Korrektur der Prüfung, die Prüfung für den Review freigeben.
 
+**Preconditions:**
+
+- Der User ist im System angemeldet und hat alle Prüfungsteilnahmen korrigiert.
+
+**Postconditions:**
+
+- Die Prüfung wurde einem _Reviewer_ zum Review freigegeben.
+
+**Main Success Scenario:**
+
+1. Der User drückt auf zum Review freigeben und wählt den Reviewer aus.
+2. Das System weist dem Reviewer die Prüfung zum Reviewen zu.
+
+
+#### _UC011: Prüfungsteilnahme reviewen_
 **Primary Actor:** Reviewer
 
 **Stakeholders and Interests:**
 
-- _Reviewer_ will eine Prüfung öffnen, um den Review der Korrektur durchführen zu können.
+- _Reviewer_ will alle Lösungen aller Teilnehmer einer Aufgabe reviewen.
 
 **Preconditions:**
 
-- Der User ist im System angemeldet und befindet sich auf der Übersicht/Dashboard.
-- Die Prüfung ist dem User zugewiesen.
+- Der User ist im System angemeldet und hat die Prüfung geöffnet.
 
 **Postconditions:**
 
-- Dem User wird die Prüfung zum Review angezeigt.
+- Dem User wurden alle bewerteten Aufgaben einer Aufgabe aller Prüfungsteilnehmer zur Korrektur angezeigt, welche vom User gereviewt wurden.
 
 **Main Success Scenario:**
 
-1. Der User wählt aus der Prüfungsliste eine Prüfung aus.
-2. Das System lädt die Prüfung.
-
-**Level:**
-
-include:
-
- - UC011
- - UC012
-
-#### _UC011: Prüfungsteilnahme reviewen_
-`TODO`
+1. Der User wählt aus der Liste aller Prüfungsaufgaben eine aus und öffnet sie.
+2. UC013 durchführen.
+Wiederhole 2 bis alle Aufgaben korrigiert sind
 
 **Level:**
 
@@ -255,7 +327,25 @@ include:
  - UC013
 
 #### _UC012: Prüfungsaufgabe reviewen_
-`TODO`
+**Primary Actor:** Reviewer
+
+**Stakeholders and Interests:**
+
+- _Reviewer_ will alle Bewertungen aller Teilnehmer einer Aufgabe reviewen.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und hat die Prüfung geöffnet.
+
+**Postconditions:**
+
+- Dem User wurden alle bewerteten Aufgaben einer Aufgabe aller Prüfungsteilnehmer zum Review angezeigt, welche vom User reviewt wurden.
+
+**Main Success Scenario:**
+
+1. Der User wählt aus der Liste aller Prüfungsaufgaben eine aus und öffnet sie.
+2. UC013 durchführen.
+Wiederhole 2 bis alle Aufgaben korrigiert sind
 
 **Level:**
 
@@ -264,59 +354,197 @@ include:
  - UC013
 
 #### _UC013: Aufgabe reviewen_
-`TODO`
+**Primary Actor:** Reviewer
 
-#### _UC014: Prüfung zur Überarbeitung freigeben_
-`TODO`
+**Stakeholders and Interests:**
+
+- _Reviewer_ will eine bewertete Prüfungsaufgabe eines Teilnehmers reviewen.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und kommt über UC011 oder UC012.
+
+**Postconditions:**
+
+- Der User hat die Aufgabe gereviewt.
+
+**Main Success Scenario:**
+
+1. Das System lädt die Aufgabe.
+2. Der User reviewt die Aufgabe, fügt einen Kommentar hinzu, akzeptiert oder lehnt die Bewertung ab.
+
+#### _UC014: Review abschliessen_
+**Primary Actor:** Reviewer
+
+**Stakeholders and Interests:**
+
+- _Reviewer_ will nach der Durchführung des Reviews die Prüfung dem _Korrektor_ zur Überarbeitung oder zum Abschluss geben.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und hat einen Review aller Aufgaben durchgeführt.
+
+**Postconditions:**
+
+- Dem _Korrektor_ wurde die Prüfung zur Überarbeitung oder zum Abschluss zugewiesen.
+
+**Main Success Scenario:**
+
+1. Der User drückt auf Review abschliessen.
+2. Das System weist der Prüfung den Status basierend auf dem Review-Ergebnis zu.
+
+**Extension:**
+
+<ol start=2>
+  <li>
+    <ol type="a">
+      <li>Wenn alle Aufgaben akzeptiert wurden, erhält die Prüfung den Status `TODO Status`</li>
+      <li>Wenn eine oder mehrere Aufgaben zurückgewiesen wurden, erhält die Prüfung den Status `TODO Status`</li>
+    </ol>
+  </li>
+</ol>
 
 #### _UC016: Prüfungskorrektur abschliessen_
-`TODO`
+**Primary Actor:** Korrektor
+
+**Stakeholders and Interests:**
+
+- _Korrektor_ will nach Erhalt und Bearbeitung des Reviews die Prüfung abschliessen und für die Notenfreigabe freigeben.
+
+**Preconditions:**
+
+- Der User ist im System eingeloggt, der _Reviewer_ hat UC014 durchgeführt und alle Beanstandungen des _Reviewers_ wurden überarbeitet.
+
+**Postconditions:**
+
+- Der User hat die Prüfung für die Notenfreigabe freigeben.
+
+**Main Success Scenario:**
+
+1. Der User drückt auf Korrektur abschliessen.
+2. Das System setzt den Status der Prüfung auf `TODO Status`.
 
 #### _UC017: Notenskala festlegen_
-`TODO`
+**Primary Actor:** Korrektor
+
+**Stakeholders and Interests:**
+
+- _Korrektor_ will die Notenskala der Prüfung festlegen.
+
+**Preconditions:**
+
+- Der User ist im System eingeloggt und hat eine Prüfung geöffnet.
+
+**Postconditions:**
+
+- Die Notenskale der Prüfung wurde gesetzt/bearbeitet.
+
+**Main Success Scenario:**
+
+1. Der User ändert die Notenskala der Prüfung.
+2. Das System setzt den neuen Wert.
 
 #### _UC018: Prüfung auswerten_
-`TODO`
+**Primary Actor:** Korrektor
 
-Statistik (Modul/Prüfungsebene/im Vergleich zu vorherigen Jahrgängen) über die Prüfungen dieser Moduldurchführung anzeigen
+**Stakeholders and Interests:**
+
+- _Korrektor_ will eine Prüfung auswerten, um Notendurchschnitt und -median zu sehen.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und hat eine Prüfung geöffnet.
+
+**Postconditions:**
+
+- Dem User wird eine Auswertung (Notendurchschnitt und -median) über die Prüfung angezeigt.
+
+**Main Success Scenario:**
+
+1. Das System generiert die Auswertung.
+
+
+#### _UC023: Prüfung auf Modulebene auswerten_
+**Primary Actor:** Korrektor
+
+**Stakeholders and Interests:**
+
+- _Korrektor_ will eine Prüfung auf Modulebene mit vorherigen Durchführungen vergleichen, um zu sehen, ob Änderungen an der Moduldurchführung die Qualität des Unterrichts verbessert haben.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und hat eine Prüfung geöffnet.
+
+**Postconditions:**
+
+- Dem User wird eine Auswertung auf Modulebene über vorherigen Durchführungen angezeigt. Es ist ersichtlich, wie sich der Notendurchschnitt verändert hat.
+
+**Main Success Scenario:**
+
+1. Der User drückt auf mit vorherigen Durchführungen vergleichen.
+2. Das System generiert die Auswertung.
 
 #### _UC019: ToDo's anzeigen_
-`TODO`
+**Primary Actor:** Korrektor, Reviewer
 
-#### _UC020: Prüfung zur Verwaltung anzeigen_
+**Stakeholders and Interests:**
+
+- _Korrektor_ will auf der Übersicht/Dashboard eine Liste mit allen Prüfungen, welche korrigiert werden müssen.
+- _Reviewer_ will auf der Übersicht/Dashboard eine Liste mit allen Prüfungen, welche gereviewt werden müssen.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet.
+
+**Postconditions:**
+
+- Dem User werden alle relevanten Prüfungen angezeigt, welche noch eine Aktion erfordern.
+
+**Main Success Scenario:**
+
+1. Der User öffnet die Übersicht/Dashboard.
+2. Das System lädt alle offenen Prüfungen, welche relevant für den User sind.
+
+#### _UC021: Prüfungsteilnahme an Student freigeben_
 **Primary Actor:** Verwaltung
 
 **Stakeholders and Interests:**
 
-- _Verwaltung_ will eine Prüfung öffnen, um Metadaten zu verwalten, den Status der Prüfungsdurchführungen zu prüfen und Notenexporte durchführen zu können.
+- _Verwaltung_ will eine Prüfung an einen _Studenten_ zur Einsicht freigeben.
 
 **Preconditions:**
 
-- Der User ist im System angemeldet und befindet sich auf der Übersicht/Dashboard.
-- Die Prüfung ist dem User zugewiesen.
+- Der User ist im System angemeldet und hat eine Prüfungsteilnahme geöffnet.
 
 **Postconditions:**
 
-- Dem User wird die Prüfung zur Verwaltung angezeigt.
+- Der _Student_ erhält ein signiertes Mail mit seiner Prüfung im Anhang als PDF.
 
 **Main Success Scenario:**
 
-1. Der User wählt aus der Prüfungsliste eine Prüfung aus.
-2.  Das System lädt die Prüfung.
-
-**Level:**
-
-include:
-
- - UC003
-
-#### _UC021: Prüfungsteilnahme an Student freigeben_
-`TODO`
+1. Der User drückt auf Prüfung an _Student_ freigeben.
+2. Das System generiert ein PDF mit den Korrekturen des _Korrektors_ und sendet das PDF als Anhang per Mail an den _Student_.
 
 #### _UC022: Notenexport durchführen_
-`TODO`
+**Primary Actor:** Korrektor, Verwaltung
 
-Um eine einfache Migrierung in anderen Systeme zu gewährleisten
+**Stakeholders and Interests:**
+
+- _Korrektor_ will einen Notenexport durchführen, um eine Datenmigration in ein anderes System durchführen oder persönliche Auswertungen erstellen zu können.
+- _Verwaltung_ will einen Notenexport durchführen, um eine Datenmigration in ein anderes System durchführen zu können.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet und hat eine Prüfung geöffnet.
+
+**Postconditions:**
+
+- Es wird ein Export im csv-Format mit den Daten (Student, Matrikel-Nr, erreichte Punktzahl, totale Punktzahl, Note) generiert.
+
+**Main Success Scenario:**
+
+1. Der User drückt auf Notenexport durchführen.
+2. Das System generiert eine csv-Datei mit den definierten Informationen.
 
 ## Erweiterungen
 
