@@ -157,9 +157,9 @@ Im folgenden sind alle Use Cases im fully dressed-Format aufgelistet, welche Tei
 
 include:
 
- - UC003: Prüfungsteilnahmen anzeigen
- - UC004: Prüfungsaufgaben anzeigen
- - UC018: Prüfung auswerten
+ - UC003
+ - UC004
+ - UC018
 
 #### _UC003: Prüfungsteilnahmen anzeigen_
 **Primary Actor:** Korrektor, Reviewer, Verwaltung
@@ -297,6 +297,29 @@ include:
 
 1. Der User drückt auf zum Review freigeben und wählt den Reviewer aus.
 2. Das System weist dem Reviewer die Prüfung zum Reviewen zu.
+
+#### _UC009: Review abarbeiten_
+**Primary Actor:** Korrektor
+
+**Stakeholders and Interests:**
+
+- _Korrektor_ will nach dem Review der Prüfung, die Beanstandungen durchgehen.
+
+**Preconditions:**
+
+- Der User ist im System angemeldet.
+- Der _Reviewer_ hat während dem Review eine Beurteilung abgelehnt.
+
+**Postconditions:**
+
+- Alle Beanstandungen des _Reviewer_ wurden durch den _Korrektor_ angenommen und umgesetzt oder verworfen.
+
+**Main Success Scenario:**
+
+1. Der User drückt auf zum Review abarbeiten.
+2. Das System lädt die n-te Beanstandung.
+3. Der User nimmt die Beanstandung an und korregiert die Bewertung oder verwirft sie.
+Wiederhole 2 bis 3 bis alle Beanstandungen durchgearbeitet sind.
 
 
 #### _UC011: Prüfungsteilnahme reviewen_
@@ -557,47 +580,46 @@ Grundsätzlich sollen sie eine Übersicht für folge Projekte bieten und aufzeig
 
 ### Beschreibung
 
-### _UC101: Login durchführen_
-`TODO`
+#### _UC101: Login durchführen_
+Es soll möglich sein, dass sich User mit ihren HSR-Logindaten (Adunis, Moodle) einloggen können.
 
-### _UC101: Registrierung durchführen_
-`TODO`
+#### _UC102: CRUD Prüfung_
+Die _Verwaltung_ erstellt initile Prüfungen mit allen Daten (Durchführungsdatum, etc.) und weist die Prüfung einem _Korrektor_ zu.
+Dieser _Korrektor_ erfasst die Prüfungsaufgaben online. Die Prüfung lässt sich für die Durchführung ausdrucken.
 
-### _UC103: CRUD Prüfung_
-`TODO`
+#### _UC103: Prüfung scannen_
+Nach der Durchführung der Prüfung kann die _Verwaltung_ oder der _Korrektor_ die Prüfung scannen.
+Dabei wird UC104 und UC105 durchgeführt.
 
-darf auch Verwaltung
+#### _UC104: Prüfungsaufgaben aufsplitten_
+Die einglesenen Prüfungsaufgaben werden in einzelne Teilaufgaben aufgesplittet und so in System gespielt, damit bei der Korrektur einzelne Aufgaben durchkorrigiert werden können.
 
-### _UC104: Prüfung scannen_
-`TODO`
+#### _UC105: Multiple-Choice-Aufgaben automatisch auswerten_
+Multiple-Choice-Aufgaben werden vom System automatisch erkannt und ausgewertet.
 
-include UC105, UC106
+#### _UC106: CRUD Korrektor_
+Es soll möglich sein, _Korrektoren_ zu verwalten.
 
-### _UC105: Multiple-Choice-Aufgaben automatisch auswerten_
-`TODO`
+#### _UC107: CRUD Verwaltung_
+Es soll möglich sein, die _Verwaltung_ zu verwalten.
 
-### _UC106: Prüfungsaufgaben aufsplitten_
-`TODO`
+#### _UC108: CRUD Reviewer_
+Es soll möglich sein, die _Reviewer_ zu verwalten.
 
-### _UC108: CRUD Korrektor_
-`TODO`
+#### _UC108: CRUD Student_
+Es soll möglich sein, die _Studenten_ zu verwalten.
 
-### _UC109: CRUD Verwalter_
-`TODO`
+#### _UC109: CRUD Benutzerrolle_
+Es soll möglich sein, die Benutzerrollen zu verwalten.
 
-### _UC110: CRUD Student_
-`TODO`
+#### _UC110: Rekurs durchführen_
+Den _Studenten_ soll die Möglichkeit geboten werden, Rekurse anzustossen und durch den Rekursprozess geführt zu werden.
 
-### _UC111: CRUD Benutzerrolle_
-`TODO`
+#### _UC111: Rekurs verwalten_
+Die _Verwaltung_ hat die Möglichkeit laufende Rekurse zu verwalten.
 
-### _UC112: Rekurs durchführen_
-`TODO`
+#### _UC112: Aktion loggen_
+Das System soll eine Historie über Änderungen an der Prüfung, Korrektur, Reviews und Rekurse erstellen
 
-### _UC113: Rekurs verwalten_
-`TODO`
-
-### _UC114: Aktion loggen_
-`TODO`
-
-Historie über Änderungen an der Prüfung und Korrektur erstellen
+#### _UC113: online Prüfungseinsicht für Studenten_
+Den _Studenten_ soll die Möglichkeit geboten werden, die Prüfungen online mit ihren Korrekturen einzusehen, um so Wissenslücken zu identifizieren.
