@@ -7,6 +7,7 @@ title: Anforderungsspezifikation
 
 ## Prozess
 > Wie ist der Prozess, in der eine Prüfung korrigiert wird?
+> TODO: Weitere Ausführungen ergänzen!
 
 ![](resources/exam_states.svg)
 
@@ -34,7 +35,7 @@ Alle aufgelisteten nicht-funktionale Anforderungen wurden beim Design beachtet. 
 4. **Es müssen weitere Notensysteme innerhalb von 5 Arbeitstagen integriert werden können, um das Produkt auch im Ausland vertreiben zu können.** (interoperability)
 5. **Anbindung an andere Datenbank-Schnittstelle müssen innerhalb 10 Tage realisiert werden können.** (interoperability)
 6. **Änderungen an Noten und Korrekturen müssen immer mit Autor, Datum und getätigten Änderungen protokolliert werden, damit die Korrektur stehts nachvollzogen werden kann.** (security)
-7. **Elemente der Korrektur wie Kommentare (nicht Begründung) dürfen nicht für alle Benutzer (Bsp. Studenten) einsehbar sein, da diese nur dem internen Austausch im Review-Prozess dienen.** (security)
+7. **Review-Kommentare dürfen nicht für alle Benutzer (Bsp. Studenten) einsehbar sein, da diese nur dem internen Austausch im Review-Prozess dienen.** (security)
 8. **Das System darf keine Passwörter speichern. Die Authentifizierung und Autorisierung erfolgt ausschliesslich über Drittsysteme (Bsp. LDAP), damit die Passwörter zentral verwaltet und abgesichert werden.** (security)
 9. Bestehende Infrastruktur für Authentifizierung und Autorisierung (LDAP) muss ohne den Zwang neue Gruppen zu definieren verwendet werden können. (interoperability)
 10. Die resultierenden Noten müssen über eine API exportiert werden können, damit die Anwendung mit bestehenden Systemen (Bsp. Adunis) kombiniert werden kann.  (interoperability)
@@ -50,7 +51,7 @@ Alle aufgelisteten nicht-funktionale Anforderungen wurden beim Design beachtet. 
 2. **Bei einem kompletten Systemausfall muss das Gesamtsystem innerhalb von 24 Stunden von einer Person wiederhergestellt werden können.** (recoverability)
 3. **Tritt ein Ausnahmefehler (Exception) auf, so wird dieser protokolliert.**
     1. **Ausnahmefehler dürfen das System nicht zum Absturz bringen.** (fault tolerance)
-    2. **Bei kritschen Fehler wie beispielsweise fehlender Speicherplatz, wird die Systemadministration umgehend informiert und den Benutzern eine Verständliche Meldung angezeigt.** (fault tolerance)
+    2. Bei kritschen Fehler wie beispielsweise fehlender Speicherplatz, wird die Systemadministration umgehend informiert und den Benutzern eine Verständliche Meldung angezeigt. (fault tolerance)
 4. 99% Verfügbarkeit während der Korrekturphase, da eine Prüfungskorrektur sonst nicht möglich ist. (maturity)
 5. 200 oder mehr Nutzer (skalierbar) müssen die Anwendung gleichzeitig Nutzen können, da die Prüfungskorrektur nur zweimal jährlich im gleichen Zeitraum stattfindet.
 
