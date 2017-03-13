@@ -40,36 +40,35 @@ Use Cases:
 
 * UC003: Prüfungsteilnahmen anzeigen
 * UC004: Prüfungsaufgaben anzeigen (teilweise)
-* UC0XX: Teilnahme Prüfungsweise korrigieren
-* UC0XX: Teilnahme Aufgabenweise korrigieren
+* UC005: Teilnahme Prüfungsweise korrigieren
+* UC006: Teilnahme Aufgabenweise korrigieren
 * UC008: Prüfung für Review freigeben
-* UC011: Prüfungsteilnahme reviewen
-* UC012: Prüfungsaufgabe reviewen
+* UC011: Teilnahme Prüfungsweise reviewen
+* UC012: Teilnahme Aufgabenweise reviewen
 * UC014: Review abschliessen
 * UC016: Prüfungskorrektur abschliessen
 * UC017: Notenskala festlegen
 * UC018: Prüfung auswerten
-* UC023: Prüfung auf Modulebene auswerten
 * UC022: Notenexport durchführen
+* UC023: Prüfung auf Modulebene auswerten
 
 ## Aufgabenansicht
 Use Cases:
 
 * UC004: Prüfungsaufgaben anzeigen (Einzelansicht)
-* UC0XX: Teilnahme Aufgabenweise korrigieren
+* UC006: Teilnahme Aufgabenweise korrigieren
+* UC012: Teilnahme Aufgabenweise reviewen
 
 ## Prüfungsdurchführungsansicht
 Use Cases:
 
-* UC005: Prüfungsteilnahme korrigieren
-* UC006: Prüfungsaufgabe korrigieren
+* UC006: Teilnahme Aufgabenweise korrigieren
 * (UC021: Prüfungsteilnahme an Student freigeben)
 * UC113: online Prüfungseinsicht für Studenten
 
 ## Aufgabendurchführungsansicht
 Use Cases:
 
-* UC006: Prüfungsaufgabe korrigieren
 * UC007: Aufgabe korrigieren
 * UC009: Review abarbeiten
 * UC013: Aufgabe reviewen
