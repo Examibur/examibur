@@ -35,6 +35,8 @@ Use Cases:
 * UC002: Prüfung öffnen
 * UC019: ToDo's anzeigen
 
+![](resources/Dashboard.jpeg)
+
 ## Prüfungsansicht
 Use Cases:
 
@@ -52,12 +54,16 @@ Use Cases:
 * UC022: Notenexport durchführen
 * UC023: Prüfung auf Modulebene auswerten
 
+![](resources/Prüfungsansicht.jpeg)
+
 ## Aufgabenansicht
 Use Cases:
 
 * UC004: Prüfungsaufgaben anzeigen (Einzelansicht)
 * UC006: Teilnahme Aufgabenweise korrigieren
 * UC012: Teilnahme Aufgabenweise reviewen
+
+![](resources/Aufgabenansicht.jpeg)
 
 ## Prüfungsdurchführungsansicht
 Use Cases:
@@ -66,6 +72,8 @@ Use Cases:
 * (UC021: Prüfungsteilnahme an Student freigeben)
 * UC113: online Prüfungseinsicht für Studenten
 
+![](resources/Prüfungsdurchführungsansicht.jpeg)
+
 ## Aufgabendurchführungsansicht
 Use Cases:
 
@@ -73,6 +81,4 @@ Use Cases:
 * UC009: Review abarbeiten
 * UC013: Aufgabe reviewen
 
-
-
-
+![](resources/Aufgabendurchführungsansicht.jpeg)
