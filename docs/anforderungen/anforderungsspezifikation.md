@@ -33,11 +33,11 @@ Alle aufgelisteten nicht-funktionale Anforderungen wurden beim Design beachtet. 
 2. **Die resultierenden Note muss auf 2 Nachkommastellen genau angegeben und mathematisch auf bzw. abgerundet werden.** (accuracy)
 3. **Die Berechnung der resultierende Note muss genau aufgeschlüsselt dargestellt werden, damit deren Berechnung nachvollzogen werden kann.**  (accuracy)
 4. **Es müssen weitere Notensysteme innerhalb von 5 Arbeitstagen integriert werden können, um das Produkt auch im Ausland vertreiben zu können.** (interoperability)
-5. **Anbindung an andere Datenbank-Schnittstelle müssen innerhalb 10 Tage realisiert werden können.** (interoperability)
+5. **Die Anbindung an eine andere Datenbank-Schnittstelle muss innerhalb von 10 Tagen realisiert werden können.** (interoperability)
 6. **Änderungen an Noten und Korrekturen müssen immer mit Autor, Datum und getätigten Änderungen protokolliert werden, damit die Korrektur stehts nachvollzogen werden kann.** (security)
 7. **Review-Kommentare dürfen nicht für alle Benutzer (Bsp. Studenten) einsehbar sein, da diese nur dem internen Austausch im Review-Prozess dienen.** (security)
 8. **Das System darf keine Passwörter speichern. Die Authentifizierung und Autorisierung erfolgt ausschliesslich über Drittsysteme (Bsp. LDAP), damit die Passwörter zentral verwaltet und abgesichert werden.** (security)
-9. Bestehende Infrastruktur für Authentifizierung und Autorisierung (LDAP) muss ohne den Zwang neue Gruppen zu definieren verwendet werden können. (interoperability)
+9. Bestehende Infrastruktur für Authentifizierung und Autorisierung (LDAP) muss ohne den Zwang, neue Gruppen zu definieren, verwendet werden können. (interoperability)
 10. Die resultierenden Noten müssen über eine API exportiert werden können, damit die Anwendung mit bestehenden Systemen (Bsp. Adunis) kombiniert werden kann.  (interoperability)
 11. Die Noten müssen beim Export signiert werden, damit deren Echtheit und Integrität verifiziert werden kannn. (security)
 12. Sämtliche Daten dürfen nur über verschlüsselte Verbindungen übertragen werden, die minimal den [Empfehlungen und Schlüssellängen des BSI (BSI TR-02102-1, Version 2017-01)](https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Publikationen/TechnischeRichtlinien/TR02102/BSI-TR-02102.pdf;jsessionid=D931A7BAEAA3051CEC548F944E39CA15.1_cid360?__blob=publicationFile&v=3) entsprechen. (security)
@@ -53,7 +53,7 @@ Alle aufgelisteten nicht-funktionale Anforderungen wurden beim Design beachtet. 
     1. **Ausnahmefehler dürfen das System nicht zum Absturz bringen.** (fault tolerance)
     2. Bei kritschen Fehler wie beispielsweise fehlender Speicherplatz, wird die Systemadministration umgehend informiert und den Benutzern eine Verständliche Meldung angezeigt. (fault tolerance)
 4. 99% Verfügbarkeit während der Korrekturphase, da eine Prüfungskorrektur sonst nicht möglich ist. (maturity)
-5. 200 oder mehr Nutzer (skalierbar) müssen die Anwendung gleichzeitig Nutzen können, da die Prüfungskorrektur nur zweimal jährlich im gleichen Zeitraum stattfindet.
+5. 200 oder mehr Nutzer (skalierbar) müssen die Anwendung gleichzeitig nutzen können, da die Prüfungskorrektur nur zweimal jährlich im gleichen Zeitraum stattfindet.
 
 ## Benutzbarkeit (Usability)
 1. **Für den Korrektor muss nach der Anmeldung sofort ersichtlich sein, welche Aufgaben seine Aufmerksamkeit erfordern.** (understandability)
@@ -64,12 +64,12 @@ Alle aufgelisteten nicht-funktionale Anforderungen wurden beim Design beachtet. 
 6. Vorgenommene Korrekturen werden zwischengespeichert, damit beispielsweise bei einem Browser-Absturz nicht die Arbeit von >1 Minute verloren geht.
 
 ## Effizienz (Efficiency)
-1. Das System muss innerhalb von max. 0.5 Sekunden nach Starten der Aktion durch den Nutzer antworten, auch wenn 200 Nutzern die Anwendung paralell verweden. (time behaviour)
+1. Das System muss innerhalb von max. 0.5 Sekunden nach Starten der Aktion durch den Nutzer antworten, auch wenn 200 Nutzern die Anwendung parallel verweden. (time behaviour)
 
 ## Änderbarkeit (Maintainability)
 1. **Jede Änderung an einer Korrektur muss protokolliert werden.** (analysability)
 2. **Alle Fehler müssen automatisch protokolliert werden.** (analysability)
-3. **Eine dynamische Konfiguration von Prüfungsreglemente / Modulstrukturen für andere Hochschulen müssen innerhalb 30 Arbeitstagen eingefügt werden können.** (changability)
+3. **Eine dynamische Konfiguration von Prüfungsreglemente / Modulstrukturen für andere Hochschulen müssen innerhalb von 30 Arbeitstagen eingefügt werden können.** (changability)
 4. **Neue Prüfungsaufgabentypen (Bsp. Multiple-Choise) müssen innerhalb von 10 Arbeitstagen eingeführt werden können.**
 5. **Die Business-Logik und alle Use-Cases müssen mit automatischen Unit-Tests abgedeckt sein**. (testability)
 6. **Alle Use-Cases des Web-Interfaces müssen über automatischen Browser-Tests abgedeckt sein**. (testability)
@@ -79,4 +79,4 @@ Alle aufgelisteten nicht-funktionale Anforderungen wurden beim Design beachtet. 
 1. **Das System muss auch als Docker-Image ausgeliefert werden, um eine schnelle Installation zu ermöglichen.** (installability)
 2. **Das System verwendet keine proprietären Datenbankfunktionen, um deren Austauschbarkeit zu gewährleisten.** (comformance)
 3. Die Software muss auf Linux und Windows-Servern deployed werden können. (adaptability)
-4. Die Daten müssen in einem Format vorgehalten bzw. exportiert werden, welches auch von anderen Systemen gelesen werden kann (Bsp. JSON/CSV). (recplacability)
+4. Die Daten müssen in einem Format vorgehalten bzw. exportiert werden, welches auch von anderen Systemen gelesen werden kann (Bsp. JSON/CSV). (replaceability)
