@@ -28,3 +28,4 @@ pages:
     - public
   only:
   - master
+  allow_failure: true # Sadly, the gitlab export is very unreliable
