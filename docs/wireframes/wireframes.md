@@ -54,7 +54,7 @@ Use Cases:
 * UC022: Notenexport durchführen
 * UC023: Prüfung auf Modulebene auswerten
 
-![](resources/Prüfungsansicht.jpeg)
+![](resources/Pruefungsansicht.jpeg)
 
 ## Aufgabenansicht
 Use Cases:
@@ -72,7 +72,7 @@ Use Cases:
 * (UC021: Prüfungsteilnahme an Student freigeben)
 * UC113: online Prüfungseinsicht für Studenten
 
-![](resources/Prüfungsdurchführungsansicht.jpeg)
+![](resources/Pruefungsdurchfuehrungsansicht.jpeg)
 
 ## Aufgabendurchführungsansicht
 Use Cases:
@@ -81,4 +81,4 @@ Use Cases:
 * UC009: Review abarbeiten
 * UC013: Aufgabe reviewen
 
-![](resources/Aufgabendurchführungsansicht.jpeg)
+![](resources/Aufgabendurchfuehrungsansicht.jpeg)
