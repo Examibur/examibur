@@ -6,7 +6,7 @@ title: Domain Model
 # Domain Model
 
 ## Domain Model UML
-![](resources/domainmodel.svg)
+![](resources/domainmodel.png)
 
 ## Erläuterungen
 - Unter `Exam` versteht man eine Prüfungsdurchführung, für die es ein oder mehrere gelöste Prüfungen der Prüfungsteilnehmer (`ExamParticipant`) gibt.
