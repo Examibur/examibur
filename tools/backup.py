@@ -101,9 +101,12 @@ def ci_artifacts():
     print("fetching build artifacts....")
     request = Request(GL_API_BUILDS_URL, headers={'PRIVATE-TOKEN': token})
     with urlopen(request) as response:
-        for build in json.load(response):
-            if build['artifacts_file'] is not None:
+        builds = json.load(response)
+        for build in builds:
+            if build.get('artifacts_file') is not None:
                 _ci_artifacts_download(build, token)
+            else:
+                print('Build {} has no Artifacts'.format(build['id']))
 
 
 def _ci_artifacts_download(build, token):
@@ -156,6 +159,7 @@ def main():
     else:
         print("Usage: ./backup.py TARGET...")
         print("       ./backup.py all")
+
 
 if __name__ == "__main__":
     main()
