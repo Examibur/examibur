@@ -29,6 +29,9 @@ Die nachfolgenden Wireframes bilden die Grundlage für das spätere User zuInter
 Die Wireframes wurden mit der Webversion von [Balsamiq Mockup](https://www.mybalsamiq.com/) erstellt. Eine interaktive Ausführung kann unter [www.mybalsamiq.com](https://hsrui.mybalsamiq.com/projects/ejpscherler/prototype/Dashboard?key=df3843320eedb3d97be9b37aaf74e0ac4421ddc1) gestartet werden.
 
 ## Dashboard
+
+Das Dashboard bildet eine Übersicht über Prüfungen und Aufgaben, welche dem angemeldeten Benutzer zugewiesenen sind. Als Aufgaben sind sämtliche ausstehenden Prüfungskorrekturen und Reviews sowie noch zu überprüfende Reviews aufgeführt.
+
 Use Cases:
 
 * UC001: Prüfungen anzeigen
@@ -38,6 +41,9 @@ Use Cases:
 ![](resources/Dashboard.jpeg)
 
 ## Prüfungsansicht
+
+Die Prüfungsansicht zeigt eine erstellte Prüfungsvorlage mit ihren Rahmenbedingungen, Aufgaben und Metadaten. Ist die Prüfung bereits durchgeführt, werden auch sämtliche Teilnehmer aufgelistet.
+
 Use Cases:
 
 * UC003: Prüfungsteilnahmen anzeigen
@@ -57,6 +63,9 @@ Use Cases:
 ![](resources/Pruefungsansicht.jpeg)
 
 ## Aufgabenansicht
+
+In der Aufgabenansicht lässt sich eine einzelne Prüfungsaufgabe einsehen. Es sind die Lösungen von sämtlichen Teilnehmern der Prüfung aufgelistet und eine Auswertung zeigt die proportionale verteilung der Punkte.
+
 Use Cases:
 
 * UC004: Prüfungsaufgaben anzeigen (Einzelansicht)
@@ -66,6 +75,9 @@ Use Cases:
 ![](resources/Aufgabenansicht.jpeg)
 
 ## Prüfungsdurchführungsansicht
+
+Die Prüfungsdurchführungsansicht entspricht der Prüfungsansicht mit den Daten einer einzelnen Durchführung eines Teilnehmers. Es sind all seine Aufgabenlösungen sowie die Gesamtpunktzahl und Note aufgeführt.
+
 Use Cases:
 
 * UC006: Teilnahme Aufgabenweise korrigieren
@@ -75,6 +87,9 @@ Use Cases:
 ![](resources/Pruefungsdurchfuehrungsansicht.jpeg)
 
 ## Aufgabendurchführungsansicht
+
+Die Aufgabendurchführungsansicht bildet analog zur Prüfungsdurchführungsansicht eine Übersicht mit der Aufgabenlösung eines einzelnen Teilnehmers. Hier kann die Aufgabe korrigiert und anschliessend ein Review erstellt werden.
+
 Use Cases:
 
 * UC007: Aufgabe korrigieren
