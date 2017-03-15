@@ -24,7 +24,7 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 
 # Wireframes
 
-Die nachfolgenden Wireframes bilden die Grundlage für das spätere User zuInterface Design. Die entsprechenden Use Cases einer Ansicht sind jeweils verlinkt und falls nötig mit einer schrittweisen Anleitung ergänzt.
+Die nachfolgenden Wireframes bilden die Grundlage für das spätere User Interface Design. Die entsprechenden Use Cases einer Ansicht sind jeweils aufgelistet.
 
 Die Wireframes wurden mit der Webversion von [Balsamiq Mockup](https://www.mybalsamiq.com/) erstellt. Eine interaktive Ausführung kann unter [www.mybalsamiq.com](https://hsrui.mybalsamiq.com/projects/ejpscherler/prototype/Dashboard?key=df3843320eedb3d97be9b37aaf74e0ac4421ddc1) gestartet werden.
 
@@ -60,7 +60,10 @@ Use Cases:
 * UC022: Notenexport durchführen
 * UC023: Prüfung auf Modulebene auswerten
 
-![](resources/Pruefungsansicht.jpeg)
+![](resources/Pruefungsansicht_Informationen.jpeg)
+![](resources/Pruefungsansicht_Teilnahmen.jpeg)
+![](resources/Pruefungsansicht_Aufgaben.jpeg)
+![](resources/Pruefungsansicht_Auswertung.jpeg)
 
 ## Aufgabenansicht
 
@@ -72,7 +75,9 @@ Use Cases:
 * UC006: Teilnahme Aufgabenweise korrigieren
 * UC012: Teilnahme Aufgabenweise reviewen
 
-![](resources/Aufgabenansicht.jpeg)
+![](resources/Aufgabenansicht_Aufgabenstellung.jpeg)
+![](resources/Aufgabenansicht_Teilnahmen.jpeg)
+![](resources/Aufgabenansicht_Auswertung.jpeg)
 
 ## Prüfungsdurchführungsansicht
 
@@ -84,7 +89,9 @@ Use Cases:
 * (UC021: Prüfungsteilnahme an Student freigeben)
 * UC113: online Prüfungseinsicht für Studenten
 
-![](resources/Pruefungsdurchfuehrungsansicht.jpeg)
+![](resources/Pruefungsdurchfuehrungsansicht_Informationen.jpeg)
+![](resources/Pruefungsdurchfuehrungsansicht_Aufgaben.jpeg)
+![](resources/Pruefungsdurchfuehrungsansicht_Auswertung.jpeg)
 
 ## Aufgabendurchführungsansicht
 
