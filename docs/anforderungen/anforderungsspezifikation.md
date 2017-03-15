@@ -5,15 +5,20 @@ title: Anforderungsspezifikation
 
 # Anforderungsspezifikation
 
-## Prozess
-> Wie ist der Prozess, in der eine Prüfung korrigiert wird?
-> TODO: Weitere Ausführungen ergänzen!
+## Korrektur-Prozess
 
 ![](resources/exam_states.svg)
 
-## Unterstützte Aufgabentypen
-> Welche Aufgabentypen unterstützen wir? Multiple Choise / Text usw.
+Eine Prüfung durchläuft während der Korrektur verschiedene Zustände. Nach dem Import aus der Prüfungsdaten ist eine Prüfung in der Korrekturphase. Hier müssen alle Aufgaben korrigiert werden.
 
+Sind alle Aufgaben korrigiert, so kann die Prüfung manuell in den nächsten Zustand, Review, überführt werden. Diese Phase läuft analog zur Korrektur ab, wobei der Reviewer bestehende Korrekturen anpassen und kommentieren kann. 
+
+Ist ein Review abgeschlossen (manueller Schritt), so muss der Korrektor diese Reviews wiederum an oder ablehnen. Diese Phase nennt sich Approval. Aufgaben, welche im Review weder kommentiert noch korrigiert wurden, sind automatisch approved. 
+
+Sind alle Aufgaben approved wird die Prüfung manuell in den Zustand appeal gesetzt. In dieser Phase verweilt eine Prüfung solange, bis die Rekursfrist abgelaufen oder ein allfälliger Rekurs abgeschlossen ist. Anschliessend wird eine Prüfung automatisch archiviert.
+
+## Unterstützte Aufgabentypen
+In einer ersten Phase unterstützen wir nur Textaufgaben. Diese haben eine textuelle Beschreibung und Antwort. In einer zweiten Phase (bei genügend Zeit oder nicht mehr im Rahmen des Engineering-Projekts) kommt der Aufgabentyp Multiple-Choise hinzu. Potentielle weitere Aufgabentypen (Bsp. mit Bilder oder Programmieraufgaben) müssen mit den Dozenten abgeklärt werden.
 
 ## Nicht-funktionale Anforderungen
 
@@ -49,11 +54,10 @@ Alle aufgelisteten nicht-funktionale Anforderungen wurden beim Design beachtet. 
 
 1. **Die Integrität der Daten darf ausnahmslos nie verletzt werden, da Prüfungen Dokumente mit rechtlicher Bindung sind.** (maturity, fault tolerance)
 2. **Bei einem kompletten Systemausfall muss das Gesamtsystem innerhalb von 24 Stunden von einer Person wiederhergestellt werden können.** (recoverability)
-3. **Tritt ein Ausnahmefehler (Exception) auf, so wird dieser protokolliert.**
-    1. **Ausnahmefehler dürfen das System nicht zum Absturz bringen.** (fault tolerance)
-    2. Bei kritschen Fehler wie beispielsweise fehlender Speicherplatz, wird die Systemadministration umgehend informiert und den Benutzern eine Verständliche Meldung angezeigt. (fault tolerance)
-4. 99% Verfügbarkeit während der Korrekturphase, da eine Prüfungskorrektur sonst nicht möglich ist. (maturity)
-5. 200 oder mehr Nutzer (skalierbar) müssen die Anwendung gleichzeitig nutzen können, da die Prüfungskorrektur nur zweimal jährlich im gleichen Zeitraum stattfindet.
+3. **Ausnahmefehler dürfen das System nicht zum Absturz bringen.** (fault tolerance)
+4. Bei kritschen Fehler wie beispielsweise fehlender Speicherplatz, wird die Systemadministration umgehend informiert und den Benutzern eine Verständliche Meldung angezeigt. (fault tolerance)
+5. 99% Verfügbarkeit während der Korrekturphase, da eine Prüfungskorrektur sonst nicht möglich ist. (maturity)
+6. 200 oder mehr Nutzer (skalierbar) müssen die Anwendung gleichzeitig nutzen können, da die Prüfungskorrektur nur zweimal jährlich im gleichen Zeitraum stattfindet.
 
 ## Benutzbarkeit (Usability)
 1. **Für den Korrektor muss nach der Anmeldung sofort ersichtlich sein, welche Aufgaben seine Aufmerksamkeit erfordern.** (understandability)
