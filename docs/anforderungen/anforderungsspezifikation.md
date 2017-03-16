@@ -62,7 +62,7 @@ Alle aufgelisteten nicht-funktionalen Anforderungen wurden beim Design beachtet.
 ## Benutzbarkeit (Usability)
 1. **Für den Korrektor muss nach der Anmeldung sofort ersichtlich sein, welche Aufgaben seine Aufmerksamkeit erfordern.** (understandability)
 2. **Für das Verständnis der Bedienung der Anwendung muss nur der Ablauf des Prüfungsprozesses bekannt sein.** (learnability)
-3. **Zu jedem Zeitpunkt muss der Benutzer effizient Hilfe im Handbuch finden können (Bsp. Name der Aktivität gut sichtbar und Benutzerdokumentation nach Aktivitäten aufgebaut).** (learnability)
+3. Zu jedem Zeitpunkt muss der Benutzer effizient Hilfe im Handbuch finden können (Bsp. Name der Aktivität gut sichtbar und Benutzerdokumentation nach Aktivitäten aufgebaut). (learnability)
 4. **Für das ganze System muss ein einheitliches Stylesheet verwendet werden.** (operability)
 5. Ein Hilfe-Button zeigt zu jeder Aktivität einen Link an die entsprechende Stelle der Benutzerdokumentation. (learnability)
 6. Vorgenommene Korrekturen werden zwischengespeichert, damit beispielsweise bei einem Browser-Absturz nicht die Arbeit von >1 Minute verloren geht.
