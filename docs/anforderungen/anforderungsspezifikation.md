@@ -528,46 +528,23 @@ include:
 1. Der User öffnet die Übersicht/Dashboard.
 2. Das System lädt alle offenen Prüfungen, welche für den User relevant sind.
 
-#### _UC021: Prüfungsteilnahme an Student freigeben_
-**Primary Actor:** Verwaltung
+#### _UC022: online Prüfungseinsicht für Studenten_
+**Primary Actor:** Student
 
 **Stakeholders and Interests:**
 
-- _Verwaltung_ will eine Prüfung an einen _Studenten_ zur Einsicht freigeben.
+- _Studenten_ will die Prüfung einsehen.
 
 **Preconditions:**
 
-- Der User ist im System angemeldet und hat eine Prüfungsteilnahme geöffnet.
-
-**Postconditions:**
-
-- Der _Student_ erhält ein signiertes Mail mit seiner Prüfung im Anhang als PDF.
+- Der User hat eine Prüfung geschrieben, welche im Status `appeal` ist.
 
 **Main Success Scenario:**
 
-1. Der User drückt auf Prüfung an _Student_ freigeben.
-2. Das System generiert ein PDF mit den Korrekturen des _Korrektors_ und sendet das PDF als Anhang per Mail an den _Student_.
-
-#### _UC022: Notenexport durchführen_
-**Primary Actor:** Korrektor, Verwaltung
-
-**Stakeholders and Interests:**
-
-- _Korrektor_ will einen Notenexport durchführen, um eine Datenmigration in ein anderes System durchführen oder persönliche Auswertungen erstellen zu können.
-- _Verwaltung_ will einen Notenexport durchführen, um eine Datenmigration in ein anderes System durchführen zu können.
-
-**Preconditions:**
-
-- Der User ist im System angemeldet und hat eine Prüfung geöffnet.
-
-**Postconditions:**
-
-- Es wird ein Export im csv-Format mit den Daten (Student, Matrikel-Nr, erreichte Punktzahl, totale Punktzahl, Note) generiert.
-
-**Main Success Scenario:**
-
-1. Der User drückt auf Notenexport durchführen.
-2. Das System generiert eine csv-Datei mit den definierten Informationen.
+1. Der User öffnet die gewünschte Prüfung.
+2. Das System zeigt dem User die 1. Aufgabe inklusiv Bewertung an.
+3. Der User kann zur nächsten Aufgabe navigieren.
+Wiederhole bis alle Aufgaben durchnavigiert sind.
 
 ## Erweiterungen
 
@@ -621,5 +598,5 @@ Die _Verwaltung_ hat die Möglichkeit laufende Rekurse zu verwalten.
 #### _UC112: Aktion loggen_
 Das System soll eine Historie über Änderungen an der Prüfung, Korrektur, Reviews und Rekurse erstellen
 
-#### _UC113: online Prüfungseinsicht für Studenten_
-Den _Studenten_ soll die Möglichkeit geboten werden, die Prüfungen online mit ihren Korrekturen einzusehen, um so Wissenslücken zu identifizieren.
+#### _UC113: _Notenexport durchführen_
+Es soll möglich sein, einen Export im csv-Format mit den Daten (Student, Matrikel-Nr, erreichte Punktzahl, totale Punktzahl, Note) zu generieren.
