@@ -43,18 +43,16 @@ def worktime_per_issue(project, export_date, output_directory):
         total_spent = 0
         for log in issue['timelogs']:
             total_spent += log['time_spent']
-
         result['data'][issue['iid']] = {
                 'name': issue['title'],
                 'estimated': issue['time_estimate']/3600,
-                'spent': total_spent/3600
+                'spent': total_spent/3600,
+                'milestone': issue.get('milestone', {'title': None})['title']
                 }
     _dump_json('worktimePerIssue', output_directory, result)
     _dump_csv('worktimePerIssue', output_directory,
-              ['issue_id', 'issue_title', 'estimated', 'spent'],
+              ['issue_id', 'issue_title', 'estimated', 'spent', 'milestone'],
               [[iid] + list(data.values()) for iid, data in result['data'].items()])
-
-    ['time_spent', 'user', 'date', 'issue_id', 'issue_name']
 
 
 def _datetime_in_ms(date_to_convert):
