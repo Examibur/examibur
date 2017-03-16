@@ -10,4 +10,4 @@ host: 0.0.0.0
 markdown: redcarpet
 highlighter: rouge
 redcarpet:
-  extensions: ["fenced_code_blocks", "tables", "with_toc_data", "autolink"]
+  extensions: ["fenced_code_blocks", "tables", "with_toc_data", "underline", "autolink"]
