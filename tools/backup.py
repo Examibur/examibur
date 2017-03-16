@@ -4,6 +4,8 @@ import os
 import json
 import re
 import time
+import tarfile
+from urllib.error import HTTPError
 from urllib.request import Request, urlopen, build_opener, HTTPCookieProcessor
 from urllib.parse import urlencode
 from http.cookiejar import CookieJar
@@ -75,17 +77,28 @@ def _gitlab_download_export(token):
     timeout = time.time() + GL_EXPORT_TIMEOUT_IN_SECONDS
     while timeout > time.time():
         time.sleep(2)
-        with urlopen(request) as response:
-            if response.geturl() == GL_EXPORT_DOWNLOAD_URL:
-                file_name = response.getheader('Content-Disposition')[22:-1]
-                print("Downloading export {}...".format(file_name))
-                with open(os.path.join(BACKUP_GL_LOCATION, file_name), 'wb') as f:
-                    f.write(response.read())
-                print("Download completed!")
-                return file_name
+        try:
+            with urlopen(request) as response:
+                if response.geturl() == GL_EXPORT_DOWNLOAD_URL:
+                    file_name = response.getheader('Content-Disposition')[22:-1]
+                    destination = os.path.join(BACKUP_GL_LOCATION, file_name)
+                    print("Downloading export {}...".format(destination))
+                    with open(destination, 'wb') as f:
+                        f.write(response.read())
+                    print("Download completed!")
+                    print("Verifying tarfile....")
+                    tf = tarfile.open(destination)
+                    print("Tarfile is OK!")
+                    return
+                else:
+                    print("Export not ready yet...will try again in 2s")
+        except tarfile.ReadError:
+            print("Invalid tar File...will try again in 2s...")
+        except HTTPError as e:
+            if 'The HTTP server returned a redirect error that would lead to an infinite loop.' in str(e):
+                print('infinite loop occured - will try again in 2s...')
             else:
-                print("Export not ready yet...will try again in 2s")
-
+                break
     raise Exception("Export generation has timed out!")
 
 
