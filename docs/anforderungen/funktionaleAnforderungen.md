@@ -6,7 +6,7 @@ title: Funktionale Anforderungen
 # Einführung
 
 ## Zweck
-Dieses Dokument beschreibt die Anforderungsspezifikation. Es wird der Fokus auf die funktionalen Anforderungen gelegt. Es ist ersichtlich, welche Use Cases Scope des Engineering-Projekts sind und welche Use Cases für Folgeprojekte vorgesehen sind. Desweiteren werden die Stakeholders analysiert und ihre Ansprüche mit User Stories identifiziert.
+Dieses Dokument beschreibt die Anforderungsspezifikation. Es wird der Fokus auf die funktionalen Anforderungen gelegt. Es ist ersichtlich, welche Use Cases Scope des Engineering-Projekts sind und welche Use Cases für Folgeprojekte vorgesehen sind. Desweiteren werden die Stakeholders analysiert und ihre Ansprüche mit User Stories identifiziert. Aus Gründen der Übersichtlichkeit sind die nicht-funktionalen Anforderungen in einem [separaten Dokument](nichtFunktionaleAnforderungen.html) beschrieben.
 
 ## Gültigkeitsbereich
 Der Gültigkeitsbereich beschränkt sich auf die Projektdauer vom 20.02.17 bis 02.06.17. Während dieser Zeit wird das Dokument laufend aktualisiert und stellt zu jedem Zeitpunkt einen genauen Überblick über die funktionalen Anforderungen zur Verfügung.
@@ -16,27 +16,23 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 
 | **Name**                          | **Referenz**                                                                                                                                                                                                                                         |
 | --------------------------------- | ----------------------------- |
-|                      |
-
-## Übersicht
-`TODO`
+|  nicht-funktionale Anforderungen  | [nicht-funktionale Anforderungen ](nichtFunktionaleAnforderungen.html) |
+|  Software Architektur             | [Software Architektur](../architektur/softwareArchitektur.html) |
+|  Produkt & Vision                 | [Projektplan](../projektplan/projektplan.html)
+|  Personas                         | [Personas](personas.html) |
 
 # Allgemeine Beschreibung
-`TODO`
 
 ## Produkt & Vision
-`TODO Verweis auf Projektplan`
-
-## Einschränkungen
-`TODO`
+Produkt & Vision können dem [Projektplan](../projektplan/projektplan.html) im Kapitel Projekt Übersicht entnommen werden.
 
 ## Zielgruppe
-`TODO`
+Die Zielgruppen des Projekts sind im Dokument [Personas](personas.html) genauer beschrieben.
 
 ## Abhängigkeiten
 Die Nutzung von Examibur setzt einen aktuellen Webbrowser mit einer funktionierenden Internetverbindung voraus.
 
-Examibur verwendet diverse Bibliotheken, Frameworks und Produkte, welche sich in der Praxis bewährt haben. `TODO Verweis auf Architektur`
+Examibur verwendet diverse Bibliotheken, Frameworks und Produkte, welche sich in der Praxis bewährt haben ([siehe Software Architektur](../architektur/softwareArchitektur.html)).
 
 # Funktionale Anforderungen
 Im folgenden sind die funktionalen Anforderungen anhand von Use Cases beschrieben. Es wird besonderen Wert auf die Aktoren und Stakeholder gelegt, um die Bedürfnisse der verschiedenen Anspruchsgrupppen an das Produkt zu identifizieren. Die Use Cases, welche im Scope des Projekts sind, sind im Fully-Dressed-Format aufgelistet. Use Cases für allfällige Folgeprojekte werden im Brief-Format spezifiziert.
@@ -422,8 +418,8 @@ include:
 <ol start=2>
   <li>
     <ol type="a">
-      <li>Wenn alle Aufgaben akzeptiert wurden, erhält die Prüfung den Status `TODO Status`</li>
-      <li>Wenn eine oder mehrere Aufgaben zurückgewiesen wurden, erhält die Prüfung den Status `TODO Status`</li>
+      <li>Wenn alle Aufgaben akzeptiert wurden, erhält die Prüfung den Status `appeal`</li>
+      <li>Wenn eine oder mehrere Aufgaben zurückgewiesen wurden, erhält die Prüfung den Status `approval`</li>
     </ol>
   </li>
 </ol>
@@ -446,7 +442,7 @@ include:
 **Main Success Scenario:**
 
 1. Der User drückt auf Korrektur abschliessen.
-2. Das System setzt den Status der Prüfung auf `TODO Status`.
+2. Das System setzt den Status der Prüfung auf `appeal`.
 
 #### _UC017: Notenskala festlegen_
 **Primary Actor:** Korrektor
@@ -601,18 +597,3 @@ Das System soll eine Historie über Änderungen an der Prüfung, Korrektur, Revi
 
 #### _UC113: _Notenexport durchführen_
 Es soll möglich sein, einen Export im csv-Format mit den Daten (Student, Matrikel-Nr, erreichte Punktzahl, totale Punktzahl, Note) zu generieren.
-
-## Korrektur-Prozess
-
-![](resources/exam_states.svg)
-
-Eine Prüfung durchläuft während der Korrektur verschiedene Zustände. Nach dem Import der Prüfungsdaten ist eine Prüfung in der Korrekturphase. Hier müssen alle Aufgaben korrigiert werden.
-
-Sind alle Aufgaben korrigiert, so kann die Prüfung manuell in den nächsten Zustand, Review, überführt werden. Diese Phase läuft analog zur Korrektur ab, wobei der Reviewer bestehende Korrekturen anpassen und kommentieren kann.
-
-Ist ein Review abgeschlossen (manueller Schritt), so muss der Korrektor diese Reviews wiederum annehmen oder ablehnen. Diese Phase nennt sich Approval. Aufgaben, welche im Review weder kommentiert noch korrigiert wurden, sind automatisch approved.
-
-Sind alle Aufgaben approved, wird die Prüfung manuell in den Zustand appeal gesetzt. In dieser Phase verweilt eine Prüfung solange, bis die Rekursfrist abgelaufen oder ein allfälliger Rekurs abgeschlossen ist. Anschliessend wird eine Prüfung automatisch archiviert.
-
-## Unterstützte Aufgabentypen
-In einer ersten Phase unterstützen wir nur Textaufgaben. Diese haben eine textuelle Beschreibung und Antwort. In einer zweiten Phase (bei genügend Zeit oder nicht mehr im Rahmen des Engineering-Projekts) kommt der Aufgabentyp Multiple-Choice hinzu. Potentielle weitere Aufgabentypen (Bsp. mit Bildern oder Programmieraufgaben) müssen mit den Dozenten abgeklärt werden.
