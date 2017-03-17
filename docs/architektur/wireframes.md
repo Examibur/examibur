@@ -18,8 +18,8 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 
 | **Name**                          | **Referenz**                                                                                                                                                                                                                                         |
 | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Anforderungsspezifikation         | [Anforderungsspezifikation](https://gitlab.com/engineering-projekt/examibur/raw/master/docs/anforderungen/anforderungsspezifikation.md)                                                                                                                         |
-| Glossar                           | [Glossar](https://gitlab.com/engineering-projekt/examibur/blob/master/docs/projektplan/glossar.md)                                                                                                                                                   |
+| Anforderungsspezifikation         | [funktionale Anforderungen](../anforderungen/funktionaleAnforderungen.html)                                                                                                                         |
+| Glossar                           | [Glossar](../projektplan/glossar.html)                                                                                                                                                   |
 | Wireframe Tool                    | [myBalsamiq.com](https://www.mybalsamiq.com/)                                                                                                                                                   |
 
 # Wireframes
@@ -47,17 +47,17 @@ Die Prüfungsansicht zeigt eine erstellte Prüfungsvorlage mit ihren Rahmenbedin
 Use Cases:
 
 * UC003: Prüfungsteilnahmen anzeigen
-* UC004: Prüfungsaufgaben anzeigen (teilweise)
-* UC005: Teilnahme Prüfungsweise korrigieren
-* UC006: Teilnahme Aufgabenweise korrigieren
+* UC004: Prüfungsaufgaben anzeigen
+* UC005: Prüfungsteilnahme korrigieren
+* UC006: Prüfungsaufgabe korrigieren
 * UC008: Prüfung für Review freigeben
-* UC011: Teilnahme Prüfungsweise reviewen
-* UC012: Teilnahme Aufgabenweise reviewen
+* UC011: Prüfungsteilnahme reviewen
+* UC012: Prüfungsaufgabe reviewen
 * UC014: Review abschliessen
 * UC016: Prüfungskorrektur abschliessen
 * UC017: Notenskala festlegen
 * UC018: Prüfung auswerten
-* UC022: Notenexport durchführen
+* UC022: online Prüfungseinsicht für Studenten
 * UC023: Prüfung auf Modulebene auswerten
 
 ![](resources/wireframes/Pruefungsansicht_Informationen.jpeg)
@@ -72,8 +72,8 @@ In der Aufgabenansicht lässt sich eine einzelne Prüfungsaufgabe einsehen. Es s
 Use Cases:
 
 * UC004: Prüfungsaufgaben anzeigen (Einzelansicht)
-* UC006: Teilnahme Aufgabenweise korrigieren
-* UC012: Teilnahme Aufgabenweise reviewen
+* UC006: Prüfungsaufgabe korrigieren
+* UC012: Prüfungsaufgabe reviewen
 
 ![](resources/wireframes/Aufgabenansicht_Aufgabenstellung.jpeg)
 ![](resources/wireframes/Aufgabenansicht_Teilnahmen.jpeg)
@@ -85,9 +85,8 @@ Die Prüfungsdurchführungsansicht entspricht der Prüfungsansicht mit den Daten
 
 Use Cases:
 
-* UC006: Teilnahme Aufgabenweise korrigieren
-* (UC021: Prüfungsteilnahme an Student freigeben)
-* UC113: online Prüfungseinsicht für Studenten
+* UC006: Prüfungsaufgabe korrigieren
+* UC022: online Prüfungseinsicht für Studenten
 
 ![](resources/wireframes/Pruefungsdurchfuehrungsansicht_Informationen.jpeg)
 ![](resources/wireframes/Pruefungsdurchfuehrungsansicht_Aufgaben.jpeg)

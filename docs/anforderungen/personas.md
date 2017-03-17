@@ -18,8 +18,8 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 
 | **Name**                          | **Referenz**                                                                                                                                                                                                                                         |
 | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Anforderungsspezifikation         | [Anforderungsspezifikation](https://gitlab.com/engineering-projekt/examibur/raw/master/docs/anforderungen/anforderungsspezifikation.md)                                                                                                                         |
-| Glossar                           | [Glossar](https://gitlab.com/engineering-projekt/examibur/blob/master/docs/projektplan/glossar.md)                                                                                                                                                   |
+| Anforderungsspezifikation         | [funktionale Anforderungen](funktionaleAnforderungen.html)                                                                                                                         |
+| Glossar                           | [Glossar](../projektplan/glossar.html)                                                                                                                                                   |
 | Profilbilder                      | [randomuser.me](https://randomuser.me/)                                                                                                                                                   |
 
 # Personas
@@ -54,7 +54,7 @@ Rolf ist 22 Jahre alt und Informatikstudent an der ETH Zürich. Er ist sehr bega
 
 Rolf ist ein Digital Native. Im Studium arbeitet er am liebsten mit seinem 13" Lenovo thinkpad und einer jahrelang sorgfältig evaluierten Linux Distro, welche genau auf seine Bedürfnisse passt.
 
-Eine Prüfungseinsicht soll seiner Meinung nach effizient und möglichst transparent ablaufen. Er möchte die Korrekturen des Dozenten verstehen und die daraus folgende Punkteverteilung nachvollziehen können. Gerne würde er auch unterwegs auf seinem Samrtphone eine Prüfung einsehen, um seine Ergebnisse jederzeit im Blick zu haben.
+Eine Prüfungseinsicht soll seiner Meinung nach effizient und möglichst transparent ablaufen. Er möchte die Korrekturen des Dozenten verstehen und die daraus folgende Punkteverteilung nachvollziehen können. Gerne würde er auch unterwegs auf seinem Smartphone eine Prüfung einsehen, um seine Ergebnisse jederzeit im Blick zu haben.
 
 ## Verwaltung
 

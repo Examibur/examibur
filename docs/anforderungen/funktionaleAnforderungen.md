@@ -44,10 +44,10 @@ Die Beschreibung der folgenden Kapitel wurde basierend auf der Vision von Examib
 
 | Aktor                         | Beschreibung  |
 |-------------------------------|---------------|
-| **Korrektor**                 | Ein Korrektor erstellt und verwaltet Prüfungen. Nach Durchführung einer Prüfung hat er die Möglichkeit, die Prüfungen mit einem Scanner in das System einzulesen. Sobald die Prüfungen im System erfasst bzw. eingelesen wurden, kann er gleiche Prüfungsaufgaben einzeln durchgehen und korrigieren. Der Korrektor kann auch eine Prüfung eines einzelnen Studenten am Stück korrigieren. Sind alle Aufgaben korrigiert, kann die Prüfung in den Reviewprozess übergeben werden. Aufgabenbewertungen, welche vom Reviewer zurückgewiesen werden, müssen überarbeitet werden, bevor die Prüfung in den Status korrigiert überführt werden kann. |
-| **Reviewer**                  | Sobald der Korrektor eine Prüfung einem Reviewer zuordnet, kann der Reviewer Aufgabe für Aufgabe durchgehen und die Aufgabenwertungen des Korrektor überprüfen, welche er entweder akzeptieren kann oder per Kommentar an den Korrektor zurückweist.	|
-| **Verwaltung**                | Die Verwaltung der Lehranstalt erstellt initiale Prüfungen mit allen Terminen und weist diese den Korrektoren zur Erstellung der Prüfung zu. Die Verwaltung kann den Status der einzelnen Prüfung einsehen und hat die Möglichkeit die korrigierten Prüfung nach Abschluss der Reviewphase einzusehen und bei Bedarf zu exportieren. Falls ein Student den Rekursprozess startet, übernimmt die Verwaltung die Verarbeitung dieses Rekurses. 	|
-| **Student**                   | Der Student hat die Möglichkeit die korrigierte Prüfung nach Freischaltung der Noten einzusehen und bei Ungereimtheiten den Rekursprozess anzustossen.  	|
+| **Korrektor**                 | Ein Korrektor erstellt und verwaltet Prüfungen. Nach der Durchführung einer Prüfung hat er die Möglichkeit, die Prüfungen mit einem Scanner in das System einzulesen. Sobald die Prüfungen im System erfasst bzw. eingelesen wurden, kann er gleiche Prüfungsaufgaben einzeln durchgehen und korrigieren. Der Korrektor kann auch eine Prüfung eines einzelnen Studenten am Stück korrigieren. Sind alle Aufgaben korrigiert, kann die Prüfung in den Reviewprozess überführt werden. Aufgabenbewertungen, welche vom Reviewer zurückgewiesen werden, müssen überarbeitet werden, bevor die Prüfung in den Status _korrigiert_ überführt werden kann. |
+| **Reviewer**                  | Sobald der Korrektor eine Prüfung einem Reviewer zuordnet, kann dieser Aufgabe für Aufgabe durchgehen und die Aufgabenwertungen des Korrektors überprüfen. Er kann sie entweder akzeptieren oder per Kommentar an den Korrektor zurückweisen.	|
+| **Verwaltung**                | Die Verwaltung der Lehranstalt erstellt initiale Prüfungen mit allen Terminen und weist diese den Korrektoren zur Erstellung der Prüfung zu. Die Verwaltung kann den Status der einzelnen Prüfung einsehen und hat die Möglichkeit die korrigierten Prüfungen nach Abschluss der Reviewphase einzusehen und bei Bedarf zu exportieren. Falls ein Student den Rekursprozess startet, übernimmt die Verwaltung die Verarbeitung dieses Rekurses. 	|
+| **Student**                   | Der Student hat die Möglichkeit die korrigierte Prüfung nach Freischaltung der Noten einzusehen und bei Bedarf den Rekursprozess anzustossen.  	|
 
 ## Stakeholder
 
@@ -69,7 +69,7 @@ Als Dozent möchte ich Prüfungen online erstellen können, um so eine einfache,
 
 #### _US202: Qualität aufrechterhalten_
 
-Als Dozent möchte ich Prüfungskorrekturen reviewen lassen, um so die Qualität und Fairness der Bewertungen aufrecht zu halten und allfällige Flüchtigkeitsfehler zu vermeiden.
+Als Dozent möchte ich Prüfungskorrekturen reviewen lassen, um so die Qualität und Fairness der Bewertungen aufrecht zu erhalten und allfällige Flüchtigkeitsfehler zu vermeiden.
 
 #### _US203: Prüfung online korrigieren_
 
@@ -78,7 +78,7 @@ Als Dozent möchte ich Prüfungen online korrigieren, um so den Papierkrieg einz
 ### Student
 #### _US301: anonyme Korrektur_
 
-Als Student möchte ich einen anonyme Korrektur der Prüfung erhalten, um so eine faire Beurteilung aller Studenten sicherzustellen.
+Als Student möchte ich eine anonyme Korrektur der Prüfung erhalten, um so eine faire Beurteilung meiner Leistung sicherzustellen.
 
 #### _US302: Prüfungsreview_
 
@@ -212,7 +212,7 @@ include:
 
 **Postconditions:**
 
-- Dem User wurden alle gelöste Aufgaben eines Prüfungsteilnehmer zur Korrektur angezeigt, welche vom User korrigiert wurden.
+- Dem User wurden alle gelöste Aufgaben eines Prüfungsteilnehmers zur Korrektur angezeigt, welche vom User korrigiert wurden.
 
 **Main Success Scenario:**
 
@@ -280,7 +280,7 @@ include:
 
 **Stakeholders and Interests:**
 
-- _Korrektor_ will nach der Korrektur der Prüfung die Prüfung für den Review freigeben.
+- _Korrektor_ will nach der Korrektur die Prüfung für den Review freigeben.
 
 **Preconditions:**
 
@@ -293,7 +293,7 @@ include:
 **Main Success Scenario:**
 
 1. Der User drückt auf zum Review freigeben und wählt den Reviewer aus.
-2. Das System weist dem Reviewer die Prüfung zum reviewen zu.
+2. Das System weist dem _Reviewer_ die Prüfung zum reviewen zu.
 
 #### _UC009: Review abarbeiten_
 **Primary Actor:** Korrektor
@@ -305,7 +305,7 @@ include:
 **Preconditions:**
 
 - Der User ist im System angemeldet.
-- Der _Reviewer_ hat während dem Review eine Beurteilung abgelehnt.
+- Der _Reviewer_ hat während dem Review eine Beurteilung beanstandet.
 
 **Postconditions:**
 
@@ -316,7 +316,7 @@ include:
 1. Der User drückt auf zum Review abarbeiten.
 2. Das System lädt die n-te Beanstandung.
 3. Der User nimmt die Beanstandung an und korregiert die Bewertung oder verwirft sie.
-Wiederhole 2 bis 3 bis alle Beanstandungen durchgearbeitet sind.
+Wiederhole 2 bis 3 bis alle Beanstandungen abgearbeitet sind.
 
 
 #### _UC011: Prüfungsteilnahme reviewen_
@@ -324,7 +324,7 @@ Wiederhole 2 bis 3 bis alle Beanstandungen durchgearbeitet sind.
 
 **Stakeholders and Interests:**
 
-- _Reviewer_ will alle Lösungen einer Prüfungsteilnahme reviewen.
+- _Reviewer_ will alle Bewertungen einer Prüfungsteilnahme reviewen.
 
 **Preconditions:**
 
@@ -509,7 +509,7 @@ include:
 
 **Stakeholders and Interests:**
 
-- _Korrektor_ will auf der Übersicht/Dashboard eine Liste mit allen Prüfungen, welche korrigiert werden müssen, oder dessen Korrektur nach dem Review eine Überarbeitung erfodert.
+- _Korrektor_ will auf der Übersicht/Dashboard eine Liste mit allen Prüfungen, welche korrigiert werden müssen, oder deren Korrektur nach dem Review eine Überarbeitung erfodern.
 - _Reviewer_ will auf der Übersicht/Dashboard eine Liste mit allen Prüfungen, welche gereviewt werden müssen.
 
 **Preconditions:**
@@ -530,7 +530,7 @@ include:
 
 **Stakeholders and Interests:**
 
-- _Studenten_ will die Prüfung einsehen.
+- _Student_ will seine Prüfung einsehen.
 
 **Preconditions:**
 
@@ -545,9 +545,9 @@ Wiederhole bis alle Aufgaben durchnavigiert sind.
 
 ## Erweiterungen
 
-Im folgenden werden Use Cases kurz aufgelistet, welche das Projekt in seiner Funktionalität vervollständigen würden, um die angestrebte Vision zu erreichen.
-Diese Use Cases sind nicht Teil des Scopes und werden bei Bedarf und freier Zeit eingeplannt und umgesetzt.
-Grundsätzlich sollen sie eine Übersicht für folge Projekte bieten und aufzeigen, was alles noch möglich sein könnte.
+Nachfolgend werden Use Cases kurz aufgelistet, welche das Projekt in seiner Funktionalität vervollständigen würden, um die angestrebte Vision zu erreichen.
+Diese Use Cases sind nicht Teil des Scopes und werden bei Bedarf und freier Zeit eingeplant und umgesetzt.
+Grundsätzlich sollen sie eine Übersicht für Folgeprojekte bieten und aufzeigen, was alles noch möglich wäre.
 
 ### Diagramm
 ![](resources/UseCaseDiagramErweiterung.svg)
@@ -558,7 +558,7 @@ Grundsätzlich sollen sie eine Übersicht für folge Projekte bieten und aufzeig
 Es soll möglich sein, dass sich User mit ihren HSR-Logindaten (Adunis, Moodle) einloggen können.
 
 #### _UC102: CRUD Prüfung_
-Die _Verwaltung_ erstellt initile Prüfungen mit allen Daten (Durchführungsdatum, etc.) und weist die Prüfung einem _Korrektor_ zu.
+Die _Verwaltung_ erstellt initiale Prüfungen mit allen Daten (Durchführungsdatum, etc.) und weist die Prüfung einem _Korrektor_ zu.
 Dieser _Korrektor_ erfasst die Prüfungsaufgaben online. Die Prüfung lässt sich für die Durchführung ausdrucken.
 
 #### _UC103: Prüfung scannen_
@@ -566,7 +566,7 @@ Nach der Durchführung der Prüfung kann die _Verwaltung_ oder der _Korrektor_ d
 Dabei wird UC104 und UC105 durchgeführt.
 
 #### _UC104: Prüfungsaufgaben aufsplitten_
-Die einglesenen Prüfungsaufgaben werden in einzelne Teilaufgaben aufgesplittet und so in System gespielt, damit bei der Korrektur einzelne Aufgaben durchkorrigiert werden können.
+Die einglesenen Prüfungsaufgaben werden in einzelne Teilaufgaben aufgesplittet und so ins System gespielt, damit bei der Korrektur einzelne Aufgaben durchkorrigiert werden können.
 
 #### _UC105: Multiple-Choice-Aufgaben automatisch auswerten_
 Multiple-Choice-Aufgaben werden vom System automatisch erkannt und ausgewertet.
@@ -587,13 +587,13 @@ Es soll möglich sein, die _Studenten_ zu verwalten.
 Es soll möglich sein, die Benutzerrollen zu verwalten.
 
 #### _UC110: Rekurs durchführen_
-Den _Studenten_ soll die Möglichkeit geboten werden, Rekurse anzustossen und durch den Rekursprozess geführt zu werden.diff
+Den _Studenten_ soll die Möglichkeit geboten werden, Rekurse anzustossen und durch den Rekursprozess geführt zu werden.
 
 #### _UC111: Rekurs verwalten_
 Die _Verwaltung_ hat die Möglichkeit laufende Rekurse zu verwalten.
 
 #### _UC112: Aktion loggen_
-Das System soll eine Historie über Änderungen an der Prüfung, Korrektur, Reviews und Rekurse erstellen
+Das System soll eine Historie über Änderungen an der Prüfung, Korrektur, Reviews und Rekursen erstellen.
 
-#### _UC113: _Notenexport durchführen_
+#### _UC113: Notenexport durchführen_
 Es soll möglich sein, einen Export im csv-Format mit den Daten (Student, Matrikel-Nr, erreichte Punktzahl, totale Punktzahl, Note) zu generieren.
