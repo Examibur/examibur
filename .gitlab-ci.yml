@@ -1,4 +1,4 @@
-generate_pages:stages:
+stages:
   - build
   - docs
   - deploy
@@ -44,4 +44,4 @@ pages:
     paths:
     - public
   only:
-  - master
+    - master
