@@ -67,6 +67,10 @@ a:hover {
     padding-right: 1rem;
 }
 
+a.list-group-item {
+    font-size: 1.8rem;
+}
+
 figure > img {
   display: block;
   margin-left: auto;
