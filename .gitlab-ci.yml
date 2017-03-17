@@ -1,31 +1,47 @@
-stages:
+generate_pages:stages:
+  - build
   - docs
   - deploy
 
-generate_pages:
+variables:
+  REGISTRY_BASE: registry.gitlab.com/engineering-projekt/examibur
+  JEKYLL_IMAGE: $REGISTRY_BASE:jekyll
+
+build_images:
+  stage: build
   image: docker:latest
+  variables:
+    DOCKER_DRIVER: overlay
   services:
     - docker:dind
-  stage: docs
   script:
-  - docker build -t engineering-projekt/examibur-website docs/website/docker/
-  - docker run -t --rm --name examibur-website -u jekyll -v $(pwd)/docs/:/src/ -p 4000:4000 engineering-projekt/examibur-website jekyll build -d public
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_BASE
+    - docker build -t $JEKYLL_IMAGE -f docker/Dockerfile.jekyll .
+    - docker push $JEKYLL_IMAGE
+
+generate_pages:
+  stage: docs
+  image: docker:latest
+  variables:
+    DOCKER_DRIVER: overlay
+  services:
+    - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_BASE
+    - docker run --rm -u jekyll -v $(pwd)/docs/:/src/ $JEKYLL_IMAGE jekyll build -d public
   artifacts:
     paths:
     - docs/public/
 
 pages:
-  image: docker:latest
-  services:
-    - docker:dind
   stage: deploy
+  image: python:3.6
   script:
-  - docker run -t --rm -e EXAMIBUR_ACCESS_TOKEN -v $(pwd)/:/src/ python:3.6 python /src/tools/backup.py gitlab
-  - docker run -t --rm -e EXAMIBUR_ACCESS_TOKEN -v $(pwd)/:/src/ python:3.6 python /src/tools/report.py "/src/backups/gitlab/" "/src/docs/public/projektplan/resources/export/" all
+  - python ./tools/backup.py gitlab
+  - python ./tools/report.py "./backups/gitlab/" "./docs/public/projektplan/resources/export/" all
   - cp -r docs/public public/
   artifacts:
     paths:
     - public
   only:
   - master
-  allow_failure: true # Sadly, the gitlab export is very unreliable

@@ -1,0 +1,34 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:9.6
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: "m4U6ctWpEZE801T"
+      POSTGRES_USER: "examibur"
+  tomcat:
+    image: tomcat:9.0-alpine  
+    restart: always
+    links:
+      - postgres
+    ports:
+      - 8080:8080
+    volumes:
+      - ./examibur/webapps/:/usr/local/tomcat/webapps/
+    environment:
+      DB_HOST: "postgres"
+      DB_USER: "examibur"
+      DB_PASSWORD: "m4U6ctWpEZE801T"
+  website:
+    user: jekyll
+    build:
+      dockerfile: ./Dockerfile.jekyll
+      context: ./docker/ 
+    ports:
+    - 4000:4000
+    volumes:
+      - ./docs/:/src/
+    command: jekyll serve -d public
+
