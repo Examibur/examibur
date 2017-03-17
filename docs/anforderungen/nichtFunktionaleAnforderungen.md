@@ -6,7 +6,7 @@ title: Nicht-funktionale Anforderungen
 # Einführung
 
 ## Zweck
-
+Dieses Dokument beschreibt die Anforderungsspezifikation. Es wird der Fokus auf die nicht-funktionalen Anforderungen gelegt. Die nicht-funktionalen Anforderungen sind gemäss ISO 9126 gruppiert und spezifiziert. Es ist ersichtlich, welche Anforderungen Scope des Engineering-Projekts sind und welche Anforderungen für Folgeprojekte vorgesehen sind und zwingend umgesetzt werden müssen. Aus Gründen der Übersichtlichkeit sind die funktionalen Anforderungen in einem [separaten Dokument](funktionaleAnforderungen.html) beschrieben.
 
 ## Gültigkeitsbereich
 Der Gültigkeitsbereich beschränkt sich auf die Projektdauer vom 20.02.17 bis 02.06.17. Während dieser Zeit wird das Dokument laufend aktualisiert und stellt zu jedem Zeitpunkt einen genauen Überblick über die nicht-funktionalen Anforderungen zur Verfügung.
@@ -14,9 +14,14 @@ Der Gültigkeitsbereich beschränkt sich auf die Projektdauer vom 20.02.17 bis 0
 ## Referenzen
 In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche für die nicht-funktionalen Anforderungen  von Relevanz sind. Diese Liste wird laufend auf dem aktuellen Stand gehalten.
 
-| **Name**                          | **Referenz**                                                                                                                                                                                                                                         |
-| --------------------------------- | ----------------------------- |
-|                      |
+| **Name**                                  | **Referenz**                                                                                                                                                                                                                                         |
+| ---------------------------------------- | ----------------------------- |
+| funktionale Anforderungen                | [funktionale Anforderungen ](funktionaleAnforderungen.html) |
+| ISO 9126                                 | [ISO 9126](http://www.cse.unsw.edu.au/~cs3710/PMmaterials/Resources/9126-1%20Standard.pdf) |
+| Empfehlungen und Schlüssellängen des BSI | [BSI TR-02102-1, Version 2017-01](https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Publikationen/TechnischeRichtlinien/TR02102/BSI-TR-02102.pdf;jsessionid=D931A7BAEAA3051CEC548F944E39CA15.1_cid360?__blob=publicationFile&v=3) |
+| DSG                                      | [DSG Art. 7](https://www.admin.ch/opc/de/classified-compilation/19920153/index.html#a7)|
+| Reglement der HSR                        | [Reglement der HSR (Stand 15. Dezember 2016)](resources/BSc_Pruefungsreglement_Neuausgabe_15._Dezember_2016.pdf) |
+
 
 # Nicht-funktionale Anforderungen
 
