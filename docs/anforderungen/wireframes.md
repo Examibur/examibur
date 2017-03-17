@@ -38,7 +38,7 @@ Use Cases:
 * UC002: Prüfung öffnen
 * UC019: ToDo's anzeigen
 
-![](resources/Dashboard.jpeg)
+![](resources/wireframes/Dashboard.jpeg)
 
 ## Prüfungsansicht
 
@@ -60,10 +60,10 @@ Use Cases:
 * UC022: Notenexport durchführen
 * UC023: Prüfung auf Modulebene auswerten
 
-![](resources/Pruefungsansicht_Informationen.jpeg)
-![](resources/Pruefungsansicht_Teilnahmen.jpeg)
-![](resources/Pruefungsansicht_Aufgaben.jpeg)
-![](resources/Pruefungsansicht_Auswertung.jpeg)
+![](resources/wireframes/Pruefungsansicht_Informationen.jpeg)
+![](resources/wireframes/Pruefungsansicht_Teilnahmen.jpeg)
+![](resources/wireframes/Pruefungsansicht_Aufgaben.jpeg)
+![](resources/wireframes/Pruefungsansicht_Auswertung.jpeg)
 
 ## Aufgabenansicht
 
@@ -75,9 +75,9 @@ Use Cases:
 * UC006: Teilnahme Aufgabenweise korrigieren
 * UC012: Teilnahme Aufgabenweise reviewen
 
-![](resources/Aufgabenansicht_Aufgabenstellung.jpeg)
-![](resources/Aufgabenansicht_Teilnahmen.jpeg)
-![](resources/Aufgabenansicht_Auswertung.jpeg)
+![](resources/wireframes/Aufgabenansicht_Aufgabenstellung.jpeg)
+![](resources/wireframes/Aufgabenansicht_Teilnahmen.jpeg)
+![](resources/wireframes/Aufgabenansicht_Auswertung.jpeg)
 
 ## Prüfungsdurchführungsansicht
 
@@ -89,9 +89,9 @@ Use Cases:
 * (UC021: Prüfungsteilnahme an Student freigeben)
 * UC113: online Prüfungseinsicht für Studenten
 
-![](resources/Pruefungsdurchfuehrungsansicht_Informationen.jpeg)
-![](resources/Pruefungsdurchfuehrungsansicht_Aufgaben.jpeg)
-![](resources/Pruefungsdurchfuehrungsansicht_Auswertung.jpeg)
+![](resources/wireframes/Pruefungsdurchfuehrungsansicht_Informationen.jpeg)
+![](resources/wireframes/Pruefungsdurchfuehrungsansicht_Aufgaben.jpeg)
+![](resources/wireframes/Pruefungsdurchfuehrungsansicht_Auswertung.jpeg)
 
 ## Aufgabendurchführungsansicht
 
@@ -103,4 +103,4 @@ Use Cases:
 * UC009: Review abarbeiten
 * UC013: Aufgabe reviewen
 
-![](resources/Aufgabendurchfuehrungsansicht.jpeg)
+![](resources/wireframes/Aufgabendurchfuehrungsansicht.jpeg)
