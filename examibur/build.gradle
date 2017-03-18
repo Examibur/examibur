@@ -16,7 +16,7 @@ dependencies {
 }
 
 war {
-	archiveName = 'ROOT.war'
+    archiveName = 'ROOT.war'
 }
 
 task deployToTomcat(type: Copy) {
@@ -25,5 +25,5 @@ task deployToTomcat(type: Copy) {
 }
 
 assemble.doLast {
-		deployToTomcat.execute()
+    deployToTomcat.execute()
 }
