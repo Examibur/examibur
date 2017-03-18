@@ -67,6 +67,10 @@ a:hover {
     padding-right: 1rem;
 }
 
+a.list-group-item {
+    font-size: 1.8rem;
+}
+
 figure > img {
   display: block;
   margin-left: auto;
@@ -76,4 +80,8 @@ figure > img {
 figcaption {
     text-align: center;
     font-size: 0.9em;
+}
+
+table {
+  width: 100%;
 }
