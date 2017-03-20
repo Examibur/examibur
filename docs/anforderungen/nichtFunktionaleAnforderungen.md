@@ -22,20 +22,6 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 | DSG                                      | [DSG Art. 7](https://www.admin.ch/opc/de/classified-compilation/19920153/index.html#a7)|
 | Reglement der HSR                        | [Reglement der HSR (Stand 15. Dezember 2016)](resources/BSc_Pruefungsreglement_Neuausgabe_15._Dezember_2016.pdf) |
 
-## Korrektur-Prozess
-
-![](resources/exam_states.svg)
-
-Eine Prüfung durchläuft während der Korrektur verschiedene Zustände. Nach dem Import der Prüfungsdaten ist eine Prüfung in der Korrekturphase. Hier müssen alle Aufgaben korrigiert werden.
-
-Sind alle Aufgaben korrigiert, so kann die Prüfung manuell in den nächsten Zustand, Review, überführt werden. Diese Phase läuft analog zur Korrektur ab, wobei der Reviewer bestehende Korrekturen anpassen und kommentieren kann.
-
-Ist ein Review abgeschlossen (manueller Schritt), so muss der Korrektor diese Reviews wiederum annehmen oder ablehnen. Diese Phase nennt sich Approval. Aufgaben, welche im Review weder kommentiert noch korrigiert wurden, sind automatisch approved.
-
-Sind alle Aufgaben approved, wird die Prüfung manuell in den Zustand appeal gesetzt. In dieser Phase verweilt eine Prüfung solange, bis die Rekursfrist abgelaufen oder ein allfälliger Rekurs abgeschlossen ist. Anschliessend wird eine Prüfung automatisch archiviert.
-
-## Unterstützte Aufgabentypen
-In einer ersten Phase unterstützen wir nur Textaufgaben. Diese haben eine textuelle Beschreibung und Antwort. In einer zweiten Phase (bei genügend Zeit oder nicht mehr im Rahmen des Engineering-Projekts) kommt der Aufgabentyp Multiple-Choice hinzu. Potentielle weitere Aufgabentypen (Bsp. mit Bildern oder Programmieraufgaben) müssen mit den Dozenten abgeklärt werden.
 
 # Nicht-funktionale Anforderungen
 
