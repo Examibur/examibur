@@ -33,7 +33,7 @@ build:
     - ./gradlew assemble
   artifacts:
     paths:
-      - build/libs/*.war
+      - examibur/build/libs/
 
 test:
   image: java:8-jdk
@@ -43,10 +43,9 @@ test:
     # - ./gradlew sonarqube -Dsonar.login=$SONAR_TOKEN
     - ./gradlew check
     - ./gradlew jacocoTestReport
-  coverage: '/Coverage summary:\nexamibur:\s+\d+\.\d+/'
   artifacts:
     paths:
-      - build/reports/
+      - examibur/build/reports/
 
 generate_pages:
   stage: docs
