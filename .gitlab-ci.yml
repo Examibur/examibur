@@ -38,7 +38,7 @@ pages:
   image: python:3.6
   script:
   - python ./tools/backup.py gitlab
-  - python ./tools/report.py "./backups/gitlab/" "./docs/public/projektplan/resources/export/" all
+  - python ./tools/report.py "./backups/gitlab/" "./docs/public/projektmanagement/resources/export/" all
   - cp -r docs/public public/
   artifacts:
     paths:

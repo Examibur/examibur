@@ -18,8 +18,8 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 
 | **Name**                          | **Referenz**                                                                                                                                                                                                                                         |
 | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Anforderungsspezifikation         | [Anforderungsspezifikation](https://gitlab.com/engineering-projekt/examibur/raw/master/docs/anforderungen/anforderungsspezifikation.md)                                                                                                                         |
-| Glossar                           | [Glossar](https://gitlab.com/engineering-projekt/examibur/blob/master/docs/projektplan/glossar.md)                                                                                                                                                   |
+| Anforderungsspezifikation         | [funktionale Anforderungen](../anforderungen/funktionaleAnforderungen.html)                                                                                                                         |
+| Glossar                           | [Glossar](../projektplan/glossar.html)                                                                                                                                                   |
 | Wireframe Tool                    | [myBalsamiq.com](https://www.mybalsamiq.com/)                                                                                                                                                   |
 
 # Wireframes
@@ -38,7 +38,7 @@ Use Cases:
 * UC002: Prüfung öffnen
 * UC019: ToDo's anzeigen
 
-![](resources/Dashboard.jpeg)
+![](resources/wireframes/Dashboard.jpeg)
 
 ## Prüfungsansicht
 
@@ -47,23 +47,23 @@ Die Prüfungsansicht zeigt eine erstellte Prüfungsvorlage mit ihren Rahmenbedin
 Use Cases:
 
 * UC003: Prüfungsteilnahmen anzeigen
-* UC004: Prüfungsaufgaben anzeigen (teilweise)
-* UC005: Teilnahme Prüfungsweise korrigieren
-* UC006: Teilnahme Aufgabenweise korrigieren
+* UC004: Prüfungsaufgaben anzeigen
+* UC005: Prüfungsteilnahme korrigieren
+* UC006: Prüfungsaufgabe korrigieren
 * UC008: Prüfung für Review freigeben
-* UC011: Teilnahme Prüfungsweise reviewen
-* UC012: Teilnahme Aufgabenweise reviewen
+* UC011: Prüfungsteilnahme reviewen
+* UC012: Prüfungsaufgabe reviewen
 * UC014: Review abschliessen
 * UC016: Prüfungskorrektur abschliessen
 * UC017: Notenskala festlegen
 * UC018: Prüfung auswerten
-* UC022: Notenexport durchführen
+* UC022: online Prüfungseinsicht für Studenten
 * UC023: Prüfung auf Modulebene auswerten
 
-![](resources/Pruefungsansicht_Informationen.jpeg)
-![](resources/Pruefungsansicht_Teilnahmen.jpeg)
-![](resources/Pruefungsansicht_Aufgaben.jpeg)
-![](resources/Pruefungsansicht_Auswertung.jpeg)
+![](resources/wireframes/Pruefungsansicht_Informationen.jpeg)
+![](resources/wireframes/Pruefungsansicht_Teilnahmen.jpeg)
+![](resources/wireframes/Pruefungsansicht_Aufgaben.jpeg)
+![](resources/wireframes/Pruefungsansicht_Auswertung.jpeg)
 
 ## Aufgabenansicht
 
@@ -72,12 +72,12 @@ In der Aufgabenansicht lässt sich eine einzelne Prüfungsaufgabe einsehen. Es s
 Use Cases:
 
 * UC004: Prüfungsaufgaben anzeigen (Einzelansicht)
-* UC006: Teilnahme Aufgabenweise korrigieren
-* UC012: Teilnahme Aufgabenweise reviewen
+* UC006: Prüfungsaufgabe korrigieren
+* UC012: Prüfungsaufgabe reviewen
 
-![](resources/Aufgabenansicht_Aufgabenstellung.jpeg)
-![](resources/Aufgabenansicht_Teilnahmen.jpeg)
-![](resources/Aufgabenansicht_Auswertung.jpeg)
+![](resources/wireframes/Aufgabenansicht_Aufgabenstellung.jpeg)
+![](resources/wireframes/Aufgabenansicht_Teilnahmen.jpeg)
+![](resources/wireframes/Aufgabenansicht_Auswertung.jpeg)
 
 ## Prüfungsdurchführungsansicht
 
@@ -85,13 +85,12 @@ Die Prüfungsdurchführungsansicht entspricht der Prüfungsansicht mit den Daten
 
 Use Cases:
 
-* UC006: Teilnahme Aufgabenweise korrigieren
-* (UC021: Prüfungsteilnahme an Student freigeben)
-* UC113: online Prüfungseinsicht für Studenten
+* UC006: Prüfungsaufgabe korrigieren
+* UC022: online Prüfungseinsicht für Studenten
 
-![](resources/Pruefungsdurchfuehrungsansicht_Informationen.jpeg)
-![](resources/Pruefungsdurchfuehrungsansicht_Aufgaben.jpeg)
-![](resources/Pruefungsdurchfuehrungsansicht_Auswertung.jpeg)
+![](resources/wireframes/Pruefungsdurchfuehrungsansicht_Informationen.jpeg)
+![](resources/wireframes/Pruefungsdurchfuehrungsansicht_Aufgaben.jpeg)
+![](resources/wireframes/Pruefungsdurchfuehrungsansicht_Auswertung.jpeg)
 
 ## Aufgabendurchführungsansicht
 
@@ -103,4 +102,4 @@ Use Cases:
 * UC009: Review abarbeiten
 * UC013: Aufgabe reviewen
 
-![](resources/Aufgabendurchfuehrungsansicht.jpeg)
+![](resources/wireframes/Aufgabendurchfuehrungsansicht.jpeg)

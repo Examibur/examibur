@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+version = '0.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.sparkjava:spark-core:2.5.5'
+    testCompile 'junit:junit:4.+'
+}
+
+war {
+    archiveName = 'ROOT.war'
+}
+
+task deployToTomcat(type: Copy) {
+    from war.archivePath
+    into "webapps"
+}
+
+assemble.doLast {
+    deployToTomcat.execute()
+}
