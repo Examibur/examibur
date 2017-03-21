@@ -19,8 +19,8 @@ war {
 }
 
 task deployToTomcat(type: Copy) {
-    from war.archivePath
-    into "webapps"
+    from zipTree(war.archivePath)
+    into "webapps/ROOT/"
 }
 
 assemble.doLast {
