@@ -8,6 +8,11 @@ variables:
   REGISTRY_BASE: registry.gitlab.com/engineering-projekt/examibur
   JEKYLL_IMAGE: $REGISTRY_BASE:jekyll
 
+cache:
+  paths:
+    - examibur/build/
+    - examibur/.gradle/
+
 build_images:
   stage: build
   image: docker:latest
