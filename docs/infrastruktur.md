@@ -43,6 +43,12 @@ cd examibur
 ./gradlew assemble -t
 ```
 
+### Troubleshooting
+Wenn SELinux aktiviert ist (z.B. unter Fedora) kann es sein, dass die Zugriffe auf die Docker-Volumes vom System blockiert werden. Dann muss für die beiden Verzeichnisse `docs/` und `examibur/webapps` der Kontext entsprechend gesetzt werden:
+```bash
+sudo chcon -Rt svirt_sandbox_file_t docs/ examibur/webapps/
+```
+
 ## PSQL
 
 Falls PSQL/PgAdmin lokal installiert sind können diese so genutzt werden, als wäre postgres lokal installiert, solange die Entwicklungsumgebung läuft (siehe oben). Die Zugangsdaten sind der Datei `docker-compose.yml` zu entnehmen.
