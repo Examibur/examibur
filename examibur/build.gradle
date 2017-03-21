@@ -1,6 +1,13 @@
+plugins {
+    id 'com.github.ksoichiro.console.reporter' version '0.5.0'
+    id "org.sonarqube" version "2.2.1"
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'war'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.ksoichiro.console.reporter'
 
 sourceCompatibility = 1.8
 version = '0.1'
@@ -14,13 +21,9 @@ dependencies {
     testCompile 'junit:junit:4.+'
 }
 
-war {
-    archiveName = 'ROOT.war'
-}
-
 task deployToTomcat(type: Copy) {
     from zipTree(war.archivePath)
-    into "webapps/ROOT/"
+    into 'webapps/ROOT/'
 }
 
 assemble.doLast {

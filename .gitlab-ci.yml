@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
   - docs
   - deploy
 
@@ -18,6 +19,29 @@ build_images:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_BASE
     - docker build -t $JEKYLL_IMAGE -f docker/Dockerfile.jekyll .
     - docker push $JEKYLL_IMAGE
+
+build:
+  image: java:8-jdk
+  stage: build
+  script:
+    - cd examibur/
+    - ./gradlew assemble
+  artifacts:
+    paths:
+      - build/libs/*.war
+
+test:
+  image: java:8-jdk
+  stage: test
+  script:
+    - cd examibur/
+    # - ./gradlew sonarqube -Dsonar.login=$SONAR_TOKEN
+    - ./gradlew check
+    - ./gradlew jacocoTestReport
+  coverage: '/Coverage summary:\nexamibur:\s+\d+\.\d+/'
+  artifacts:
+    paths:
+      - build/reports/
 
 generate_pages:
   stage: docs
