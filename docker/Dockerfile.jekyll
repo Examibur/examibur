@@ -5,10 +5,11 @@ RUN gem install jekyll -v 3.1.2
 RUN gem install redcarpet -v 3.3.4
 RUN gem install rouge -v 1.10.1
 
+EXPOSE 4000
+
 # Working directory
 RUN mkdir /src
 WORKDIR /src
-
 # Create new user jekyll - to prevent user id issues
 RUN groupadd -g 1000 jekyll
 RUN useradd --home /src -u 1000 -g 1000 -M jekyll
