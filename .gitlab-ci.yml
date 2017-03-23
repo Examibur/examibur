@@ -21,7 +21,7 @@ build_images:
   services:
     - docker:dind
   script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_BASE
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_BASE
     - docker build -t $JEKYLL_IMAGE -f docker/Dockerfile.jekyll .
     - docker push $JEKYLL_IMAGE
 
@@ -55,7 +55,7 @@ generate_pages:
   services:
     - docker:dind
   script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_BASE
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_BASE
     - docker run --rm -u jekyll -v $(pwd)/docs/:/src/ $JEKYLL_IMAGE jekyll build -d public
   artifacts:
     paths:
