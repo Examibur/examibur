@@ -25,7 +25,7 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 
 ![](resources/softwareArchitektur/schichtenDiagram.svg)
 
-In diesem Abschnitt wird vertiefter in die einzelnen Teile bis auf die Top-Level-Konstrukte eingegangen. Nachfolgend werden die einzelnen Schichten und Konstrukte weiter ausgeführt.
+In diesem Abschnitt wird vertiefter in die einzelnen Teile bis auf die Top-Level-Konstrukte eingegangen. Nachfolgend werden die einzelnen Schichten und Konstrukte weiter ausgeführt. **Grau markierte Schichten sind nicht Scope des Projekts und werden weggelassen. So erfolgt der Zugriff des UI direkt auf die Business-Schicht und auf ein Benutzeraktion-Tracking für Auditing-Zwecke wird verzichtet.**
 
 ### ui
 #### Application
@@ -49,10 +49,10 @@ Die Views, welche das Aufbereiten und Rendering der Freemarker-Templates durchf�
 Enthält das clientinterne Datenmodell.
 
 #### util
-Darin sind Hilfsklassen enthalten, die eine spezifische Funktionalität kapseln, wie zum Beispiel I18N, Konvertierung, Formatierung, Validierung, Exception Handling, etc.
+Darin sind Hilfsklassen enthalten, die eine spezifische Funktionalität kapseln, wie zum Beispiel i18n, Konvertierung, Formatierung, Validierung, Exception Handling, etc.
 
 ### service
-Diese Schicht agiert als Proxy zwischen der clientspezifischen Business Logik und der Business Schicht. In einem ersten Schritt kann diese Schicht weggelassen werden. Falls die Applikation auf eine verteilte Applikation umgestellt werden muss, sei dies aus Performance- oder Sicherheits-Gründen, kann diese Schicht schnell dazwischen geschaltet werden.
+Diese Schicht agiert als Proxy zwischen der clientspezifischen Business Logik und der Business Schicht. **In einem ersten Schritt wird diese Schicht weggelassen werden.** Falls die Applikation auf eine verteilte Applikation umgestellt werden muss, sei dies aus Performance- oder Sicherheits-Gründen, kann diese Schicht schnell dazwischen geschaltet werden.
 
 Es würde sich dabei um Proxy-Methoden halten, die die Aufrufe einfach in die Business-Schicht weiterleiten und keine eigene Logik enthalten.
 
@@ -99,7 +99,8 @@ In dieser Schicht werden die einzelnen Datenbank-Patches gespeichert. Dies ermö
 
 ## Zusammenspiel der Programmkonstrukte
 In diesem Kapitel wird das Zusammenspiel der einzelnen Programmkonstrukte beschrieben. Dazu gehört auch der Zugriff auf die eigenen Datenbank. Das Zusammenspiel wird anhand von UML-Sequenzdiagrammen dargestellt.
-> TODO Sequenzdiagramm eines Aufruf durch alle Schichten.
+
+![](resources/softwareArchitektur/zusammenspielProgrammkonstrukte.svg)
 
 ## Exception-Handling im Web-Teil
 > TODO
@@ -107,11 +108,12 @@ In diesem Kapitel wird das Zusammenspiel der einzelnen Programmkonstrukte beschr
 ## Physisches Datenmodell
 > Datenmodell mit FK etc.
 
-## Backend
-### Framework
+## Entscheidungsfindung
+### Frontend
+#### Framework
 Für das Backend wurden die Frameworks *Spring Boot*, *Play* und *Spark* in Betracht gezogen. Nachfolgend werden einige Vor- und Nachteile der einzelnen Frameworks, bezogen auf unser Projekt, aufgelistet. Anschliessend wird ein Framework für unser Projekt ausgewählt.
 
-#### Spring Boot
+##### Spring Boot
  Vorteile                               | Nachteile
 ----------------------------------------|--------------------------------
  Etabliertes Framework für Web-Projekte | Sehr umfangreich und komplex
@@ -119,24 +121,24 @@ Für das Backend wurden die Frameworks *Spring Boot*, *Play* und *Spark* in Betr
  Mit Spring Boot Starters schnell up-and-running | Dadurch aber nur schwer durchschaubar (Convention over Configuration)
   Grosse Community |
 
-#### Play Framework
+##### Play Framework
 Vorteile                                | Nachteile
 ----------------------------------------|--------------------------------
 Schlanker als Spring | Stark auf Scala konzipiert
 Grosse und stetig wachsende Community | Niemand vom Projektteam hat Erfahrung mit Play
 - | Wenig unterstützung für weitere Funktionalität, z.B. LDAP Integration
 
-#### Spark
+##### Spark
 Vorteile                                | Nachteile
 ----------------------------------------|--------------------------------
 Sehr schlankes Framework | Wenig Funktionalität out-of-the-box
 Einfach zu verstehende Konzepte | Für Testing, Template-Engine usw. müssen weitere Frameworks benutzt werden
 Unterstützung für viele andere Frameworks | Architektur muss selbst sauber aufgebaut werden
 
-### Entscheid
+#### Entscheid
 Aufgrund der Einfachheit und der Möglichkeit, sich schnell in das Framework einarbeiten zu können, haben wir uns für **Spark** entschieden. Für unsere Anforderungen genügt ein schlankes Framework, das wir mit u.a. Testing-Frameworks und OR-Mapper beliebig erweitern können.
 
 Als Einschränkung soll beachtet werden, dass z.B. die Routes und Controller in der Dokumentation von Spark nicht sauber getrennt sind. Diese Trennung muss selbst realisiert werden und ist wichtig für den Aufbau der Architektur.
 
-## Frontend
+### Backend
 > TODO
