@@ -18,6 +18,10 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 
 | **Name**                          | **Referenz**                                                                                                                                                                                                                                         |
 | --------------------------------- | ----------------------------- |
+| Freemarker                        | [http://freemarker.org/](http://freemarker.org/)  |
+| velocity                          | [http://velocity.apache.org/](http://velocity.apache.org/)  |
+| Bootstrap                         | [http://getbootstrap.com/](http://getbootstrap.com/) |
+
 
 # Software Architektur
 
@@ -34,22 +38,19 @@ Application ist der zentrale Einstiegspunkt der Spark-Applikation.
 Das Routing der Requests auf die einzelnen Controller wird in dieser Schicht durchgeführt.
 
 #### webapp
-In dieser Schicht sind die dargestellten Elemente enthalten, sowie de Resourcen (Bilder, JavaScript und sprachabhängige Textfiles) und die Konfiguration der Webapplikation.
+In dieser Schicht sind die dargestellten Elemente enthalten, sowie de Resourcen (Bilder, JavaScript) und die Konfiguration der Webapplikation.
 
-Dazu gehören Freemarker-Templates und die Stylesheet Layout Defintionen.
+Dazu gehören Freemarker-Templates und die Stylesheet Layout Definitionen.
 
 #### controller
-Die clientspezifische Business Logik ist in dieser Schicht enthalten, so werden unteranderem die Serviceaufrufe auf die Business-Tier abgewickelt.
+Die clientspezifische Business-Logik ist in dieser Schicht enthalten, so werden unteranderem die Serviceaufrufe auf die Business-Tier abgewickelt.
 Dazu gehört auch das Aufbereiten der Daten in die clientinterne Datenmodelle, das Überführen in die zuständigen Views, sowie das Abarbeiten von Events.
-
-#### view
-Die Views, welche das Aufbereiten und Rendering der Freemarker-Templates durchführen, sind hier enthalten.
 
 #### model
 Enthält das clientinterne Datenmodell.
 
 #### util
-Darin sind Hilfsklassen enthalten, die eine spezifische Funktionalität kapseln, wie zum Beispiel i18n, Konvertierung, Formatierung, Validierung, Exception Handling, etc.
+Darin sind Hilfsklassen enthalten, die eine spezifische Funktionalität kapseln, wie zum Beispiel i18n, Konvertierung, Formatierung, Validierung, Exception Handling, etc..
 
 ### service
 Diese Schicht agiert als Proxy zwischen der clientspezifischen Business Logik und der Business Schicht. **In einem ersten Schritt wird diese Schicht weggelassen werden.** Falls die Applikation auf eine verteilte Applikation umgestellt werden muss, sei dies aus Performance- oder Sicherheits-Gründen, kann diese Schicht schnell dazwischen geschaltet werden.
@@ -59,23 +60,17 @@ Es würde sich dabei um Proxy-Methoden halten, die die Aufrufe einfach in die Bu
 ### business
 Die Business Logik der eigenen Services und für die Aufbereitung von Daten der Datenbank ist in dieser Schicht enthalten.
 
-#### mapper
-Das Mapping der Domain-Objekte aus der Integration-Schicht in die Business-Objekte ist hier enthalten.
-
-#### bo
-Business-Objekte der Business-Schicht.
-
 ### messaging
 Enthält die Queue für das Tracking der Benutzeraktionen. Jede ausgeführte Aktion erzeugt eine Nachricht, die in diese Queue gestellt wird.
 
-In einem ersten Schritt wird auf den Einsatz einer Message-Queue verzichtet.
+**In einem ersten Schritt wird auf den Einsatz einer Message-Queue verzichtet.**
 
 Lösungen wie ActiveMQ kann hier in Betracht gezogen werden.
 
 ### integration
 In dieser Schicht wird das objektrelationale Mapping der zu persistierenden Daten durchgeführt. Für das Mapping wird EclipseLink verwendet.
 
-DAO's sind für das Lesen und Schreiben auf den Datenbank verantwortlich.
+Dao's sind für das Lesen und Schreiben auf den Datenbank verantwortlich.
 
 #### do
 Hier sind die Domain-Objekte enthalten, welche die Datenbanken abbilden.
@@ -83,32 +78,15 @@ Hier sind die Domain-Objekte enthalten, welche die Datenbanken abbilden.
 #### sql
 In dieser Schicht werden die einzelnen Datenbank-Patches gespeichert. Dies ermöglicht eine automatische Aktualisierung der Datenbank auf dem lokalen Entwicklungssystem und der Produktion während dem Build-Prozess.
 
-## Design der Programmkonstrukte
+## Design-Entscheide
 
-### Prorgrammkonstrukt UI Tier
-> TODO
+### Persistenz
+Die Daten, die vom Benutzer und dem System erzeugt werden, werden in einer relationalen Datenbank persistiert.
+Das OR-Mapping von der Datenbank zu den Java-Objekten wird mit EclipseLink umgesetzt. Das zugrunde liegende Datenmodell ist [hier](datenmodell.html) beschrieben.
 
-### Prorgrammkonstrukt Business Tier
-> TODO
+### Logging-, Error- und Exception-Handling
+Das Logging-, Error- und Exception-Handling ist im Kapitel [Error-Handling Policy](../projektplan/error-handling-policy.html) genauer beschrieben.
 
-### Prorgrammkonstrukt Integration Tier
-> TODO
-
-#### Datenmodell
->  TODO
-
-## Zusammenspiel der Programmkonstrukte
-In diesem Kapitel wird das Zusammenspiel der einzelnen Programmkonstrukte beschrieben. Dazu gehört auch der Zugriff auf die eigenen Datenbank. Das Zusammenspiel wird anhand von UML-Sequenzdiagrammen dargestellt.
-
-![](resources/softwareArchitektur/zusammenspielProgrammkonstrukte.svg)
-
-## Exception-Handling im Web-Teil
-> TODO
-
-## Physisches Datenmodell
-> Datenmodell mit FK etc.
-
-## Entscheidungsfindung
 ### Frontend
 #### Framework
 Für das Backend wurden die Frameworks *Spring Boot*, *Play* und *Spark* in Betracht gezogen. Nachfolgend werden einige Vor- und Nachteile der einzelnen Frameworks, bezogen auf unser Projekt, aufgelistet. Anschliessend wird ein Framework für unser Projekt ausgewählt.
@@ -142,3 +120,77 @@ Als Einschränkung soll beachtet werden, dass z.B. die Routes und Controller in 
 
 ### Backend
 > TODO
+
+### Seitenbeschreibung mit Freemarker-Templates
+Für die Seitenbeschreibung wird das Konzept der Templates von Freemarker verwendet. Es gibt eine Basis-Template, welches das Layout und die Strukturierung vorgibt. Alle Seiten der Applikation bauen auf diesem Basis-Template auf. Dadurch ist gewährleistet, dass alle Seiten mit der gleichen Struktur und Aussehen daher kommen.
+
+Zur Auswahl stand [Velocity](http://velocity.apache.org/) und [Freemarker](http://freemarker.org/), welche beide von Spark empfohlen werden.
+Der Entscheid fiel auf Freemarker, weil Velocity seit 2010 keine neue Version nachgeliefert hat und wir so davon ausgehen, dass es in naher Zukunft eingestellt werden könnte.
+
+## Design der Programmkonstrukte
+
+### Programmkonstrukt UI-Schicht
+Die UI-Schicht ist nach dem Thin-Client Ansatz schlank gehalten. Die Seitendarstellung wird mit Freemarker umgesetzt:
+<figure>
+<img src="resources/softwareArchitektur/freemarker_overview.png">
+<figcaption>Freemarker Übersicht gemäss <a href="http://freemarker.org/">http://freemarker.org/</a></figcaption>
+</figure>
+
+Dabei werden die ftl-Templates zusammen mit einem Model in die Freemarker-Engine gespielt und ein HTML-Datei generiert, welche an den User ausgeliefert werden kann. Dies wird über das übliche MVC-Pattern organisiert.
+
+Alle Templates basieren auf einem Basis-Template mit dem Namen `base.ftl`. Dadruch müssen Layout- und Strukturänderungen nur darin gemacht werden.
+Design und Layout wird über Cascading Stylesheets (CSS) gesteuert. GUI-Elemente und Styling werden von [Bootstrap](http://getbootstrap.com/) verwendet.
+Das Styling wird auf das CI von Examibur gemappt, welches im `style.css` gemacht werden kann.
+
+Um das User-Feeling zu verbessern, wird teilweise Javascript verwendet.
+
+> TODO Patrick Controller, Routing, Model beschreiben
+
+Im Package "util" sind Klassen abgelegt, die verschiedene Funktionalität abdecken. Nachfolgend sind die verwendeten Funktionalitäten aufgeführt:
+> TODO hier laufend UTIL-Klassen kurz beschreiben
+
+  * **DateUtil** enthält Methoden für die Formatierung von Datumswerten
+  * **FormatUtil** enthält allgemeine Formatierungsmethoden
+  * **MessageUtil** enthält Methoden für das Laden von sprachabhängigen Texten
+
+Die sprachabhängigen Texte sind in den Language-Files unter `src\main\resources` abelegt. Pro Sprache wird eine Datei abgelegt.
+
+### Programmkonstrukt Business-Schicht
+In der Business-Schicht ist die Geschäftslogik gekapselt.
+
+### Programmkonstrukt Integration-Schicht
+Die Integration-Schicht führt das objektrelationale Mapping der zu persistierenden Objekte durch. Dazu wird EclipseLink verwendet.
+Es werden verschiedene Data-Access-Convenience Methoden angeboten, welche den Zugriff auf die Datenbank bündeln und vereinfachen. Diese Methoden sind in sogenannten Data Access Objects (Dao) untergebracht.
+
+### Programmkonstrukt Domain-Schicht
+In der Domain-Schicht sind die zu persistierende Domain-Objekte gekapselt.
+
+#### Datenmodell
+>  TODO Robin
+
+### Programmkonstrukt Datenbank-Schicht
+In der Datenbank-Schicht werden die Daten in einer relationalen Datenbank gespeichert. Als Datenbankserver wird Postgres verwendet.
+
+## Zusammenspiel der Programmkonstrukte
+In diesem Kapitel wird das Zusammenspiel der einzelnen Programmkonstrukte beschrieben. Dazu gehört auch der Zugriff auf die eigenen Datenbank. Das Zusammenspiel wird anhand von UML-Sequenzdiagrammen dargestellt.
+
+Zur Veranschaulichung des Zusammenspiels der Programmkonstrukte wird der Use Case "UC001 Prüfungen angezeigen" in einem Sequenzdiagram dargestellt.
+
+![](resources/softwareArchitektur/zusammenspielProgrammkonstrukte.svg)
+> TODO dieses Diagram muss angepasst werden, sobald klar ist, wie das Routing und Controller im Spark ablaufen.
+
+### Zugehörigkeit der Objekte zu den Schichten:
+#### UI-Schicht
+  * html: Dashboard
+
+#### Business-Schicht
+  * Interface: ExamService
+
+#### Integration-Schicht
+  * Interface: ExamDao
+
+## Exception-Handling im Web-Teil
+> TODO
+
+## Physisches Datenmodell
+> TODO Datenmodell mit FK etc.
