@@ -36,7 +36,7 @@ Die Application- und Datenbankserver (und die Projekt-Website) werden als Docker
 docker-compose up
 ```
 
-Nun kann ganz klassisch in Eclipse entwickelt werden. Um die Applikation auf dem Datenbank-Server zu deployen muss der Gradle Task `assemble` ausgeführt werden.
+Nun kann ganz klassisch in Eclipse entwickelt werden. Um die Applikation auf dem Applikation-Server zu deployen muss der Gradle Task `assemble` ausgeführt werden.
 
 Tipp: Falls du möchtest, dass nach jedem mal Speichern die Applikation neu deployed wird, kannst du den Gradle task "continuous" laufenlassen.
 
