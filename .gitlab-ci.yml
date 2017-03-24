@@ -6,7 +6,8 @@ stages:
 
 variables:
   REGISTRY_BASE: registry.gitlab.com/engineering-projekt/examibur
-  JEKYLL_IMAGE: $REGISTRY_BASE:jekyll
+  JEKYLL_IMAGE: $REGISTRY_BASE:jekyll-$CI_COMMIT_REF_NAME
+  EXAMIBUR_IMAGE: $REGISTRY_BASE:examibur-$CI_COMMIT_REF_NAME
 
 cache:
   paths:
@@ -70,3 +71,16 @@ pages:
     expire_in: 47 yrs 6 mos and 4d
   only:
     - master
+
+examibur_image:
+  stage: deploy
+  image: docker:latest
+  variables:
+    DOCKER_DRIVER: overlay
+  services:
+    - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_BASE
+    - docker build -t $EXAMIBUR_IMAGE -f docker/Dockerfile.examibur .
+    - docker push $EXAMIBUR_IMAGE
+
