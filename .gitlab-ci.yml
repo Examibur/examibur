@@ -49,14 +49,10 @@ test:
 
 generate_pages:
   stage: docs
-  image: docker:latest
-  variables:
-    DOCKER_DRIVER: overlay
-  services:
-    - docker:dind
+  image: $JEKYLL_IMAGE
   script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_BASE
-    - docker run --rm -u jekyll -v $(pwd)/docs/:/src/ $JEKYLL_IMAGE jekyll build -d public
+    - cd docs/
+    - jekyll build -d public
   artifacts:
     paths:
     - docs/public/
