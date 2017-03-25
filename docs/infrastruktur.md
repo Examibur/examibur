@@ -27,6 +27,16 @@
     * Rechtsklick auf Projekt
     * `Configure` - `Add Gradle Nature`
 
+### Editor konfigurieren
+Der Google Checkstyle verlangt für die Einrückung Spaces, in Eclipse werden aber standardmässig Tabs eingefügt.
+
+1. Einstellungen öffnen mit `Window` - `Preferences`
+2. Auf `Java` - `Code Style` - `Formatter` navigieren
+3. Neben dem `active profile` auf `Edit...`
+4. Dem Profil einen neuen Namen geben, z.B. `google checkstyle`
+5. Im Tab `Indentation` - `Tab Policy` auf `Spaces only`
+6. Darunter `Indentation size` und `Tab size` jeweils auf `2` stellen
+
 ## Entwicklungsumgebung starten
 
 Die Application- und Datenbankserver (und die Projekt-Website) werden als Docker-Images bereitgestellt. Diese können für die Entwicklung einfach über Docker-Compose gestartet werden:
