@@ -7,9 +7,6 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://postgres/examibur" />
-      <property name="javax.persistence.jdbc.user" value="examibur" />
-      <property name="javax.persistence.jdbc.password" value="m4U6ctWpEZE801T" />
       <property name="eclipselink.target-database" value="PostgreSQL" />
       <!-- <property name="eclipselink.logging.level" value="ALL"/> -->
       <property name="eclipselink.ddl-generation" value="create-tables" />
