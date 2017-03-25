@@ -17,6 +17,7 @@ repositories {
 }
 
 dependencies {
+    compile 'com.sparkjava:spark-template-freemarker:2.5.5'
     compile 'com.sparkjava:spark-core:2.5.5'
     compile 'org.eclipse.persistence:eclipselink:2.6.4'
     compile 'org.postgresql:postgresql:42.0.0.jre7'
