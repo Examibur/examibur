@@ -43,8 +43,8 @@ In dieser Schicht sind die dargestellten Elemente enthalten, sowie de Resourcen 
 Dazu gehören Freemarker-Templates und die Stylesheet Layout Definitionen.
 
 #### controller
-Die clientspezifische Business-Logik ist in dieser Schicht enthalten, so werden unteranderem die Serviceaufrufe auf die Business-Tier abgewickelt.
-Dazu gehört auch das Aufbereiten der Daten in die clientinterne Datenmodelle, das Überführen in die zuständigen Views, sowie das Abarbeiten von Events.
+Die clientspezifische Business-Logik ist in dieser Schicht enthalten. So werden unter anderem die Serviceaufrufe auf die Business-Tier abgewickelt.
+Dazu gehört auch das Aufbereiten der Daten in die clientinternen Datenmodelle, das Überführen in die zuständigen Views sowie das Abarbeiten von Events.
 
 #### model
 Enthält das clientinterne Datenmodell.
@@ -53,7 +53,7 @@ Enthält das clientinterne Datenmodell.
 Darin sind Hilfsklassen enthalten, die eine spezifische Funktionalität kapseln, wie zum Beispiel i18n, Konvertierung, Formatierung, Validierung, Exception Handling, etc..
 
 ### service
-Diese Schicht agiert als Proxy zwischen der clientspezifischen Business Logik und der Business Schicht. **In einem ersten Schritt wird diese Schicht weggelassen werden.** Falls die Applikation auf eine verteilte Applikation umgestellt werden muss, sei dies aus Performance- oder Sicherheits-Gründen, kann diese Schicht schnell dazwischen geschaltet werden.
+Diese Schicht agiert als Proxy zwischen der clientspezifischen Business Logik und der Business Schicht. **In einem ersten Schritt wird diese Schicht weggelassen.** Falls die Applikation auf eine verteilte Applikation umgestellt werden muss, sei dies aus Performance- oder Sicherheits-Gründen, kann diese Schicht schnell dazwischen geschaltet werden.
 
 Es würde sich dabei um Proxy-Methoden halten, die die Aufrufe einfach in die Business-Schicht weiterleiten und keine eigene Logik enthalten.
 
@@ -65,7 +65,7 @@ Enthält die Queue für das Tracking der Benutzeraktionen. Jede ausgeführte Akt
 
 **In einem ersten Schritt wird auf den Einsatz einer Message-Queue verzichtet.**
 
-Lösungen wie ActiveMQ kann hier in Betracht gezogen werden.
+Lösungen wie ActiveMQ könnten hier in Betracht gezogen werden.
 
 ### integration
 In dieser Schicht werden die Queries zur Datenbank abgesetzt, in die Domain-Objekte geladen und von den Objekten wieder zurück in die Datenbank geschrieben.
@@ -79,7 +79,7 @@ Hier sind die Domain-Objekte enthalten, welche die Datenbanken abbilden. Auf den
 ## Design-Entscheide
 
 ### Persistenz
-Die Daten, die vom Benutzer und dem System erzeugt werden, werden in einer relationalen Datenbank persistiert.
+Die vom Benutzer und dem System erzeugten Daten werden in einer relationalen Datenbank persistiert.
 Das OR-Mapping von der Datenbank zu den Java-Objekten wird anhand des [Datenmodells](#datenmodell) mit EclipseLink umgesetzt.
 
 ### Logging-, Error- und Exception-Handling
@@ -120,9 +120,9 @@ Als Einschränkung soll beachtet werden, dass z.B. die Routes und Controller in 
 > TODO
 
 ### Seitenbeschreibung mit Freemarker-Templates
-Für die Seitenbeschreibung wird das Konzept der Templates von Freemarker verwendet. Es gibt eine Basis-Template, welches das Layout und die Strukturierung vorgibt. Alle Seiten der Applikation bauen auf diesem Basis-Template auf. Dadurch ist gewährleistet, dass alle Seiten mit der gleichen Struktur und Aussehen daher kommen.
+Für die Seitenbeschreibung wird das Konzept der Templates von Freemarker verwendet. Es gibt ein Basis-Template, welches das Layout und die Strukturierung vorgibt. Alle Seiten der Applikation bauen auf diesem Basis-Template auf. Dadurch ist gewährleistet, dass alle Seiten mit der gleichen Struktur und einheitlichem Aussehen daher kommen.
 
-Zur Auswahl stand [Velocity](http://velocity.apache.org/) und [Freemarker](http://freemarker.org/), welche beide von Spark empfohlen werden.
+Zur Auswahl standen [Velocity](http://velocity.apache.org/) und [Freemarker](http://freemarker.org/), welche beide von Spark empfohlen werden.
 Der Entscheid fiel auf Freemarker, weil Velocity seit 2010 keine neue Version nachgeliefert hat und wir so davon ausgehen, dass es in naher Zukunft eingestellt werden könnte.
 
 ## Design der Programmkonstrukte
@@ -160,7 +160,7 @@ In der Business-Schicht ist die Geschäftslogik gekapselt.
 Die Integration-Schicht bietet verschiedene Data-Access-Convenience Methoden an, welche den Zugriff auf die Datenbank bündeln und vereinfachen. Diese Methoden sind in sogenannten Data Access Objects (Dao) untergebracht.
 
 ### Programmkonstrukt Domain-Schicht
-In der Domain-Schicht sind die zu persistierende Domain-Objekte gekapselt. Darauf wird mit EclipseLink das objektrelationale Mapping zur Datenbank definiert.
+In der Domain-Schicht sind die zu persistierenden Domain-Objekte gekapselt. Darauf wird mit EclipseLink das objektrelationale Mapping zur Datenbank definiert.
 
 #### Datenmodell
 >  TODO Robin
