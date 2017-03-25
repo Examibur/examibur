@@ -12,6 +12,8 @@ public class Application implements SparkApplication {
 	@Override
 	public void init() {
 		
+		staticFiles.location("/public");
+		
 		// setup templating engine (Freemarker)
         FreeMarkerEngine engine = new FreeMarkerEngine();
         

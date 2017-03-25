@@ -1,0 +1,29 @@
+body {
+	padding-bottom: 70px;
+}
+
+.tab-body {
+	padding: 15px;
+}
+
+main > header {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.input-group {
+	margin-bottom: 10px;
+}
+
+footer {
+	padding-top: 12px;
+	border-top: 1px solid #ddd;
+}
+
+.breadcrumb {
+	margin-bottom: 0;
+}
+
+.top-navigation {
+	padding-right: 15px;
+}
