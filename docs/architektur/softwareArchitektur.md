@@ -68,28 +68,26 @@ Enthält die Queue für das Tracking der Benutzeraktionen. Jede ausgeführte Akt
 Lösungen wie ActiveMQ kann hier in Betracht gezogen werden.
 
 ### integration
-In dieser Schicht wird das objektrelationale Mapping der zu persistierenden Daten durchgeführt. Für das Mapping wird EclipseLink verwendet.
-
-Dao's sind für das Lesen und Schreiben auf den Datenbank verantwortlich.
-
-#### do
-Hier sind die Domain-Objekte enthalten, welche die Datenbanken abbilden.
+In dieser Schicht werden die Queries zur Datenbank abgesetzt, in die Domain-Objekte geladen und von den Objekten wieder zurück in die Datenbank geschrieben.
 
 #### sql
 In dieser Schicht werden die einzelnen Datenbank-Patches gespeichert. Dies ermöglicht eine automatische Aktualisierung der Datenbank auf dem lokalen Entwicklungssystem und der Produktion während dem Build-Prozess.
+
+### domain
+Hier sind die Domain-Objekte enthalten, welche die Datenbanken abbilden. Auf den Domain-Objekten wird auch das objektrelationale Mapping durchgeführt. Für das Mapping wird EclipseLink verwendet.
 
 ## Design-Entscheide
 
 ### Persistenz
 Die Daten, die vom Benutzer und dem System erzeugt werden, werden in einer relationalen Datenbank persistiert.
-Das OR-Mapping von der Datenbank zu den Java-Objekten wird mit EclipseLink umgesetzt. Das zugrunde liegende Datenmodell ist [hier](datenmodell.html) beschrieben.
+Das OR-Mapping von der Datenbank zu den Java-Objekten wird anhand des [Datenmodells](#datenmodell) mit EclipseLink umgesetzt.
 
 ### Logging-, Error- und Exception-Handling
 Das Logging-, Error- und Exception-Handling ist im Kapitel [Error-Handling Policy](../projektplan/error-handling-policy.html) genauer beschrieben.
 
 ### Frontend
 #### Framework
-Für das Backend wurden die Frameworks *Spring Boot*, *Play* und *Spark* in Betracht gezogen. Nachfolgend werden einige Vor- und Nachteile der einzelnen Frameworks, bezogen auf unser Projekt, aufgelistet. Anschliessend wird ein Framework für unser Projekt ausgewählt.
+Für das Frontend wurden die Frameworks *Spring Boot*, *Play* und *Spark* in Betracht gezogen. Nachfolgend werden einige Vor- und Nachteile der einzelnen Frameworks, bezogen auf unser Projekt, aufgelistet. Anschliessend wird ein Framework für unser Projekt ausgewählt.
 
 ##### Spring Boot
  Vorteile                               | Nachteile
@@ -136,9 +134,9 @@ Die UI-Schicht ist nach dem Thin-Client Ansatz schlank gehalten. Die Seitendarst
 <figcaption>Freemarker Übersicht gemäss <a href="http://freemarker.org/">http://freemarker.org/</a></figcaption>
 </figure>
 
-Dabei werden die ftl-Templates zusammen mit einem Model in die Freemarker-Engine gespielt und ein HTML-Datei generiert, welche an den User ausgeliefert werden kann. Dies wird über das übliche MVC-Pattern organisiert.
+Dabei werden die ftl-Templates zusammen mit einem Model in die Freemarker-Engine gespielt und eine HTML-Datei generiert, welche an den User ausgeliefert werden kann. Dies wird über das übliche MVC-Pattern organisiert.
 
-Alle Templates basieren auf einem Basis-Template mit dem Namen `base.ftl`. Dadruch müssen Layout- und Strukturänderungen nur darin gemacht werden.
+Alle Templates basieren auf einem Basis-Template mit dem Namen `base.ftl`. Dadurch müssen Layout- und Strukturänderungen nur darin gemacht werden.
 Design und Layout wird über Cascading Stylesheets (CSS) gesteuert. GUI-Elemente und Styling werden von [Bootstrap](http://getbootstrap.com/) verwendet.
 Das Styling wird auf das CI von Examibur gemappt, welches im `style.css` gemacht werden kann.
 
@@ -159,11 +157,10 @@ Die sprachabhängigen Texte sind in den Language-Files unter `src\main\resources
 In der Business-Schicht ist die Geschäftslogik gekapselt.
 
 ### Programmkonstrukt Integration-Schicht
-Die Integration-Schicht führt das objektrelationale Mapping der zu persistierenden Objekte durch. Dazu wird EclipseLink verwendet.
-Es werden verschiedene Data-Access-Convenience Methoden angeboten, welche den Zugriff auf die Datenbank bündeln und vereinfachen. Diese Methoden sind in sogenannten Data Access Objects (Dao) untergebracht.
+Die Integration-Schicht bietet verschiedene Data-Access-Convenience Methoden an, welche den Zugriff auf die Datenbank bündeln und vereinfachen. Diese Methoden sind in sogenannten Data Access Objects (Dao) untergebracht.
 
 ### Programmkonstrukt Domain-Schicht
-In der Domain-Schicht sind die zu persistierende Domain-Objekte gekapselt.
+In der Domain-Schicht sind die zu persistierende Domain-Objekte gekapselt. Darauf wird mit EclipseLink das objektrelationale Mapping zur Datenbank definiert.
 
 #### Datenmodell
 >  TODO Robin
