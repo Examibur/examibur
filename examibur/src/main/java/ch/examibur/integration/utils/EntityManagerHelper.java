@@ -5,14 +5,14 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public enum EntityManagerHelper {
-	INSTANCE;
-	private EntityManagerFactory factory;
-	
-	private EntityManagerHelper() {
-		factory = Persistence.createEntityManagerFactory("examibur");
-	}
-	
-	public EntityManager createEntityManager() {
-		return factory.createEntityManager();
-	}
+  INSTANCE;
+  private EntityManagerFactory factory;
+
+  private EntityManagerHelper() {
+    factory = Persistence.createEntityManagerFactory("examibur");
+  }
+
+  public EntityManager createEntityManager() {
+    return factory.createEntityManager();
+  }
 }
