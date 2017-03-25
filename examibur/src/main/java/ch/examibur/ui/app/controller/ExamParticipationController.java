@@ -6,10 +6,9 @@ import static spark.Spark.path;
 import java.util.HashMap;
 import java.util.Map;
 
-import spark.ModelAndView;
+import ch.examibur.ui.app.util.TemplateRenderer;
 import spark.Request;
 import spark.Response;
-import spark.TemplateEngine;
 
 public class ExamParticipationController extends Controller {
 
@@ -17,29 +16,29 @@ public class ExamParticipationController extends Controller {
 		controllerName = "ExamParticipationController";
 	}
 	
-	public ModelAndView show(Request request, Response response) {
+	public String show(Request request, Response response) {
 		Map<String, Object> model = new HashMap<>();
 		model.put("title", controllerName);
-        return new ModelAndView(model, "examParticipationTabExerciseView.ftl");
+		return new TemplateRenderer().render(model, "examParticipationTabExerciseView.ftl");
     }
     
-    public ModelAndView listAll(Request request, Response response) {
+    public String listAll(Request request, Response response) {
 		Map<String, Object> model = new HashMap<>();
 		model.put("title", controllerName);
-        return new ModelAndView(model, "examParticipationTabExerciseView.ftl");
+		return new TemplateRenderer().render(model, "examParticipationTabExerciseView.ftl");
     }
 
 	@Override
-	public void route(TemplateEngine engine) {
+	public void route() {
 		ExerciseSolutionController exerciseSolutionController = new ExerciseSolutionController();
         
-		get("/", this::listAll, engine);
+		get("/", this::listAll);
         
         path("/:participantId", () -> {
-        	get("/", this::show, engine);
+        	get("/", this::show);
         	
         	path("/exercises", () -> {
-        		exerciseSolutionController.route(engine);
+        		exerciseSolutionController.route();
         	});
         });
 	}

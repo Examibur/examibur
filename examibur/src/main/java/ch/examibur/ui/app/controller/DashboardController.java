@@ -6,10 +6,9 @@ import static spark.Spark.path;
 import java.util.HashMap;
 import java.util.Map;
 
-import spark.ModelAndView;
+import ch.examibur.ui.app.util.TemplateRenderer;
 import spark.Request;
 import spark.Response;
-import spark.TemplateEngine;
 
 public class DashboardController extends Controller {
 	
@@ -17,21 +16,20 @@ public class DashboardController extends Controller {
 		controllerName = "DashboardController";
 	}
 	
-	public ModelAndView show(Request request, Response response) {
-		System.out.println("test");
+	public String show(Request request, Response response) {
 		Map<String, Object> model = new HashMap<>();
         model.put("title", controllerName);
-        return new ModelAndView(model, "dashboard.ftl");
+        return new TemplateRenderer().render(model, "dashboard.ftl");
     }
 
 	@Override
-	public void route(TemplateEngine engine) {
+	public void route() {
 		ExamController examController = new ExamController();
 		
-		get("/", this::show, engine);
+		get("/", this::show);
 		
         path("/exams", () -> {
-        	examController.route(engine);
+        	examController.route();
         });
 	}
 	

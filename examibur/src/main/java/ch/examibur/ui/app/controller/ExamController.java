@@ -7,10 +7,9 @@ import static spark.Spark.post;
 import java.util.HashMap;
 import java.util.Map;
 
-import spark.ModelAndView;
+import ch.examibur.ui.app.util.TemplateRenderer;
 import spark.Request;
 import spark.Response;
-import spark.TemplateEngine;
 
 public class ExamController extends Controller {
 	
@@ -18,41 +17,41 @@ public class ExamController extends Controller {
 		controllerName = "ExamController";
 	}
 	
-	public ModelAndView show(Request request, Response response) {
+	public String show(Request request, Response response) {
 		Map<String, Object> model = new HashMap<>();
 		model.put("title", controllerName);
-        return new ModelAndView(model, "404.ftl");
+		return new TemplateRenderer().render(model, "404.ftl");
     }
     
-    public ModelAndView listAll(Request request, Response response) {
+    public String listAll(Request request, Response response) {
 		Map<String, Object> model = new HashMap<>();
 		model.put("title", controllerName);
-        return new ModelAndView(model, "404.ftl");
+		return new TemplateRenderer().render(model, "404.ftl");
     }
     
-    public ModelAndView update(Request request, Response response) {
+    public String update(Request request, Response response) {
 		Map<String, Object> model = new HashMap<>();
 		model.put("title", controllerName);
-        return new ModelAndView(model, "404.ftl");
+		return new TemplateRenderer().render(model, "404.ftl");
     }
 
 	@Override
-	public void route(TemplateEngine engine) {
+	public void route() {
 		ExerciseController exerciseController = new ExerciseController();
         ExamParticipationController examParticipationController = new ExamParticipationController();
 		
-		get("/", this::listAll, engine);
+		get("/", this::listAll);
 		
         path("/:examId", () -> {
-        	get("/", this::show, engine);
-        	post("/", this::update, engine);
+        	get("/", this::show);
+        	post("/", this::update);
         	
             path("/exercises", () -> {
-            	exerciseController.route(engine);
+            	exerciseController.route();
             });
             
             path("/participants", () -> {
-            	examParticipationController.route(engine);
+            	examParticipationController.route();
             });
         });		
 	}
