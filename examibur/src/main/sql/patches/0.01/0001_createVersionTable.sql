@@ -11,7 +11,7 @@ CREATE TABLE version_t (
     applied_timestamp timestamp with time zone not null default now()
 );
 
-INSERT INTO version (id, release, name, type, description) VALUES (
+INSERT INTO version_t (id, release, name, type, description) VALUES (
     nextval('version_id_seq'), 
     '0.01', 
     '0001_createVersionTable', 
