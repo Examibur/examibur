@@ -1,10 +1,10 @@
 package ch.examibur.domain;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "textsolution_t")
+@DiscriminatorValue("text")
 public class TextSolution extends Solution {
   
   private String solutionText;

@@ -1,6 +1,7 @@
 package ch.examibur.domain;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "excercise_t")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "excercise_type")
 public abstract class Excercise {
 
   @Id
