@@ -18,7 +18,7 @@ public class ExamParticipation {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long examParticipationId;
 
-  private Date date;
+  private Date participationDate;
 
   private String pseudonym;
 
@@ -38,12 +38,12 @@ public class ExamParticipation {
     this.examParticipationId = examParticipationId;
   }
 
-  public Date getDate() {
-    return date;
+  public Date getparticipationDate() {
+    return participationDate;
   }
 
-  public void setDate(Date date) {
-    this.date = date;
+  public void setparticipationDate(Date participationDate) {
+    this.participationDate = participationDate;
   }
 
   public String getPseudonym() {

@@ -28,6 +28,10 @@ public class Exam {
   @ManyToOne
   @JoinColumn(name = "exam_authorId")
   private User author;
+  
+  @ManyToOne
+  @JoinColumn(name = "exam_moduleId")
+  private Module module;
 
   private int allowedTimeInMin;
 

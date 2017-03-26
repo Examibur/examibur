@@ -3,6 +3,8 @@ package ch.examibur.domain;
 import java.sql.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +28,7 @@ public class ExcerciseGrading {
 
   private double points;
 
+  @Enumerated(EnumType.STRING)
   private ExamState createdInState;
 
   private boolean isFinalGrading;
