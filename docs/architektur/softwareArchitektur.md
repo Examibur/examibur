@@ -38,16 +38,16 @@ Application ist der zentrale Einstiegspunkt der Spark-Applikation.
 Das Routing der Requests auf die einzelnen Controller wird in dieser Schicht durchgeführt.
 
 #### webapp
-In dieser Schicht sind die dargestellten Elemente enthalten, sowie de Resourcen (Bilder, JavaScript) und die Konfiguration der Webapplikation.
+In dieser Partition sind die dargestellten Elemente enthalten, sowie de Resourcen (Bilder, JavaScript) und die Konfiguration der Webapplikation.
 
 Dazu gehören Freemarker-Templates und die Stylesheet Layout Definitionen.
 
 #### controller
-Die clientspezifische Business-Logik ist in dieser Schicht enthalten. So werden unter anderem die Serviceaufrufe auf die Business-Tier abgewickelt.
+Die clientspezifische Business-Logik ist in dieser Schicht enthalten. So werden unter anderem die Serviceaufrufe auf die Business-Layer abgewickelt.
 Dazu gehört auch das Aufbereiten der Daten in die clientinternen Datenmodelle, das Überführen in die zuständigen Views sowie das Abarbeiten von Events.
 
 #### model
-Enthält das clientinterne Datenmodell.
+Enthält View-Models um das Rendering auf dem Client zu vereinfachen. Grundsätzlich wird das Domain-Model wann möglich direkt verwendet.
 
 #### util
 Darin sind Hilfsklassen enthalten, die eine spezifische Funktionalität kapseln, wie zum Beispiel i18n, Konvertierung, Formatierung, Validierung, Exception Handling, etc..
@@ -70,7 +70,7 @@ Lösungen wie ActiveMQ könnten hier in Betracht gezogen werden.
 ### integration
 In dieser Schicht werden die Queries zur Datenbank abgesetzt, in die Domain-Objekte geladen und von den Objekten wieder zurück in die Datenbank geschrieben.
 
-#### sql
+#### migration 
 In dieser Schicht werden die einzelnen Datenbank-Patches gespeichert. Dies ermöglicht eine automatische Aktualisierung der Datenbank auf dem lokalen Entwicklungssystem und der Produktion während dem Build-Prozess.
 
 ### domain
@@ -151,7 +151,7 @@ Im Package "util" sind Klassen abgelegt, die verschiedene Funktionalität abdeck
   * **FormatUtil** enthält allgemeine Formatierungsmethoden
   * **MessageUtil** enthält Methoden für das Laden von sprachabhängigen Texten
 
-Die sprachabhängigen Texte sind in den Language-Files unter `src\main\resources` abelegt. Pro Sprache wird eine Datei abgelegt.
+Die sprachabhängigen Texte sind in den Language-Files unter `src/main/resources` abelegt. Pro Sprache wird eine Datei abgelegt.
 
 ### Programmkonstrukt Business-Schicht
 In der Business-Schicht ist die Geschäftslogik gekapselt.
