@@ -1,5 +1,6 @@
 package ch.examibur.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +20,7 @@ public class ExcerciseSolution {
 
   private boolean isDone;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.REMOVE)
   @JoinColumn(name = "excercisesolution_participantsolutionId")
   private Solution participantSolution;
 

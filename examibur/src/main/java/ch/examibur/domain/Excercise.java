@@ -1,5 +1,6 @@
 package ch.examibur.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,7 +35,7 @@ public abstract class Excercise {
   @JoinColumn(name = "excercise_graderId")
   private User grader;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.REMOVE)
   @JoinColumn(name = "excercise_exampleSolutionId")
   private Solution exampleSolution;
 
