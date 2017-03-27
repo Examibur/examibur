@@ -1,0 +1,11 @@
+[Unit]
+Description=Examibur Redepoly staging
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStart=/opt/examibur/projekteserver/deploy/redeploy.sh
+
+[Install]
+WantedBy=multi-user.target

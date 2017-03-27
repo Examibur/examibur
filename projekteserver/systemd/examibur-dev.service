@@ -1,0 +1,14 @@
+[Unit]
+Description=Examibur Dev
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=/usr/bin/docker-compose kill
+ExecStartPre=/usr/bin/docker-compose rm 
+ExecStart=/usr/bin/docker-compose -f /opt/examibur/docker-compose.yml up --remove-orphans --force-recreate
+ExecStop=/usr/bin/docker-compose stop
+
+[Install]
+WantedBy=multi-user.target
