@@ -16,8 +16,8 @@ public class Application implements SparkApplication {
 
     staticFiles.location("/public");
 
-    DashboardController dashboardController = new DashboardController();
-    ExceptionController exceptionController = new ExceptionController();
+    DashboardController dashboardController = new DashboardController(null);
+    ExceptionController exceptionController = new ExceptionController(null);
 
     before("*", Filters.addTrailingSlashes);
 

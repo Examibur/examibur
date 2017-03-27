@@ -13,8 +13,10 @@ import spark.Response;
 
 public class ExerciseController extends Controller {
 
-  public ExerciseController() {
-    controllerName = "ExerciseController";
+  public static final String PARAM_EXERCISE_ID = ":exerciseId";
+
+  public ExerciseController(Controller preController) {
+    super(preController, "/exercises");
   }
 
   /**
@@ -28,7 +30,6 @@ public class ExerciseController extends Controller {
    */
   public String show(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    model.put("title", controllerName);
     return new TemplateRenderer().render(model, "404.ftl");
   }
 
@@ -43,15 +44,15 @@ public class ExerciseController extends Controller {
    */
   public String listAll(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    model.put("title", controllerName);
     return new TemplateRenderer().render(model, "404.ftl");
   }
 
   @Override
   public void route() {
+
     get("/", this::listAll);
 
-    path("/:exerciseId", () -> {
+    path("/" + PARAM_EXERCISE_ID, () -> {
       get("/", this::show);
     });
   }

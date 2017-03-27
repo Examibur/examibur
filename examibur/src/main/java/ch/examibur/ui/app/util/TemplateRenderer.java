@@ -15,6 +15,7 @@ public class TemplateRenderer {
   }
 
   public String render(Map<String, Object> model, String templatePath) {
+    model.put("title", "default");
     return templateEngine.render(new ModelAndView(model, templatePath));
   }
 

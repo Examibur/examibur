@@ -14,10 +14,12 @@ import spark.Response;
 
 public class ExamController extends Controller {
 
-  public ExamController() {
-    controllerName = "ExamController";
+  public static final String PARAM_EXAM_ID = ":examId";
+
+  public ExamController(Controller preController) {
+    super(preController, "/exams");
   }
-  
+
   /**
    * Returns a specific exam.
    * 
@@ -29,10 +31,9 @@ public class ExamController extends Controller {
    */
   public String show(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    model.put("title", controllerName);
     return new TemplateRenderer().render(model, "404.ftl");
   }
-  
+
   /**
    * Returns a list of exams.
    * 
@@ -44,7 +45,6 @@ public class ExamController extends Controller {
    */
   public String listAll(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    model.put("title", controllerName);
     return new TemplateRenderer().render(model, "404.ftl");
   }
 
@@ -59,26 +59,25 @@ public class ExamController extends Controller {
    */
   public String update(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    model.put("title", controllerName);
     return new TemplateRenderer().render(model, "404.ftl");
   }
 
   @Override
   public void route() {
-    ExerciseController exerciseController = new ExerciseController();
-    ExamParticipationController examParticipationController = new ExamParticipationController();
+    ExerciseController exerciseController = new ExerciseController(this);
+    ExamParticipationController examParticipationController = new ExamParticipationController(this);
 
     get("/", this::listAll);
 
-    path("/:examId", () -> {
+    path("/" + PARAM_EXAM_ID, () -> {
       get("/", this::show);
       post("/", this::update);
 
-      path("/exercises", () -> {
+      path(exerciseController.relativePath, () -> {
         exerciseController.route();
       });
 
-      path("/participants", () -> {
+      path(examParticipationController.relativePath, () -> {
         examParticipationController.route();
       });
     });

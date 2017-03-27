@@ -12,9 +12,12 @@ import spark.Request;
 import spark.Response;
 
 public class ExerciseSolutionController extends Controller {
+  
+  public static final String PARAM_SOLUTION_ID = ":solutionId";
+  public static final String PATH = "/solutions";
 
-  public ExerciseSolutionController() {
-    controllerName = "ExerciseSolutionController";
+  public ExerciseSolutionController(Controller preController) {
+    super(preController, "/solutions");
   }
 
   /**
@@ -28,7 +31,6 @@ public class ExerciseSolutionController extends Controller {
    */
   public String show(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    model.put("title", controllerName);
     return new TemplateRenderer().render(model, "404.ftl");
   }
 
@@ -43,20 +45,19 @@ public class ExerciseSolutionController extends Controller {
    */
   public String listAll(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    model.put("title", controllerName);
     return new TemplateRenderer().render(model, "404.ftl");
   }
 
   @Override
   public void route() {
-    ExerciseGradingController exerciseGradingController = new ExerciseGradingController();
+    ExerciseGradingController exerciseGradingController = new ExerciseGradingController(this);
 
     get("/", this::listAll);
 
-    path("/:exerciseId", () -> {
+    path("/" + PARAM_SOLUTION_ID, () -> {
       get("/", this::show);
 
-      path("/gradings", () -> {
+      path(exerciseGradingController.relativePath, () -> {
         exerciseGradingController.route();
       });
     });

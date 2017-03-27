@@ -12,8 +12,8 @@ import spark.Response;
 
 public class ExerciseGradingController extends Controller {
 
-  public ExerciseGradingController() {
-    controllerName = "ExerciseGradingController";
+  public ExerciseGradingController(Controller preController) {
+    super(preController, "/gradings");
   }
   
   /**
@@ -27,7 +27,6 @@ public class ExerciseGradingController extends Controller {
    */
   public String add(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    model.put("title", controllerName);
     return new TemplateRenderer().render(model, "404.ftl");
   }
 

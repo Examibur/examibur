@@ -13,8 +13,10 @@ import spark.Response;
 
 public class ExamParticipationController extends Controller {
 
-  public ExamParticipationController() {
-    controllerName = "ExamParticipationController";
+  public static final String PARAM_PARTICIPANT_ID = ":participantId";
+
+  public ExamParticipationController(Controller preController) {
+    super(preController, "/participants");
   }
 
   /**
@@ -27,8 +29,8 @@ public class ExamParticipationController extends Controller {
    * @return the rendered page content
    */
   public String show(Request request, Response response) {
+    System.out.println(getAbsolutePath());
     Map<String, Object> model = new HashMap<>();
-    model.put("title", controllerName);
     return new TemplateRenderer().render(model, "examParticipationTabExerciseView.ftl");
   }
 
@@ -43,20 +45,19 @@ public class ExamParticipationController extends Controller {
    */
   public String listAll(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    model.put("title", controllerName);
     return new TemplateRenderer().render(model, "examParticipationTabExerciseView.ftl");
   }
 
   @Override
   public void route() {
-    ExerciseSolutionController exerciseSolutionController = new ExerciseSolutionController();
+    ExerciseSolutionController exerciseSolutionController = new ExerciseSolutionController(this);
 
     get("/", this::listAll);
 
-    path("/:participantId", () -> {
+    path("/" + PARAM_PARTICIPANT_ID, () -> {
       get("/", this::show);
 
-      path("/exercises", () -> {
+      path(exerciseSolutionController.relativePath, () -> {
         exerciseSolutionController.route();
       });
     });

@@ -15,6 +15,10 @@ import spark.Response;
 
 public class ExceptionController extends Controller {
 
+  public ExceptionController(Controller preController) {
+    super(preController, "*");
+  }
+
   /**
    * Handles Exception thrown in a controller.
    * 
@@ -38,16 +42,15 @@ public class ExceptionController extends Controller {
    * @param response
    *          the HTTP response
    */
-  public String notFound(Request request, Response response) {
+  public String handleNotFound(Request request, Response response) {
     response.status(HttpStatus.NOT_FOUND_404);
     Map<String, Object> model = new HashMap<>();
-    model.put("title", controllerName);
     return new TemplateRenderer().render(model, "404.ftl");
   }
 
   @Override
   public void route() {
-    get("*", this::notFound);
+    get("*", this::handleNotFound);
     exception(Exception.class, this::handleException);
   }
 

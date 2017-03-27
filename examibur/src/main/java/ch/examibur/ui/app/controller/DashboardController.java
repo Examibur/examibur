@@ -13,8 +13,8 @@ import spark.Response;
 
 public class DashboardController extends Controller {
 
-  public DashboardController() {
-    controllerName = "DashboardController";
+  public DashboardController(Controller preController) {
+    super(preController, "");
   }
 
   /**
@@ -28,17 +28,16 @@ public class DashboardController extends Controller {
    */
   public String show(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    model.put("title", controllerName);
     return new TemplateRenderer().render(model, "dashboard.ftl");
   }
 
   @Override
   public void route() {
-    ExamController examController = new ExamController();
+    ExamController examController = new ExamController(this);
 
     get("/", this::show);
 
-    path("/exams", () -> {
+    path(examController.relativePath, () -> {
       examController.route();
     });
   }
