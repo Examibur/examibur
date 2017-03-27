@@ -29,7 +29,6 @@ public class ExamParticipationController extends Controller {
    * @return the rendered page content
    */
   public String show(Request request, Response response) {
-    System.out.println(getAbsolutePath());
     Map<String, Object> model = new HashMap<>();
     return new TemplateRenderer().render(model, "examParticipationTabExerciseView.ftl");
   }
