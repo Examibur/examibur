@@ -27,6 +27,18 @@
     * Rechtsklick auf Projekt
     * `Configure` - `Add Gradle Nature`
 
+### Editor konfigurieren
+Der Google Checkstyle verlangt für die Einrückung Spaces, in Eclipse werden aber standardmässig Tabs eingefügt.
+
+1. Rechtsklick auf das Examibur-Projekt im Package Explorer - `Checkstyle` - `Create Formatter Profile`
+2. Einstellungen öffnen mit `Window` - `Preferences`
+3. Auf `Java` - `Code Style` - `Formatter` navigieren
+4. Das neue Profile `eclipse-cs examibur` wählen
+
+Wenn nun ein File noch komplett mit Tabs formatiert ist, alles markieren und mit `Ctrl` + `Shift` + `F` formatieren.
+
+Für andere Filetypen, z.B. XML, müssen die Einstellungen separat gemacht werden. Für XML ist die Einstellung unter `Preferences` - `XML` - `XML Files` - `Editor` zu finden.
+
 ## Entwicklungsumgebung starten
 
 Die Application- und Datenbankserver (und die Projekt-Website) werden als Docker-Images bereitgestellt. Diese können für die Entwicklung einfach über Docker-Compose gestartet werden:
