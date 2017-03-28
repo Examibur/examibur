@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 public enum EntityManagerHelper {
   INSTANCE;
   
-  private static final String PERSISTANCE_UNIT_NAME = "examibur";
+  private static final String PERSISTENCE_UNIT_NAME = "examibur";
   private static final String DB_NAME = "examibur";
   private static final String ENV_DB_HOST = "DB_HOST";
   private static final String ENV_DB_USER = "DB_USER";
@@ -20,9 +20,12 @@ public enum EntityManagerHelper {
 
   private EntityManagerHelper() {
     Map<String, Object> properties = getJdbcCredentials();
-    factory = Persistence.createEntityManagerFactory(PERSISTANCE_UNIT_NAME, properties);
+    factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, properties);
   }
 
+  /**
+   * @return an EntityManager to query the database.
+   */
   public EntityManager createEntityManager() {
     return factory.createEntityManager();
   }
