@@ -1,6 +1,7 @@
 package ch.examibur.domain;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,8 @@ public class ExcerciseSolution {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long excerciseSolutionId;
+  @Column(name = "excerciseSolutionId")
+  private long id;
 
   private boolean isDone;
 
@@ -33,12 +35,12 @@ public class ExcerciseSolution {
   private ExamParticipation participation;
   
 
-  public long getExcerciseSolutionId() {
-    return excerciseSolutionId;
+  public long getId() {
+    return id;
   }
 
-  public void setExcerciseSolutionId(long excerciseSolutionId) {
-    this.excerciseSolutionId = excerciseSolutionId;
+  public void setId(long id) {
+    this.id = id;
   }
 
   public boolean isDone() {
@@ -77,7 +79,7 @@ public class ExcerciseSolution {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + (int) (excerciseSolutionId ^ (excerciseSolutionId >>> 32));
+    result = prime * result + (int) (id ^ (id >>> 32));
     return result;
   }
 
@@ -93,7 +95,7 @@ public class ExcerciseSolution {
       return false;
     }
     ExcerciseSolution other = (ExcerciseSolution) obj;
-    if (excerciseSolutionId != other.excerciseSolutionId) {
+    if (id != other.id) {
       return false;
     }
     return true;

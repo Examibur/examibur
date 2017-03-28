@@ -1,5 +1,6 @@
 package ch.examibur.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,16 +13,17 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long userId;
+  @Column(name = "userId")
+  private long id;
   private String firstName;
   private String lastName;
 
-  public long getUserId() {
-    return userId;
+  public long getId() {
+    return id;
   }
 
-  public void setUserId(long userId) {
-    this.userId = userId;
+  public void setId(long id) {
+    this.id = id;
   }
 
   public String getFirstName() {
@@ -44,7 +46,7 @@ public class User {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + (int) (userId ^ (userId >>> 32));
+    result = prime * result + (int) (id ^ (id >>> 32));
     return result;
   }
 
@@ -60,7 +62,7 @@ public class User {
       return false;
     }
     User other = (User) obj;
-    if (userId != other.userId) {
+    if (id != other.id) {
       return false;
     }
     return true;

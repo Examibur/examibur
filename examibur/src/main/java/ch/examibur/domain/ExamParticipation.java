@@ -2,6 +2,7 @@ package ch.examibur.domain;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,8 @@ public class ExamParticipation {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long examParticipationId;
+  @Column(name = "participationId")
+  private long id;
 
   private Date participationDate;
 
@@ -30,12 +32,12 @@ public class ExamParticipation {
   @JoinColumn(name = "examparticipation_exam")
   private Exam exam;
 
-  public long getExamParticipationId() {
-    return examParticipationId;
+  public long getId() {
+    return id;
   }
 
-  public void setExamParticipationId(long examParticipationId) {
-    this.examParticipationId = examParticipationId;
+  public void setId(long id) {
+    this.id = id;
   }
 
   public Date getparticipationDate() {
@@ -74,7 +76,7 @@ public class ExamParticipation {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + (int) (examParticipationId ^ (examParticipationId >>> 32));
+    result = prime * result + (int) (id ^ (id >>> 32));
     return result;
   }
 
@@ -90,7 +92,7 @@ public class ExamParticipation {
       return false;
     }
     ExamParticipation other = (ExamParticipation) obj;
-    if (examParticipationId != other.examParticipationId) {
+    if (id != other.id) {
       return false;
     }
     return true;

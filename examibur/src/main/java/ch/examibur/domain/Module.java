@@ -13,17 +13,18 @@ public class Module {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long moduleId;
+  @Column(name = "moduleId")
+  private long id;
   
   @Column(nullable = false)
   private String name;
 
-  public long getModuleId() {
-    return moduleId;
+  public long getId() {
+    return id;
   }
 
-  public void setModuleId(long moduleId) {
-    this.moduleId = moduleId;
+  public void setId(long id) {
+    this.id = id;
   }
 
   public String getName() {
@@ -38,7 +39,7 @@ public class Module {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + (int) (moduleId ^ (moduleId >>> 32));
+    result = prime * result + (int) (id ^ (id >>> 32));
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;
   }
@@ -55,7 +56,7 @@ public class Module {
       return false;
     }
     Module other = (Module) obj;
-    if (moduleId != other.moduleId) {
+    if (id != other.id) {
       return false;
     }
     if (name == null) {

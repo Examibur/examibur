@@ -1,6 +1,7 @@
 package ch.examibur.domain;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,8 @@ public abstract class Excercise {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long excerciseId;
+  @Column(name = "excerciseId")
+  private long id;
 
   private double maxPoints;
 
@@ -41,12 +43,12 @@ public abstract class Excercise {
   @JoinColumn(name = "excercise_exampleSolutionId")
   private Solution exampleSolution;
 
-  public long getExcerciseId() {
-    return excerciseId;
+  public long getId() {
+    return id;
   }
 
-  public void setExcerciseId(long excerciseId) {
-    this.excerciseId = excerciseId;
+  public void setId(long id) {
+    this.id = id;
   }
 
   public double getMaxPoints() {
@@ -93,7 +95,7 @@ public abstract class Excercise {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + (int) (excerciseId ^ (excerciseId >>> 32));
+    result = prime * result + (int) (id ^ (id >>> 32));
     return result;
   }
 
@@ -109,7 +111,7 @@ public abstract class Excercise {
       return false;
     }
     Excercise other = (Excercise) obj;
-    if (excerciseId != other.excerciseId) {
+    if (id != other.id) {
       return false;
     }
     return true;

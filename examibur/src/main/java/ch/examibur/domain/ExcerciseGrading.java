@@ -2,6 +2,7 @@ package ch.examibur.domain;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,7 +19,8 @@ public class ExcerciseGrading {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long excerciseGradingId;
+  @Column(name = "excerciseGradingId")
+  private long id;
 
   private Date creationDate;
 
@@ -42,12 +44,12 @@ public class ExcerciseGrading {
   private ExcerciseSolution excerciseSolution;
 
   
-  public long getExcerciseGradingId() {
-    return excerciseGradingId;
+  public long getId() {
+    return id;
   }
 
-  public void setExcerciseGradingId(long excerciseGradingId) {
-    this.excerciseGradingId = excerciseGradingId;
+  public void setId(long id) {
+    this.id = id;
   }
 
   public Date getcreationDate() {
@@ -118,7 +120,7 @@ public class ExcerciseGrading {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + (int) (excerciseGradingId ^ (excerciseGradingId >>> 32));
+    result = prime * result + (int) (id ^ (id >>> 32));
     return result;
   }
 
@@ -134,7 +136,7 @@ public class ExcerciseGrading {
       return false;
     }
     ExcerciseGrading other = (ExcerciseGrading) obj;
-    if (excerciseGradingId != other.excerciseGradingId) {
+    if (id != other.id) {
       return false;
     }
     return true;

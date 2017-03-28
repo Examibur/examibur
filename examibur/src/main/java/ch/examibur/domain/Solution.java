@@ -1,5 +1,6 @@
 package ch.examibur.domain;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,21 +18,22 @@ public abstract class Solution {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long solutionId;
+  @Column(name = "solutionId")
+  private long id;
 
-  public long getSolutionId() {
-    return solutionId;
+  public long getId() {
+    return id;
   }
 
-  public void setSolutionId(long solutionId) {
-    this.solutionId = solutionId;
+  public void setId(long id) {
+    this.id = id;
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + (int) (solutionId ^ (solutionId >>> 32));
+    result = prime * result + (int) (id ^ (id >>> 32));
     return result;
   }
 
@@ -47,7 +49,7 @@ public abstract class Solution {
       return false;
     }
     Solution other = (Solution) obj;
-    if (solutionId != other.solutionId) {
+    if (id != other.id) {
       return false;
     }
     return true;
