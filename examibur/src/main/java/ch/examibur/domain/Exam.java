@@ -75,14 +75,6 @@ public class Exam {
     this.module = module;
   }
 
-  public Module getModule() {
-    return module;
-  }
-
-  public void setModule(Module module) {
-    this.module = module;
-  }
-
   public int getAllowedTimeInMin() {
     return allowedTimeInMin;
   }
