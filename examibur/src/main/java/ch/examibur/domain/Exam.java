@@ -67,6 +67,14 @@ public class Exam {
     this.author = author;
   }
 
+  public Module getModule() {
+    return module;
+  }
+
+  public void setModule(Module module) {
+    this.module = module;
+  }
+
   public int getAllowedTimeInMin() {
     return allowedTimeInMin;
   }
