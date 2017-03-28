@@ -1,8 +1,8 @@
 package ch.examibur.ui.app.controller;
 
-import static spark.Spark.post;
+import static ch.examibur.ui.app.util.TemplateUtil.render;
 
-import ch.examibur.ui.app.util.TemplateRenderer;
+import static spark.Spark.post;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ public class ExerciseGradingController extends Controller {
   public ExerciseGradingController(Controller preController) {
     super(preController, "/gradings");
   }
-  
+
   /**
    * Adds a new grading or review to a specific exercise.
    * 
@@ -27,7 +27,7 @@ public class ExerciseGradingController extends Controller {
    */
   public String addExerciseGrading(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    return new TemplateRenderer().render(model, "404.ftl");
+    return render(model, "404.ftl");
   }
 
   @Override

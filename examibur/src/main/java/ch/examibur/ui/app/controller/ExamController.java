@@ -1,10 +1,9 @@
 package ch.examibur.ui.app.controller;
 
+import static ch.examibur.ui.app.util.TemplateUtil.render;
 import static spark.Spark.get;
 import static spark.Spark.path;
 import static spark.Spark.post;
-
-import ch.examibur.ui.app.util.TemplateRenderer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +30,7 @@ public class ExamController extends Controller {
    */
   public String displayExam(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    return new TemplateRenderer().render(model, "404.ftl");
+    return render(model, "404.ftl");
   }
 
   /**
@@ -45,7 +44,7 @@ public class ExamController extends Controller {
    */
   public String listExams(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    return new TemplateRenderer().render(model, "404.ftl");
+    return render(model, "404.ftl");
   }
 
   /**
@@ -59,7 +58,7 @@ public class ExamController extends Controller {
    */
   public String updateExam(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    return new TemplateRenderer().render(model, "404.ftl");
+    return render(model, "404.ftl");
   }
 
   @Override

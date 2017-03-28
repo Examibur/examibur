@@ -1,9 +1,8 @@
 package ch.examibur.ui.app.controller;
 
+import static ch.examibur.ui.app.util.TemplateUtil.render;
 import static spark.Spark.get;
 import static spark.Spark.path;
-
-import ch.examibur.ui.app.util.TemplateRenderer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +27,7 @@ public class DashboardController extends Controller {
    */
   public String displayDashboard(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    return new TemplateRenderer().render(model, "dashboard.ftl");
+    return render(model, "dashboard.ftl");
   }
 
   @Override

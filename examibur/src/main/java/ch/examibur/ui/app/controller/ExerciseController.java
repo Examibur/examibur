@@ -1,9 +1,8 @@
 package ch.examibur.ui.app.controller;
 
+import static ch.examibur.ui.app.util.TemplateUtil.render;
 import static spark.Spark.get;
 import static spark.Spark.path;
-
-import ch.examibur.ui.app.util.TemplateRenderer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +29,7 @@ public class ExerciseController extends Controller {
    */
   public String displayExercise(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    return new TemplateRenderer().render(model, "404.ftl");
+    return render(model, "404.ftl");
   }
 
   /**
@@ -44,7 +43,7 @@ public class ExerciseController extends Controller {
    */
   public String listExercises(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
-    return new TemplateRenderer().render(model, "404.ftl");
+    return render(model, "404.ftl");
   }
 
   @Override

@@ -6,15 +6,11 @@ import spark.ModelAndView;
 import spark.TemplateEngine;
 import spark.template.freemarker.FreeMarkerEngine;
 
-public class TemplateRenderer {
+public final class TemplateUtil {
 
-  private TemplateEngine templateEngine;
+  private static TemplateEngine templateEngine = new FreeMarkerEngine();
 
-  public TemplateRenderer() {
-    templateEngine = new FreeMarkerEngine();
-  }
-
-  public String render(Map<String, Object> model, String templatePath) {
+  public static String render(Map<String, Object> model, String templatePath) {
     model.put("title", "default");
     return templateEngine.render(new ModelAndView(model, templatePath));
   }
