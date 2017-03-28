@@ -33,17 +33,28 @@ public enum EntityManagerHelper {
   private Map<String, Object> getJdbcCredentials() {
     Map<String, String> env = System.getenv();
     Map<String, Object> jdbcCredentials = new HashMap<>();
+    String dbUrl = null;
+    String dbUser = null;
+    String dbPassword = null;
     
     for (String envName : env.keySet()) {
       if (envName.contains(ENV_DB_HOST)) {
-        String url = "jdbc:postgresql://" + env.get(envName) + "/" + DB_NAME;
-        jdbcCredentials.put("javax.persistence.jdbc.url", url);
+        dbUrl = "jdbc:postgresql://" + env.get(envName) + "/" + DB_NAME;
       } else if (envName.contains(ENV_DB_USER)) {
-        jdbcCredentials.put("javax.persistence.jdbc.user", env.get(envName));
+        dbUser = env.get(envName);
       } else if (envName.contains(ENV_DB_PASSWORD)) {
-        jdbcCredentials.put("javax.persistence.jdbc.password", env.get(envName));
+        dbPassword = env.get(envName);
       }
     }
+    if (dbUrl == null || dbUser == null || dbPassword == null) {
+      throw new Error("Environment variables for database connection are missing");
+    }
+    
+    jdbcCredentials.put("javax.persistence.jdbc.url", dbUrl);
+    jdbcCredentials.put("javax.persistence.jdbc.user", dbUser);
+    jdbcCredentials.put("javax.persistence.jdbc.password", dbPassword);
+
+
     return jdbcCredentials;
   }
 }
