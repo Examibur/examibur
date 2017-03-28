@@ -7,6 +7,7 @@ import static spark.Spark.path;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.examibur.business.exam.ExamServiceImpl;
 import spark.Request;
 import spark.Response;
 
@@ -27,6 +28,8 @@ public class DashboardController extends Controller {
    */
   public String displayDashboard(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
+    //TODO really ugly, remove asap
+    model.put("exams", new ExamServiceImpl().getExamsForAuthor(1));
     return render(model, "dashboard.ftl");
   }
 

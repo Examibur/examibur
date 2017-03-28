@@ -66,6 +66,14 @@ public class Exam {
   public void setAuthor(User author) {
     this.author = author;
   }
+  
+  public Module getModule() {
+    return module;
+  }
+
+  public void setModule(Module module) {
+    this.module = module;
+  }
 
   public Module getModule() {
     return module;

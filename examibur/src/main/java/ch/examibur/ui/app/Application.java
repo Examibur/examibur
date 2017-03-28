@@ -23,7 +23,7 @@ public class Application implements SparkApplication {
 
     dashboardController.route();
     exceptionController.route();
-
+    
     after("*", Filters.addGzipHeader);
 
   }

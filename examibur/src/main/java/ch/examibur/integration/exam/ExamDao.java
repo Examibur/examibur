@@ -1,7 +1,11 @@
 package ch.examibur.integration.exam;
 
+import java.util.List;
+
+import ch.examibur.domain.Exam;
+
 public interface ExamDao {
 
-  public void loadAllExams();
+  List<Exam> getExamsForAuthor(long authorId);
 
 }
