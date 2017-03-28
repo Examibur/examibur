@@ -85,11 +85,10 @@ Das OR-Mapping von der Datenbank zu den Java-Objekten wird anhand des [Datenmode
 ### Logging-, Error- und Exception-Handling
 Das Logging-, Error- und Exception-Handling ist im Kapitel [Error-Handling Policy](../projektplan/error-handling-policy.html) genauer beschrieben.
 
-### Frontend
-#### Framework
+### Frontend Framework
 Für das Frontend wurden die Frameworks *Spring Boot*, *Play* und *Spark* in Betracht gezogen. Nachfolgend werden einige Vor- und Nachteile der einzelnen Frameworks, bezogen auf unser Projekt, aufgelistet. Anschliessend wird ein Framework für unser Projekt ausgewählt.
 
-##### Spring Boot
+#### Spring Boot
  Vorteile                               | Nachteile
 ----------------------------------------|--------------------------------
  Etabliertes Framework für Web-Projekte | Sehr umfangreich und komplex
@@ -97,21 +96,21 @@ Für das Frontend wurden die Frameworks *Spring Boot*, *Play* und *Spark* in Bet
  Mit Spring Boot Starters schnell up-and-running | Dadurch aber nur schwer durchschaubar (Convention over Configuration)
   Grosse Community |
 
-##### Play Framework
+#### Play Framework
 Vorteile                                | Nachteile
 ----------------------------------------|--------------------------------
 Schlanker als Spring | Stark auf Scala konzipiert
 Grosse und stetig wachsende Community | Niemand vom Projektteam hat Erfahrung mit Play
 - | Wenig unterstützung für weitere Funktionalität, z.B. LDAP Integration
 
-##### Spark
+#### Spark
 Vorteile                                | Nachteile
 ----------------------------------------|--------------------------------
 Sehr schlankes Framework | Wenig Funktionalität out-of-the-box
 Einfach zu verstehende Konzepte | Für Testing, Template-Engine usw. müssen weitere Frameworks benutzt werden
 Unterstützung für viele andere Frameworks | Architektur muss selbst sauber aufgebaut werden
 
-#### Entscheid
+### Entscheid
 Aufgrund der Einfachheit und der Möglichkeit, sich schnell in das Framework einarbeiten zu können, haben wir uns für **Spark** entschieden. Für unsere Anforderungen genügt ein schlankes Framework, das wir mit u.a. Testing-Frameworks und OR-Mapper beliebig erweitern können.
 
 Als Einschränkung soll beachtet werden, dass z.B. die Routes und Controller in der Dokumentation von Spark nicht sauber getrennt sind. Diese Trennung muss selbst realisiert werden und ist wichtig für den Aufbau der Architektur.
@@ -119,7 +118,7 @@ Als Einschränkung soll beachtet werden, dass z.B. die Routes und Controller in 
 ### Backend
 > TODO
 
-### Seitenbeschreibung mit Freemarker-Templates
+### Template-Engine
 Für die Seitenbeschreibung wird das Konzept der Templates von Freemarker verwendet. Es gibt ein Basis-Template, welches das Layout und die Strukturierung vorgibt. Alle Seiten der Applikation bauen auf diesem Basis-Template auf. Dadurch ist gewährleistet, dass alle Seiten mit der gleichen Struktur und einheitlichem Aussehen daher kommen.
 
 Zur Auswahl standen [Velocity](http://velocity.apache.org/) und [Freemarker](http://freemarker.org/), welche beide von Spark empfohlen werden.
@@ -128,7 +127,24 @@ Der Entscheid fiel auf Freemarker, weil Velocity seit 2010 keine neue Version na
 ## Design der Programmkonstrukte
 
 ### Programmkonstrukt UI-Schicht
-Die UI-Schicht ist nach dem Thin-Client Ansatz schlank gehalten. Die Seitendarstellung wird mit Freemarker umgesetzt:
+Die UI-Schicht ist nach dem Thin-Client Ansatz schlank gehalten. Es wird lediglich ein Browser benötigt, um als Client mit Examibur arbeiten zu können.
+
+#### Routing
+Am Anfang jeder Interaktion steht der Request. Dieser wird durch den Browser generiert und an Spark versendet. Die in den Controller-Klassen definierten Routing-Regeln weisen den Request einer bestimmten Controller-Methode zu. Es gewinnt jeweils die erste passende Route, dennoch wird das gesamte Routing abgearbeitet und erst am Ende die zugewiesene Methode aufgerufen.
+
+<figure>
+<img src="resources/routingOverview/routing-diagram.png">
+<figcaption>Die komplette Routing-Logik von Examibur</figcaption>
+</figure>
+
+#### Controller
+Jeder Controller wird mit einem Request-Objekt aufgerufen, das sämtliche Informationen zum HTTP-Request, wie beispielsweise URL oder Parameter, enthält. Ausserdem wird ein initialisiertes Response-Objekt mitgegeben, über das die Rückgabe zum Client verändert werden kann.
+
+Als erstes werden in einem Controller die Parameter des Requests ausgewertet. Anschliessend werden über Serviceaufrufe auf den Business-Layer Datenzugriffe oder -manipulationen ausgeführt. Am Ende folgt eine Weiterleitung auf eine neue Route oder der Aufruf zur TemplateUtil, welche das Rendern eines Freemarker Templates auslöst.
+
+#### Templates
+
+Die Seitendarstellung wird wie folgt mit Freemarker umgesetzt:
 <figure>
 <img src="resources/softwareArchitektur/freemarker_overview.png">
 <figcaption>Freemarker Übersicht gemäss <a href="http://freemarker.org/">http://freemarker.org/</a></figcaption>
@@ -142,11 +158,12 @@ Das Styling wird auf das CI von Examibur gemappt, welches im `style.css` gemacht
 
 Um das User-Feeling zu verbessern, wird teilweise Javascript verwendet.
 
-> TODO Patrick Controller, Routing, Model beschreiben
+#### Utilities
 
 Im Package "util" sind Klassen abgelegt, die verschiedene Funktionalität abdecken. Nachfolgend sind die verwendeten Funktionalitäten aufgeführt:
 > TODO hier laufend UTIL-Klassen kurz beschreiben
 
+  * **TemplateUtil** enthält Methoden, um die Templates zu rendern
   * **DateUtil** enthält Methoden für die Formatierung von Datumswerten
   * **FormatUtil** enthält allgemeine Formatierungsmethoden
   * **MessageUtil** enthält Methoden für das Laden von sprachabhängigen Texten
