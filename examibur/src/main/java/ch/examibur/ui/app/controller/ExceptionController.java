@@ -29,8 +29,7 @@ public class ExceptionController extends Controller {
    *          the HTTP response
    */
   public void handleException(Exception exception, Request request, Response response) {
-    response.status(HttpStatus.INTERNAL_SERVER_ERROR_500);
-    response.body("Error handling or redirect...");
+    response.redirect("/", HttpStatus.INTERNAL_SERVER_ERROR_500);
   }
 
   /**

@@ -48,17 +48,17 @@ public class ExamController extends Controller {
   }
 
   /**
-   * Updates a specific exam.
+   * Updates a specific exam and redirects to the GET controller.
    * 
    * @param request
    *          the HTTP request
    * @param response
    *          the HTTP response
-   * @return the rendered page content
+   * @return nothing to return
    */
   public String updateExam(Request request, Response response) {
-    Map<String, Object> model = new HashMap<>();
-    return render(model, "404.ftl");
+    response.redirect(request.pathInfo(), 302);
+    return null;
   }
 
   @Override

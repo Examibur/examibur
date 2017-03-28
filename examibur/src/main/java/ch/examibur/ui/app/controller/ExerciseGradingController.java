@@ -1,11 +1,6 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.util.TemplateUtil.render;
-
 import static spark.Spark.post;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import spark.Request;
 import spark.Response;
@@ -17,17 +12,20 @@ public class ExerciseGradingController extends Controller {
   }
 
   /**
-   * Adds a new grading or review to a specific exercise.
+   * Adds a new grading or review to a specific solution and redirects back to
+   * that solution.
    * 
    * @param request
    *          the HTTP request
    * @param response
    *          the HTTP response
-   * @return the rendered page content
+   * @return nothing to return
    */
   public String addExerciseGrading(Request request, Response response) {
-    Map<String, Object> model = new HashMap<>();
-    return render(model, "404.ftl");
+    response.redirect("/exams/" + request.params(ExamController.PARAM_EXAM_ID) + "/participants/"
+        + request.params(ExamParticipationController.PARAM_PARTICIPANT_ID) + "/solutions/"
+        + request.params(ExerciseSolutionController.PARAM_SOLUTION_ID) + "/", 302);
+    return null;
   }
 
   @Override
