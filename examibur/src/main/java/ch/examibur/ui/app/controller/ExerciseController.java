@@ -28,7 +28,7 @@ public class ExerciseController extends Controller {
    *          the HTTP response
    * @return the rendered page content
    */
-  public String show(Request request, Response response) {
+  public String displayExercise(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
     return new TemplateRenderer().render(model, "404.ftl");
   }
@@ -42,7 +42,7 @@ public class ExerciseController extends Controller {
    *          the HTTP response
    * @return the rendered page content
    */
-  public String listAll(Request request, Response response) {
+  public String listExercises(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
     return new TemplateRenderer().render(model, "404.ftl");
   }
@@ -50,10 +50,10 @@ public class ExerciseController extends Controller {
   @Override
   public void route() {
 
-    get("/", this::listAll);
+    get("/", this::listExercises);
 
     path("/" + PARAM_EXERCISE_ID, () -> {
-      get("/", this::show);
+      get("/", this::displayExercise);
     });
   }
 

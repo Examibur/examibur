@@ -12,7 +12,7 @@ import spark.Request;
 import spark.Response;
 
 public class ExerciseSolutionController extends Controller {
-  
+
   public static final String PARAM_SOLUTION_ID = ":solutionId";
   public static final String PATH = "/solutions";
 
@@ -29,7 +29,7 @@ public class ExerciseSolutionController extends Controller {
    *          the HTTP response
    * @return the rendered page content
    */
-  public String show(Request request, Response response) {
+  public String displayExerciseSolution(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
     return new TemplateRenderer().render(model, "404.ftl");
   }
@@ -43,7 +43,7 @@ public class ExerciseSolutionController extends Controller {
    *          the HTTP response
    * @return the rendered page content
    */
-  public String listAll(Request request, Response response) {
+  public String listExerciseSolutions(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
     return new TemplateRenderer().render(model, "404.ftl");
   }
@@ -52,10 +52,10 @@ public class ExerciseSolutionController extends Controller {
   public void route() {
     ExerciseGradingController exerciseGradingController = new ExerciseGradingController(this);
 
-    get("/", this::listAll);
+    get("/", this::listExerciseSolutions);
 
     path("/" + PARAM_SOLUTION_ID, () -> {
-      get("/", this::show);
+      get("/", this::displayExerciseSolution);
 
       path(exerciseGradingController.relativePath, () -> {
         exerciseGradingController.route();

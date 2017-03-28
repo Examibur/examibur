@@ -29,7 +29,7 @@ public class ExamController extends Controller {
    *          the HTTP response
    * @return the rendered page content
    */
-  public String show(Request request, Response response) {
+  public String displayExam(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
     return new TemplateRenderer().render(model, "404.ftl");
   }
@@ -43,7 +43,7 @@ public class ExamController extends Controller {
    *          the HTTP response
    * @return the rendered page content
    */
-  public String listAll(Request request, Response response) {
+  public String listExams(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
     return new TemplateRenderer().render(model, "404.ftl");
   }
@@ -57,7 +57,7 @@ public class ExamController extends Controller {
    *          the HTTP response
    * @return the rendered page content
    */
-  public String update(Request request, Response response) {
+  public String updateExam(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
     return new TemplateRenderer().render(model, "404.ftl");
   }
@@ -67,11 +67,11 @@ public class ExamController extends Controller {
     ExerciseController exerciseController = new ExerciseController(this);
     ExamParticipationController examParticipationController = new ExamParticipationController(this);
 
-    get("/", this::listAll);
+    get("/", this::listExams);
 
     path("/" + PARAM_EXAM_ID, () -> {
-      get("/", this::show);
-      post("/", this::update);
+      get("/", this::displayExam);
+      post("/", this::updateExam);
 
       path(exerciseController.relativePath, () -> {
         exerciseController.route();

@@ -26,7 +26,7 @@ public class DashboardController extends Controller {
    *          the HTTP response
    * @return the rendered page content
    */
-  public String show(Request request, Response response) {
+  public String displayDashboard(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
     return new TemplateRenderer().render(model, "dashboard.ftl");
   }
@@ -35,7 +35,7 @@ public class DashboardController extends Controller {
   public void route() {
     ExamController examController = new ExamController(this);
 
-    get("/", this::show);
+    get("/", this::displayDashboard);
 
     path(examController.relativePath, () -> {
       examController.route();

@@ -25,14 +25,14 @@ public class ExerciseGradingController extends Controller {
    *          the HTTP response
    * @return the rendered page content
    */
-  public String add(Request request, Response response) {
+  public String addExerciseGrading(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
     return new TemplateRenderer().render(model, "404.ftl");
   }
 
   @Override
   public void route() {
-    post("/", this::add);
+    post("/", this::addExerciseGrading);
   }
 
 }

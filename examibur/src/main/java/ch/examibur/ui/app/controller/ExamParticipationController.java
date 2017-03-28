@@ -28,7 +28,7 @@ public class ExamParticipationController extends Controller {
    *          the HTTP response
    * @return the rendered page content
    */
-  public String show(Request request, Response response) {
+  public String displayExamParticipation(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
     return new TemplateRenderer().render(model, "examParticipationTabExerciseView.ftl");
   }
@@ -42,7 +42,7 @@ public class ExamParticipationController extends Controller {
    *          the HTTP response
    * @return the rendered page content
    */
-  public String listAll(Request request, Response response) {
+  public String listExamParticipations(Request request, Response response) {
     Map<String, Object> model = new HashMap<>();
     return new TemplateRenderer().render(model, "examParticipationTabExerciseView.ftl");
   }
@@ -51,10 +51,10 @@ public class ExamParticipationController extends Controller {
   public void route() {
     ExerciseSolutionController exerciseSolutionController = new ExerciseSolutionController(this);
 
-    get("/", this::listAll);
+    get("/", this::listExamParticipations);
 
     path("/" + PARAM_PARTICIPANT_ID, () -> {
-      get("/", this::show);
+      get("/", this::displayExamParticipation);
 
       path(exerciseSolutionController.relativePath, () -> {
         exerciseSolutionController.route();
