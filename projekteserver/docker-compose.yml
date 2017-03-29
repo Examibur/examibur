@@ -20,23 +20,23 @@ services:
       - db_examibur
     depends_on:
       - db_examibur
-    env_file: examibur.env
+    env_file: env/examibur.env
 
   db_examibur:
     image: postgres
-    env_file: db_examibur.env
+    env_file: env/db_examibur.env
     volumes:
      - db_examibur:/var/lib/postgresql/data
 
   db_sonarqube:
     image: postgres
-    env_file: db_sonarqube.env
+    env_file: env/db_sonarqube.env
     volumes:
      - db_sonarqube:/var/lib/postgresql/data
 
   sonarqube:
     build: ./images/sonar/
-    env_file: sonarqube.env
+    env_file: env/sonarqube.env
     links:
       - db_sonarqube
     depends_on:
