@@ -1,5 +1,7 @@
 # Installation
 
+* Vorbereitung: DNS IP eintragen (sonar.raphael.li / examibur-demo.raphael.li
+
 Als Ausgangslage dient ein minimaler Ubuntu-Server mit einem OpenSSH-Daemon.
 
 [Docker CE](https://docs.docker.com/engine/installation/linux/ubuntu/) und [Docker Compose](https://docs.docker.com/compose/install/) installieren. Anschliessend Docker-Autostart aktivieren
@@ -29,14 +31,20 @@ In Gitlab dem Deployment-Benutzer (`examibur-bot`) den generierten Schlüssel hi
 Git-SSh-Key auf den Server kopieren
 
 ```bash
-scp git root@46.101.212.144:/root/.ssh/id_rsa
-scp git.pub root@46.101.212.144:/root/.ssh/id_rsa.pub
+scp git root@$SERVER_IP:/root/.ssh/id_rsa
+scp git.pub root@$SERVER_IP:/root/.ssh/id_rsa.pub
 ```
 
 Auf dem Server anmelden:
 
 ```bash
-ssh root@46.101.212.144
+ssh root@$SERVER_IP
+```
+
+Korrekte berechtigung der erstellten keys Setzen 
+
+```bash
+chmod -R 700 /root/.ssh/
 ```
 
 Das repository klonen
@@ -52,7 +60,7 @@ useradd deploy -d /home/deploy
 mkdir -p -m 700 /home/deploy/.ssh/
 
 # NUR das folgende kommando auf dem Client mit den generierten schlüssen ausführen;
-scp ssh.pub root@46.101.212.144:/home/deploy/.ssh/authorized_keys
+scp ssh.pub root@$SERVER_IP:/home/deploy/.ssh/authorized_keys
 
 cp /opt/examibur/projekteserver/deploy/trigger_deploy.sh /home/deploy/trigger_deploy.sh
 
@@ -67,35 +75,22 @@ Match User deploy
         ForceCommand /home/deploy/trigger_deploy.sh
 ```
 
-Testen, ob Zugriff via SSH Funktioniert:
+anschliessend den ssh daemon neu starten:
 
 ```
-ssh -i ssh deploy@46.101.212.144
+systemctl restart sshd.service
 ```
 
-Service, welcher die docker-compose Dienste startet registrieren.
+Testen auf dem Client, ob Zugriff via SSH Funktioniert:
 
 ```
-systemctl link /opt/examibur/projekteserver/systemd/examibur-dev.service 
-systemctl enable examibur-dev.service
-systemctl start examibur-dev.service
+ssh -i ssh deploy@$SERVER_IP
 ```
 
-Redeploy service registrieren
+Login auf der eigenen registry (credentials von `examibur-bot`)
 
 ```
-systemctl link /opt/examibur/projekteserver/systemd/examibur-redeploy.service 
-systemctl enable examibur-redeploy.service
-systemctl start examibur-redeploy.service
-```
-
-Backup task einrichten
-
-```
-systemctl link /opt/examibur/projekteserver/systemd/examibur-backup.service
-systemctl link /opt/examibur/projekteserver/systemd/examibur-backup.timer
-systemctl enable examibur-backup.timer
-systemctl start examibur-backup.timer # First Backup!
+docker login registry.gitlab.com
 ```
 
 Spezifische Umgebungsvariablen kopieren
@@ -105,3 +100,37 @@ cp -R /opt/examibur/projekteserver/env_templates/ /opt/examibur/projekteserver/e
 ```
 
 **und anschliessend anpassen und sichern (nicht im backup eingschlossen!)**
+
+Service, welcher die docker-compose Dienste startet registrieren.
+
+```
+systemctl link /opt/examibur/projekteserver/systemd/examibur-dev.service 
+systemctl start examibur-dev.service
+```
+
+Die Zertifikate werden nun das erste mal generiert. Das log kann mit `journalctl -xe -f --unit examibur-dev.service` eingesehen werden.
+Ist alles erfolgreich gestratet (vorallem sonarqube dauert seine gute Zeit...), dann kann der dienst neu gestartet werden.
+
+```
+systemctl start examibur-dev.service
+```
+
+Nun sollte die Webseite über die definierten URLs erreichbar sein.
+
+Redeploy service registrieren
+
+```
+systemctl link /opt/examibur/projekteserver/systemd/examibur-redeploy.service 
+systemctl start examibur-redeploy.service
+```
+
+Backup task einrichten
+
+```
+systemctl link /opt/examibur/projekteserver/systemd/examibur-backup.service
+systemctl link /opt/examibur/projekteserver/systemd/examibur-backup.timer
+systemctl start examibur-backup.timer
+systemctl start examibur-backup.service # First Backup!
+```
+
+
