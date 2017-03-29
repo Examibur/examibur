@@ -11,9 +11,11 @@ services:
       - nginx_conf:/etc/nginx/conf.d/
     depends_on:
       - sonarqube
+      - examibur
     links:
       - sonarqube
-  staging:
+      - examibur
+  examibur:
     image: registry.gitlab.com/engineering-projekt/examibur:examibur-master
     restart: always
     links:
