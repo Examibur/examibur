@@ -28,13 +28,11 @@ public class ExcerciseSolution {
   private Solution participantSolution;
 
   @ManyToOne
-  @JoinColumn(name = "excercisesolution_excerciseId")
-  @Column(nullable = false)
+  @JoinColumn(name = "excercisesolution_excerciseId", nullable = false)
   private Excercise excercise;
 
   @ManyToOne
-  @JoinColumn(name = "excercisesolution_participationId")
-  @Column(nullable = false)
+  @JoinColumn(name = "excercisesolution_participationId", nullable = false)
   private ExamParticipation participation;
   
 

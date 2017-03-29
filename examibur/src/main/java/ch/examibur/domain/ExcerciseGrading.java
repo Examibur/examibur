@@ -39,13 +39,11 @@ public class ExcerciseGrading {
   private boolean isFinalGrading;
 
   @ManyToOne
-  @JoinColumn(name = "excercisegrading_authorId")
-  @Column(nullable = false)
+  @JoinColumn(name = "excercisegrading_authorId", nullable = false)
   private User gradingAuthor;
 
   @ManyToOne
-  @JoinColumn(name = "excercisegrading_excercisesolutionId")
-  @Column(nullable = false)
+  @JoinColumn(name = "excercisegrading_excercisesolutionId", nullable = false)
   private ExcerciseSolution excerciseSolution;
 
   

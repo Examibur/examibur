@@ -26,13 +26,11 @@ public class ExamParticipation {
   private String pseudonym;
 
   @ManyToOne
-  @JoinColumn(name = "examparticipation_participantId")
-  @Column(nullable = false)
+  @JoinColumn(name = "examparticipation_participantId", nullable = false)
   private User participant;
 
   @ManyToOne
-  @JoinColumn(name = "examparticipation_exam")
-  @Column(nullable = false)
+  @JoinColumn(name = "examparticipation_exam", nullable = false)
   private Exam exam;
 
   public long getId() {

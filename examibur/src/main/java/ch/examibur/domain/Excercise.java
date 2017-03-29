@@ -29,8 +29,7 @@ public abstract class Excercise {
   private double maxPoints;
 
   @ManyToOne
-  @JoinColumn(name = "excercise_examId")
-  @Column(nullable = false)
+  @JoinColumn(name = "excercise_examId", nullable = false)
   private Exam exam;
 
   @ManyToOne
