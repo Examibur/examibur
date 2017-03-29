@@ -4,8 +4,7 @@ import static spark.Spark.after;
 import static spark.Spark.before;
 import static spark.Spark.staticFiles;
 
-import ch.examibur.ui.app.controller.DashboardController;
-import ch.examibur.ui.app.controller.ExceptionController;
+import ch.examibur.ui.app.controller.RootController;
 import ch.examibur.ui.app.filter.Filters;
 import spark.servlet.SparkApplication;
 
@@ -16,14 +15,12 @@ public class Application implements SparkApplication {
 
     staticFiles.location("/public");
 
-    DashboardController dashboardController = new DashboardController(null);
-    ExceptionController exceptionController = new ExceptionController(null);
+    RootController rootController = new RootController();
 
     before("*", Filters.addTrailingSlashes);
 
-    dashboardController.route();
-    exceptionController.route();
-    
+    rootController.route();
+
     after("*", Filters.addGzipHeader);
 
   }
