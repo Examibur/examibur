@@ -6,7 +6,8 @@ Requires=docker.service
 [Service]
 TimeoutStartSec=0
 ExecStartPre=/usr/local/bin/docker-compose -f /opt/examibur/projekteserver/docker-compose.yml kill
-ExecStartPre=/usr/local/bin/docker-compose -f /opt/examibur/projekteserver/docker-compose.yml rm 
+ExecStartPre=/usr/local/bin/docker-compose -f /opt/examibur/projekteserver/docker-compose.yml rm -f
+ExecStartPre=/usr/local/bin/docker-compose -f /opt/examibur/projekteserver/docker-compose.yml pull
 ExecStart=/usr/local/bin/docker-compose -f /opt/examibur/projekteserver/docker-compose.yml up --remove-orphans --force-recreate
 ExecStop=/usr/local/bin/docker-compose -f /opt/examibur/projekteserver/docker-compose.yml stop
 
