@@ -41,7 +41,7 @@ test:
   stage: test
   script:
     - cd examibur/
-    - [ "$(git rev-parse --abbrev-ref HEAD)" == "master" ] && ./gradlew sonarqube -Dsonar.login=$SONARQUBE_TOKEN # only execute on master
+    - bash -c "[ \"$(git rev-parse --abbrev-ref HEAD)\" == \"master\" ] && ./gradlew sonarqube -Dsonar.login=$SONARQUBE_TOKEN"
     - ./gradlew check
     - ./gradlew jacocoTestReport
   artifacts:
