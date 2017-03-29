@@ -38,3 +38,8 @@ Als Einschränkung soll beachtet werden, dass z.B. die Routes und Controller in 
 
 ## Frontend
 > TODO
+
+## Design der Programmkonstrukte
+### Programmkonstrukt Domain-Schicht
+#### Datenmodell
+![](resources/softwareArchitektur/datamodel.png)
