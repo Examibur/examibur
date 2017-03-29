@@ -5,10 +5,10 @@ Requires=docker.service
 
 [Service]
 TimeoutStartSec=0
-ExecStartPre=/usr/bin/docker-compose kill
-ExecStartPre=/usr/bin/docker-compose rm 
-ExecStart=/usr/bin/docker-compose -f /opt/examibur/docker-compose.yml up --remove-orphans --force-recreate
-ExecStop=/usr/bin/docker-compose stop
+ExecStartPre=/usr/local/bin/docker-compose -f /opt/examibur/projekteserver/docker-compose.yml kill
+ExecStartPre=/usr/local/bin/docker-compose -f /opt/examibur/projekteserver/docker-compose.yml rm 
+ExecStart=/usr/local/bin/docker-compose -f /opt/examibur/projekteserver/docker-compose.yml up --remove-orphans --force-recreate
+ExecStop=/usr/local/bin/docker-compose -f /opt/examibur/projekteserver/docker-compose.yml stop
 
 [Install]
 WantedBy=multi-user.target
