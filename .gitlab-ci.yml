@@ -91,6 +91,7 @@ deploy_staging:
     - echo "Deploy to staging server"
     - echo $SSH_DEPLOY_KEY > ssh
     - chmod 700 ssh
+    - mkdir .ssh/
     - echo "sinv-56077.edu.hsr.ch,152.96.56.77 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDltlUZTLehwmeJQ8LA/Lg4pCdNDgcj4G9FgUi4hFT7K7giAjchHEq2z2wbLt6D16CLyLPahgixzi8p2MboqNx/B/R6QNB6K7q1mOPqKMK6vQFzUIzZsL/9F18X4kheEKa2b+zyQ9kx7BldZDCDt4hJy/TpFGDjGZrHwzW9VlP9odIXChdnJS4t8Xsh06Sa6hjhBoFWIDDnXGp9z1hkXOYcT3FKXgIJLuYorg9OEnDfqX1BsIqmfpLdHmA0SFB8lYaPAMxcSuwOm7wuj8aDe/NJV0FZz6DgN9IjTHnegxbOVRvmSgsH53ZtSTEawljfPJ117ipTnHetIC2zibPqOV2b" >> .ssh/known_hosts
     - ssh -i ssh deploy@sinv-56077.edu.hsr.ch
     - rm ssh
