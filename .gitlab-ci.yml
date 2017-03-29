@@ -89,7 +89,7 @@ deploy_staging:
   image: cwt114/alpine-ssh
   script:
     - echo "Deploy to staging server"
-    - mkdir ~/.ssh/
+    - mkdir -p ~/.ssh/
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts
     - ssh deploy@sinv-56077.edu.hsr.ch
