@@ -130,17 +130,24 @@ Der Entscheid fiel auf Freemarker, weil Velocity seit 2010 keine neue Version na
 Die UI-Schicht ist nach dem Thin-Client Ansatz schlank gehalten. Es wird lediglich ein Browser benötigt, um als Client mit Examibur arbeiten zu können.
 
 #### Routing
-Am Anfang jeder Interaktion steht der Request. Dieser wird durch den Browser generiert und an Spark versendet. Die in den Controller-Klassen definierten Routing-Regeln weisen den Request einer bestimmten Controller-Methode zu. Es gewinnt jeweils die erste passende Route, dennoch wird das gesamte Routing abgearbeitet und erst am Ende die zugewiesene Methode aufgerufen.
+Am Anfang jeder Interaktion steht der Request. Dieser wird durch den Browser generiert und an Spark versendet. Die in den Controller-Klassen definierten Routing-Regeln weisen den Request einer bestimmten Methode (Controller) zu. Es gewinnt jeweils die erste passende Route. Dennoch wird das gesamte Routing abgearbeitet und erst am Ende die zugewiesene Methode aufgerufen.
 
 <figure>
 <img src="resources/routingOverview/routing-diagram.png">
 <figcaption>Die komplette Routing-Logik von Examibur</figcaption>
 </figure>
 
+[Spark Documentation - Routes](http://sparkjava.com/documentation.html#routes)
+
 #### Controller
 Jeder Controller wird mit einem Request-Objekt aufgerufen, das sämtliche Informationen zum HTTP-Request, wie beispielsweise URL oder Parameter, enthält. Ausserdem wird ein initialisiertes Response-Objekt mitgegeben, über das die Rückgabe zum Client verändert werden kann.
 
 Als erstes werden in einem Controller die Parameter des Requests ausgewertet. Anschliessend werden über Serviceaufrufe auf den Business-Layer Datenzugriffe oder -manipulationen ausgeführt. Am Ende folgt eine Weiterleitung auf eine neue Route oder der Aufruf zur TemplateUtil, welche das Rendern eines Freemarker Templates auslöst.
+
+#### Exception-Handling
+Sämtliche Exceptions können im ExceptionController auf einzelne Controller gemappt werden. Sobald eine solche Exception geworfen wird, wird der Routing-Vorgang unterbrochen und die zugewiesene Methode aufgerufen.
+
+[Spark Documentation - Exception Mapping](http://sparkjava.com/documentation.html#exception-mapping)
 
 #### Templates
 
@@ -154,7 +161,7 @@ Dabei werden die ftl-Templates zusammen mit einem Model in die Freemarker-Engine
 
 Alle Templates basieren auf einem Basis-Template mit dem Namen `base.ftl`. Dadurch müssen Layout- und Strukturänderungen nur darin gemacht werden.
 Design und Layout wird über Cascading Stylesheets (CSS) gesteuert. GUI-Elemente und Styling werden von [Bootstrap](http://getbootstrap.com/) verwendet.
-Das Styling wird auf das CI von Examibur gemappt, welches im `style.css` gemacht werden kann.
+Das applikationsspezifische Styling von Examibur wird im separaten CSS-Dokument `custom.css` definiert und überschreibt die Regeln von Bootstrap automatisch.
 
 Um das User-Feeling zu verbessern, wird teilweise Javascript verwendet.
 
@@ -202,9 +209,6 @@ Zur Veranschaulichung des Zusammenspiels der Programmkonstrukte wird der Use Cas
 
 #### Integration-Schicht
   * Interface: ExamDao
-
-## Exception-Handling im Web-Teil
-> TODO
 
 ## Physisches Datenmodell
 > TODO Datenmodell mit FK etc.
