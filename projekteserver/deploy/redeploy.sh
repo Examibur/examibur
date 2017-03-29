@@ -22,6 +22,7 @@ do
       if [ "$(git diff origin/master)" != "" ]; then
           echo "Performing re-deploy..."
           git pull origin master
+          systemctl daemon-reload # If a systemd service has changed
           docker-compose -f "${DOCKER_COMPOSE_FILE}" stop ${SERVICES}
           docker-compose -f "${DOCKER_COMPOSE_FILE}" kill ${SERVICES}
           docker-compose -f "${DOCKER_COMPOSE_FILE}" rm ${SERVICES}
