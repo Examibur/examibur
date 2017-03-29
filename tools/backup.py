@@ -6,6 +6,7 @@ import re
 import time
 import tarfile
 import shutil
+import subprocess
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen, build_opener, HTTPCookieProcessor
 from urllib.parse import urlencode
@@ -17,6 +18,7 @@ TARGETS = ['gitlab', 'ci_artifacts', 'projekteserver']
 BACKUP_LOCATION = os.path.join(os.path.dirname(__file__), '..', 'backups/')
 BACKUP_CI_LOCATION = os.path.join(BACKUP_LOCATION, 'ci')
 BACKUP_GL_LOCATION = os.path.join(BACKUP_LOCATION, 'gitlab')
+BACKUP_PS_LOCATION = os.path.join(BACKUP_LOCATION, 'projekteserver')
 
 GL_PROJECT_URL = 'https://gitlab.com/engineering-projekt/examibur'
 GL_API_URL = 'https://gitlab.com/api/v4/'
@@ -175,8 +177,8 @@ def _ci_artifacts_download(job, token):
 
 
 def projekteserver():
-    print("WARNING: projekteserver NOT YET IMPLEMENTED!")
-
+    command = 'rsync -avz --remove-source-files -e ssh root@sinv-56077.edu.hsr.ch:/opt/backups/ ' + BACKUP_PS_LOCATION
+    subprocess.run(command, shell=True, check=True)
 
 def _examibur_token():
     """
