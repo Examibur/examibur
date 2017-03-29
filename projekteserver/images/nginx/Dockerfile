@@ -12,6 +12,5 @@ ADD config /usr/local/etc/dehydrated/config
 ADD domains.txt /etc/dehydrated/
 ADD start_nginx.sh /usr/local/bin/start_nginx
 
-ADD nginx.conf /etc/nginx/nginx.conf
 ADD conf.d /etc/nginx/conf.d/
 ENTRYPOINT /usr/local/bin/start_nginx
