@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -42,6 +43,8 @@ public class Exam {
   private ExamState state;
 
   @ElementCollection
+  @CollectionTable(name = "allowedUtility_t")
+  @Column(name = "allowedUtility")
   private List<String> allowedUtilities = new ArrayList<>();
 
   public long getId() {

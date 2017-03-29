@@ -8,9 +8,9 @@ INSERT INTO version_t (id, release, name, type, description) VALUES (
     'Initial exam table.'
 );
 
-CREATE TABLE exam_allowedutilities (
+CREATE TABLE allowedUtility_t (
     exam_examid bigint,
-    allowedutilities character varying(255)
+    allowedutility character varying(255)
 );
 
 CREATE TABLE exam_t (
@@ -30,7 +30,7 @@ CREATE SEQUENCE exam_t_examid_seq
     CACHE 1;
 
     
-ALTER TABLE exam_allowedutilities OWNER TO examibur;
+ALTER TABLE allowedUtility_t OWNER TO examibur;
 ALTER TABLE exam_t OWNER TO examibur;
 ALTER TABLE exam_t_examid_seq OWNER TO examibur;
 ALTER SEQUENCE exam_t_examid_seq OWNED BY exam_t.examid;
@@ -41,8 +41,8 @@ ALTER TABLE ONLY exam_t
     ADD CONSTRAINT fk_exam_t_exam_authorid FOREIGN KEY (exam_authorid) REFERENCES user_t(userid),
     ADD CONSTRAINT fk_exam_t_exam_moduleid FOREIGN KEY (exam_moduleid) REFERENCES module_t(moduleid);
 
-ALTER TABLE ONLY exam_allowedutilities
-    ADD CONSTRAINT fk_exam_allowedutilities_exam_examid FOREIGN KEY (exam_examid) REFERENCES exam_t(examid);
+ALTER TABLE ONLY allowedUtility_t
+    ADD CONSTRAINT fk_allowedUtility_t_exam_examid FOREIGN KEY (exam_examid) REFERENCES exam_t(examid);
 
 
 SELECT pg_catalog.setval('exam_t_examid_seq', 1, false);
