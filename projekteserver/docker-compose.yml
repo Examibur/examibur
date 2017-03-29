@@ -49,8 +49,7 @@ services:
       - sonarqube_extensions:/opt/sonarqube/extensions
 
 volumes:
-  nginx_certs:
-  nginx_conf:
+  nginx_dehydrated:
   db_sonarqube:
   db_examibur:
   sonarqube_data:

@@ -1,2 +1,1 @@
 examibur-demo.raphael.li
-sonar.raphael.li
