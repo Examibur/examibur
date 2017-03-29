@@ -84,3 +84,14 @@ examibur_image:
     - docker build -t $EXAMIBUR_IMAGE -f docker/Dockerfile.examibur .
     - docker push $EXAMIBUR_IMAGE
 
+deploy_staging:
+  stage: deploy
+  image: ubuntu
+  script:
+    - echo "Deploy to staging server"
+    - echo $SSH_DEPLOY_KEY > ssh
+    - ssh -i ssh deploy@$SERVER_IP
+    - rm ssh
+  environment:
+    name: staging
+    url: https://examibur-demo.raphael.li/
