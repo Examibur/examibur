@@ -88,13 +88,20 @@ systemctl link /opt/examibur/projekteserver/systemd/examibur-redeploy.service
 systemctl enable examibur-redeploy.service
 systemctl start examibur-redeploy.service
 ```
-TODO: env kopieren
-TODO: Backup Task einrichten:
+
+Backup task einrichten
 
 ```
-# SYSTEMD TIMER
-# docker-compose down
-# tar /var/volumes/KNOWN_VOLUMES ...or everything?
-# put these backup tars to /opt/backups
-# docker-compose down
+systemctl link /opt/examibur/projekteserver/systemd/examibur-backup.service
+systemctl link /opt/examibur/projekteserver/systemd/examibur-backup.timer
+systemctl enable examibur-backup.timer
+systemctl start examibur-backup.timer # First Backup!
 ```
+
+Spezifische Umgebungsvariablen kopieren
+
+```
+cp -R /opt/examibur/projekteserver/env_templates/ /opt/examibur/projekteserver/env/
+```
+
+**und anschliessend anpassen und sichern (nicht im backup eingschlossen!)**
