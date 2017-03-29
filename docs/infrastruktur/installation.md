@@ -1,6 +1,14 @@
-# Installation
+---
+layout: default
+title: Installation Projektserver
+---
+## Kennworter & Keys
 
-* Vorbereitung: DNS IP eintragen (sonar.raphael.li / examibur-demo.raphael.li
+Alle verwendeten Kennwörter & Keys sind bei Raphael Zimmermann und Robin Suter abgelegt.
+
+## Installation Projekeserver
+
+Als erstes die IP im DNS eintragen (hier `sonar.raphael.li` und `examibur-demo.raphael.li`)
 
 Als Ausgangslage dient ein minimaler Ubuntu-Server mit einem OpenSSH-Daemon.
 
@@ -133,4 +141,27 @@ systemctl start examibur-backup.timer
 systemctl start examibur-backup.service # First Backup!
 ```
 
+## Installation Gitlab Worker 
+
+* Installation gemäss [Dokumentation](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/release_process/README.md)
+* Eigene Konfiguration überschreiben (`/etc/gitlab-runner/config.toml`):
+
+```
+concurrent = 1
+check_interval = 0
+
+[[runners]]
+  name = "sinv-56077"
+  url = "https://gitlab.com/ci/"
+  token = "REPLACE_ME"
+  executor = "docker"
+  [runners.docker]
+    tls_verify = false
+    image = "docker:1.13-dind"
+    privileged = true
+    disable_cache = false
+    volumes = ["/cache", "/root/.gradle/", "/var/run/docker.sock:/var/run/docker.sock"]
+  [runners.cache]
+
+```
 

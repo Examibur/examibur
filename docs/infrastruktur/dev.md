@@ -1,4 +1,7 @@
-# EPJ Infrastruktur Dokumentation
+---
+layout: default
+title: Entwicklungsumgebung
+---
 
 ## System-Voraussetzungen
 
