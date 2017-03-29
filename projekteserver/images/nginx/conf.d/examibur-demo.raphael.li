@@ -1,0 +1,20 @@
+http {
+    server {
+        listen 80;
+        listen 443 ssl;
+        server_name examibur-demo.raphael.li;
+        server_name sinv-56077.edu.hsr.ch;
+
+        ssl_certificate /etc/dehydrated/certs/examibur-demo.raphael.li/fullchain.pem;
+        ssl_certificate_key /etc/dehydrated/certs/examibur-demo.raphael.li/privkey.pem;
+
+        location /.well-known/acme-challenge {
+            alias /var/www/dehydrated;
+        }
+
+        location / {
+            proxy_pass http://examibur:8080;
+        }
+   }
+}
+
