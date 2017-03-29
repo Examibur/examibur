@@ -15,10 +15,6 @@
 # default: <unset>
 IP_VERSION=4
 
-# TODO: REMOVE! FOR TESTING ONLY!
-CA="https://acme-staging.api.letsencrypt.org/directory"
-CA_TERMS="https://acme-staging.api.letsencrypt.org/terms"
-
 # Path to certificate authority (default: https://acme-v01.api.letsencrypt.org/directory)
 #CA="https://acme-v01.api.letsencrypt.org/directory"
 
