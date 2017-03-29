@@ -54,4 +54,3 @@ volumes:
   db_examibur:
   sonarqube_data:
   sonarqube_extensions:
-  gitlab_runner:
