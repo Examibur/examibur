@@ -96,3 +96,6 @@ deploy_staging:
   environment:
     name: staging
     url: https://examibur-demo.raphael.li/
+  only:
+    - master
+
