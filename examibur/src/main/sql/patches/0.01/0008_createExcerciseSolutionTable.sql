@@ -10,9 +10,9 @@ INSERT INTO version_t (id, release, name, type, description) VALUES (
 
 CREATE TABLE excercisesolution_t (
     excercisesolutionid integer NOT NULL,
-    isdone boolean,
-    excercisesolution_excerciseid bigint,
-    excercisesolution_participationid bigint,
+    isdone boolean NOT NULL,
+    excercisesolution_excerciseid bigint NOT NULL,
+    excercisesolution_participationid bigint NOT NULL,
     excercisesolution_participantsolutionid bigint
 );
 

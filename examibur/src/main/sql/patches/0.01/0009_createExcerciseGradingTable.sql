@@ -11,13 +11,13 @@ INSERT INTO version_t (id, release, name, type, description) VALUES (
 CREATE TABLE excercisegrading_t (
     excercisegradingid integer NOT NULL,
     comment character varying(255),
-    createdinstate character varying(255),
-    creationdate date,
+    createdinstate character varying(255) NOT NULL,
+    creationdate date NOT NULL,
     isfinalgrading boolean,
-    points double precision,
+    points double precision NOT NULL,
     reasoning character varying(255),
-    excercisegrading_excercisesolutionid bigint,
-    excercisegrading_authorid bigint
+    excercisegrading_excercisesolutionid bigint NOT NULL,
+    excercisegrading_authorid bigint NOT NULL
 );
 
 CREATE SEQUENCE excercisegrading_t_excercisegradingid_seq

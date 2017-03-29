@@ -17,7 +17,7 @@ CREATE TABLE exam_t (
     examid integer NOT NULL,
     allowedtimeinmin integer,
     duedate date,
-    state character varying(255),
+    state character varying(255) NOT NULL,
     exam_authorid bigint,
     exam_moduleid bigint
 );

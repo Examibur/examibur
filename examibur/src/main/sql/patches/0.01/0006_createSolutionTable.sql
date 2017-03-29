@@ -11,7 +11,7 @@ INSERT INTO version_t (id, release, name, type, description) VALUES (
 CREATE TABLE solution_t (
     solutionid integer NOT NULL,
     solution_type character varying(31),
-    solutiontext character varying(255)
+    solutiontext character varying(255) NOT NULL
 );
 
 CREATE SEQUENCE solution_t_solutionid_seq

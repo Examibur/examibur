@@ -20,6 +20,7 @@ public class ExcerciseSolution {
   @Column(name = "excerciseSolutionId")
   private long id;
 
+  @Column(nullable = false)
   private boolean isDone;
 
   @OneToOne(cascade = CascadeType.REMOVE)
@@ -28,10 +29,12 @@ public class ExcerciseSolution {
 
   @ManyToOne
   @JoinColumn(name = "excercisesolution_excerciseId")
+  @Column(nullable = false)
   private Excercise excercise;
 
   @ManyToOne
   @JoinColumn(name = "excercisesolution_participationId")
+  @Column(nullable = false)
   private ExamParticipation participation;
   
 

@@ -11,12 +11,12 @@ INSERT INTO version_t (id, release, name, type, description) VALUES (
 CREATE TABLE excercise_t (
     excerciseid integer NOT NULL,
     excercise_type character varying(31),
-    maxpoints double precision,
-    excercise_examid bigint,
+    maxpoints double precision NOT NULL,
+    excercise_examid bigint NOT NULL,
     excercise_graderid bigint,
     excercise_reviewerid bigint,
     excercise_examplesolutionid bigint,
-    taskdescription character varying(255)
+    taskdescription character varying(255) NOT NULL
 );
 
 CREATE SEQUENCE excercise_t_excerciseid_seq

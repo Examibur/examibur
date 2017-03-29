@@ -25,10 +25,12 @@ public abstract class Excercise {
   @Column(name = "excerciseId")
   private long id;
 
+  @Column(nullable = false)
   private double maxPoints;
 
   @ManyToOne
   @JoinColumn(name = "excercise_examId")
+  @Column(nullable = false)
   private Exam exam;
 
   @ManyToOne

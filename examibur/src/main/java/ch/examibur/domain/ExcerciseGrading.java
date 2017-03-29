@@ -22,25 +22,30 @@ public class ExcerciseGrading {
   @Column(name = "excerciseGradingId")
   private long id;
 
+  @Column(nullable = false)
   private Date creationDate;
 
   private String comment;
 
   private String reasoning;
 
+  @Column(nullable = false)
   private double points;
 
   @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
   private ExamState createdInState;
 
   private boolean isFinalGrading;
 
   @ManyToOne
   @JoinColumn(name = "excercisegrading_authorId")
+  @Column(nullable = false)
   private User gradingAuthor;
 
   @ManyToOne
   @JoinColumn(name = "excercisegrading_excercisesolutionId")
+  @Column(nullable = false)
   private ExcerciseSolution excerciseSolution;
 
   

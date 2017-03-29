@@ -11,10 +11,10 @@ INSERT INTO version_t (id, release, name, type, description) VALUES (
 
 CREATE TABLE examparticipation_t (
     examparticipationid integer NOT NULL,
-    participationdate date,
+    participationdate date NOT NULL,
     pseudonym character varying(255),
-    examparticipation_exam bigint,
-    examparticipation_participantid bigint
+    examparticipation_exam bigint NOT NULL,
+    examparticipation_participantid bigint NOT NULL
 );
 
 CREATE SEQUENCE examparticipation_t_examparticipationid_seq

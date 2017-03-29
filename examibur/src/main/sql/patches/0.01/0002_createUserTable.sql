@@ -10,8 +10,8 @@ INSERT INTO version_t (id, release, name, type, description) VALUES (
 
 CREATE TABLE user_t (
     userid integer NOT NULL,
-    firstname character varying(255),
-    lastname character varying(255)
+    firstname character varying(255) NOT NULL,
+    lastname character varying(255) NOT NULL
 );
 
 CREATE SEQUENCE user_t_userid_seq

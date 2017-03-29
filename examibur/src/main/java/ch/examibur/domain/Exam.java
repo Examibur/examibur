@@ -38,6 +38,7 @@ public class Exam {
   private int allowedTimeInMin;
 
   @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
   private ExamState state;
 
   @ElementCollection
