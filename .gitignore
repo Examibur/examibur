@@ -1,1 +1,10 @@
 /backups/
+
+/examibur/.checkstyle
+/examibur/.settings
+/examibur/.gradle
+/examibur/.project
+/examibur/.classpath
+/examibur/webapps
+/examibur/build
+/examibur/bin

@@ -1,31 +1,101 @@
 stages:
+  - build
+  - test
   - docs
   - deploy
 
-generate_pages:
+variables:
+  REGISTRY_BASE: registry.gitlab.com/engineering-projekt/examibur
+  JEKYLL_IMAGE: $REGISTRY_BASE:jekyll-$CI_COMMIT_REF_NAME
+  EXAMIBUR_IMAGE: $REGISTRY_BASE:examibur-$CI_COMMIT_REF_NAME
+
+cache:
+  paths:
+    - examibur/build/
+    - examibur/.gradle/
+
+build_images:
+  stage: build
   image: docker:latest
+  variables:
+    DOCKER_DRIVER: overlay
   services:
     - docker:dind
-  stage: docs
   script:
-  - docker build -t engineering-projekt/examibur-website docs/website/docker/
-  - docker run -t --rm --name examibur-website -u jekyll -v $(pwd)/docs/:/src/ -p 4000:4000 engineering-projekt/examibur-website jekyll build -d public
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_BASE
+    - docker build -t $JEKYLL_IMAGE -f docker/Dockerfile.jekyll .
+    - docker push $JEKYLL_IMAGE
+
+build:
+  image: java:8-jdk
+  stage: build
+  script:
+    - cd examibur/
+    - ./gradlew assemble
+  artifacts:
+    paths:
+      - examibur/build/libs/
+
+test:
+  image: java:8-jdk
+  stage: test
+  script:
+    - cd examibur/
+    - bash -c "[ \"$(git rev-parse --abbrev-ref HEAD)\" == \"master\" ] && ./gradlew sonarqube -Dsonar.login=$SONARQUBE_TOKEN || true"
+    - ./gradlew check
+    - ./gradlew jacocoTestReport
+  artifacts:
+    paths:
+      - examibur/build/reports/
+
+generate_pages:
+  stage: docs
+  image: $JEKYLL_IMAGE
+  script:
+    - cd docs/
+    - jekyll build -d public
   artifacts:
     paths:
     - docs/public/
 
 pages:
-  image: docker:latest
-  services:
-    - docker:dind
   stage: deploy
+  image: python:3.6
   script:
-  - docker run -t --rm -e EXAMIBUR_ACCESS_TOKEN -v $(pwd)/:/src/ python:3.6 python /src/tools/backup.py gitlab
-  - docker run -t --rm -e EXAMIBUR_ACCESS_TOKEN -v $(pwd)/:/src/ python:3.6 python /src/tools/report.py "/src/backups/gitlab/" "/src/docs/public/projektplan/resources/export/" all
+  - python ./tools/backup.py gitlab
+  - python ./tools/report.py "./backups/gitlab/" "./docs/public/projektmanagement/resources/export/" all
   - cp -r docs/public public/
   artifacts:
     paths:
     - public
+    expire_in: 47 yrs 6 mos and 4d
   only:
-  - master
-  allow_failure: true # Sadly, the gitlab export is very unreliable
+    - master
+
+examibur_image:
+  stage: deploy
+  image: docker:latest
+  variables:
+    DOCKER_DRIVER: overlay
+  services:
+    - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_BASE
+    - docker build -t $EXAMIBUR_IMAGE -f docker/Dockerfile.examibur .
+    - docker push $EXAMIBUR_IMAGE
+
+deploy_staging:
+  stage: deploy
+  image: cwt114/alpine-ssh
+  script:
+    - mkdir -p ~/.ssh/
+    - eval `ssh-agent -s`
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts
+    - ssh deploy@sinv-56077.edu.hsr.ch
+  environment:
+    name: staging
+    url: https://examibur-demo.raphael.li/
+  only:
+    - master
+

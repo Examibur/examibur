@@ -1,0 +1,9 @@
+\i 0001_createVersionTable.sql
+\i 0002_createUserTable.sql
+\i 0003_createModuleTable.sql
+\i 0004_createExamTable.sql
+\i 0005_createExamParticipationTable.sql
+\i 0006_createSolutionTable.sql
+\i 0007_createExcerciseTable.sql
+\i 0008_createExcerciseSolutionTable.sql
+\i 0009_createExcerciseGradingTable.sql

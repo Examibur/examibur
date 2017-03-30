@@ -5,6 +5,8 @@ import json
 import re
 import time
 import tarfile
+import shutil
+import subprocess
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen, build_opener, HTTPCookieProcessor
 from urllib.parse import urlencode
@@ -16,14 +18,15 @@ TARGETS = ['gitlab', 'ci_artifacts', 'projekteserver']
 BACKUP_LOCATION = os.path.join(os.path.dirname(__file__), '..', 'backups/')
 BACKUP_CI_LOCATION = os.path.join(BACKUP_LOCATION, 'ci')
 BACKUP_GL_LOCATION = os.path.join(BACKUP_LOCATION, 'gitlab')
+BACKUP_PS_LOCATION = os.path.join(BACKUP_LOCATION, 'projekteserver')
 
 GL_PROJECT_URL = 'https://gitlab.com/engineering-projekt/examibur'
 GL_API_URL = 'https://gitlab.com/api/v4/'
 GL_PROJECT_ID = '2751206'
-GL_EXPORT_TIMEOUT_IN_SECONDS = 3*60
+GL_EXPORT_TIMEOUT_IN_SECONDS = 100*60
 
-GL_API_BUILDS_URL = '{}/projects/{}/builds/'.format(GL_API_URL, GL_PROJECT_ID)
-GL_API_ARTIFACT_URL = GL_PROJECT_URL + '/builds/{}/artifacts/download'
+GL_API_JOBS_URL = '{}/projects/{}/jobs'.format(GL_API_URL, GL_PROJECT_ID)
+GL_API_ARTIFACT_URL = GL_API_JOBS_URL + '/{}/artifacts'
 GL_EXPORT_CSRF_BASE_URL = '{}/edit'.format(GL_PROJECT_URL)
 GL_EXPORT_TRIGGER_URL = '{}/generate_new_export'.format(GL_PROJECT_URL)
 GL_EXPORT_DOWNLOAD_URL = '{}/download_export'.format(GL_PROJECT_URL)
@@ -76,7 +79,7 @@ def _gitlab_download_export(token):
 
     timeout = time.time() + GL_EXPORT_TIMEOUT_IN_SECONDS
     while timeout > time.time():
-        time.sleep(2)
+        time.sleep(20)
         try:
             with urlopen(request) as response:
                 if response.geturl() == GL_EXPORT_DOWNLOAD_URL:
@@ -87,16 +90,16 @@ def _gitlab_download_export(token):
                         f.write(response.read())
                     print("Download completed!")
                     print("Verifying tarfile....")
-                    tf = tarfile.open(destination)
+                    tarfile.open(destination)
                     print("Tarfile is OK!")
                     return
                 else:
-                    print("Export not ready yet...will try again in 2s")
+                    print("Export not ready yet...will try again in 20s")
         except tarfile.ReadError:
-            print("Invalid tar File...will try again in 2s...")
+            print("Invalid tar File...will try again in 20s...")
         except HTTPError as e:
-            if 'The HTTP server returned a redirect error that would lead to an infinite loop.' in str(e):
-                print('infinite loop occured - will try again in 2s...')
+            if 'redirect error that would lead to an infinite loop.' in str(e):
+                print('infinite loop occured - will try again in 20s...')
             else:
                 break
     raise Exception("Export generation has timed out!")
@@ -111,41 +114,71 @@ def ci_artifacts():
     token = _examibur_token()
     os.makedirs(BACKUP_CI_LOCATION, exist_ok=True)
 
-    print("fetching build artifacts....")
-    request = Request(GL_API_BUILDS_URL, headers={'PRIVATE-TOKEN': token})
-    with urlopen(request) as response:
-        builds = json.load(response)
-        for build in builds:
-            if build.get('artifacts_file') is not None:
-                _ci_artifacts_download(build, token)
+    page_no = 1
+    jobs = _ci_load_page(page_no, token)
+    while len(jobs) > 0:
+        for job in jobs:
+            if job.get('artifacts_file') is not None:
+                _ci_artifacts_download(job, token)
             else:
-                print('Build {} has no Artifacts'.format(build['id']))
+                print('Job {} has no Artifacts (status: {}, stage: {}, name: {})'.format(
+                    job['id'],
+                    job['status'],
+                    job['stage'],
+                    job['name']))
+        page_no += 1
+        jobs = _ci_load_page(page_no, token)
 
 
-def _ci_artifacts_download(build, token):
+def _ci_load_page(page_no, token):
+    print("fetching job artifacts (page {})....".format(page_no))
+    page_url = GL_API_JOBS_URL + '?page={}&per_page=50'.format(page_no)
+    request = Request(page_url, headers={'PRIVATE-TOKEN': token})
+    with urlopen(request) as response:
+        return json.loads(response.read())
+
+
+def _ci_artifacts_download(job, token):
     """
-    Downloads and the artifacts of the given build into the BACKUP_CI_LOCATION
+    Downloads and the artifacts of the given job into the BACKUP_CI_LOCATION
     if not present yet. A Minimal integrity check is performed by checking
     the file size.
     """
-    artifact = build['artifacts_file']
-    file_name = '{}-{}'.format(build['pipeline']['id'], artifact['filename'])
+    artifact = job['artifacts_file']
+
+    file_name = '{}-{}-{}-{}-{}-{}'.format(
+            job['commit']['short_id'],
+            job['pipeline']['id'],
+            job['id'],
+            job['stage'],
+            job['name'],
+            artifact['filename'])
     destination = os.path.join(BACKUP_CI_LOCATION, file_name)
 
+    # Skip if already exists...
     if os.path.exists(destination):
+        print('{} already exists'.format(destination))
         return
 
-    request = Request(GL_API_ARTIFACT_URL.format(build['id']),
+    request = Request(GL_API_ARTIFACT_URL.format(job['id']),
                       headers={'PRIVATE-TOKEN': token})
     with urlopen(request) as response, open(destination, 'wb') as f:
             f.write(response.read())
-    assert os.path.getsize(destination) == build['artifacts_file']['size']
-    print('Downloaded {} to {}'.format(build['pipeline']['id'], destination))
+    assert os.path.getsize(destination) == job['artifacts_file']['size']
+    print('{} downloaded'.format(destination))
+    if job['tag']:
+        tag_name = '{}-{}-{}-{}'.format(
+                job['ref'],
+                job['stage'],
+                job['name'],
+                artifact['filename'])
+        shutil.copy(destination, os.path.join(BACKUP_CI_LOCATION, tag_name))
+        print('Copying tag artifact {}'.format(tag_name))
 
 
 def projekteserver():
-    print("WARNING: projekteserver NOT YET IMPLEMENTED!")
-
+    command = 'rsync -avz --remove-source-files -e ssh root@sinv-56077.edu.hsr.ch:/opt/backups/ ' + BACKUP_PS_LOCATION
+    subprocess.run(command, shell=True, check=True)
 
 def _examibur_token():
     """
