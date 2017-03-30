@@ -187,7 +187,7 @@ Die Integration-Schicht bietet verschiedene Data-Access-Convenience Methoden an,
 In der Domain-Schicht sind die zu persistierenden Domain-Objekte gekapselt. Darauf wird mit EclipseLink das objektrelationale Mapping zur Datenbank definiert.
 
 #### Datenmodell
->  TODO Robin
+![](resources/softwareArchitektur/datamodel.png)
 
 ### Programmkonstrukt Datenbank-Schicht
 In der Datenbank-Schicht werden die Daten in einer relationalen Datenbank gespeichert. Als Datenbankserver wird Postgres verwendet.
@@ -209,6 +209,3 @@ Zur Veranschaulichung des Zusammenspiels der Programmkonstrukte wird der Use Cas
 
 #### Integration-Schicht
   * Interface: ExamDao
-
-## Physisches Datenmodell
-> TODO Datenmodell mit FK etc.
