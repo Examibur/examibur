@@ -10,11 +10,11 @@ INSERT INTO exam_t(
             examid, allowedtimeinmin, duedate, state, exam_authorid, exam_moduleid)
     VALUES (1, 120, now(), 'CORRECTION', 1, 1);
     
-INSERT INTO exam_allowedutilities(
-        exam_examid, allowedutilities)
+INSERT INTO allowedUtility_t(
+        exam_examid, allowedutility)
 	VALUES (1, 'calculator');
-INSERT INTO exam_allowedutilities(
-    	exam_examid, allowedutilities)
+INSERT INTO allowedUtility_t(
+    	exam_examid, allowedutility)
 VALUES (1, 'Toffifee');
 
 COMMIT;
