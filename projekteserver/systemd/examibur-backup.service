@@ -1,0 +1,7 @@
+[Unit]
+Description=Backup all docker volumes
+
+[Service]
+Type=simple
+ExecStart=/opt/examibur/projekteserver/backup/backup.sh
+

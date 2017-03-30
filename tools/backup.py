@@ -6,6 +6,7 @@ import re
 import time
 import tarfile
 import shutil
+import subprocess
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen, build_opener, HTTPCookieProcessor
 from urllib.parse import urlencode
@@ -17,11 +18,12 @@ TARGETS = ['gitlab', 'ci_artifacts', 'projekteserver']
 BACKUP_LOCATION = os.path.join(os.path.dirname(__file__), '..', 'backups/')
 BACKUP_CI_LOCATION = os.path.join(BACKUP_LOCATION, 'ci')
 BACKUP_GL_LOCATION = os.path.join(BACKUP_LOCATION, 'gitlab')
+BACKUP_PS_LOCATION = os.path.join(BACKUP_LOCATION, 'projekteserver')
 
 GL_PROJECT_URL = 'https://gitlab.com/engineering-projekt/examibur'
 GL_API_URL = 'https://gitlab.com/api/v4/'
 GL_PROJECT_ID = '2751206'
-GL_EXPORT_TIMEOUT_IN_SECONDS = 3*60
+GL_EXPORT_TIMEOUT_IN_SECONDS = 100*60
 
 GL_API_JOBS_URL = '{}/projects/{}/jobs'.format(GL_API_URL, GL_PROJECT_ID)
 GL_API_ARTIFACT_URL = GL_API_JOBS_URL + '/{}/artifacts'
@@ -77,7 +79,7 @@ def _gitlab_download_export(token):
 
     timeout = time.time() + GL_EXPORT_TIMEOUT_IN_SECONDS
     while timeout > time.time():
-        time.sleep(2)
+        time.sleep(20)
         try:
             with urlopen(request) as response:
                 if response.geturl() == GL_EXPORT_DOWNLOAD_URL:
@@ -92,12 +94,12 @@ def _gitlab_download_export(token):
                     print("Tarfile is OK!")
                     return
                 else:
-                    print("Export not ready yet...will try again in 2s")
+                    print("Export not ready yet...will try again in 20s")
         except tarfile.ReadError:
-            print("Invalid tar File...will try again in 2s...")
+            print("Invalid tar File...will try again in 20s...")
         except HTTPError as e:
             if 'redirect error that would lead to an infinite loop.' in str(e):
-                print('infinite loop occured - will try again in 2s...')
+                print('infinite loop occured - will try again in 20s...')
             else:
                 break
     raise Exception("Export generation has timed out!")
@@ -175,8 +177,8 @@ def _ci_artifacts_download(job, token):
 
 
 def projekteserver():
-    print("WARNING: projekteserver NOT YET IMPLEMENTED!")
-
+    command = 'rsync -avz --remove-source-files -e ssh root@sinv-56077.edu.hsr.ch:/opt/backups/ ' + BACKUP_PS_LOCATION
+    subprocess.run(command, shell=True, check=True)
 
 def _examibur_token():
     """

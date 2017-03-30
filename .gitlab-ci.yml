@@ -6,7 +6,8 @@ stages:
 
 variables:
   REGISTRY_BASE: registry.gitlab.com/engineering-projekt/examibur
-  JEKYLL_IMAGE: $REGISTRY_BASE:jekyll
+  JEKYLL_IMAGE: $REGISTRY_BASE:jekyll-$CI_COMMIT_REF_NAME
+  EXAMIBUR_IMAGE: $REGISTRY_BASE:examibur-$CI_COMMIT_REF_NAME
 
 cache:
   paths:
@@ -40,7 +41,7 @@ test:
   stage: test
   script:
     - cd examibur/
-    # - ./gradlew sonarqube -Dsonar.login=$SONAR_TOKEN
+    - bash -c "[ \"$(git rev-parse --abbrev-ref HEAD)\" == \"master\" ] && ./gradlew sonarqube -Dsonar.login=$SONARQUBE_TOKEN || true"
     - ./gradlew check
     - ./gradlew jacocoTestReport
   artifacts:
@@ -49,14 +50,10 @@ test:
 
 generate_pages:
   stage: docs
-  image: docker:latest
-  variables:
-    DOCKER_DRIVER: overlay
-  services:
-    - docker:dind
+  image: $JEKYLL_IMAGE
   script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_BASE
-    - docker run --rm -u jekyll -v $(pwd)/docs/:/src/ $JEKYLL_IMAGE jekyll build -d public
+    - cd docs/
+    - jekyll build -d public
   artifacts:
     paths:
     - docs/public/
@@ -74,3 +71,31 @@ pages:
     expire_in: 47 yrs 6 mos and 4d
   only:
     - master
+
+examibur_image:
+  stage: deploy
+  image: docker:latest
+  variables:
+    DOCKER_DRIVER: overlay
+  services:
+    - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_BASE
+    - docker build -t $EXAMIBUR_IMAGE -f docker/Dockerfile.examibur .
+    - docker push $EXAMIBUR_IMAGE
+
+deploy_staging:
+  stage: deploy
+  image: cwt114/alpine-ssh
+  script:
+    - mkdir -p ~/.ssh/
+    - eval `ssh-agent -s`
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts
+    - ssh deploy@sinv-56077.edu.hsr.ch
+  environment:
+    name: staging
+    url: https://examibur-demo.raphael.li/
+  only:
+    - master
+

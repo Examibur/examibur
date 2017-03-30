@@ -1,0 +1,7 @@
+[Unit]
+Description=Renew examiburs let's encrypt certificates with dehydrated
+Requires=examibur-dev.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/docker-compose -f /opt/examibur/projekteserver/docker-compose.yml exec nginx dehydrated --cron

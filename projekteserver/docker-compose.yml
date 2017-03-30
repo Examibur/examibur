@@ -1,0 +1,56 @@
+version: '3'
+services:
+  nginx:
+    build: ./images/nginx/
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - nginx_dehydrated:/etc/dehydrated/
+    depends_on:
+      - sonarqube
+      - examibur
+    links:
+      - sonarqube
+      - examibur
+  examibur:
+    image: registry.gitlab.com/engineering-projekt/examibur:examibur-master
+    restart: always
+    links:
+      - db_examibur
+    depends_on:
+      - db_examibur
+    env_file: env/examibur.env
+
+  db_examibur:
+    image: postgres
+    env_file: env/db_examibur.env
+    volumes:
+     - db_examibur:/var/lib/postgresql/data
+
+  db_sonarqube:
+    image: postgres
+    env_file: env/db_sonarqube.env
+    volumes:
+     - db_sonarqube:/var/lib/postgresql/data
+
+  sonarqube:
+    build: ./images/sonar/
+    env_file: env/sonarqube.env
+    links:
+      - db_sonarqube
+    depends_on:
+      - db_sonarqube
+    ports:
+      - 9000:9000
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+
+volumes:
+  nginx_dehydrated:
+  db_sonarqube:
+  db_examibur:
+  sonarqube_data:
+  sonarqube_extensions:
