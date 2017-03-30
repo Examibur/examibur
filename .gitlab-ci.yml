@@ -41,12 +41,23 @@ test:
   stage: test
   script:
     - cd examibur/
-    - bash -c "[ \"$(git rev-parse --abbrev-ref HEAD)\" == \"master\" ] && ./gradlew sonarqube -Dsonar.login=$SONARQUBE_TOKEN || true"
     - ./gradlew check
     - ./gradlew jacocoTestReport
   artifacts:
     paths:
       - examibur/build/reports/
+
+report_sonar:
+  image: java:8-jdk
+  stage: test
+  script:
+    - cd examibur/
+    - ./gradlew sonarqube -Dsonar.login=$SONARQUBE_TOKEN
+  artifacts:
+    paths:
+      - examibur/build/reports/
+  only:
+    - master
 
 generate_pages:
   stage: docs
