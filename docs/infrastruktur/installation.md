@@ -2,7 +2,7 @@
 layout: default
 title: Installation Projektserver
 ---
-## Kennworter & Keys
+## Kennwörter & Keys
 
 Alle verwendeten Kennwörter & Keys sind bei Raphael Zimmermann und Robin Suter abgelegt.
 
@@ -36,7 +36,7 @@ ssh-keygen -t rsa -b 4096 -C 'examibur-projekteserver-ssh' -f ssh
 
 In Gitlab dem Deployment-Benutzer (`examibur-bot`) den generierten Schlüssel hinzufügen (`Profile` - `Edit` - `SSH Keys` - `Add an SSH key `).
 
-Git-SSh-Key auf den Server kopieren
+Git-SSH-Key auf den Server kopieren
 
 ```bash
 scp git root@$SERVER_IP:/root/.ssh/id_rsa
@@ -49,13 +49,13 @@ Auf dem Server anmelden:
 ssh root@$SERVER_IP
 ```
 
-Korrekte berechtigung der erstellten keys Setzen 
+Korrekte Berechtigung der erstellten Keys setzen 
 
 ```bash
 chmod -R 700 /root/.ssh/
 ```
 
-Das repository klonen
+Das Repository klonen
 
 ```
 git clone git@gitlab.com:engineering-projekt/examibur.git /opt/examibur
@@ -67,7 +67,7 @@ Automatisches Re-Deployment des Stating-Environment einrichten:
 useradd deploy -d /home/deploy
 mkdir -p -m 700 /home/deploy/.ssh/
 
-# NUR das folgende kommando auf dem Client mit den generierten schlüssen ausführen;
+# NUR das folgende Kommando auf dem Client mit den generierten Schlüsseln ausführen;
 scp ssh.pub root@$SERVER_IP:/home/deploy/.ssh/authorized_keys
 
 cp /opt/examibur/projekteserver/deploy/trigger_deploy.sh /home/deploy/trigger_deploy.sh
@@ -83,7 +83,7 @@ Match User deploy
         ForceCommand /home/deploy/trigger_deploy.sh
 ```
 
-anschliessend den ssh daemon neu starten:
+anschliessend den SSH daemon neu starten:
 
 ```
 systemctl restart sshd.service
@@ -95,7 +95,7 @@ Testen auf dem Client, ob Zugriff via SSH Funktioniert:
 ssh -i ssh deploy@$SERVER_IP
 ```
 
-Login auf der eigenen registry (credentials von `examibur-bot`)
+Login auf der eigenen Registry (credentials von `examibur-bot`)
 
 ```
 docker login registry.gitlab.com
@@ -107,7 +107,7 @@ Spezifische Umgebungsvariablen kopieren
 cp -R /opt/examibur/projekteserver/env_templates/ /opt/examibur/projekteserver/env/
 ```
 
-**und anschliessend anpassen und sichern (nicht im backup eingschlossen!)**
+**und anschliessend anpassen und sichern (nicht im Backup eingschlossen!)**
 
 Service, welcher die docker-compose Dienste startet registrieren.
 
@@ -164,4 +164,3 @@ check_interval = 0
   [runners.cache]
 
 ```
-
