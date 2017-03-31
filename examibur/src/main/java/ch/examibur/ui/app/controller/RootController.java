@@ -16,12 +16,12 @@ public class RootController extends Controller {
     DashboardController dashboardController = new DashboardController(this);
     ExceptionController exceptionController = new ExceptionController(this);
 
-    before("*", Filters.addTrailingSlashes);
+    before("*", Filters::addTrailingSlashes);
 
     dashboardController.route();
     exceptionController.route();
 
-    after("*", Filters.addGzipHeader);
+    after("*", Filters::addGzipHeader);
   }
 
 }
