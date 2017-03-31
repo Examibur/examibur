@@ -1,10 +1,9 @@
 package ch.examibur.business.exam;
 
-import java.util.List;
-
 import ch.examibur.domain.Exam;
 import ch.examibur.integration.exam.ExamDao;
 import ch.examibur.integration.exam.ExamDaoImpl;
+import java.util.List;
 
 public final class ExamServiceImpl implements ExamService {
 

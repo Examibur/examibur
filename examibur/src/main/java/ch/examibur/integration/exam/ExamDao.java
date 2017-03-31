@@ -1,8 +1,7 @@
 package ch.examibur.integration.exam;
 
-import java.util.List;
-
 import ch.examibur.domain.Exam;
+import java.util.List;
 
 public interface ExamDao {
 
