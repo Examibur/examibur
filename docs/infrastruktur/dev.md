@@ -31,14 +31,16 @@ title: Entwicklungsumgebung
     * `Configure` - `Add Gradle Nature`
 
 ### Editor konfigurieren
-Der Google Checkstyle verlangt für die Einrückung Spaces, in Eclipse werden aber standardmässig Tabs eingefügt.
+Der Google Checkstyle verlangt für die Einrückung Spaces, in Eclipse werden aber standardmässig Tabs eingefügt. Zudem sind in Eclipse die Imports noch nach gewissen Packages sortiert (Java, Javax, etc.), im Checkstyle hingegen nur in lexikographischer Reihenfolge.
 
 1. Rechtsklick auf das Examibur-Projekt im Package Explorer - `Checkstyle` - `Create Formatter Profile`
 2. Einstellungen öffnen mit `Window` - `Preferences`
 3. Auf `Java` - `Code Style` - `Formatter` navigieren
-4. Das neue Profile `eclipse-cs examibur` wählen
+	1. Das neue Profil `eclipse-cs examibur` wählen
+4. Auf `Java` - `Code Style` - `Organize Imports` navigieren
+	1. Alle vordefinierten Packages löschen (`Java`, `Javax`, `org`, `com`)
 
-Wenn nun ein File noch komplett mit Tabs formatiert ist, alles markieren und mit `Ctrl` + `Shift` + `F` formatieren.
+Wenn nun ein File noch komplett mit Tabs formatiert ist, alles markieren und mit `Ctrl` + `Shift` + `F` formatieren. Die Imports können auch automatisch mit `Ctrl` + `Shift` + `O` sortiert werden. *Tipp: Unter `Java` - `Editor` - `Save Actions` lassen sich diese Aktionen automatisch bei jedem Speichern ausführen.*
 
 Für andere Filetypen, z.B. XML, müssen die Einstellungen separat gemacht werden. Für XML ist die Einstellung unter `Preferences` - `XML` - `XML Files` - `Editor` zu finden.
 
