@@ -78,6 +78,18 @@ public class ExcerciseSolution {
 
 
   @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((excercise == null) ? 0 : excercise.hashCode());
+    result = prime * result + (int) (id ^ (id >>> 32));
+    result = prime * result + (isDone ? 1231 : 1237);
+    result = prime * result + ((participantSolution == null) ? 0 : participantSolution.hashCode());
+    result = prime * result + ((participation == null) ? 0 : participation.hashCode());
+    return result;
+  }
+
+  @Override
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
@@ -89,7 +101,31 @@ public class ExcerciseSolution {
       return false;
     }
     ExcerciseSolution other = (ExcerciseSolution) obj;
+    if (excercise == null) {
+      if (other.excercise != null) {
+        return false;
+      }
+    } else if (!excercise.equals(other.excercise)) {
+      return false;
+    }
     if (id != other.id) {
+      return false;
+    }
+    if (isDone != other.isDone) {
+      return false;
+    }
+    if (participantSolution == null) {
+      if (other.participantSolution != null) {
+        return false;
+      }
+    } else if (!participantSolution.equals(other.participantSolution)) {
+      return false;
+    }
+    if (participation == null) {
+      if (other.participation != null) {
+        return false;
+      }
+    } else if (!participation.equals(other.participation)) {
       return false;
     }
     return true;

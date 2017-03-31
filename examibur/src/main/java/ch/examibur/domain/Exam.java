@@ -104,6 +104,20 @@ public class Exam {
   }
 
   @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + allowedTimeInMin;
+    result = prime * result + ((allowedUtilities == null) ? 0 : allowedUtilities.hashCode());
+    result = prime * result + ((author == null) ? 0 : author.hashCode());
+    result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
+    result = prime * result + (int) (id ^ (id >>> 32));
+    result = prime * result + ((module == null) ? 0 : module.hashCode());
+    result = prime * result + ((state == null) ? 0 : state.hashCode());
+    return result;
+  }
+
+  @Override
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
@@ -115,7 +129,41 @@ public class Exam {
       return false;
     }
     Exam other = (Exam) obj;
+    if (allowedTimeInMin != other.allowedTimeInMin) {
+      return false;
+    }
+    if (allowedUtilities == null) {
+      if (other.allowedUtilities != null) {
+        return false;
+      }
+    } else if (!allowedUtilities.equals(other.allowedUtilities)) {
+      return false;
+    }
+    if (author == null) {
+      if (other.author != null) {
+        return false;
+      }
+    } else if (!author.equals(other.author)) {
+      return false;
+    }
+    if (dueDate == null) {
+      if (other.dueDate != null) {
+        return false;
+      }
+    } else if (!dueDate.equals(other.dueDate)) {
+      return false;
+    }
     if (id != other.id) {
+      return false;
+    }
+    if (module == null) {
+      if (other.module != null) {
+        return false;
+      }
+    } else if (!module.equals(other.module)) {
+      return false;
+    }
+    if (state != other.state) {
       return false;
     }
     return true;
