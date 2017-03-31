@@ -121,6 +121,24 @@ public class ExcerciseGrading {
 
 
   @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((comment == null) ? 0 : comment.hashCode());
+    result = prime * result + ((createdInState == null) ? 0 : createdInState.hashCode());
+    result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
+    result = prime * result + ((excerciseSolution == null) ? 0 : excerciseSolution.hashCode());
+    result = prime * result + ((gradingAuthor == null) ? 0 : gradingAuthor.hashCode());
+    result = prime * result + (int) (id ^ (id >>> 32));
+    result = prime * result + (isFinalGrading ? 1231 : 1237);
+    long temp;
+    temp = Double.doubleToLongBits(points);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
+    result = prime * result + ((reasoning == null) ? 0 : reasoning.hashCode());
+    return result;
+  }
+
+  @Override
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
@@ -132,7 +150,51 @@ public class ExcerciseGrading {
       return false;
     }
     ExcerciseGrading other = (ExcerciseGrading) obj;
+    if (comment == null) {
+      if (other.comment != null) {
+        return false;
+      }
+    } else if (!comment.equals(other.comment)) {
+      return false;
+    }
+    if (createdInState != other.createdInState) {
+      return false;
+    }
+    if (creationDate == null) {
+      if (other.creationDate != null) {
+        return false;
+      }
+    } else if (!creationDate.equals(other.creationDate)) {
+      return false;
+    }
+    if (excerciseSolution == null) {
+      if (other.excerciseSolution != null) {
+        return false;
+      }
+    } else if (!excerciseSolution.equals(other.excerciseSolution)) {
+      return false;
+    }
+    if (gradingAuthor == null) {
+      if (other.gradingAuthor != null) {
+        return false;
+      }
+    } else if (!gradingAuthor.equals(other.gradingAuthor)) {
+      return false;
+    }
     if (id != other.id) {
+      return false;
+    }
+    if (isFinalGrading != other.isFinalGrading) {
+      return false;
+    }
+    if (Double.doubleToLongBits(points) != Double.doubleToLongBits(other.points)) {
+      return false;
+    }
+    if (reasoning == null) {
+      if (other.reasoning != null) {
+        return false;
+      }
+    } else if (!reasoning.equals(other.reasoning)) {
       return false;
     }
     return true;

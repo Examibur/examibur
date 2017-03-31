@@ -93,6 +93,21 @@ public abstract class Excercise {
   }
 
   @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((exam == null) ? 0 : exam.hashCode());
+    result = prime * result + ((exampleSolution == null) ? 0 : exampleSolution.hashCode());
+    result = prime * result + ((grader == null) ? 0 : grader.hashCode());
+    result = prime * result + (int) (id ^ (id >>> 32));
+    long temp;
+    temp = Double.doubleToLongBits(maxPoints);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
+    result = prime * result + ((reviewer == null) ? 0 : reviewer.hashCode());
+    return result;
+  }
+
+  @Override
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
@@ -104,7 +119,38 @@ public abstract class Excercise {
       return false;
     }
     Excercise other = (Excercise) obj;
+    if (exam == null) {
+      if (other.exam != null) {
+        return false;
+      }
+    } else if (!exam.equals(other.exam)) {
+      return false;
+    }
+    if (exampleSolution == null) {
+      if (other.exampleSolution != null) {
+        return false;
+      }
+    } else if (!exampleSolution.equals(other.exampleSolution)) {
+      return false;
+    }
+    if (grader == null) {
+      if (other.grader != null) {
+        return false;
+      }
+    } else if (!grader.equals(other.grader)) {
+      return false;
+    }
     if (id != other.id) {
+      return false;
+    }
+    if (Double.doubleToLongBits(maxPoints) != Double.doubleToLongBits(other.maxPoints)) {
+      return false;
+    }
+    if (reviewer == null) {
+      if (other.reviewer != null) {
+        return false;
+      }
+    } else if (!reviewer.equals(other.reviewer)) {
       return false;
     }
     return true;
