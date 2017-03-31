@@ -1,5 +1,3 @@
-BEGIN;
-
 INSERT INTO module_t(moduleid, name)
     VALUES (1, 'CS101');
 
@@ -16,5 +14,3 @@ INSERT INTO allowedUtility_t(
 INSERT INTO allowedUtility_t(
     	exam_examid, allowedutility)
 VALUES (1, 'Toffifee');
-
-COMMIT;

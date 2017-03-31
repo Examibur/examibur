@@ -1,12 +1,3 @@
-BEGIN;
-
-INSERT INTO version_t (id, release, name, type, description) VALUES (
-    nextval('version_id_seq'), 
-    '0.01', 
-    '0007_createExcerciseTable', 
-    'feature',
-    'Initial excercise table.'
-);
 
 CREATE TABLE excercise_t (
     excerciseid integer NOT NULL,
@@ -39,5 +30,3 @@ ALTER TABLE ONLY excercise_t
     ADD CONSTRAINT fk_excercise_t_excercise_reviewerid FOREIGN KEY (excercise_reviewerid) REFERENCES user_t(userid);
 
 SELECT pg_catalog.setval('excercise_t_excerciseid_seq', 1, false);
-
-COMMIT;
