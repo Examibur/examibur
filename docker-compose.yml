@@ -21,6 +21,8 @@ services:
       DB_HOST: "postgres"
       DB_USER: "examibur"
       DB_PASSWORD: "m4U6ctWpEZE801T"
+      LOG_LEVEL: "debug"
+      LOG_FILE: "/usr/local/tomcat/logs/examibur.log"
   website:
     user: jekyll
     build:

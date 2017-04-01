@@ -22,6 +22,9 @@ services:
     depends_on:
       - db_examibur
     env_file: env/examibur.env
+    environment:
+      LOG_LEVEL: "info"
+      LOG_FILE: "/usr/local/tomcat/logs/examibur.log"
 
   db_examibur:
     image: postgres
