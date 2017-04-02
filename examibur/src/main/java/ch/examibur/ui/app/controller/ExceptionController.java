@@ -34,7 +34,11 @@ public class ExceptionController extends Controller {
    */
   public void handleException(Exception exception, Request request, Response response) {
     logger.error("Caught unhandled exception", exception);
-    response.redirect("/", HttpStatus.INTERNAL_SERVER_ERROR_500);
+
+    Map<String, Object> model = new HashMap<>();
+    response.body(render(model, "500.ftl"));
+    response.status(400);
+
   }
 
   /**
