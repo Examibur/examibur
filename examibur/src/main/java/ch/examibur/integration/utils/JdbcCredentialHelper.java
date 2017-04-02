@@ -1,6 +1,8 @@
 package ch.examibur.integration.utils;
 
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper for retrieving database credentials from the system environment. 
@@ -14,6 +16,8 @@ public class JdbcCredentialHelper {
   private static final String ENV_DB_HOST = "DB_HOST";
   private static final String ENV_DB_USER = "DB_USER";
   private static final String ENV_DB_PASSWORD = "DB_PASSWORD";
+
+  final Logger logger = LoggerFactory.getLogger(JdbcCredentialHelper.class);
 
   private final Map<String, String> envMap;
   
@@ -36,7 +40,8 @@ public class JdbcCredentialHelper {
         return envEntry.getValue();
       }
     }
-    throw new RuntimeException("Environment variable " + name + " not set");
+    logger.error("Environment variable " + name + " is missing from system");
+    throw new InitializationException("Environment variable " + name + " not set");
   }
   
   public String getJdbcUrl() {
