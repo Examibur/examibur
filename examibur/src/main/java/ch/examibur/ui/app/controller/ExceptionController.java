@@ -8,11 +8,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jetty.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import spark.Request;
 import spark.Response;
 
 public class ExceptionController extends Controller {
+
+  final Logger logger = LoggerFactory.getLogger(ExamController.class);
 
   public ExceptionController(Controller preController) {
     super(preController, "*");
@@ -29,7 +33,12 @@ public class ExceptionController extends Controller {
    *          the HTTP response
    */
   public void handleException(Exception exception, Request request, Response response) {
-    response.redirect("/", HttpStatus.INTERNAL_SERVER_ERROR_500);
+    logger.error("Caught unhandled exception", exception);
+
+    Map<String, Object> model = new HashMap<>();
+    response.body(render(model, "500.ftl"));
+    response.status(400);
+
   }
 
   /**

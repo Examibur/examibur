@@ -8,7 +8,7 @@
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
       <property name="eclipselink.target-database" value="PostgreSQL" />
-      <!--<property name="eclipselink.logging.level" value="ALL"/> -->
+      <property name="eclipselink.logging.level" value="ALL"/>
     </properties>
   </persistence-unit>
 </persistence>
