@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
+
+	<Appenders>
+		<Console name="stdout" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{ABSOLUTE} %5p %c:%L - %m%n" />
+		</Console>
+
+		<File name="file" fileName="${env:LOG_FILE}">
+			<PatternLayout pattern="%d{ABSOLUTE} %5p %c:%L - %m%n" />
+		</File>
+	</Appenders>
+
+	<Loggers>
+		<Root level="${env:LOG_LEVEL}">
+			<AppenderRef ref="stdout" />
+			<appender-ref ref="file" />
+		</Root>
+		<logger name="org.eclipse.persistence">
+			<level value="all" />
+		</logger>
+	</Loggers>
+
+</Configuration>
