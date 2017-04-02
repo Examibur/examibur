@@ -17,7 +17,7 @@ public class JdbcCredentialHelper {
   private static final String ENV_DB_USER = "DB_USER";
   private static final String ENV_DB_PASSWORD = "DB_PASSWORD";
 
-  final Logger logger = LoggerFactory.getLogger(JdbcCredentialHelper.class);
+  private static final Logger logger = LoggerFactory.getLogger(JdbcCredentialHelper.class);
 
   private final Map<String, String> envMap;
   

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public final class ExamServiceImpl implements ExamService {
 
   private final ExamDao examDao;
-  final Logger logger = LoggerFactory.getLogger(ExamServiceImpl.class);
+  private static final Logger logger = LoggerFactory.getLogger(ExamServiceImpl.class);
 
   public ExamServiceImpl() {
     examDao = new ExamDaoImpl();

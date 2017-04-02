@@ -12,7 +12,7 @@ public class DbConnectionChecker {
   private static final int SLEEP_BETWEEN_TRIES_MS = 500;
   private static final String JDBC_DRIVER = "org.postgresql.Driver";
 
-  final Logger logger = LoggerFactory.getLogger(DbConnectionChecker.class);
+  private static final Logger logger = LoggerFactory.getLogger(DbConnectionChecker.class);
 
   /**
    * Checks the database connection and blocks until it is either successful or timed out.

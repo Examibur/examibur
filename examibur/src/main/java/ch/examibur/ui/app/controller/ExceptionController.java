@@ -16,7 +16,7 @@ import spark.Response;
 
 public class ExceptionController extends Controller {
 
-  final Logger logger = LoggerFactory.getLogger(ExamController.class);
+  private static final Logger logger = LoggerFactory.getLogger(ExamController.class);
 
   public ExceptionController(Controller preController) {
     super(preController, "*");

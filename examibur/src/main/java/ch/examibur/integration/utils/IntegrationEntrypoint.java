@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class IntegrationEntrypoint implements Entrypoint {
 
-  final Logger logger = LoggerFactory.getLogger(IntegrationEntrypoint.class);
+  private static final Logger logger = LoggerFactory.getLogger(IntegrationEntrypoint.class);
   
   @Override
   public void init() {
