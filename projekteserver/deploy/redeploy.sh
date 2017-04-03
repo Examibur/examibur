@@ -3,7 +3,7 @@ set -e
 
 WATCH_DIR="/home/deploy/"
 WATCH_FILE="deploy"
-SERVICES="examibur"
+SERVICES="examibur db_examibur"
 DOCKER_COMPOSE_FILE=/opt/examibur/projekteserver/docker-compose.yml
 
 rm "${WATCH_DIR}${WATCH_FILE}" || true
