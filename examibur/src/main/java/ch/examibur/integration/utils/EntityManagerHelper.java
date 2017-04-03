@@ -11,15 +11,15 @@ public enum EntityManagerHelper {
   INSTANCE;
   
   private static final String PERSISTENCE_UNIT_NAME = "examibur";
-  private static final String DB_NAME = "examibur";
-  private static final String ENV_DB_HOST = "DB_HOST";
-  private static final String ENV_DB_USER = "DB_USER";
-  private static final String ENV_DB_PASSWORD = "DB_PASSWORD";
+  
+  private static final String JDBC_URL_PROPERTY = "javax.persistence.jdbc.url";
+  private static final String JDBC_USER_PROPERTY = "javax.persistence.jdbc.user";
+  private static final String JDBC_PASSWORD_PROPERTY = "javax.persistence.jdbc.password";
 
   private final EntityManagerFactory factory;
 
   private EntityManagerHelper() {
-    Map<String, Object> properties = getJdbcCredentials();
+    Map<String, Object> properties = getJdbcProperties();
     factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, properties);
   }
 
@@ -30,31 +30,14 @@ public enum EntityManagerHelper {
     return factory.createEntityManager();
   }
   
-  private Map<String, Object> getJdbcCredentials() {
-    Map<String, String> env = System.getenv();
-    Map<String, Object> jdbcCredentials = new HashMap<>();
-    String dbUrl = null;
-    String dbUser = null;
-    String dbPassword = null;
+  private Map<String, Object> getJdbcProperties() {
+    JdbcCredentialHelper credentialHelper = new JdbcCredentialHelper();
+    Map<String, Object> jdbcProperties = new HashMap<>();
     
-    for (String envName : env.keySet()) {
-      if (envName.contains(ENV_DB_HOST)) {
-        dbUrl = "jdbc:postgresql://" + env.get(envName) + "/" + DB_NAME;
-      } else if (envName.contains(ENV_DB_USER)) {
-        dbUser = env.get(envName);
-      } else if (envName.contains(ENV_DB_PASSWORD)) {
-        dbPassword = env.get(envName);
-      }
-    }
-    if (dbUrl == null || dbUser == null || dbPassword == null) {
-      throw new Error("Environment variables for database connection are missing");
-    }
+    jdbcProperties.put(JDBC_URL_PROPERTY, credentialHelper.getJdbcUrl());
+    jdbcProperties.put(JDBC_USER_PROPERTY, credentialHelper.getDatabaseUser());
+    jdbcProperties.put(JDBC_PASSWORD_PROPERTY, credentialHelper.getDatabasePassword());
     
-    jdbcCredentials.put("javax.persistence.jdbc.url", dbUrl);
-    jdbcCredentials.put("javax.persistence.jdbc.user", dbUser);
-    jdbcCredentials.put("javax.persistence.jdbc.password", dbPassword);
-
-
-    return jdbcCredentials;
+    return jdbcProperties;
   }
 }

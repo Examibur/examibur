@@ -1,13 +1,3 @@
-BEGIN;
-
-INSERT INTO version_t (id, release, name, type, description) VALUES (
-    nextval('version_id_seq'), 
-    '0.01', 
-    '0005_createExamParticipationTable', 
-    'feature',
-    'Initial examparticipation table.'
-);
-
 
 CREATE TABLE examparticipation_t (
     examparticipationid integer NOT NULL,
@@ -36,5 +26,3 @@ ALTER TABLE ONLY examparticipation_t
     ADD CONSTRAINT fk_examparticipation_t_examparticipation_participantid FOREIGN KEY (examparticipation_participantid) REFERENCES user_t(userid);
     
 SELECT pg_catalog.setval('examparticipation_t_examparticipationid_seq', 1, false);
-
-COMMIT;

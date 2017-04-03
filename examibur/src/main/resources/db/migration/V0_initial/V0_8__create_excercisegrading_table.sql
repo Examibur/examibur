@@ -1,12 +1,3 @@
-BEGIN;
-
-INSERT INTO version_t (id, release, name, type, description) VALUES (
-    nextval('version_id_seq'), 
-    '0.01', 
-    '0009_createExcerciseGradingTable', 
-    'feature',
-    'Initial excercisegrading table.'
-);
 
 CREATE TABLE excercisegrading_t (
     excercisegradingid integer NOT NULL,
@@ -38,6 +29,3 @@ ALTER TABLE ONLY excercisegrading_t
     ADD CONSTRAINT fk_excercisegrading_t_excercisegrading_excercisesolutionid FOREIGN KEY (excercisegrading_excercisesolutionid) REFERENCES excercisesolution_t(excercisesolutionid);
 
 SELECT pg_catalog.setval('excercisegrading_t_excercisegradingid_seq', 1, false);
-
-
-COMMIT;

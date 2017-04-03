@@ -1,13 +1,3 @@
-BEGIN;
-
-INSERT INTO version_t (id, release, name, type, description) VALUES (
-    nextval('version_id_seq'), 
-    '0.01', 
-    '0006_createSolutionTable', 
-    'feature',
-    'Initial solution table.'
-);
-
 CREATE TABLE solution_t (
     solutionid integer NOT NULL,
     solution_type character varying(31),
@@ -33,5 +23,3 @@ ALTER TABLE ONLY solution_t
 
 
 SELECT pg_catalog.setval('solution_t_solutionid_seq', 1, false);
-
-COMMIT;

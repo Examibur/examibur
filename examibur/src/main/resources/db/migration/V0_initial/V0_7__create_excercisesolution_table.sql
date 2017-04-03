@@ -1,13 +1,3 @@
-BEGIN;
-
-INSERT INTO version_t (id, release, name, type, description) VALUES (
-    nextval('version_id_seq'), 
-    '0.01', 
-    '0008_createExcerciseSolutionTable', 
-    'feature',
-    'Initial excercisesolution table.'
-);
-
 CREATE TABLE excercisesolution_t (
     excercisesolutionid integer NOT NULL,
     isdone boolean NOT NULL,
@@ -35,6 +25,3 @@ ALTER TABLE ONLY excercisesolution_t
     ADD CONSTRAINT fk_excercisesolution_t_excercisesolution_participationid FOREIGN KEY (excercisesolution_participationid) REFERENCES examparticipation_t(examparticipationid);
 
 SELECT pg_catalog.setval('excercisesolution_t_excercisesolutionid_seq', 1, false);
-
-
-COMMIT;

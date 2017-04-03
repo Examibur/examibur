@@ -1,13 +1,3 @@
-BEGIN;
-
-INSERT INTO version_t (id, release, name, type, description) VALUES (
-    nextval('version_id_seq'), 
-    '0.01', 
-    '0004_createExamTable', 
-    'feature',
-    'Initial exam table.'
-);
-
 CREATE TABLE allowedUtility_t (
     exam_examid bigint,
     allowedutility character varying(255)
@@ -46,6 +36,3 @@ ALTER TABLE ONLY allowedUtility_t
 
 
 SELECT pg_catalog.setval('exam_t_examid_seq', 1, false);
-
-
-COMMIT;
