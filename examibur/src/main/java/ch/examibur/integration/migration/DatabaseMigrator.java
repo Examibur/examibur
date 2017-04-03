@@ -5,7 +5,7 @@ import javax.sql.DataSource;
 import org.flywaydb.core.Flyway;
 
 public class DatabaseMigrator {
-  private static final String[] SQL_LOCATIONS = new String[]{"db/migration", "db/demodata"};
+  private static final String[] SQL_LOCATIONS = new String[]{"db/migration"};
   private final Flyway flyway = new Flyway();
 
   public DatabaseMigrator() {
