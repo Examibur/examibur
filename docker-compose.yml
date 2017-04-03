@@ -9,12 +9,15 @@ services:
       POSTGRES_PASSWORD: "m4U6ctWpEZE801T"
       POSTGRES_USER: "examibur"
   tomcat:
-    image: tomcat:9.0-alpine  
+    build:
+      dockerfile: ./Dockerfile.tomcat-dev
+      context: ./docker/
     restart: always
     links:
       - postgres
     ports:
       - 8080:8080
+      - 8000:8000
     volumes:
       - ./examibur/webapps/:/usr/local/tomcat/webapps/
     environment:
