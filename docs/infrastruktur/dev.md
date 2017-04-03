@@ -68,6 +68,17 @@ Wenn SELinux aktiviert ist (z.B. unter Fedora) kann es sein, dass die Zugriffe a
 sudo chcon -Rt svirt_sandbox_file_t docs/ examibur/webapps/
 ```
 
+## Tomcat Debugging
+
+* Tomcat normal starten und aktuelle version darauf deployen
+* Im Menu `Run` - `Debug Configurations...` eine neue Java Remote Application hinzufügen (falls nich nicht vorhanden)
+    * Examibur als Projekt auswählen
+    * Verbindungsdetails: Host `localhost`, Port `8000`
+* Debuggung starten über den Debug-Button 
+
+[Siehe auch Schritt-für-Schritt-Anleitung auf Stackoverflow](http://stackoverflow.com/questions/3835612/remote-debugging-tomcat-with-eclipse)
+ 
+
 ## PSQL
 
 Falls PSQL/PgAdmin lokal installiert sind können diese so genutzt werden, als wäre postgres lokal installiert, solange die Entwicklungsumgebung läuft (siehe oben). Die Zugangsdaten sind der Datei `docker-compose.yml` zu entnehmen.
