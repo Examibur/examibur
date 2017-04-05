@@ -40,7 +40,7 @@ public class DbConnectionChecker {
         }
         spentTimeSec += SLEEP_BETWEEN_TRIES_MS / 1000.0;
         if (spentTimeSec >= SQL_TIMEOUT_SEC) {
-          LOGGER.error("Connection to Database timed out after " + SQL_TIMEOUT_SEC + " seconds");
+          LOGGER.error("Connection to Database timed out after {} seconds", SQL_TIMEOUT_SEC);
           throw new InitializationException(sqlException);
         }
         LOGGER.info("Retrying database connection");
@@ -53,7 +53,7 @@ public class DbConnectionChecker {
     try {
       Class.forName(JDBC_DRIVER);
     } catch (ClassNotFoundException classLoadException) {
-      LOGGER.error("Failed to load JDBC driver " + JDBC_DRIVER);
+      LOGGER.error("Failed to load JDBC driver {}", JDBC_DRIVER);
       throw new InitializationException(classLoadException);
     }
   }
