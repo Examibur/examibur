@@ -2,8 +2,8 @@ package ch.examibur.ui.app;
 
 import static spark.Spark.staticFiles;
 
-import ch.examibur.integration.utils.Entrypoint;
-import ch.examibur.integration.utils.IntegrationEntrypoint;
+import ch.examibur.integration.Entrypoint;
+import ch.examibur.integration.IntegrationEntrypoint;
 import ch.examibur.ui.app.controller.RootController;
 import spark.servlet.SparkApplication;
 

@@ -1,6 +1,8 @@
-package ch.examibur.integration.utils;
+package ch.examibur.integration;
 
 import ch.examibur.integration.migration.DatabaseMigrator;
+import ch.examibur.integration.utils.DbConnectionChecker;
+import ch.examibur.integration.utils.InitializationException;
 import org.flywaydb.core.api.FlywayException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
