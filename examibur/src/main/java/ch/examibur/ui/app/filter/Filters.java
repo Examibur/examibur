@@ -4,12 +4,8 @@ import spark.Request;
 import spark.Response;
 
 public class Filters {
-  
-  private Filters() {
-  }
 
   private Filters() {
-
   }
 
   /**
