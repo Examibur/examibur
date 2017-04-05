@@ -55,9 +55,7 @@ public class ExamParticipationController extends Controller {
     path("/" + PARAM_PARTICIPANT_ID, () -> {
       get("/", this::displayExamParticipation);
 
-      path(exerciseSolutionController.relativePath, () -> {
-        exerciseSolutionController.route();
-      });
+      path(exerciseSolutionController.relativePath, exerciseSolutionController::route);
     });
   }
 

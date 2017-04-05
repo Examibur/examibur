@@ -56,9 +56,7 @@ public class ExerciseSolutionController extends Controller {
     path("/" + PARAM_SOLUTION_ID, () -> {
       get("/", this::displayExerciseSolution);
 
-      path(exerciseGradingController.relativePath, () -> {
-        exerciseGradingController.route();
-      });
+      path(exerciseGradingController.relativePath, exerciseGradingController::route);
     });
   }
 

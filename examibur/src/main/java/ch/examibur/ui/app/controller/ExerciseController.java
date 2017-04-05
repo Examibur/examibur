@@ -51,9 +51,7 @@ public class ExerciseController extends Controller {
 
     get("/", this::listExercises);
 
-    path("/" + PARAM_EXERCISE_ID, () -> {
-      get("/", this::displayExercise);
-    });
+    path("/" + PARAM_EXERCISE_ID, () -> get("/", this::displayExercise));
   }
 
 }
