@@ -82,6 +82,8 @@ pages:
     expire_in: 47 yrs 6 mos and 4d
   only:
     - master
+  allow_failure: true
+  when: manual
 
 examibur_image:
   stage: deploy
