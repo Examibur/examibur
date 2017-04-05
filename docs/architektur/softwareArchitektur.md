@@ -27,7 +27,7 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 
 ## Programmkonstruktbildung mit Schichtenmodellbezug
 
-![](resources/softwareArchitektur/schichtenDiagram.svg)
+![](resources/softwareArchitektur/schichtenDiagram.png)
 
 In diesem Abschnitt wird vertiefter in die einzelnen Teile bis auf die Top-Level-Konstrukte eingegangen. Nachfolgend werden die einzelnen Schichten und Konstrukte weiter ausgeführt. **Grau markierte Schichten sind nicht Scope des Projekts und werden weggelassen. So erfolgt der Zugriff des UI direkt auf die Business-Schicht und auf ein Benutzeraktion-Tracking für Auditing-Zwecke wird verzichtet.**
 
@@ -110,13 +110,10 @@ Sehr schlankes Framework | Wenig Funktionalität out-of-the-box
 Einfach zu verstehende Konzepte | Für Testing, Template-Engine usw. müssen weitere Frameworks benutzt werden
 Unterstützung für viele andere Frameworks | Architektur muss selbst sauber aufgebaut werden
 
-### Entscheid
+#### Entscheid
 Aufgrund der Einfachheit und der Möglichkeit, sich schnell in das Framework einarbeiten zu können, haben wir uns für **Spark** entschieden. Für unsere Anforderungen genügt ein schlankes Framework, das wir mit u.a. Testing-Frameworks und OR-Mapper beliebig erweitern können.
 
 Als Einschränkung soll beachtet werden, dass z.B. die Routes und Controller in der Dokumentation von Spark nicht sauber getrennt sind. Diese Trennung muss selbst realisiert werden und ist wichtig für den Aufbau der Architektur.
-
-### Backend
-> TODO
 
 ### Template-Engine
 Für die Seitenbeschreibung wird das Konzept der Templates von Freemarker verwendet. Es gibt ein Basis-Template, welches das Layout und die Strukturierung vorgibt. Alle Seiten der Applikation bauen auf diesem Basis-Template auf. Dadurch ist gewährleistet, dass alle Seiten mit der gleichen Struktur und einheitlichem Aussehen daher kommen.
@@ -195,14 +192,14 @@ In der Datenbank-Schicht werden die Daten in einer relationalen Datenbank gespei
 ## Zusammenspiel der Programmkonstrukte
 In diesem Kapitel wird das Zusammenspiel der einzelnen Programmkonstrukte beschrieben. Dazu gehört auch der Zugriff auf die eigenen Datenbank. Das Zusammenspiel wird anhand von UML-Sequenzdiagrammen dargestellt.
 
-Zur Veranschaulichung des Zusammenspiels der Programmkonstrukte wird der Use Case "UC001 Prüfungen angezeigen" in einem Sequenzdiagram dargestellt.
+Zur Veranschaulichung des Zusammenspiels der Programmkonstrukte wird der Use Case "UC002 Prüfung öffnen" in einem Sequenzdiagram dargestellt.
 
 ![](resources/softwareArchitektur/zusammenspielProgrammkonstrukte.svg)
-> TODO dieses Diagram muss angepasst werden, sobald klar ist, wie das Routing und Controller im Spark ablaufen.
 
 ### Zugehörigkeit der Objekte zu den Schichten:
 #### UI-Schicht
-  * html: Dashboard
+  * ExamController
+  * Template Renderer
 
 #### Business-Schicht
   * Interface: ExamService
