@@ -5,18 +5,34 @@ import static spark.Spark.get;
 import static spark.Spark.path;
 import static spark.Spark.post;
 
+import ch.examibur.business.exam.ExamService;
+import ch.examibur.business.exercise.ExerciseService;
 import java.util.HashMap;
 import java.util.Map;
-
 import spark.Request;
 import spark.Response;
 
 public class ExamController extends Controller {
 
   public static final String PARAM_EXAM_ID = ":examId";
+  
+  private final ExamService examService;
+  private final ExerciseService exerciseService;
 
-  public ExamController(Controller preController) {
+  /**
+   * Constructor.
+   * @param preController
+   *          the pre controller
+   * @param examService
+   *          the exam service implementation
+   * @param exerciseService
+   *          the exercise service implementation
+   */
+  public ExamController(Controller preController, ExamService examService,
+      ExerciseService exerciseService) {
     super(preController, "/exams");
+    this.examService = examService;
+    this.exerciseService = exerciseService;
   }
 
   /**
@@ -29,8 +45,11 @@ public class ExamController extends Controller {
    * @return the rendered page content
    */
   public String displayExam(Request request, Response response) {
+    long examId = Long.valueOf(request.params(PARAM_EXAM_ID));
     Map<String, Object> model = new HashMap<>();
-    return render(model, "404.ftl");
+    model.put("exam", examService.getExam(examId));
+    model.put("maxPoints", exerciseService.getMaxPoints(examId));
+    return render(model, "examInformationTab.ftl");
   }
 
   /**
@@ -72,13 +91,9 @@ public class ExamController extends Controller {
       get("/", this::displayExam);
       post("/", this::updateExam);
 
-      path(exerciseController.relativePath, () -> {
-        exerciseController.route();
-      });
+      path(exerciseController.relativePath, exerciseController::route);
 
-      path(examParticipationController.relativePath, () -> {
-        examParticipationController.route();
-      });
+      path(examParticipationController.relativePath, examParticipationController::route);
     });
   }
 

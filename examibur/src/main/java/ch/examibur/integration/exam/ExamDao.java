@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface ExamDao {
 
-  List<Exam> getExamsForAuthor(long authorId);
+  public List<Exam> getExamsForAuthor(long authorId);
+  
+  public Exam getExam(long examId);
 
 }
