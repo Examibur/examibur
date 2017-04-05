@@ -2,7 +2,6 @@ package ch.examibur.integration.exercise;
 
 import ch.examibur.integration.utils.EntityManagerHelper;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

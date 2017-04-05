@@ -5,7 +5,6 @@ import static spark.Spark.get;
 import static spark.Spark.path;
 
 import ch.examibur.business.exam.ExamService;
-import ch.examibur.business.exam.ExamServiceImpl;
 import ch.examibur.business.exercise.ExerciseService;
 import java.util.HashMap;
 import java.util.Map;
