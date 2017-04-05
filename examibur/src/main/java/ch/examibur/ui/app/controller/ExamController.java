@@ -19,7 +19,17 @@ public class ExamController extends Controller {
   private final ExamService examService;
   private final ExerciseService exerciseService;
 
-  public ExamController(Controller preController, ExamService examService, ExerciseService exerciseService) {
+  /**
+   * Constructor.
+   * @param preController
+   *          the pre controller
+   * @param examService
+   *          the exam service implementation
+   * @param exerciseService
+   *          the exercise service implementation
+   */
+  public ExamController(Controller preController, ExamService examService,
+      ExerciseService exerciseService) {
     super(preController, "/exams");
     this.examService = examService;
     this.exerciseService = exerciseService;
@@ -81,13 +91,9 @@ public class ExamController extends Controller {
       get("/", this::displayExam);
       post("/", this::updateExam);
 
-      path(exerciseController.relativePath, () -> {
-        exerciseController.route();
-      });
+      path(exerciseController.relativePath, exerciseController::route);
 
-      path(examParticipationController.relativePath, () -> {
-        examParticipationController.route();
-      });
+      path(examParticipationController.relativePath, examParticipationController::route);
     });
   }
 

@@ -16,7 +16,17 @@ public class DashboardController extends Controller {
   private final ExamService examService;
   private final ExerciseService exerciseService;
 
-  public DashboardController(Controller preController, ExamService examService, ExerciseService exerciseService) {
+  /**
+   * Constructor.
+   * @param preController
+   *          the pre controller
+   * @param examService
+   *          the exam service implementation
+   * @param exerciseService
+   *          the exercise service implementation
+   */
+  public DashboardController(Controller preController, ExamService examService, 
+      ExerciseService exerciseService) {
     super(preController, "");
     this.examService = examService;
     this.exerciseService = exerciseService;
@@ -44,9 +54,7 @@ public class DashboardController extends Controller {
 
     get("/", this::displayDashboard);
 
-    path(examController.relativePath, () -> {
-      examController.route();
-    });
+    path(examController.relativePath, examController::route);
   }
 
 }
