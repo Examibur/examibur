@@ -19,7 +19,7 @@
 			<tbody>
 				<#items as exam>
 				<tr>
-					<td><a href="/exams/${exam.module.id}">${exam.module.name}</a></td>
+					<td><a href="/exams/${exam.id}">${exam.module.name}</a></td>
 					<td>${exam.author.firstName} ${exam.author.lastName}</td>
 					<td>${exam.state}</td>
 					<td>
