@@ -195,14 +195,14 @@ In der Datenbank-Schicht werden die Daten in einer relationalen Datenbank gespei
 ## Zusammenspiel der Programmkonstrukte
 In diesem Kapitel wird das Zusammenspiel der einzelnen Programmkonstrukte beschrieben. Dazu gehört auch der Zugriff auf die eigenen Datenbank. Das Zusammenspiel wird anhand von UML-Sequenzdiagrammen dargestellt.
 
-Zur Veranschaulichung des Zusammenspiels der Programmkonstrukte wird der Use Case "UC001 Prüfungen angezeigen" in einem Sequenzdiagram dargestellt.
+Zur Veranschaulichung des Zusammenspiels der Programmkonstrukte wird der Use Case "UC002 Prüfung öffnen" in einem Sequenzdiagram dargestellt.
 
 ![](resources/softwareArchitektur/zusammenspielProgrammkonstrukte.svg)
-> TODO dieses Diagram muss angepasst werden, sobald klar ist, wie das Routing und Controller im Spark ablaufen.
 
 ### Zugehörigkeit der Objekte zu den Schichten:
 #### UI-Schicht
-  * html: Dashboard
+  * ExamController
+  * Template Renderer
 
 #### Business-Schicht
   * Interface: ExamService
