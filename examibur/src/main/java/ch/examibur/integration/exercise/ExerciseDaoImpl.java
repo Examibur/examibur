@@ -15,15 +15,16 @@ public class ExerciseDaoImpl implements ExerciseDao {
     EntityManager entityManager = EntityManagerHelper.INSTANCE.createEntityManager();
     try {
       TypedQuery<Double> maxPointsQuery = entityManager
-          .createQuery("SELECT SUM(e.maxPoints) FROM Excercise e WHERE e.exam.id = :examId", 
+          .createQuery("SELECT COALESCE(SUM(e.maxPoints), 0) "
+              + "FROM Excercise e WHERE e.exam.id = :examId", 
               Double.class);
       return maxPointsQuery.setParameter("examId", examId).getSingleResult();
     } catch (Exception e) {
       LOGGER.error("Error occured during getExam call", e);
+      throw e;
     } finally {
       entityManager.close();
     }
-    return 0;
   }
 
 }
