@@ -19,12 +19,13 @@ public class RootController extends Controller {
   public void route() {
     ExamService examService = new ExamServiceImpl();
     ExerciseService exerciseService = new ExerciseServiceImpl();
-    
-    DashboardController dashboardController = new DashboardController(
-        this, examService, exerciseService);
+
+    DashboardController dashboardController = new DashboardController(this, examService,
+        exerciseService);
     ExceptionController exceptionController = new ExceptionController(this);
 
     before("*", Filters::addTrailingSlashes);
+    before("*", Filters::handleAuthentication);
 
     dashboardController.route();
     exceptionController.route();
