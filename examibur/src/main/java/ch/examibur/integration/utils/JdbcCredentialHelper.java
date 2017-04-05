@@ -17,7 +17,7 @@ public class JdbcCredentialHelper {
   private static final String ENV_DB_USER = "DB_USER";
   private static final String ENV_DB_PASSWORD = "DB_PASSWORD";
 
-  private static final Logger logger = LoggerFactory.getLogger(JdbcCredentialHelper.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(JdbcCredentialHelper.class);
 
   private final Map<String, String> envMap;
   
@@ -40,7 +40,7 @@ public class JdbcCredentialHelper {
         return envEntry.getValue();
       }
     }
-    logger.error("Environment variable " + name + " is missing from system");
+    LOGGER.error("Environment variable {} is missing from system", name);
     throw new InitializationException("Environment variable " + name + " not set");
   }
   
