@@ -12,12 +12,13 @@ import spark.Request;
 import spark.Response;
 
 public class DashboardController extends Controller {
-  
+
   private final ExamService examService;
   private final ExerciseService exerciseService;
 
   /**
    * Constructor.
+   * 
    * @param preController
    *          the pre controller
    * @param examService
@@ -25,7 +26,7 @@ public class DashboardController extends Controller {
    * @param exerciseService
    *          the exercise service implementation
    */
-  public DashboardController(Controller preController, ExamService examService, 
+  public DashboardController(Controller preController, ExamService examService,
       ExerciseService exerciseService) {
     super(preController, "");
     this.examService = examService;
@@ -42,9 +43,9 @@ public class DashboardController extends Controller {
    * @return the rendered page content
    */
   public String displayDashboard(Request request, Response response) {
+    long userId = Long.valueOf(request.session().attribute("user"));
     Map<String, Object> model = new HashMap<>();
-    // TODO really ugly, remove asap
-    model.put("exams", examService.getExamsForAuthor(1));
+    model.put("exams", examService.getExamsForAuthor(userId));
     return render(model, "dashboard.ftl");
   }
 

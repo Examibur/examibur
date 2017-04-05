@@ -2,14 +2,11 @@
 
 <#macro body_main>
 	<header>
-	<h1>Dashboard</h1>
+		<h1>Dashboard</h1>
 	</header>
-
-	<p>Keine offenen Aufgaben gefunden</p>
-	<a href="/exams/1/participants/1">Abschlussprüfung SE2 FS2017</a>
 	
-	<h2>Prüfungen</h2>
-	<#list exams as exam>
+	<h2>Meine Prüfungen</h2>
+	<#list exams>
 		<table class="table table-striped table-bordered table-hover">
 			<thead>
 				<tr>						
@@ -20,6 +17,7 @@
 				</tr>
 			</thead>
 			<tbody>
+				<#items as exam>
 				<tr>
 					<td>${exam.module.name}</td>
 					<td>${exam.author.firstName} ${exam.author.lastName}</td>
@@ -31,6 +29,7 @@
 					</td>
 				</tr>
 				</tr>
+				</#items>
 			</tbody>
 		</table>
 	<#else>
