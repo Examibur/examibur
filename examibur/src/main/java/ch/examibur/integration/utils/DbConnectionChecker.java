@@ -12,7 +12,7 @@ public class DbConnectionChecker {
   private static final int SLEEP_BETWEEN_TRIES_MS = 500;
   private static final String JDBC_DRIVER = "org.postgresql.Driver";
 
-  private static final Logger logger = LoggerFactory.getLogger(DbConnectionChecker.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DbConnectionChecker.class);
 
   /**
    * Checks the database connection and blocks until it is either successful or timed out.
@@ -24,40 +24,51 @@ public class DbConnectionChecker {
     JdbcCredentialHelper credHelper = new JdbcCredentialHelper();
     DriverManager.setLoginTimeout(SQL_TIMEOUT_SEC);
 
+    // try connecting until it is either successful or an exception is thrown
     do {
       try {
         tryDbConnect(credHelper);
-        break;
+        LOGGER.debug("Database connection check successful");
+        return;
       } catch (SQLException sqlException) {
         try {
+          
           Thread.sleep(SLEEP_BETWEEN_TRIES_MS);
-        } catch (InterruptedException e) {
-          logger.debug("Sleep interrupted");
+        } catch (InterruptedException interrupt) {
+          LOGGER.error("Connection checker failed: Thread interrupted");
+          throw new InitializationException(interrupt);
         }
         spentTimeSec += SLEEP_BETWEEN_TRIES_MS / 1000.0;
         if (spentTimeSec >= SQL_TIMEOUT_SEC) {
-          logger.error("Connection to Database timed out after " + SQL_TIMEOUT_SEC + " seconds");
+          LOGGER.error("Connection to Database timed out after {} seconds", SQL_TIMEOUT_SEC);
           throw new InitializationException(sqlException);
         }
-        logger.info("Retrying database connection");
+        LOGGER.info("Retrying database connection");
       }
-    } while (spentTimeSec < SQL_TIMEOUT_SEC);
-    logger.debug("Database connection check successful");
+    } while (true);
+
   }
 
   private void loadJdbcDriver() {
     try {
       Class.forName(JDBC_DRIVER);
     } catch (ClassNotFoundException classLoadException) {
-      logger.error("Failed to load JDBC driver " + JDBC_DRIVER);
+      LOGGER.error("Failed to load JDBC driver {}", JDBC_DRIVER);
       throw new InitializationException(classLoadException);
     }
   }
 
   private void tryDbConnect(JdbcCredentialHelper credHelper) throws SQLException {
-    Connection con = DriverManager.getConnection(credHelper.getJdbcUrl(),
-        credHelper.getDatabaseUser(), credHelper.getDatabasePassword());
-    con.close();
+    Connection con = null;
+    try {
+      con = DriverManager.getConnection(credHelper.getJdbcUrl(), credHelper.getDatabaseUser(),
+          credHelper.getDatabasePassword());
+    } finally {
+      if (con != null) {
+        con.close();
+      }
+    }
+
   }
 
 }
