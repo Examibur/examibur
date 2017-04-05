@@ -8,6 +8,10 @@ public class Filters {
   private Filters() {
   }
 
+  private Filters() {
+
+  }
+
   /**
    * If a user manually manipulates paths and forgets to add a trailing slash, redirect the user to
    * the correct path.
@@ -24,7 +28,20 @@ public class Filters {
   }
 
   /**
-   * Enable GZIP for all responses
+   * Handles the user authentication and creates session cookie.
+   * 
+   * @param request
+   *          The current request.
+   * @param response
+   *          The planned response.
+   */
+  public static void handleAuthentication(Request request, Response response) {
+    // TODO implement authentication
+    request.session().attribute("user", "4");
+  }
+
+  /**
+   * Enable GZIP for all responses.
    * 
    * @param request
    *          The current request.
