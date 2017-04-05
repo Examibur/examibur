@@ -27,7 +27,7 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 
 ## Programmkonstruktbildung mit Schichtenmodellbezug
 
-![](resources/softwareArchitektur/schichtenDiagram.svg)
+![](resources/softwareArchitektur/schichtenDiagram.png)
 
 In diesem Abschnitt wird vertiefter in die einzelnen Teile bis auf die Top-Level-Konstrukte eingegangen. Nachfolgend werden die einzelnen Schichten und Konstrukte weiter ausgeführt. **Grau markierte Schichten sind nicht Scope des Projekts und werden weggelassen. So erfolgt der Zugriff des UI direkt auf die Business-Schicht und auf ein Benutzeraktion-Tracking für Auditing-Zwecke wird verzichtet.**
 
