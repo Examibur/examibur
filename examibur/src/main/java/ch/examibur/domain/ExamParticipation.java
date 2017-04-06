@@ -17,7 +17,7 @@ public class ExamParticipation {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "participationId")
+  @Column(name = "examparticipationId")
   private long id;
 
   @Column(nullable = false)
