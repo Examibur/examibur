@@ -5,7 +5,9 @@ import static spark.Spark.get;
 import static spark.Spark.path;
 
 import ch.examibur.business.exam.ExamService;
-import ch.examibur.business.exercise.ExerciseService;
+import ch.examibur.ui.app.factory.ExamControllerFactory;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import java.util.HashMap;
 import java.util.Map;
 import spark.Request;
@@ -13,8 +15,10 @@ import spark.Response;
 
 public class DashboardController extends Controller {
 
+  @Inject
+  ExamControllerFactory examControllerFactory;
+  
   private final ExamService examService;
-  private final ExerciseService exerciseService;
 
   /**
    * Constructor.
@@ -23,14 +27,11 @@ public class DashboardController extends Controller {
    *          the pre controller
    * @param examService
    *          the exam service implementation
-   * @param exerciseService
-   *          the exercise service implementation
    */
-  public DashboardController(Controller preController, ExamService examService,
-      ExerciseService exerciseService) {
+  @Inject
+  public DashboardController(@Assisted Controller preController, ExamService examService) {
     super(preController, "");
     this.examService = examService;
-    this.exerciseService = exerciseService;
   }
 
   /**
@@ -51,7 +52,7 @@ public class DashboardController extends Controller {
 
   @Override
   public void route() {
-    ExamController examController = new ExamController(this, examService, exerciseService);
+    ExamController examController = examControllerFactory.create(this);
 
     get("/", this::displayDashboard);
 

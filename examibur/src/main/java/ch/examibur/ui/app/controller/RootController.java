@@ -3,13 +3,14 @@ package ch.examibur.ui.app.controller;
 import static spark.Spark.after;
 import static spark.Spark.before;
 
-import ch.examibur.business.exam.ExamService;
-import ch.examibur.business.exam.ExamServiceImpl;
-import ch.examibur.business.exercise.ExerciseService;
-import ch.examibur.business.exercise.ExerciseServiceImpl;
+import ch.examibur.ui.app.factory.DashboardControllerFactory;
 import ch.examibur.ui.app.filter.Filters;
+import com.google.inject.Inject;
 
 public class RootController extends Controller {
+
+  @Inject
+  private DashboardControllerFactory dashboardControllerFactory;
 
   public RootController() {
     super(null, "");
@@ -17,12 +18,8 @@ public class RootController extends Controller {
 
   @Override
   public void route() {
-    ExamService examService = new ExamServiceImpl();
-    ExerciseService exerciseService = new ExerciseServiceImpl();
-
-    DashboardController dashboardController = new DashboardController(this, examService,
-        exerciseService);
-    ExceptionController exceptionController = new ExceptionController(this);
+    final DashboardController dashboardController = dashboardControllerFactory.create(this);
+    final ExceptionController exceptionController = new ExceptionController(this);
 
     before("*", Filters::addTrailingSlashes);
     before("*", Filters::handleAuthentication);

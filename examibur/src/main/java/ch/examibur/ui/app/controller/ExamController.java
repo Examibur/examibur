@@ -7,6 +7,8 @@ import static spark.Spark.post;
 
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.business.exercise.ExerciseService;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import java.util.HashMap;
 import java.util.Map;
 import spark.Request;
@@ -28,7 +30,8 @@ public class ExamController extends Controller {
    * @param exerciseService
    *          the exercise service implementation
    */
-  public ExamController(Controller preController, ExamService examService,
+  @Inject
+  public ExamController(@Assisted Controller preController, ExamService examService,
       ExerciseService exerciseService) {
     super(preController, "/exams");
     this.examService = examService;
