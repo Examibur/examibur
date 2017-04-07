@@ -8,3 +8,6 @@
 /examibur/webapps
 /examibur/build
 /examibur/bin
+/examibur/screenshots
+/examibur/geckodriver
+/examibur/geckodriver.exe

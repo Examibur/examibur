@@ -26,7 +26,30 @@ dependencies {
     compile "org.flywaydb:flyway-core:4.1.2"
 
     testCompile 'junit:junit:4.+'
+    testCompile 'org.seleniumhq.selenium:selenium-java:3.3.1'
+    testCompile 'org.seleniumhq.selenium:selenium-firefox-driver:3.3.1'
+	testCompile 'ru.yandex.qatools.ashot:ashot:1.5.2'
 }
+
+sourceSets {
+    integrationTest {
+        java {
+            srcDir 'src/integrationtest/java'
+        }
+        resources {
+            srcDir 'src/integrationtest/resources'
+        }
+        compileClasspath += sourceSets.main.runtimeClasspath
+        compileClasspath += sourceSets.test.runtimeClasspath
+    }
+}
+
+task integrationTest(type: Test) {
+    description = "Runs Integration Tests"
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath += sourceSets.integrationTest.runtimeClasspath
+}
+check.dependsOn integrationTest
 
 task deployToTomcat(type: Copy) {
     from zipTree(war.archivePath)
