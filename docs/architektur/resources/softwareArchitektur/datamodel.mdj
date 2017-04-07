@@ -3317,7 +3317,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Excercise",
+											"text": "Exercise",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -3435,7 +3435,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "excerciseId",
+											"text": "exerciseId",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -3665,7 +3665,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "TextExcercise",
+											"text": "TextExercise",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -4550,7 +4550,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "ExcerciseSolution",
+											"text": "ExerciseSolution",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -4668,7 +4668,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "excerciseSolutionId",
+											"text": "exerciseSolutionId",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -5321,7 +5321,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "ExcerciseGrading",
+											"text": "ExerciseGrading",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -5439,7 +5439,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "excerciseGradingId",
+											"text": "exerciseGradingId",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -10035,7 +10035,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Excercise",
+					"name": "Exercise",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -10189,7 +10189,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFa+hN8qmEm0zA="
 							},
-							"name": "excerciseId",
+							"name": "exerciseId",
 							"visibility": "public",
 							"isStatic": false,
 							"isLeaf": false,
@@ -10230,7 +10230,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "TextExcercise",
+					"name": "TextExercise",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -10279,7 +10279,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "ExcerciseSolution",
+					"name": "ExerciseSolution",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -10478,7 +10478,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFa+hUm3mZspY4="
 							},
-							"name": "excerciseSolutionId",
+							"name": "exerciseSolutionId",
 							"visibility": "public",
 							"isStatic": false,
 							"isLeaf": false,
@@ -10519,7 +10519,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "ExcerciseGrading",
+					"name": "ExerciseGrading",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -10625,7 +10625,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFa+hY4o2tzpco="
 							},
-							"name": "excerciseGradingId",
+							"name": "exerciseGradingId",
 							"visibility": "public",
 							"isStatic": false,
 							"isLeaf": false,

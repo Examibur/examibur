@@ -1102,7 +1102,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Excercise",
+											"text": "Exercise",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -1421,7 +1421,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "ExcerciseSolution",
+											"text": "ExerciseSolution",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -4174,7 +4174,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "ExcerciseGrading",
+											"text": "ExerciseGrading",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -8962,9 +8962,6 @@
 								{
 									"_type": "EdgeLabelView",
 									"_id": "AAAAAAFa0XUvuZw6FqE=",
-									"_parent": {
-										"$ref": "AAAAAAFa0XUvuZw5Z7Q="
-									},
 									"model": {
 										"$ref": "AAAAAAFa0XUvuJw1ELs="
 									},
@@ -8984,9 +8981,6 @@
 									"autoResize": false,
 									"alpha": -2.3564901397400573,
 									"distance": 26.076809620810597,
-									"hostEdge": {
-										"$ref": "AAAAAAFa0XUvuZw5Z7Q="
-									},
 									"edgePosition": 1,
 									"underline": false,
 									"text": "is author",
@@ -10182,9 +10176,6 @@
 						{
 							"_type": "EdgeLabelView",
 							"_id": "AAAAAAFa0XUvuZw6FqE=",
-							"_parent": {
-								"$ref": "AAAAAAFa0XUvuZw5Z7Q="
-							},
 							"model": {
 								"$ref": "AAAAAAFa0XUvuJw1ELs="
 							},
@@ -10204,9 +10195,6 @@
 							"autoResize": false,
 							"alpha": -2.3564901397400573,
 							"distance": 26.076809620810597,
-							"hostEdge": {
-								"$ref": "AAAAAAFa0XUvuZw5Z7Q="
-							},
 							"edgePosition": 1,
 							"underline": false,
 							"text": "is author",
@@ -11906,7 +11894,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Excercise",
+					"name": "Exercise",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -12035,7 +12023,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "ExcerciseSolution",
+					"name": "ExerciseSolution",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -12581,7 +12569,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "ExcerciseGrading",
+					"name": "ExerciseGrading",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
