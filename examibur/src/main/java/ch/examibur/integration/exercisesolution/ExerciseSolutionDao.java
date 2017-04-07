@@ -1,7 +1,7 @@
 package ch.examibur.integration.exercisesolution;
 
-import ch.examibur.domain.ExcerciseSolution;
+import ch.examibur.domain.ExerciseSolution;
 
 public interface ExerciseSolutionDao {
-  ExcerciseSolution getExerciseSolution(long exerciseSolutionId);
+  ExerciseSolution getExerciseSolution(long exerciseSolutionId);
 }

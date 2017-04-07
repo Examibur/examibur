@@ -1,6 +1,6 @@
 package ch.examibur.integration.exercisesolution;
 
-import ch.examibur.domain.ExcerciseSolution;
+import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.integration.utils.EntityManagerHelper;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -12,12 +12,12 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
   private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseSolutionDaoImpl.class);
 
   @Override
-  public ExcerciseSolution getExerciseSolution(long exerciseSolutionId) {
+  public ExerciseSolution getExerciseSolution(long exerciseSolutionId) {
     EntityManager entityManager = EntityManagerHelper.INSTANCE.createEntityManager();
     try {
-      TypedQuery<ExcerciseSolution> exerciseSolutionQuery = entityManager.createQuery(
-          "SELECT es FROM ExcerciseSolution es WHERE es.id = :exerciseSolutionId",
-          ExcerciseSolution.class);
+      TypedQuery<ExerciseSolution> exerciseSolutionQuery = entityManager.createQuery(
+          "SELECT es FROM ExerciseSolution es WHERE es.id = :exerciseSolutionId",
+          ExerciseSolution.class);
       return exerciseSolutionQuery.setParameter("exerciseSolutionId", exerciseSolutionId)
           .getSingleResult();
     } catch (Exception e) {

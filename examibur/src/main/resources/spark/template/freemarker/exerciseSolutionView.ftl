@@ -2,7 +2,7 @@
 
 <#macro body_main>
 	<header>
-		<h2>Prüfung ${exerciseSolution.excercise.exam.id} - Aufgabe ${exerciseSolution.excercise.id}</h2>
+		<h2>Prüfung ${exerciseSolution.exercise.exam.id} - Aufgabe ${exerciseSolution.exercise.id}</h2>
 	</header>
 	
 	<div class="row">
@@ -22,7 +22,7 @@
 		    			<label>Maximale Punktzahl</label>
 		    		</div>
 		    		<div class="col-md-10">
-		    			${exerciseSolution.excercise.maxPoints}
+		    			${exerciseSolution.exercise.maxPoints}
 		    		</div>
 		    	</div>
 		    	<div class="row">
@@ -30,7 +30,7 @@
 		    			<label>Aufgabenstellung</label>
 		    		</div>
 		    		<div class="col-md-10">
-		    			${exerciseSolution.excercise.taskDescription}
+		    			${exerciseSolution.exercise.taskDescription}
 		    		</div>
 				</div>
 				<div class="row">
@@ -38,7 +38,7 @@
 		    			<label>Musterlösung</label>
 		    		</div>
 		    		<div class="col-md-10">
-		    			${exerciseSolution.excercise.exampleSolution.solutionText}
+		    			${exerciseSolution.exercise.exampleSolution.solutionText}
 		    		</div>
 				</div>
 			</div>

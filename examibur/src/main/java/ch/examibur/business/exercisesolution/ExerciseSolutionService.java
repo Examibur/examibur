@@ -1,7 +1,7 @@
 package ch.examibur.business.exercisesolution;
 
-import ch.examibur.domain.ExcerciseSolution;
+import ch.examibur.domain.ExerciseSolution;
 
 public interface ExerciseSolutionService {
-  ExcerciseSolution getExerciseSolution(long exerciseSolutionId);
+  ExerciseSolution getExerciseSolution(long exerciseSolutionId);
 }

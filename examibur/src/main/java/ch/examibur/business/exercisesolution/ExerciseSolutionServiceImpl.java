@@ -1,6 +1,6 @@
 package ch.examibur.business.exercisesolution;
 
-import ch.examibur.domain.ExcerciseSolution;
+import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.integration.exercisesolution.ExerciseSolutionDao;
 import ch.examibur.integration.exercisesolution.ExerciseSolutionDaoImpl;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
   }
 
   @Override
-  public ExcerciseSolution getExerciseSolution(long exerciseSolutionId) {
+  public ExerciseSolution getExerciseSolution(long exerciseSolutionId) {
     LOGGER.info("Get ExerciseSolution with id {}", exerciseSolutionId);
     return exerciseSolutionDao.getExerciseSolution(exerciseSolutionId);
   }
