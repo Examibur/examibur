@@ -115,7 +115,7 @@ public class ScreenshotUtil {
         ImageDiff diff = new ImageDiffer().makeDiff(reference, actual);
         if (diff.hasDiff()) {
           String diffDestination = SCREENSHOT_DESTINATION + "diff_" + screenshotName;
-          ImageIO.write(diff.getDiffImage(), SCREENSHOT_FILE_FORMAT, new File(diffDestination));
+          ImageIO.write(diff.getMarkedImage(), SCREENSHOT_FILE_FORMAT, new File(diffDestination));
 
           throw new AssertionError(
               "Screenshots do not match! Checkout the diff for details at " + diffDestination);
