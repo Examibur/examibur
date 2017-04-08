@@ -4,6 +4,8 @@ import static ch.examibur.ui.app.util.TemplateUtil.render;
 import static spark.Spark.get;
 import static spark.Spark.path;
 
+import ch.examibur.business.exercisegrading.ExerciseGradingService;
+import ch.examibur.business.exercisegrading.ExerciseGradingServiceImpl;
 import ch.examibur.business.exercisesolution.ExerciseSolutionService;
 import ch.examibur.business.exercisesolution.ExerciseSolutionServiceImpl;
 import java.util.HashMap;
@@ -18,10 +20,12 @@ public class ExerciseSolutionController extends Controller {
   public static final String PATH = "/solutions";
   
   private final ExerciseSolutionService exerciseSolutionService;
+  private final ExerciseGradingService exerciseGradingService;
 
   public ExerciseSolutionController(Controller preController) {
     super(preController, "/solutions");
     exerciseSolutionService = new ExerciseSolutionServiceImpl();
+    exerciseGradingService = new ExerciseGradingServiceImpl();
   }
 
   /**
@@ -37,6 +41,8 @@ public class ExerciseSolutionController extends Controller {
     long exerciseSolutionId = Long.parseLong(request.params(PARAM_SOLUTION_ID));
     Map<String, Object> model = new HashMap<>();
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
+    model.put("grading", exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId));
+    model.put("review", exerciseGradingService.getReviewForExerciseSolution(exerciseSolutionId));
     return render(model, "exerciseSolutionView.ftl");
   }
 
