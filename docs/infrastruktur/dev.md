@@ -94,6 +94,8 @@ Hierfür ist es wichtig, dass alle Umgebungsvariablen korrekt gesetzt sind. Mitt
 * `DB_HOST` = `localhost `
 * `DB_USER` (Siehe `docker-compose.yml`)
 * `DB_PASSWORD` (Siehe `docker-compose.yml`)
+* `LOG_LEVEL` = `debug`
+* `LOG_FILE` = `examibur.log`
 
 
 ## UI-Tests laufen lassen
