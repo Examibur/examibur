@@ -2,7 +2,7 @@
 docker build -t examibur/ui_tests -f docker/Dockerfile.integration docker/
 
 # Create named volumes (for performance)
-docker volume create --name xamibur_int_build > /dev/null
+docker volume create --name examibur_int_build > /dev/null
 docker volume create --name examibur_int_gradle > /dev/null
 docker volume create --name examibur_int_userhome_gradle > /dev/null
 
