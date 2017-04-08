@@ -48,6 +48,14 @@ task integrationTest(type: Test) {
     description = "Runs Integration Tests"
     testClassesDir = sourceSets.integrationTest.output.classesDir
     classpath += sourceSets.integrationTest.runtimeClasspath
+
+    testLogging {
+        showStandardStreams = true
+    }
+
+    if( new File("/opt/geckodriver").exists() ) {
+		jvmArgs "-Dwebdriver.gecko.driver=/opt/geckodriver"
+    }
 }
 
 task deployToTomcat(type: Copy) {

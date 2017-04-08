@@ -57,9 +57,9 @@ public class ScreenshotUtil {
         for (File screenshot : destination.listFiles()) {
           assertTrue(screenshot.delete());
         }
-        assertTrue(destination.delete());
+      } else {
+        destination.mkdirs();
       }
-      destination.mkdirs();
     }
   }
 

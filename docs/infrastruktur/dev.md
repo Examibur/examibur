@@ -88,10 +88,17 @@ Falls PSQL/PgAdmin lokal installiert sind können diese so genutzt werden, als w
 
 Alternativ kann PSQL auch über docker-compose genutzt werden: `docker-compose run postgres psql -h postgres -U examibur`. Das Kennwort findet sich in der Datei `docker-compose.yml`.
 
-## Integration / UI-Tests laufen lassen
+## Integration-Tests laufen lassen
 Hierfür ist es wichtig, dass alle Umgebungsvariablen korrekt gesetzt sind. Mittels docker können die Tests direkt ausgeführt werden - es ist aber bequemer dies über Eclipse selektiv zu tun. Da die Tests für db-konfigurationen etc. Umgebungsvariabeln benötigt, ist das Plugin [Eclipse-Environment-Variables](https://github.com/JorisAerts/Eclipse-Environment-Variables) empfohlen. Folgende Variablen müssen gesetzt werden:
 
 * `DB_HOST` = `localhost `
 * `DB_USER` (Siehe `docker-compose.yml`)
 * `DB_PASSWORD` (Siehe `docker-compose.yml`)
-* `UI_TEST_URL` = `http://localhost:8080/`
+
+
+## UI-Tests laufen lassen
+Um reproduzierbare Screenshots zu bekommen müssen diese Tests in einem Docker-Container laufen. Die UI-Tests können einfach mit folgendem Kommando im Projekt-Root ausgeführt werden:
+
+```bash
+./run-integration.sh
+```

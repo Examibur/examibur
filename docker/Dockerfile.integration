@@ -21,6 +21,11 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 
 RUN curl -L https://github.com/mozilla/geckodriver/releases/download/v0.15.0/geckodriver-v0.15.0-linux64.tar.gz | tar xvz -C /opt/
 
+RUN groupadd -g 1000 examibur
+RUN useradd --home /home/examibur -u 1000 -g 1000 -M examibur
+RUN mkdir -p /home/examibur/.gradle && chown -R examibur:examibur /home/examibur/
+RUN mkdir -p /src/screenshots /src/.build /src/.gradle
+RUN chown -R examibur:examibur /src/
 
 ADD run.sh /usr/bin/run.sh
 RUN chmod a+x /usr/bin/run.sh
