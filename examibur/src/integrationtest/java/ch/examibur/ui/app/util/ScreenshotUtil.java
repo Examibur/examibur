@@ -33,7 +33,7 @@ public class ScreenshotUtil {
   /**
    * All resolutions that shall be tested.
    */
-  private static Dimension[] resolutions = { new Dimension(800, 600), new Dimension(320, 568) };
+  private static Dimension[] resolutions = { new Dimension(800, 600) };
 
   /**
    * This flag ensures that the screenshots directory is cleaned when a test runs the first time.
