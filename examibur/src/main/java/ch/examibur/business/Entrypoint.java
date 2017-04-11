@@ -1,4 +1,4 @@
-package ch.examibur.integration;
+package ch.examibur.business;
 
 import com.google.inject.Injector;
 

@@ -1,18 +1,37 @@
 package ch.examibur.integration.utils;
 
+import com.google.inject.Inject;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DbConnectionChecker {
 
-  private static final int SQL_TIMEOUT_SEC = 3;
-  private static final int SLEEP_BETWEEN_TRIES_MS = 500;
-  private static final String JDBC_DRIVER = "org.postgresql.Driver";
+  private final int timeoutSec;
+  private final int triesMs;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(DbConnectionChecker.class);
+  private final Logger logger = LoggerFactory.getLogger(DbConnectionChecker.class);
+  private final JdbcCredentials jdbcCredentials;
+
+  /**
+   * @param jdbcCredentials
+   *          A Container, that holds all required JDBC Credentials
+   * @param timeoutSec
+   *          The maximal amount of time to wait for the database to become responsive.
+   * @param triesMs
+   *          The timeout in seconds to wait between retries.
+   */
+  @Inject
+  public DbConnectionChecker(JdbcCredentials jdbcCredentials, @WaitForDbTimeoutSec int timeoutSec,
+      @SleepBetweenTriesMs int triesMs) {
+    this.jdbcCredentials = jdbcCredentials;
+    this.timeoutSec = timeoutSec;
+    this.triesMs = triesMs;
+  }
 
   /**
    * Checks the database connection and blocks until it is either successful or timed out.
@@ -21,29 +40,28 @@ public class DbConnectionChecker {
     loadJdbcDriver();
 
     double spentTimeSec = 0;
-    JdbcCredentialHelper credHelper = new JdbcCredentialHelper();
-    DriverManager.setLoginTimeout(SQL_TIMEOUT_SEC);
+    DriverManager.setLoginTimeout(timeoutSec);
 
     // try connecting until it is either successful or an exception is thrown
     do {
       try {
-        tryDbConnect(credHelper);
-        LOGGER.debug("Database connection check successful");
+        tryDbConnect();
+        logger.debug("Database connection check successful");
         return;
       } catch (SQLException sqlException) {
         try {
-          
-          Thread.sleep(SLEEP_BETWEEN_TRIES_MS);
+
+          Thread.sleep(triesMs);
         } catch (InterruptedException interrupt) {
-          LOGGER.error("Connection checker failed: Thread interrupted");
+          logger.error("Connection checker failed: Thread interrupted");
           throw new InitializationException(interrupt);
         }
-        spentTimeSec += SLEEP_BETWEEN_TRIES_MS / 1000.0;
-        if (spentTimeSec >= SQL_TIMEOUT_SEC) {
-          LOGGER.error("Connection to Database timed out after {} seconds", SQL_TIMEOUT_SEC);
+        spentTimeSec += triesMs / 1000.0;
+        if (spentTimeSec >= timeoutSec) {
+          logger.error("Connection to Database timed out after {} seconds", timeoutSec);
           throw new InitializationException(sqlException);
         }
-        LOGGER.info("Retrying database connection");
+        logger.info("Retrying database connection");
       }
     } while (true);
 
@@ -51,18 +69,18 @@ public class DbConnectionChecker {
 
   private void loadJdbcDriver() {
     try {
-      Class.forName(JDBC_DRIVER);
+      Class.forName(jdbcCredentials.getDriverClass());
     } catch (ClassNotFoundException classLoadException) {
-      LOGGER.error("Failed to load JDBC driver {}", JDBC_DRIVER);
+      logger.error("Failed to load JDBC driver {}", jdbcCredentials.getDriverClass());
       throw new InitializationException(classLoadException);
     }
   }
 
-  private void tryDbConnect(JdbcCredentialHelper credHelper) throws SQLException {
+  private void tryDbConnect() throws SQLException {
     Connection con = null;
     try {
-      con = DriverManager.getConnection(credHelper.getJdbcUrl(), credHelper.getDatabaseUser(),
-          credHelper.getDatabasePassword());
+      con = DriverManager.getConnection(jdbcCredentials.getUrl(), jdbcCredentials.getUser(),
+          jdbcCredentials.getPassword());
     } finally {
       if (con != null) {
         con.close();

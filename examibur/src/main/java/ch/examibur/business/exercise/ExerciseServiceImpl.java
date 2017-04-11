@@ -1,14 +1,16 @@
 package ch.examibur.business.exercise;
 
 import ch.examibur.integration.exercise.ExerciseDao;
-import ch.examibur.integration.exercise.ExerciseDaoImpl;
+
+import com.google.inject.Inject;
 
 public class ExerciseServiceImpl implements ExerciseService {
-  
+
   private final ExerciseDao exerciseDao;
-  
-  public ExerciseServiceImpl() {
-    exerciseDao = new ExerciseDaoImpl();
+
+  @Inject
+  public ExerciseServiceImpl(ExerciseDao exerciseDao) {
+    this.exerciseDao = exerciseDao;
   }
 
   @Override
