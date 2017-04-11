@@ -7,9 +7,9 @@ import org.junit.rules.ExternalResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TestResource extends ExternalResource {
+public class DatabaseResource extends ExternalResource {
   
-  private static final Logger LOGGER = LoggerFactory.getLogger(TestResource.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseResource.class);
   
   private final DatabaseMigrator dbMigrator = new DatabaseMigrator();
   
@@ -19,7 +19,7 @@ public class TestResource extends ExternalResource {
       dbMigrator.clean();
       dbMigrator.migrate();
     } catch (FlywayException ex) {
-      LOGGER.error("Clean and/or Initial Database Migration failed");
+      LOGGER.error("Clean and/or Initial Database Migration failed", ex);
       throw new InitializationException(ex);
     }
   }
@@ -29,7 +29,7 @@ public class TestResource extends ExternalResource {
       LOGGER.info("Clean database");
       dbMigrator.clean();
     } catch (FlywayException ex) {
-      LOGGER.error("Clean and/or Initial Database Migration failed");
+      LOGGER.error("Clean and/or Initial Database Migration failed", ex);
       throw new InitializationException(ex);
     }
   }

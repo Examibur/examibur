@@ -1,6 +1,6 @@
 package ch.examibur.business.exam;
 
-import ch.examibur.business.TestResource;
+import ch.examibur.business.DatabaseResource;
 import ch.examibur.domain.Exam;
 import java.util.List;
 import javax.persistence.NoResultException;
@@ -11,7 +11,7 @@ import org.junit.Test;
 public class ExamServiceImplTest {
   
   @ClassRule
-  public static final TestResource RES = new TestResource();
+  public static final DatabaseResource RES = new DatabaseResource();
   
   private final ExamService examService = new ExamServiceImpl();
 

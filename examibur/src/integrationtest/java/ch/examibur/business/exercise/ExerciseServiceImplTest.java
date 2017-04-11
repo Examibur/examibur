@@ -1,6 +1,6 @@
 package ch.examibur.business.exercise;
 
-import ch.examibur.business.TestResource;
+import ch.examibur.business.DatabaseResource;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -8,7 +8,7 @@ import org.junit.Test;
 public class ExerciseServiceImplTest {
 
   @ClassRule
-  public static final TestResource RES = new TestResource();
+  public static final DatabaseResource RES = new DatabaseResource();
   
   private final ExerciseService exerciseService = new ExerciseServiceImpl(); 
   
