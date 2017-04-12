@@ -83,37 +83,30 @@
 			<div class="col-md-6">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<#if examState == "CORRECTION">
-						<div class="pull-right">
-							<a href="#edit">
-								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-							</a>
-						</div>
-						</#if>
 						<strong>${grading.gradingAuthor.firstName} ${grading.gradingAuthor.lastName}</strong> bewertete am ${grading.creationDate}
 					</div>
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-md-2">
+							<div class="col-md-4">
 				    			<label>Bewertete Punktzahl</label>
 				    		</div>
-				    		<div class="col-md-4">
+				    		<div class="col-md-8">
 				    			${grading.points}
 				    		</div>
 						</div>
 						<div class="row">
-							<div class="col-md-2">
+							<div class="col-md-4">
 				    			<label>Kommentar</label>
 				    		</div>
-				    		<div class="col-md-4">
+				    		<div class="col-md-8">
 				    			${grading.comment}
 				    		</div>
 						</div>
 						<div class="row">
-							<div class="col-md-2">
+							<div class="col-md-4">
 				    			<label>Begründung</label>
 				    		</div>
-				    		<div class="col-md-4">
+				    		<div class="col-md-8">
 				    			${grading.reasoning}
 				    		</div>
 						</div>
@@ -131,38 +124,53 @@
     				</div>
     				<div class="panel-body">
     					<div class="row">
-    						<div class="col-md-2">
+    						<div class="col-md-4">
     			    			<label>Bewertete Punktzahl</label>
     			    		</div>
-    			    		<div class="col-md-4">
+    			    		<div class="col-md-8">
     			    			${review.points}
     			    		</div>
     					</div>
     					<div class="row">
-    						<div class="col-md-2">
+    						<div class="col-md-4">
     			    			<label>Kommentar</label>
     			    		</div>
-    			    		<div class="col-md-4">
+    			    		<div class="col-md-8">
     			    			${review.comment}
     			    		</div>
     					</div>
     					<div class="row">
-    						<div class="col-md-2">
+    						<div class="col-md-4">
     			    			<label>Begründung</label>
     			    		</div>
-    			    		<div class="col-md-4">
+    			    		<div class="col-md-8">
     			    			${review.reasoning}
     			    		</div>
     					</div>
+    					<#if examState == "APPROVAL" && !exerciseSolution.isDone()>
+	    					<div class="row">
+	    						<div class="col-md-3">
+		    						<form action="gradings" method="POST">
+		    							<input type="hidden" id="accept-review" value="true" />
+		    							<input type="submit" class="form-control" value="Akzeptieren" />
+		    						</form>
+	    						</div>
+	    						<div class="col-md-3">
+		    						<form action="#reject-review" method="POST">
+		    							<input type="submit" class="form-control" value="Ablehnen" />
+		    						</form>	
+	    						</div>
+	    					</div>
+    					</#if>
     				</div>
     			</div>
             </div>
     	</#if>
     </div>
 	
-	<#if (examState == "CORRECTION" || examState == "REVIEW") && !(grading??)>
+	<#if (examState == "CORRECTION" || examState == "REVIEW") && !exerciseSolution.isDone()>
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<#if examState == "CORRECTION">
@@ -172,13 +180,13 @@
 						</#if>
 					</div>
 					<div class="panel-body">
-						<form action="#add-grading" method="POST"> 
+						<form action="gradings" method="POST"> 
 							<div class="row">
 								<div class="col-md-4">
 				    				<label for="points">Bewertete Punktzahl</label>
 				    			</div>
-				    			<div class="col-md-4">
-				    				<input class="form-control" id="points" type="number" min="0" max="${exerciseSolution.exercise.maxPoints}" />
+				    			<div class="col-md-2">
+				    				<input class="form-control" id="points" type="number" min="0" max="${exerciseSolution.exercise.maxPoints}" required />
 				    			</div>
 				    		</div>	
 							<div class="row">
