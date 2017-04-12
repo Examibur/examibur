@@ -5,7 +5,6 @@ import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDaoImpl;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,13 +32,7 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
   }
   
   private ExerciseGrading getGradingCreatedInState(long exerciseSolutionId, ExamState state) {
-    List<ExerciseGrading> gradings = exerciseGradingDao.getGradingsForExerciseSolution(exerciseSolutionId);
-    for (ExerciseGrading grading : gradings) {
-      if (grading.getCreatedInState() == state) {
-        return grading;
-      }
-    }
-    return null;
+    return exerciseGradingDao.getGradingCreatedInState(exerciseSolutionId, state);
   }
 
 }
