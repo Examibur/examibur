@@ -20,9 +20,9 @@ public class RootController extends Controller {
     ExamService examService = new ExamServiceImpl();
     ExerciseService exerciseService = new ExerciseServiceImpl();
 
-    DashboardController dashboardController = new DashboardController(this, examService,
+    final DashboardController dashboardController = new DashboardController(this, examService,
         exerciseService);
-    ExceptionController exceptionController = new ExceptionController(this);
+    final ExceptionController exceptionController = new ExceptionController(this);
 
     before("*", Filters::addTrailingSlashes);
     before("*", Filters::handleAuthentication);
