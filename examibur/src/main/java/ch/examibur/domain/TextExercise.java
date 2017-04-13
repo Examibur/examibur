@@ -6,10 +6,10 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("text")
-public class TextExcercise extends Excercise {
-  
+public class TextExercise extends Exercise {
+
   @Column(nullable = false)
-  private String taskDescription; 
+  private String taskDescription;
 
   public String getTaskDescription() {
     return taskDescription;
@@ -38,7 +38,7 @@ public class TextExcercise extends Excercise {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    TextExcercise other = (TextExcercise) obj;
+    TextExercise other = (TextExercise) obj;
     if (taskDescription == null) {
       if (other.taskDescription != null) {
         return false;
@@ -48,5 +48,5 @@ public class TextExcercise extends Excercise {
     }
     return true;
   }
-  
+
 }

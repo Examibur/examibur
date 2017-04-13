@@ -1,7 +1,5 @@
 package ch.examibur.ui.app;
 
-import static spark.Spark.staticFiles;
-
 import ch.examibur.business.BusinessEntrypoint;
 import ch.examibur.business.Entrypoint;
 import ch.examibur.ui.app.module.ControllerModule;
@@ -22,7 +20,7 @@ public class Application implements SparkApplication {
 
   @Override
   public void init() {
-    staticFiles.location("/public");
+
     try {
       Entrypoint businessEntry = new BusinessEntrypoint();
       Injector parentInjector = businessEntry.init();

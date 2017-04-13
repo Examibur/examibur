@@ -1,0 +1,32 @@
+FROM ubuntu:17.04
+
+MAINTAINER Raphael Zimmermann <raphael.zimmermann@hsr.ch>
+
+# This is in accordance to : https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04
+RUN apt-get update && \
+	apt-get install -y openjdk-8-jdk
+
+# Fix certificate issues, found as of
+# https://bugs.launchpad.net/ubuntu/+source/ca-certificates-java/+bug/983302
+RUN apt-get install ca-certificates-java && \
+	apt-get clean && \
+	update-ca-certificates -f;
+
+ENV DISPLAY :99
+
+RUN apt-get install -y firefox xvfb curl unzip libgconf-2-4
+
+# Setup JAVA_HOME, this is useful for docker commandline
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+
+RUN curl -L https://github.com/mozilla/geckodriver/releases/download/v0.15.0/geckodriver-v0.15.0-linux64.tar.gz | tar xvz -C /opt/
+
+RUN groupadd -g 1000 examibur
+RUN useradd --home /home/examibur -u 1000 -g 1000 -M examibur
+RUN mkdir -p /home/examibur/.gradle && chown -R examibur:examibur /home/examibur/
+RUN mkdir -p /src/screenshots /src/.build /src/.gradle
+RUN chown -R examibur:examibur /src/
+
+ADD run.sh /usr/bin/run.sh
+RUN chmod a+x /usr/bin/run.sh
+CMD /usr/bin/run.sh

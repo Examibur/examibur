@@ -7,7 +7,10 @@ title: Entwicklungsumgebung
 
 * Java
 * Gradle
-* Eclipse
+* Eclipse mit den folgenden Plugins
+    * [SonarLint](https://marketplace.eclipse.org/content/sonarlint)
+    * [Eclipse-Environment-Variables](https://github.com/JorisAerts/Eclipse-Environment-Variables/)
+    * [CheckStyle](http://eclipse-cs.sourceforge.net/)
 * [Docker](https://docs.docker.com/)
 * [Docker-Compose](https://docs.docker.com/compose/)
 
@@ -84,3 +87,20 @@ sudo chcon -Rt svirt_sandbox_file_t docs/ examibur/webapps/
 Falls PSQL/PgAdmin lokal installiert sind können diese so genutzt werden, als wäre postgres lokal installiert, solange die Entwicklungsumgebung läuft (siehe oben). Die Zugangsdaten sind der Datei `docker-compose.yml` zu entnehmen.
 
 Alternativ kann PSQL auch über docker-compose genutzt werden: `docker-compose run postgres psql -h postgres -U examibur`. Das Kennwort findet sich in der Datei `docker-compose.yml`.
+
+## Integration-Tests laufen lassen
+Hierfür ist es wichtig, dass alle Umgebungsvariablen korrekt gesetzt sind. Mittels docker können die Tests direkt ausgeführt werden - es ist aber bequemer dies über Eclipse selektiv zu tun. Da die Tests für db-konfigurationen etc. Umgebungsvariabeln benötigt, ist das Plugin [Eclipse-Environment-Variables](https://github.com/JorisAerts/Eclipse-Environment-Variables) empfohlen. Folgende Variablen müssen gesetzt werden:
+
+* `DB_HOST` = `localhost `
+* `DB_USER` (Siehe `docker-compose.yml`)
+* `DB_PASSWORD` (Siehe `docker-compose.yml`)
+* `LOG_LEVEL` = `debug`
+* `LOG_FILE` = `examibur.log`
+
+
+## UI-Tests laufen lassen
+Um reproduzierbare Screenshots zu bekommen müssen diese Tests in einem Docker-Container laufen. Die UI-Tests können einfach mit folgendem Kommando im Projekt-Root ausgeführt werden:
+
+```bash
+./run-integration.sh
+```

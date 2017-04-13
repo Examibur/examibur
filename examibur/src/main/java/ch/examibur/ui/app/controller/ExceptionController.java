@@ -39,8 +39,8 @@ public class ExceptionController implements Controller {
     LOGGER.error("Caught unhandled exception", exception);
 
     Map<String, Object> model = request.attribute(MODEL);
+    response.status(HttpStatus.INTERNAL_SERVER_ERROR_500);
     response.body(engine.render(model, "500.ftl"));
-    response.status(500);
 
   }
 
@@ -53,9 +53,16 @@ public class ExceptionController implements Controller {
    *          the HTTP response
    */
   public String handleNotFound(Request request, Response response) {
-    response.status(HttpStatus.NOT_FOUND_404);
     Map<String, Object> model = request.attribute(MODEL);
+    response.status(HttpStatus.NOT_FOUND_404);
     return engine.render(model, "404.ftl");
+  }
+
+  public void handleNotFoundException(Exception ex, Request request, Response response) {
+    LOGGER.debug("Returning 404 not found");
+    Map<String, Object> model = request.attribute(MODEL);
+    response.status(HttpStatus.NOT_FOUND_404);
+    response.body(engine.render(model, "404.ftl"));
   }
 
 }

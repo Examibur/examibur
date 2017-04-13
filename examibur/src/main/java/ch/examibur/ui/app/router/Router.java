@@ -6,7 +6,9 @@ import static spark.Spark.exception;
 import static spark.Spark.get;
 import static spark.Spark.path;
 import static spark.Spark.post;
+import static spark.Spark.staticFiles;
 
+import ch.examibur.integration.SingleResultNotFoundException;
 import ch.examibur.ui.app.controller.DashboardController;
 import ch.examibur.ui.app.controller.ExamController;
 import ch.examibur.ui.app.controller.ExamParticipationController;
@@ -42,6 +44,8 @@ public final class Router {
   ExceptionController exceptionController;
 
   public void route() {
+    staticFiles.location("/public");
+
     before("*", Filters::addTrailingSlashes);
     before("*", Filters::handleAuthentication);
     before("*", Filters::addBaseModel);
@@ -76,7 +80,7 @@ public final class Router {
     });
 
     get("*", exceptionController::handleNotFound);
-
+    exception(SingleResultNotFoundException.class, exceptionController::handleNotFoundException);
     exception(Exception.class, exceptionController::handleException);
 
     after("*", Filters::addGzipHeader);

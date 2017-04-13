@@ -12,29 +12,28 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "excercisesolution_t")
-public class ExcerciseSolution {
+@Table(name = "exercisesolution_t")
+public class ExerciseSolution {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "excerciseSolutionId")
+  @Column(name = "exerciseSolutionId")
   private long id;
 
   @Column(nullable = false)
   private boolean isDone;
 
   @OneToOne(cascade = CascadeType.REMOVE)
-  @JoinColumn(name = "excercisesolution_participantsolutionId")
+  @JoinColumn(name = "exercisesolution_participantsolutionId")
   private Solution participantSolution;
 
   @ManyToOne
-  @JoinColumn(name = "excercisesolution_excerciseId", nullable = false)
-  private Excercise excercise;
+  @JoinColumn(name = "exercisesolution_exerciseId", nullable = false)
+  private Exercise exercise;
 
   @ManyToOne
-  @JoinColumn(name = "excercisesolution_participationId", nullable = false)
+  @JoinColumn(name = "exercisesolution_participationId", nullable = false)
   private ExamParticipation participation;
-  
 
   public long getId() {
     return id;
@@ -60,12 +59,12 @@ public class ExcerciseSolution {
     this.participantSolution = participantSolution;
   }
 
-  public Excercise getExcercise() {
-    return excercise;
+  public Exercise getExercise() {
+    return exercise;
   }
 
-  public void setExcercise(Excercise excercise) {
-    this.excercise = excercise;
+  public void setExercise(Exercise exercise) {
+    this.exercise = exercise;
   }
 
   public ExamParticipation getParticipation() {
@@ -76,12 +75,11 @@ public class ExcerciseSolution {
     this.participation = participation;
   }
 
-
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((excercise == null) ? 0 : excercise.hashCode());
+    result = prime * result + ((exercise == null) ? 0 : exercise.hashCode());
     result = prime * result + (int) (id ^ (id >>> 32));
     result = prime * result + (isDone ? 1231 : 1237);
     result = prime * result + ((participantSolution == null) ? 0 : participantSolution.hashCode());
@@ -100,12 +98,12 @@ public class ExcerciseSolution {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    ExcerciseSolution other = (ExcerciseSolution) obj;
-    if (excercise == null) {
-      if (other.excercise != null) {
+    ExerciseSolution other = (ExerciseSolution) obj;
+    if (exercise == null) {
+      if (other.exercise != null) {
         return false;
       }
-    } else if (!excercise.equals(other.excercise)) {
+    } else if (!exercise.equals(other.exercise)) {
       return false;
     }
     if (id != other.id) {

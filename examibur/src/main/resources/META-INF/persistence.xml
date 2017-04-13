@@ -4,8 +4,18 @@
   version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
   <persistence-unit name="examibur" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties>
+	<class>ch.examibur.domain.Exam</class>
+	<class>ch.examibur.domain.ExamParticipation</class>
+	<class>ch.examibur.domain.ExamState</class>
+	<class>ch.examibur.domain.Exercise</class>
+	<class>ch.examibur.domain.ExerciseGrading</class>
+	<class>ch.examibur.domain.ExerciseSolution</class>
+	<class>ch.examibur.domain.Module</class>
+	<class>ch.examibur.domain.Solution</class>
+	<class>ch.examibur.domain.TextExercise</class>
+	<class>ch.examibur.domain.TextSolution</class>
+	<class>ch.examibur.domain.User</class>
+	<properties>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
       <property name="eclipselink.target-database" value="PostgreSQL" />
       <property name="eclipselink.logging.level" value="FINE"/>

@@ -79,7 +79,7 @@ Alle aufgelisteten nicht-funktionalen Anforderungen wurden beim Design beachtet.
 3. **Dynamische Konfigurationen von Prüfungsreglementen / Modulstrukturen für andere Hochschulen müssen innerhalb von 30 Arbeitstagen eingefügt werden können.** (changability)
 4. **Neue Prüfungsaufgabentypen (Bsp. Multiple-Choice) müssen innerhalb von 10 Arbeitstagen eingeführt werden können.**
 5. **Die Business-Logik und alle Use-Cases müssen mit automatischen Unit-Tests abgedeckt sein**. (testability)
-6. **Alle Use-Cases des Web-Interfaces müssen über automatische Browser-Tests abgedeckt sein**. (testability)
+6. **Alle Use-Cases des Web-Interfaces müssen über automatische Tests abgedeckt sein**. (testability)
 7. Automatische Updates müssen ohne manuelles Eingreifen eingespielt werden können (stability)
 
 ## Übertragbarkeit (Portability)

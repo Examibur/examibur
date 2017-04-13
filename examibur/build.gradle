@@ -1,6 +1,7 @@
 plugins {
     id 'com.github.ksoichiro.console.reporter' version '0.5.0'
     id "org.sonarqube" version "2.2.1"
+    id "org.unbroken-dome.test-sets" version "1.0.1"
 }
 
 apply plugin: 'java'
@@ -8,6 +9,7 @@ apply plugin: 'eclipse'
 apply plugin: 'war'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.ksoichiro.console.reporter'
+apply plugin: 'org.unbroken-dome.test-sets'
 
 sourceCompatibility = 1.8
 version = '0.1'
@@ -28,6 +30,20 @@ dependencies {
 	compile 'com.google.inject.extensions:guice-assistedinject:4.0'
 
     testCompile 'junit:junit:4.+'
+    testCompile 'org.seleniumhq.selenium:selenium-java:3.3.1'
+    testCompile 'org.seleniumhq.selenium:selenium-firefox-driver:3.3.1'
+	testCompile 'ru.yandex.qatools.ashot:ashot:1.5.2'
+
+}
+
+testSets {
+    integrationTest { dirName = 'integrationtest' }
+}
+
+project.integrationTest {
+    if( new File("/opt/geckodriver").exists() ) {
+		jvmArgs "-Dwebdriver.gecko.driver=/opt/geckodriver"
+    } 
 }
 
 task deployToTomcat(type: Copy) {

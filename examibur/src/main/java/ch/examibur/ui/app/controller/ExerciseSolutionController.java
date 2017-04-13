@@ -2,6 +2,9 @@ package ch.examibur.ui.app.controller;
 
 import static ch.examibur.ui.app.filter.Filters.MODEL;
 
+import ch.examibur.business.exercisegrading.ExerciseGradingService;
+import ch.examibur.business.exercisesolution.ExerciseSolutionService;
+import ch.examibur.integration.SingleResultNotFoundException;
 import ch.examibur.ui.app.util.Renderer;
 
 import com.google.inject.Inject;
@@ -15,10 +18,16 @@ public class ExerciseSolutionController implements Controller {
 
   public static final String PARAM_SOLUTION_ID = ":solutionId";
   private final Renderer engine;
+  private final ExerciseSolutionService exerciseSolutionService;
+  private final ExerciseGradingService exerciseGradingService;
 
   @Inject
-  public ExerciseSolutionController(Renderer engine) {
+  public ExerciseSolutionController(Renderer engine,
+      ExerciseSolutionService exerciseSolutionService,
+      ExerciseGradingService exerciseGradingService) {
     this.engine = engine;
+    this.exerciseSolutionService = exerciseSolutionService;
+    this.exerciseGradingService = exerciseGradingService;
   }
 
   /**
@@ -29,10 +38,16 @@ public class ExerciseSolutionController implements Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
+   * @throws SingleResultNotFoundException
+   *           when the exerciseSolution is not found
    */
   public String displayExerciseSolution(Request request, Response response) {
+    long exerciseSolutionId = Long.parseLong(request.params(PARAM_SOLUTION_ID));
     Map<String, Object> model = request.attribute(MODEL);
-    return engine.render(model, "404.ftl");
+    model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
+    model.put("grading", exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId));
+    model.put("review", exerciseGradingService.getReviewForExerciseSolution(exerciseSolutionId));
+    return engine.render(model, "exerciseSolutionView.ftl");
   }
 
   /**

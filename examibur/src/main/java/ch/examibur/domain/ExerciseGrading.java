@@ -14,12 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "excercisegrading_t")
-public class ExcerciseGrading {
+@Table(name = "exercisegrading_t")
+public class ExerciseGrading {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "excerciseGradingId")
+  @Column(name = "exerciseGradingId")
   private long id;
 
   @Column(nullable = false)
@@ -39,14 +39,13 @@ public class ExcerciseGrading {
   private boolean isFinalGrading;
 
   @ManyToOne
-  @JoinColumn(name = "excercisegrading_authorId", nullable = false)
+  @JoinColumn(name = "exercisegrading_authorId", nullable = false)
   private User gradingAuthor;
 
   @ManyToOne
-  @JoinColumn(name = "excercisegrading_excercisesolutionId", nullable = false)
-  private ExcerciseSolution excerciseSolution;
+  @JoinColumn(name = "exercisegrading_exercisesolutionId", nullable = false)
+  private ExerciseSolution exerciseSolution;
 
-  
   public long getId() {
     return id;
   }
@@ -111,14 +110,13 @@ public class ExcerciseGrading {
     this.gradingAuthor = gradingAuthor;
   }
 
-  public ExcerciseSolution getExcerciseSolution() {
-    return excerciseSolution;
+  public ExerciseSolution getExerciseSolution() {
+    return exerciseSolution;
   }
 
-  public void setExcerciseSolution(ExcerciseSolution excerciseSolution) {
-    this.excerciseSolution = excerciseSolution;
+  public void setExerciseSolution(ExerciseSolution exerciseSolution) {
+    this.exerciseSolution = exerciseSolution;
   }
-
 
   @Override
   public int hashCode() {
@@ -127,7 +125,7 @@ public class ExcerciseGrading {
     result = prime * result + ((comment == null) ? 0 : comment.hashCode());
     result = prime * result + ((createdInState == null) ? 0 : createdInState.hashCode());
     result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
-    result = prime * result + ((excerciseSolution == null) ? 0 : excerciseSolution.hashCode());
+    result = prime * result + ((exerciseSolution == null) ? 0 : exerciseSolution.hashCode());
     result = prime * result + ((gradingAuthor == null) ? 0 : gradingAuthor.hashCode());
     result = prime * result + (int) (id ^ (id >>> 32));
     result = prime * result + (isFinalGrading ? 1231 : 1237);
@@ -149,7 +147,7 @@ public class ExcerciseGrading {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    ExcerciseGrading other = (ExcerciseGrading) obj;
+    ExerciseGrading other = (ExerciseGrading) obj;
     if (comment == null) {
       if (other.comment != null) {
         return false;
@@ -167,11 +165,11 @@ public class ExcerciseGrading {
     } else if (!creationDate.equals(other.creationDate)) {
       return false;
     }
-    if (excerciseSolution == null) {
-      if (other.excerciseSolution != null) {
+    if (exerciseSolution == null) {
+      if (other.exerciseSolution != null) {
         return false;
       }
-    } else if (!excerciseSolution.equals(other.excerciseSolution)) {
+    } else if (!exerciseSolution.equals(other.exerciseSolution)) {
       return false;
     }
     if (gradingAuthor == null) {

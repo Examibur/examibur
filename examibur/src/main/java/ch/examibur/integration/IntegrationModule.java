@@ -4,6 +4,10 @@ import ch.examibur.integration.exam.ExamDao;
 import ch.examibur.integration.exam.ExamDaoImpl;
 import ch.examibur.integration.exercise.ExerciseDao;
 import ch.examibur.integration.exercise.ExerciseDaoImpl;
+import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
+import ch.examibur.integration.exercisegrading.ExerciseGradingDaoImpl;
+import ch.examibur.integration.exercisesolution.ExerciseSolutionDao;
+import ch.examibur.integration.exercisesolution.ExerciseSolutionDaoImpl;
 import ch.examibur.integration.utils.InitializationException;
 import ch.examibur.integration.utils.JdbcCredentials;
 import ch.examibur.integration.utils.MigrationLocations;
@@ -29,6 +33,8 @@ public class IntegrationModule extends AbstractModule {
   protected void configure() {
     bind(ExamDao.class).to(ExamDaoImpl.class);
     bind(ExerciseDao.class).to(ExerciseDaoImpl.class);
+    bind(ExerciseGradingDao.class).to(ExerciseGradingDaoImpl.class);
+    bind(ExerciseSolutionDao.class).to(ExerciseSolutionDaoImpl.class);
 
     bindConstant().annotatedWith(WaitForDbTimeoutSec.class).to(3);
     bindConstant().annotatedWith(SleepBetweenTriesMs.class).to(500);

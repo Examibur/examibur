@@ -14,10 +14,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "examparticipation_t")
 public class ExamParticipation {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "participationId")
+  @Column(name = "examparticipationId")
   private long id;
 
   @Column(nullable = false)
@@ -72,7 +72,6 @@ public class ExamParticipation {
   public void setExam(Exam exam) {
     this.exam = exam;
   }
-
 
   @Override
   public int hashCode() {
