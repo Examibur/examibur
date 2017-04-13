@@ -4,6 +4,7 @@ import static ch.examibur.ui.app.util.TemplateUtil.render;
 import static spark.Spark.exception;
 import static spark.Spark.get;
 
+import ch.examibur.integration.SingleResultNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ import spark.Response;
 
 public class ExceptionController extends Controller {
 
-  private static final Logger logger = LoggerFactory.getLogger(ExamController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExamController.class);
 
   public ExceptionController(Controller preController) {
     super(preController, "*");
@@ -33,11 +34,11 @@ public class ExceptionController extends Controller {
    *          the HTTP response
    */
   public void handleException(Exception exception, Request request, Response response) {
-    logger.error("Caught unhandled exception", exception);
+    LOGGER.error("Caught unhandled exception", exception);
 
     Map<String, Object> model = new HashMap<>();
     response.body(render(model, "500.ftl"));
-    response.status(400);
+    response.status(HttpStatus.INTERNAL_SERVER_ERROR_500);
 
   }
 
@@ -54,10 +55,18 @@ public class ExceptionController extends Controller {
     Map<String, Object> model = new HashMap<>();
     return render(model, "404.ftl");
   }
+  
+  private void handleNotFoundException(Exception ex, Request request, Response response) {
+    LOGGER.debug("Returning 404 not found");
+    Map<String, Object> model = new HashMap<>();
+    response.body(render(model, "404.ftl"));
+    response.status(HttpStatus.NOT_FOUND_404);
+  }
 
   @Override
   public void route() {
-    get("*", this::handleNotFound);
+    get("*", this::handleNotFound); 
+    exception(SingleResultNotFoundException.class, this::handleNotFoundException);
     exception(Exception.class, this::handleException);
   }
 

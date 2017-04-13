@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class ExamDaoImpl implements ExamDao {
-  
+
   private static final Logger LOGGER = LoggerFactory.getLogger(ExamDaoImpl.class);
 
   @Override
