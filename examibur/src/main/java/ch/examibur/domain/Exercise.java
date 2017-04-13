@@ -15,33 +15,33 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "excercise_t")
+@Table(name = "exercise_t")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "excercise_type")
-public abstract class Excercise {
+@DiscriminatorColumn(name = "exercise_type")
+public abstract class Exercise {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "excerciseId")
+  @Column(name = "exerciseId")
   private long id;
 
   @Column(nullable = false)
   private double maxPoints;
 
   @ManyToOne
-  @JoinColumn(name = "excercise_examId", nullable = false)
+  @JoinColumn(name = "exercise_examId", nullable = false)
   private Exam exam;
 
   @ManyToOne
-  @JoinColumn(name = "excercise_reviewerId")
+  @JoinColumn(name = "exercise_reviewerId")
   private User reviewer;
 
   @ManyToOne
-  @JoinColumn(name = "excercise_graderId")
+  @JoinColumn(name = "exercise_graderId")
   private User grader;
 
   @OneToOne(cascade = CascadeType.REMOVE)
-  @JoinColumn(name = "excercise_exampleSolutionId")
+  @JoinColumn(name = "exercise_exampleSolutionId")
   private Solution exampleSolution;
 
   public long getId() {
@@ -118,7 +118,7 @@ public abstract class Excercise {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    Excercise other = (Excercise) obj;
+    Exercise other = (Exercise) obj;
     if (exam == null) {
       if (other.exam != null) {
         return false;

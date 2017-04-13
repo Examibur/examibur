@@ -144,7 +144,7 @@ INSERT INTO solution_t (solution_type, solutiontext) values
 	('TextSolution', ''),
 	('TextSolution', 'Jein');
 
-INSERT INTO excercise_t (excercise_type, maxpoints, excercise_examid, excercise_graderid, excercise_reviewerid, excercise_examplesolutionid, taskdescription) values
+INSERT INTO exercise_t (exercise_type, maxpoints, exercise_examid, exercise_graderid, exercise_reviewerid, exercise_examplesolutionid, taskdescription) values
 	('TextExercise', 5, 3, 5, 4, 1, 'Es sei bei einem AES-CBC basierten Disk Encryption System bekannt, dass der Initiali-sierungsvektor (IV) für die Verschlüsselung eines Sektors n mit der Formel IV(n) = 512 n + 255 berechnet wird. Ist dieses Verfahren resistent gegen Watermarks?'),
 	('TextExercise', 5, 3, 5, 4, 2, 'Mit dem XTS-AES Verschlüsselungsverfahren können Dateien so verschlüsselt werden, dass der Ciphertext nicht mehr Speicherplatz braucht als der Klartext. Wie ist dies möglich?'),
 	('TextExercise', 5, 3, 5, 4, 3, 'Geben Sie zwei Gründe an, warum kein einziges Byte eines XTS-AES verschlüsselten Sektors, der von einem Angreifer in einen unbenutzten Sektor auf der Festplatte verscho-ben wird, erfolgreich entschlüsselt wird?'),
@@ -164,7 +164,7 @@ INSERT INTO excercise_t (excercise_type, maxpoints, excercise_examid, excercise_
 	('TextExercise', 5, 8, 5, 4, 5, 'Mit dem XTS-AES Verschlüsselungsverfahren können Dateien so verschlüsselt werden, dass der Ciphertext nicht mehr Speicherplatz braucht als der Klartext. Wie ist dies möglich?'),
 	('TextExercise', 5, 8, 5, 4, 6, 'Geben Sie zwei Gründe an, warum kein einziges Byte eines XTS-AES verschlüsselten Sektors, der von einem Angreifer in einen unbenutzten Sektor auf der Festplatte verscho-ben wird, erfolgreich entschlüsselt wird?');
 
-INSERT INTO excercisesolution_t (isdone, excercisesolution_excerciseid, excercisesolution_participationid, excercisesolution_participantsolutionid) values
+INSERT INTO exercisesolution_t (isdone, exercisesolution_exerciseid, exercisesolution_participationid, exercisesolution_participantsolutionid) values
 	(TRUE, 1, 1, 19),
 	(TRUE, 2, 1, 20),
 	(TRUE, 3, 1, 21),
@@ -221,7 +221,7 @@ INSERT INTO excercisesolution_t (isdone, excercisesolution_excerciseid, excercis
 	(FALSE, 18, 18, 72);
 
 /* CORRECTIONS */
-INSERT INTO excercisegrading_t (createdinstate, creationdate, isfinalgrading, excercisegrading_authorid, excercisegrading_excercisesolutionid, points, comment, reasoning) values
+INSERT INTO exercisegrading_t (createdinstate, creationdate, isfinalgrading, exercisegrading_authorid, exercisegrading_exercisesolutionid, points, comment, reasoning) values
 	('CORRECTION', '2016-08-22', TRUE, 5, 1, 5, 'Sehr gut gelöst.', ''),
 	('CORRECTION', '2016-08-22', FALSE, 5, 2, 5, '', ''),
 	('CORRECTION', '2016-08-22', TRUE, 5, 3, 5, 'Perfekt', ''),
@@ -272,7 +272,7 @@ INSERT INTO excercisegrading_t (createdinstate, creationdate, isfinalgrading, ex
 	('CORRECTION', '2017-01-29', TRUE, 5, 48, 4, 'Rechnungsfehler', '');
 
 /* REVIEWS */
-INSERT INTO excercisegrading_t (createdinstate, creationdate, isfinalgrading, excercisegrading_authorid, excercisegrading_excercisesolutionid, points, comment, reasoning) values
+INSERT INTO exercisegrading_t (createdinstate, creationdate, isfinalgrading, exercisegrading_authorid, exercisegrading_exercisesolutionid, points, comment, reasoning) values
 	('REVIEW', '2016-08-25', TRUE, 4, 2, 3, '', 'Stimmt nicht mit der Musterlösung überein'),
 	('REVIEW', '2016-08-25', TRUE, 4, 4, 3, '', 'Ein Teilpunkt kann noch gegeben werden.'),
 	('REVIEW', '2016-08-25', TRUE, 4, 7, 3, '', ''),
