@@ -9,13 +9,13 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DbConnectionChecker {
-
-  private final int timeoutSec;
-  private final int triesMs;
+public final class DbConnectionChecker {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DbConnectionChecker.class);
+  
   private final JdbcCredentials jdbcCredentials;
+  private final int timeoutSec;
+  private final int triesMs;
 
   /**
    * @param jdbcCredentials
@@ -85,7 +85,6 @@ public class DbConnectionChecker {
         con.close();
       }
     }
-
   }
 
 }
