@@ -36,6 +36,8 @@ public class ExerciseSolutionController extends Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
+   * @throws SingleResultNotFoundException 
+   *          when the exerciseSolution is not found
    */
   public String displayExerciseSolution(Request request, Response response) {
     long exerciseSolutionId = Long.parseLong(request.params(PARAM_SOLUTION_ID));
