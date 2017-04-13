@@ -17,7 +17,6 @@ import ch.examibur.ui.app.controller.ExerciseController;
 import ch.examibur.ui.app.controller.ExerciseGradingController;
 import ch.examibur.ui.app.controller.ExerciseSolutionController;
 import ch.examibur.ui.app.filter.Filters;
-
 import com.google.inject.Inject;
 
 public final class Router {
@@ -43,6 +42,9 @@ public final class Router {
   @Inject
   ExceptionController exceptionController;
 
+  /**
+   * defines the HTTP routes for the application.
+   */
   public void route() {
     staticFiles.location("/public");
 

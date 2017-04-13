@@ -4,11 +4,8 @@ import static ch.examibur.ui.app.filter.Filters.MODEL;
 
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.ui.app.util.Renderer;
-
 import com.google.inject.Inject;
-
 import java.util.Map;
-
 import spark.Request;
 import spark.Response;
 
@@ -20,10 +17,10 @@ public class DashboardController implements Controller {
   /**
    * Constructor.
    * 
-   * @param preController
-   *          the pre controller
+   * @param engine
+   *          the render engine to render the templates with
    * @param examService
-   *          the exam service implementation
+   *          the service to access exams
    */
   @Inject
   public DashboardController(Renderer engine, ExamService examService) {

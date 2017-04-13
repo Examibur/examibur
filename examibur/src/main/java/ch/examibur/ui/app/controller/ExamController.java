@@ -5,11 +5,8 @@ import static ch.examibur.ui.app.filter.Filters.MODEL;
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.business.exercise.ExerciseService;
 import ch.examibur.ui.app.util.Renderer;
-
 import com.google.inject.Inject;
-
 import java.util.Map;
-
 import spark.Request;
 import spark.Response;
 
@@ -24,12 +21,12 @@ public class ExamController implements Controller {
   /**
    * Constructor.
    * 
-   * @param preController
-   *          the pre controller
+   * @param engine
+   *          the render engine to render the templates with
    * @param examService
-   *          the exam service implementation
+   *          the service to access exams
    * @param exerciseService
-   *          the exercise service implementation
+   *          the service to access exercises
    */
   @Inject
   public ExamController(Renderer engine, ExamService examService, ExerciseService exerciseService) {

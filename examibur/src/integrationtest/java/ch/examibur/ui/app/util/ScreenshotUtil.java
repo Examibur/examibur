@@ -7,13 +7,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
 import javax.imageio.ImageIO;
-
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
@@ -85,7 +82,7 @@ public class ScreenshotUtil {
    * 
    * @param sceneName
    *          The name of the "scene" (current screen) which is captured.
-   * @param referenceScreenshotPackage
+   * @param referenceScreenshotClass
    *          The class used to load the reference screenshots using `getResourceAsStream`.
    */
   public static void assertScreenshots(String sceneName, Class<?> referenceScreenshotClass) {

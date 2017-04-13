@@ -3,15 +3,11 @@ package ch.examibur.ui.app.controller;
 import static ch.examibur.ui.app.filter.Filters.MODEL;
 
 import ch.examibur.ui.app.util.Renderer;
-
 import com.google.inject.Inject;
-
 import java.util.Map;
-
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import spark.Request;
 import spark.Response;
 
@@ -58,6 +54,16 @@ public class ExceptionController implements Controller {
     return engine.render(model, "404.ftl");
   }
 
+  /**
+   * Returns a 404 error page because a NotFound Exception was thrown.
+   * 
+   * @param ex
+   *          the thrown exception, not used
+   * @param request
+   *          the HTTP request
+   * @param response
+   *          the HTTP response
+   */
   public void handleNotFoundException(Exception ex, Request request, Response response) {
     LOGGER.debug("Returning 404 not found");
     Map<String, Object> model = request.attribute(MODEL);

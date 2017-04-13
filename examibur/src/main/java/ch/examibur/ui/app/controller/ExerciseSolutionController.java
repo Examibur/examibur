@@ -6,11 +6,8 @@ import ch.examibur.business.exercisegrading.ExerciseGradingService;
 import ch.examibur.business.exercisesolution.ExerciseSolutionService;
 import ch.examibur.integration.SingleResultNotFoundException;
 import ch.examibur.ui.app.util.Renderer;
-
 import com.google.inject.Inject;
-
 import java.util.Map;
-
 import spark.Request;
 import spark.Response;
 
@@ -21,6 +18,16 @@ public class ExerciseSolutionController implements Controller {
   private final ExerciseSolutionService exerciseSolutionService;
   private final ExerciseGradingService exerciseGradingService;
 
+  /**
+   * Constructor.
+   * 
+   * @param engine
+   *          the render engine to render the templates with
+   * @param exerciseSolutionService
+   *          the service to access exerciseSolutions
+   * @param exerciseGradingService
+   *          the service to access exerciseGradings
+   */
   @Inject
   public ExerciseSolutionController(Renderer engine,
       ExerciseSolutionService exerciseSolutionService,

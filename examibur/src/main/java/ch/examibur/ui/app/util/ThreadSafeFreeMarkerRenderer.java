@@ -2,15 +2,12 @@ package ch.examibur.ui.app.util;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.Map;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import spark.template.freemarker.FreeMarkerEngine;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Map;
 
 @Singleton
 public class ThreadSafeFreeMarkerRenderer implements Renderer {
@@ -19,7 +16,6 @@ public class ThreadSafeFreeMarkerRenderer implements Renderer {
 
   @Inject
   public ThreadSafeFreeMarkerRenderer(Configuration configuration) {
-    new FreeMarkerEngine();
     this.configuration = configuration;
   }
 
