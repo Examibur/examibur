@@ -1,19 +1,12 @@
 package ch.examibur.ui.app.controller;
 
-import static spark.Spark.post;
-
 import spark.Request;
 import spark.Response;
 
-public class ExerciseGradingController extends Controller {
-
-  public ExerciseGradingController(Controller preController) {
-    super(preController, "/gradings");
-  }
+public class ExerciseGradingController {
 
   /**
-   * Adds a new grading or review to a specific solution and redirects back to
-   * that solution.
+   * Adds a new grading or review to a specific solution and redirects back to that solution.
    * 
    * @param request
    *          the HTTP request
@@ -26,11 +19,6 @@ public class ExerciseGradingController extends Controller {
         + request.params(ExamParticipationController.PARAM_PARTICIPANT_ID) + "/solutions/"
         + request.params(ExerciseSolutionController.PARAM_SOLUTION_ID) + "/", 302);
     return null;
-  }
-
-  @Override
-  public void route() {
-    post("/", this::addExerciseGrading);
   }
 
 }

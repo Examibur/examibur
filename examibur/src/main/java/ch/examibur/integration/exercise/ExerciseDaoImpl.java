@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class ExerciseDaoImpl implements ExerciseDao {
 
-  private final Logger logger = LoggerFactory.getLogger(ExerciseDaoImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseDaoImpl.class);
   private final Provider<EntityManager> entityManagerProvider;
 
   @Inject
@@ -28,7 +28,7 @@ public class ExerciseDaoImpl implements ExerciseDao {
           Double.class);
       return maxPointsQuery.setParameter("examId", examId).getSingleResult();
     } catch (Exception e) {
-      logger.error("Error occured during getExam call", e);
+      LOGGER.error("Error occured during getExam call", e);
       throw e;
     } finally {
       entityManager.close();

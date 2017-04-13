@@ -17,9 +17,6 @@
       <AppenderRef ref="stdout" />
       <appender-ref ref="file" />
     </Root>
-    <logger name="org.eclipse.persistence">
-      <level value="all" />
-    </logger>
   </Loggers>
 
 </Configuration>

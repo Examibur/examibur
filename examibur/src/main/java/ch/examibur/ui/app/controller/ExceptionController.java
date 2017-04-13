@@ -1,10 +1,11 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.util.TemplateUtil.render;
-import static spark.Spark.exception;
-import static spark.Spark.get;
+import static ch.examibur.ui.app.filter.Filters.MODEL;
 
-import java.util.HashMap;
+import ch.examibur.ui.app.util.Renderer;
+
+import com.google.inject.Inject;
+
 import java.util.Map;
 
 import org.eclipse.jetty.http.HttpStatus;
@@ -14,12 +15,14 @@ import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 
-public class ExceptionController extends Controller {
+public class ExceptionController implements Controller {
 
-  private static final Logger logger = LoggerFactory.getLogger(ExamController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExamController.class);
+  private final Renderer engine;
 
-  public ExceptionController(Controller preController) {
-    super(preController, "*");
+  @Inject
+  public ExceptionController(Renderer engine) {
+    this.engine = engine;
   }
 
   /**
@@ -33,11 +36,11 @@ public class ExceptionController extends Controller {
    *          the HTTP response
    */
   public void handleException(Exception exception, Request request, Response response) {
-    logger.error("Caught unhandled exception", exception);
+    LOGGER.error("Caught unhandled exception", exception);
 
-    Map<String, Object> model = new HashMap<>();
-    response.body(render(model, "500.ftl"));
-    response.status(400);
+    Map<String, Object> model = request.attribute(MODEL);
+    response.body(engine.render(model, "500.ftl"));
+    response.status(500);
 
   }
 
@@ -51,14 +54,8 @@ public class ExceptionController extends Controller {
    */
   public String handleNotFound(Request request, Response response) {
     response.status(HttpStatus.NOT_FOUND_404);
-    Map<String, Object> model = new HashMap<>();
-    return render(model, "404.ftl");
-  }
-
-  @Override
-  public void route() {
-    get("*", this::handleNotFound);
-    exception(Exception.class, this::handleException);
+    Map<String, Object> model = request.attribute(MODEL);
+    return engine.render(model, "404.ftl");
   }
 
 }

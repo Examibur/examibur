@@ -1,21 +1,24 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.util.TemplateUtil.render;
-import static spark.Spark.get;
-import static spark.Spark.path;
+import static ch.examibur.ui.app.filter.Filters.MODEL;
 
-import java.util.HashMap;
+import ch.examibur.ui.app.util.Renderer;
+
+import com.google.inject.Inject;
+
 import java.util.Map;
 
 import spark.Request;
 import spark.Response;
 
-public class ExerciseController extends Controller {
+public class ExerciseController implements Controller {
 
   public static final String PARAM_EXERCISE_ID = ":exerciseId";
+  private final Renderer engine;
 
-  public ExerciseController(Controller preController) {
-    super(preController, "/exercises");
+  @Inject
+  public ExerciseController(Renderer engine) {
+    this.engine = engine;
   }
 
   /**
@@ -28,8 +31,8 @@ public class ExerciseController extends Controller {
    * @return the rendered page content
    */
   public String displayExercise(Request request, Response response) {
-    Map<String, Object> model = new HashMap<>();
-    return render(model, "404.ftl");
+    Map<String, Object> model = request.attribute(MODEL);
+    return engine.render(model, "404.ftl");
   }
 
   /**
@@ -42,16 +45,8 @@ public class ExerciseController extends Controller {
    * @return the rendered page content
    */
   public String listExercises(Request request, Response response) {
-    Map<String, Object> model = new HashMap<>();
-    return render(model, "404.ftl");
-  }
-
-  @Override
-  public void route() {
-
-    get("/", this::listExercises);
-
-    path("/" + PARAM_EXERCISE_ID, () -> get("/", this::displayExercise));
+    Map<String, Object> model = request.attribute(MODEL);
+    return engine.render(model, "404.ftl");
   }
 
 }

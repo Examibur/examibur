@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 public final class ExamDaoImpl implements ExamDao {
 
-  private final Logger logger = LoggerFactory.getLogger(ExamDaoImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExamDaoImpl.class);
   private final Provider<EntityManager> entityManagerProvider;
 
   @Inject
@@ -31,7 +31,7 @@ public final class ExamDaoImpl implements ExamDao {
           .createQuery("SELECT e FROM Exam e WHERE e.author.id = :authorId", Exam.class);
       return examsForAuthorQuery.setParameter("authorId", authorId).getResultList();
     } catch (Exception e) {
-      logger.error("Error occured during getExamsForAuthor call", e);
+      LOGGER.error("Error occured during getExamsForAuthor call", e);
       throw e;
     } finally {
       entityManager.close();
@@ -46,7 +46,7 @@ public final class ExamDaoImpl implements ExamDao {
           .createQuery("SELECT e FROM Exam e WHERE e.id = :examId", Exam.class);
       return examQuery.setParameter("examId", examId).getSingleResult();
     } catch (Exception e) {
-      logger.error("Error occured during getExam call", e);
+      LOGGER.error("Error occured during getExam call", e);
       throw e;
     } finally {
       entityManager.close();

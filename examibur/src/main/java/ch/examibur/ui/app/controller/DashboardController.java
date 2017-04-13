@@ -1,24 +1,21 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.util.TemplateUtil.render;
-import static spark.Spark.get;
-import static spark.Spark.path;
+import static ch.examibur.ui.app.filter.Filters.MODEL;
 
 import ch.examibur.business.exam.ExamService;
-import ch.examibur.ui.app.factory.ExamControllerFactory;
+import ch.examibur.ui.app.util.Renderer;
+
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-import java.util.HashMap;
+
 import java.util.Map;
+
 import spark.Request;
 import spark.Response;
 
-public class DashboardController extends Controller {
+public class DashboardController implements Controller {
 
-  @Inject
-  ExamControllerFactory examControllerFactory;
-  
   private final ExamService examService;
+  private final Renderer engine;
 
   /**
    * Constructor.
@@ -29,8 +26,8 @@ public class DashboardController extends Controller {
    *          the exam service implementation
    */
   @Inject
-  public DashboardController(@Assisted Controller preController, ExamService examService) {
-    super(preController, "");
+  public DashboardController(Renderer engine, ExamService examService) {
+    this.engine = engine;
     this.examService = examService;
   }
 
@@ -45,18 +42,9 @@ public class DashboardController extends Controller {
    */
   public String displayDashboard(Request request, Response response) {
     long userId = Long.valueOf(request.session().attribute("user"));
-    Map<String, Object> model = new HashMap<>();
+    Map<String, Object> model = request.attribute(MODEL);
     model.put("exams", examService.getExamsForAuthor(userId));
-    return render(model, "dashboard.ftl");
-  }
-
-  @Override
-  public void route() {
-    ExamController examController = examControllerFactory.create(this);
-
-    get("/", this::displayDashboard);
-
-    path(examController.relativePath, examController::route);
+    return engine.render(model, "dashboard.ftl");
   }
 
 }

@@ -14,7 +14,7 @@ public class DbConnectionChecker {
   private final int timeoutSec;
   private final int triesMs;
 
-  private final Logger logger = LoggerFactory.getLogger(DbConnectionChecker.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DbConnectionChecker.class);
   private final JdbcCredentials jdbcCredentials;
 
   /**
@@ -42,26 +42,25 @@ public class DbConnectionChecker {
     double spentTimeSec = 0;
     DriverManager.setLoginTimeout(timeoutSec);
 
-    // try connecting until it is either successful or an exception is thrown
     do {
       try {
         tryDbConnect();
-        logger.debug("Database connection check successful");
+        LOGGER.debug("Database connection check successful");
         return;
       } catch (SQLException sqlException) {
         try {
 
           Thread.sleep(triesMs);
         } catch (InterruptedException interrupt) {
-          logger.error("Connection checker failed: Thread interrupted");
+          LOGGER.error("Connection checker failed: Thread interrupted");
           throw new InitializationException(interrupt);
         }
         spentTimeSec += triesMs / 1000.0;
         if (spentTimeSec >= timeoutSec) {
-          logger.error("Connection to Database timed out after {} seconds", timeoutSec);
+          LOGGER.error("Connection to Database timed out after {} seconds", timeoutSec);
           throw new InitializationException(sqlException);
         }
-        logger.info("Retrying database connection");
+        LOGGER.info("Retrying database connection");
       }
     } while (true);
 
@@ -71,7 +70,7 @@ public class DbConnectionChecker {
     try {
       Class.forName(jdbcCredentials.getDriverClass());
     } catch (ClassNotFoundException classLoadException) {
-      logger.error("Failed to load JDBC driver {}", jdbcCredentials.getDriverClass());
+      LOGGER.error("Failed to load JDBC driver {}", jdbcCredentials.getDriverClass());
       throw new InitializationException(classLoadException);
     }
   }
