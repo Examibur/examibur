@@ -58,27 +58,24 @@ public final class Router {
     path("/exams/:examId", () -> {
       get("/", examController::displayExam);
       post("/", examController::updateExam);
-
       path("/exercises", () -> {
         get("/", exerciseController::listExercises);
         get("/:exerciseId", exerciseController::displayExercise);
       });
 
       path("/participants", () -> {
-
         get("/", participationController::listExamParticipations);
-        path("/:participantId", () -> {
 
+        path("/:participantId", () -> {
           get("/", participationController::displayExamParticipation);
+
           path("/solutions", () -> {
             get("/", exerciseSolutionController::listExerciseSolutions);
-            get("/:solutionId", exerciseSolutionController::displayExerciseSolution);
-            post("/:solutionId", exerciseGradingController::addExerciseGrading);
+            get("/:solutionId/", exerciseSolutionController::displayExerciseSolution);
+            post("/:solutionId/", exerciseGradingController::addExerciseGrading);
           });
-
         });
       });
-
     });
 
     get("*", exceptionController::handleNotFound);
