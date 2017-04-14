@@ -3,6 +3,7 @@ package ch.examibur.integration.exercisegrading;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 
+@FunctionalInterface
 public interface ExerciseGradingDao {
   /**
    * @param exerciseSolutionId

@@ -55,7 +55,7 @@ public class ExamController implements Controller {
    */
   public String displayExam(Request request, Response response)
       throws NotFoundException, AuthorizationException, IOException {
-    long examId = Long.valueOf(request.params(PARAM_EXAM_ID));
+    long examId = Long.parseLong(request.params(PARAM_EXAM_ID));
 
     Map<String, Object> model = request.attribute(MODEL);
     model.put("exam", examService.getExam(examId));
