@@ -37,7 +37,6 @@
 								<td>${exercise.maxPoints}</td>
 								<td class="td-ellipsis">${exercise.taskDescription}</td>
 							</tr>
-							</tr>
 							</#items>
 						</tbody>
 					</table>
