@@ -4,8 +4,11 @@ import static ch.examibur.ui.app.filter.Filters.MODEL;
 
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.ui.app.util.Renderer;
+
 import com.google.inject.Inject;
+
 import java.util.Map;
+
 import spark.Request;
 import spark.Response;
 
@@ -38,7 +41,7 @@ public class DashboardController implements Controller {
    * @return the rendered page content
    */
   public String displayDashboard(Request request, Response response) {
-    long userId = Long.parseLong(request.session().attribute("user"));
+    long userId = request.attribute("user");
     Map<String, Object> model = request.attribute(MODEL);
     model.put("exams", examService.getExamsForAuthor(userId));
     return engine.render(model, "dashboard.ftl");
