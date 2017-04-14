@@ -38,7 +38,7 @@ public class DashboardController implements Controller {
    * @return the rendered page content
    */
   public String displayDashboard(Request request, Response response) {
-    long userId = Long.valueOf(request.session().attribute("user"));
+    long userId = Long.parseLong(request.session().attribute("user"));
     Map<String, Object> model = request.attribute(MODEL);
     model.put("exams", examService.getExamsForAuthor(userId));
     return engine.render(model, "dashboard.ftl");
