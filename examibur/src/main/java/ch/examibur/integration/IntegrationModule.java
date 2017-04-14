@@ -2,6 +2,8 @@ package ch.examibur.integration;
 
 import ch.examibur.integration.exam.ExamDao;
 import ch.examibur.integration.exam.ExamDaoImpl;
+import ch.examibur.integration.examparticipation.ExamParticipationDao;
+import ch.examibur.integration.examparticipation.ExamParticipationDaoImpl;
 import ch.examibur.integration.exercise.ExerciseDao;
 import ch.examibur.integration.exercise.ExerciseDaoImpl;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
@@ -35,13 +37,13 @@ public class IntegrationModule extends AbstractModule {
     bind(ExerciseDao.class).to(ExerciseDaoImpl.class);
     bind(ExerciseGradingDao.class).to(ExerciseGradingDaoImpl.class);
     bind(ExerciseSolutionDao.class).to(ExerciseSolutionDaoImpl.class);
+    bind(ExamParticipationDao.class).to(ExamParticipationDaoImpl.class);
 
     bindConstant().annotatedWith(WaitForDbTimeoutSec.class).to(3);
     bindConstant().annotatedWith(SleepBetweenTriesMs.class).to(500);
 
     bind(String[].class).annotatedWith(MigrationLocations.class)
         .toInstance(new String[] { "db/migration" });
-
   }
 
   @Provides

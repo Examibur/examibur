@@ -43,5 +43,5 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
       entityManager.close();
     }
   }
-
+  
 }

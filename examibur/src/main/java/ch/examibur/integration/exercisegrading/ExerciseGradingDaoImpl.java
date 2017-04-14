@@ -40,5 +40,28 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
       entityManager.close();
     }
   }
-
+  
+  @Override
+  public double getTotalPointsOfExamGradings(long examId, long participationId) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager.createQuery(
+          "select SUM(eg.points) from ExerciseGrading eg "
+          + "inner join ExerciseSolution es on eg.exerciseSolution.id = es.id "
+          + "inner join ExamParticipation ep on es.participation.id = ep.id "
+          + "inner join Exam e on ep.exam.id = e.id "
+          + "where eg.isFinalGrading = true and e.id = :examId "
+          + "and ep.participant.id = :participationId",
+              Double.class);
+      return totalPointsOfExamGradingsQuery.setParameter("examId", examId)
+          .setParameter("participationId", participationId)
+          .getSingleResult();
+    } catch (Exception e) {
+      LOGGER.error("Error occured during getTotalPointsOfExamGradings call", e);
+      throw e;
+    } finally {
+      entityManager.close();
+    }
+  }
+  
 }
