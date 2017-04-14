@@ -5,9 +5,11 @@ import static ch.examibur.ui.app.filter.Filters.MODEL;
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.business.exception.AuthorizationException;
 import ch.examibur.ui.app.util.Renderer;
+
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Map;
+
 import spark.Request;
 import spark.Response;
 
