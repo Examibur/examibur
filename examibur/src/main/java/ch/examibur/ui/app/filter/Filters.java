@@ -1,9 +1,16 @@
 package ch.examibur.ui.app.filter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import spark.Request;
 import spark.Response;
 
 public class Filters {
+
+  public static final String MODEL = "model";
+  public static final String USER = "user";
+  public static final String TITLE = "title";
 
   private Filters() {
   }
@@ -24,7 +31,22 @@ public class Filters {
   }
 
   /**
-   * Handles the user authentication and creates session cookie.
+   * Populates the model with all globally required/available fields to simplify rendering.
+   * 
+   * @param request
+   *          The current request.
+   * @param response
+   *          The planned response.
+   */
+  public static void addBaseModel(Request request, Response response) {
+    Map<String, Object> baseModel = new HashMap<>();
+    baseModel.put(USER, "Max Muster");
+    baseModel.put(TITLE, "Examibur");
+    request.attribute(MODEL, baseModel);
+  }
+
+  /**
+   * Handles the user authentication.
    * 
    * @param request
    *          The current request.
@@ -33,7 +55,7 @@ public class Filters {
    */
   public static void handleAuthentication(Request request, Response response) {
     // TODO implement authentication
-    request.session().attribute("user", "4");
+    request.attribute("user", 4l);
   }
 
   /**

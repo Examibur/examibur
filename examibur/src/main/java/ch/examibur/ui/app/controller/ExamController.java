@@ -1,36 +1,36 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.util.TemplateUtil.render;
-import static spark.Spark.get;
-import static spark.Spark.path;
-import static spark.Spark.post;
+import static ch.examibur.ui.app.filter.Filters.MODEL;
 
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.business.exercise.ExerciseService;
-import java.util.HashMap;
+import ch.examibur.ui.app.util.Renderer;
+import com.google.inject.Inject;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
 
-public class ExamController extends Controller {
+public class ExamController implements Controller {
 
   public static final String PARAM_EXAM_ID = ":examId";
-  
+
   private final ExamService examService;
   private final ExerciseService exerciseService;
+  private final Renderer engine;
 
   /**
    * Constructor.
-   * @param preController
-   *          the pre controller
+   * 
+   * @param engine
+   *          the render engine to render the templates with
    * @param examService
-   *          the exam service implementation
+   *          the service to access exams
    * @param exerciseService
-   *          the exercise service implementation
+   *          the service to access exercises
    */
-  public ExamController(Controller preController, ExamService examService,
-      ExerciseService exerciseService) {
-    super(preController, "/exams");
+  @Inject
+  public ExamController(Renderer engine, ExamService examService, ExerciseService exerciseService) {
+    this.engine = engine;
     this.examService = examService;
     this.exerciseService = exerciseService;
   }
@@ -46,10 +46,11 @@ public class ExamController extends Controller {
    */
   public String displayExam(Request request, Response response) {
     long examId = Long.valueOf(request.params(PARAM_EXAM_ID));
-    Map<String, Object> model = new HashMap<>();
+
+    Map<String, Object> model = request.attribute(MODEL);
     model.put("exam", examService.getExam(examId));
     model.put("maxPoints", exerciseService.getMaxPoints(examId));
-    return render(model, "examInformationTab.ftl");
+    return engine.render(model, "examInformationTab.ftl");
   }
 
   /**
@@ -62,8 +63,8 @@ public class ExamController extends Controller {
    * @return the rendered page content
    */
   public String listExams(Request request, Response response) {
-    Map<String, Object> model = new HashMap<>();
-    return render(model, "404.ftl");
+    Map<String, Object> model = request.attribute(MODEL);
+    return engine.render(model, "404.ftl");
   }
 
   /**
@@ -78,23 +79,6 @@ public class ExamController extends Controller {
   public String updateExam(Request request, Response response) {
     response.redirect(request.pathInfo(), 302);
     return null;
-  }
-
-  @Override
-  public void route() {
-    ExerciseController exerciseController = new ExerciseController(this);
-    ExamParticipationController examParticipationController = new ExamParticipationController(this);
-
-    get("/", this::listExams);
-
-    path("/" + PARAM_EXAM_ID, () -> {
-      get("/", this::displayExam);
-      post("/", this::updateExam);
-
-      path(exerciseController.relativePath, exerciseController::route);
-
-      path(examParticipationController.relativePath, examParticipationController::route);
-    });
   }
 
 }

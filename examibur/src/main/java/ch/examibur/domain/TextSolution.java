@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("text")
 public class TextSolution extends Solution {
-  
+
   @Column(nullable = false)
   private String solutionText;
 
@@ -48,5 +48,5 @@ public class TextSolution extends Solution {
     }
     return true;
   }
-  
+
 }

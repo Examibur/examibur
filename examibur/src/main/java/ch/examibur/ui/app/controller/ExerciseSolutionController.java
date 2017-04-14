@@ -1,31 +1,40 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.util.TemplateUtil.render;
-import static spark.Spark.get;
-import static spark.Spark.path;
+import static ch.examibur.ui.app.filter.Filters.MODEL;
 
 import ch.examibur.business.exercisegrading.ExerciseGradingService;
-import ch.examibur.business.exercisegrading.ExerciseGradingServiceImpl;
 import ch.examibur.business.exercisesolution.ExerciseSolutionService;
-import ch.examibur.business.exercisesolution.ExerciseSolutionServiceImpl;
-import java.util.HashMap;
+import ch.examibur.integration.SingleResultNotFoundException;
+import ch.examibur.ui.app.util.Renderer;
+import com.google.inject.Inject;
 import java.util.Map;
-
 import spark.Request;
 import spark.Response;
 
-public class ExerciseSolutionController extends Controller {
+public class ExerciseSolutionController implements Controller {
 
   public static final String PARAM_SOLUTION_ID = ":solutionId";
-  public static final String PATH = "/solutions";
-  
+  private final Renderer engine;
   private final ExerciseSolutionService exerciseSolutionService;
   private final ExerciseGradingService exerciseGradingService;
 
-  public ExerciseSolutionController(Controller preController) {
-    super(preController, "/solutions");
-    exerciseSolutionService = new ExerciseSolutionServiceImpl();
-    exerciseGradingService = new ExerciseGradingServiceImpl();
+  /**
+   * Constructor.
+   * 
+   * @param engine
+   *          the render engine to render the templates with
+   * @param exerciseSolutionService
+   *          the service to access exerciseSolutions
+   * @param exerciseGradingService
+   *          the service to access exerciseGradings
+   */
+  @Inject
+  public ExerciseSolutionController(Renderer engine,
+      ExerciseSolutionService exerciseSolutionService,
+      ExerciseGradingService exerciseGradingService) {
+    this.engine = engine;
+    this.exerciseSolutionService = exerciseSolutionService;
+    this.exerciseGradingService = exerciseGradingService;
   }
 
   /**
@@ -36,16 +45,16 @@ public class ExerciseSolutionController extends Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
-   * @throws SingleResultNotFoundException 
-   *          when the exerciseSolution is not found
+   * @throws SingleResultNotFoundException
+   *           when the exerciseSolution is not found
    */
   public String displayExerciseSolution(Request request, Response response) {
     long exerciseSolutionId = Long.parseLong(request.params(PARAM_SOLUTION_ID));
-    Map<String, Object> model = new HashMap<>();
+    Map<String, Object> model = request.attribute(MODEL);
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
     model.put("grading", exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId));
     model.put("review", exerciseGradingService.getReviewForExerciseSolution(exerciseSolutionId));
-    return render(model, "exerciseSolutionView.ftl");
+    return engine.render(model, "exerciseSolutionView.ftl");
   }
 
   /**
@@ -58,21 +67,8 @@ public class ExerciseSolutionController extends Controller {
    * @return the rendered page content
    */
   public String listExerciseSolutions(Request request, Response response) {
-    Map<String, Object> model = new HashMap<>();
-    return render(model, "404.ftl");
-  }
-
-  @Override
-  public void route() {
-    ExerciseGradingController exerciseGradingController = new ExerciseGradingController(this);
-
-    get("/", this::listExerciseSolutions);
-
-    path("/" + PARAM_SOLUTION_ID, () -> {
-      get("/", this::displayExerciseSolution);
-
-      path(exerciseGradingController.relativePath, exerciseGradingController::route);
-    });
+    Map<String, Object> model = request.attribute(MODEL);
+    return engine.render(model, "404.ftl");
   }
 
 }

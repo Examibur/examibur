@@ -31,7 +31,7 @@ public class Exam {
   @ManyToOne
   @JoinColumn(name = "exam_authorId")
   private User author;
-  
+
   @ManyToOne
   @JoinColumn(name = "exam_moduleId")
   private Module module;
@@ -70,7 +70,7 @@ public class Exam {
   public void setAuthor(User author) {
     this.author = author;
   }
-  
+
   public Module getModule() {
     return module;
   }

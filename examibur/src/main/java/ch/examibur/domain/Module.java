@@ -15,7 +15,7 @@ public class Module {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "moduleId")
   private long id;
-  
+
   @Column(nullable = false)
   private String name;
 
@@ -68,5 +68,5 @@ public class Module {
     }
     return true;
   }
-  
+
 }

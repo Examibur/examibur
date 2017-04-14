@@ -34,7 +34,6 @@ public class ExerciseSolution {
   @ManyToOne
   @JoinColumn(name = "exercisesolution_participationId", nullable = false)
   private ExamParticipation participation;
-  
 
   public long getId() {
     return id;
@@ -75,7 +74,6 @@ public class ExerciseSolution {
   public void setParticipation(ExamParticipation participation) {
     this.participation = participation;
   }
-
 
   @Override
   public int hashCode() {

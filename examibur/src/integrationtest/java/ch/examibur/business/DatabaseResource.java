@@ -1,18 +1,22 @@
 package ch.examibur.business;
 
-import ch.examibur.integration.migration.DatabaseMigrator;
+import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
+
 import ch.examibur.integration.utils.InitializationException;
+
+import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
 import org.junit.rules.ExternalResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DatabaseResource extends ExternalResource {
-  
+
   private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseResource.class);
-  
-  private final DatabaseMigrator dbMigrator = new DatabaseMigrator();
-  
+
+  private final Flyway dbMigrator = INJECTOR.getInstance(Flyway.class);
+
+  @Override
   protected void before() {
     try {
       LOGGER.info("Clean and migrate database");
@@ -24,6 +28,7 @@ public class DatabaseResource extends ExternalResource {
     }
   }
 
+  @Override
   protected void after() {
     try {
       LOGGER.info("Clean database");
@@ -33,5 +38,5 @@ public class DatabaseResource extends ExternalResource {
       throw new InitializationException(ex);
     }
   }
-  
+
 }

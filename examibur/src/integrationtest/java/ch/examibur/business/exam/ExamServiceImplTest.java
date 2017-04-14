@@ -1,9 +1,14 @@
 package ch.examibur.business.exam;
 
+import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
+
 import ch.examibur.business.DatabaseResource;
 import ch.examibur.domain.Exam;
+
 import java.util.List;
+
 import javax.persistence.NoResultException;
+
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -13,7 +18,7 @@ public class ExamServiceImplTest {
   @ClassRule
   public static final DatabaseResource RES = new DatabaseResource();
 
-  private final ExamService examService = new ExamServiceImpl();
+  private final ExamService examService = INJECTOR.getInstance(ExamService.class);
 
   @Test
   public void testGetExamsForAuthor() {

@@ -2,20 +2,30 @@ package ch.examibur.integration.exercisesolution;
 
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.integration.SingleResultNotFoundException;
-import ch.examibur.integration.utils.EntityManagerHelper;
+
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseSolutionDaoImpl.class);
+  private final Provider<EntityManager> entityManagerProvider;
+
+  @Inject
+  public ExerciseSolutionDaoImpl(Provider<EntityManager> entityManagerProvider) {
+    this.entityManagerProvider = entityManagerProvider;
+  }
 
   @Override
   public ExerciseSolution getExerciseSolution(long exerciseSolutionId) {
-    EntityManager entityManager = EntityManagerHelper.INSTANCE.createEntityManager();
+    EntityManager entityManager = entityManagerProvider.get();
     try {
       TypedQuery<ExerciseSolution> exerciseSolutionQuery = entityManager.createQuery(
           "SELECT es FROM ExerciseSolution es WHERE es.id = :exerciseSolutionId",

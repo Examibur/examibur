@@ -1,26 +1,24 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.util.TemplateUtil.render;
-import static spark.Spark.exception;
-import static spark.Spark.get;
+import static ch.examibur.ui.app.filter.Filters.MODEL;
 
-import ch.examibur.integration.SingleResultNotFoundException;
-import java.util.HashMap;
+import ch.examibur.ui.app.util.Renderer;
+import com.google.inject.Inject;
 import java.util.Map;
-
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import spark.Request;
 import spark.Response;
 
-public class ExceptionController extends Controller {
+public class ExceptionController implements Controller {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ExamController.class);
+  private final Renderer engine;
 
-  public ExceptionController(Controller preController) {
-    super(preController, "*");
+  @Inject
+  public ExceptionController(Renderer engine) {
+    this.engine = engine;
   }
 
   /**
@@ -36,9 +34,9 @@ public class ExceptionController extends Controller {
   public void handleException(Exception exception, Request request, Response response) {
     LOGGER.error("Caught unhandled exception", exception);
 
-    Map<String, Object> model = new HashMap<>();
-    response.body(render(model, "500.ftl"));
+    Map<String, Object> model = request.attribute(MODEL);
     response.status(HttpStatus.INTERNAL_SERVER_ERROR_500);
+    response.body(engine.render(model, "500.ftl"));
 
   }
 
@@ -51,23 +49,26 @@ public class ExceptionController extends Controller {
    *          the HTTP response
    */
   public String handleNotFound(Request request, Response response) {
+    Map<String, Object> model = request.attribute(MODEL);
     response.status(HttpStatus.NOT_FOUND_404);
-    Map<String, Object> model = new HashMap<>();
-    return render(model, "404.ftl");
-  }
-  
-  private void handleNotFoundException(Exception ex, Request request, Response response) {
-    LOGGER.debug("Returning 404 not found");
-    Map<String, Object> model = new HashMap<>();
-    response.body(render(model, "404.ftl"));
-    response.status(HttpStatus.NOT_FOUND_404);
+    return engine.render(model, "404.ftl");
   }
 
-  @Override
-  public void route() {
-    get("*", this::handleNotFound); 
-    exception(SingleResultNotFoundException.class, this::handleNotFoundException);
-    exception(Exception.class, this::handleException);
+  /**
+   * Returns a 404 error page because a NotFound Exception was thrown.
+   * 
+   * @param ex
+   *          the thrown exception, not used
+   * @param request
+   *          the HTTP request
+   * @param response
+   *          the HTTP response
+   */
+  public void handleNotFoundException(Exception ex, Request request, Response response) {
+    LOGGER.debug("Returning 404 not found");
+    Map<String, Object> model = request.attribute(MODEL);
+    response.status(HttpStatus.NOT_FOUND_404);
+    response.body(engine.render(model, "404.ftl"));
   }
 
 }

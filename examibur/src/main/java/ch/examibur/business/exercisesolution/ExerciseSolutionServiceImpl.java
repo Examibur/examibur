@@ -2,7 +2,9 @@ package ch.examibur.business.exercisesolution;
 
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.integration.exercisesolution.ExerciseSolutionDao;
-import ch.examibur.integration.exercisesolution.ExerciseSolutionDaoImpl;
+
+import com.google.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,8 +14,9 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseSolutionServiceImpl.class);
 
-  public ExerciseSolutionServiceImpl() {
-    exerciseSolutionDao = new ExerciseSolutionDaoImpl();
+  @Inject
+  public ExerciseSolutionServiceImpl(ExerciseSolutionDao exerciseSolutionDao) {
+    this.exerciseSolutionDao = exerciseSolutionDao;
   }
 
   @Override

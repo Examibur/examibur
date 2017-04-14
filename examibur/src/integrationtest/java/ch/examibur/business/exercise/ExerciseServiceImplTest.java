@@ -1,6 +1,9 @@
 package ch.examibur.business.exercise;
 
+import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
+
 import ch.examibur.business.DatabaseResource;
+
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -9,8 +12,7 @@ public class ExerciseServiceImplTest {
 
   @ClassRule
   public static final DatabaseResource RES = new DatabaseResource();
-
-  private final ExerciseService exerciseService = new ExerciseServiceImpl();
+  private final ExerciseService exerciseService = INJECTOR.getInstance(ExerciseService.class);
 
   @Test
   public void testGetMaxPoints() {

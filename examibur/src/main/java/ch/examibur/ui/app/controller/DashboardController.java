@@ -1,36 +1,34 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.util.TemplateUtil.render;
-import static spark.Spark.get;
-import static spark.Spark.path;
+import static ch.examibur.ui.app.filter.Filters.MODEL;
 
 import ch.examibur.business.exam.ExamService;
-import ch.examibur.business.exercise.ExerciseService;
-import java.util.HashMap;
+import ch.examibur.ui.app.util.Renderer;
+
+import com.google.inject.Inject;
+
 import java.util.Map;
+
 import spark.Request;
 import spark.Response;
 
-public class DashboardController extends Controller {
+public class DashboardController implements Controller {
 
   private final ExamService examService;
-  private final ExerciseService exerciseService;
+  private final Renderer engine;
 
   /**
    * Constructor.
    * 
-   * @param preController
-   *          the pre controller
+   * @param engine
+   *          the render engine to render the templates with
    * @param examService
-   *          the exam service implementation
-   * @param exerciseService
-   *          the exercise service implementation
+   *          the service to access exams
    */
-  public DashboardController(Controller preController, ExamService examService,
-      ExerciseService exerciseService) {
-    super(preController, "");
+  @Inject
+  public DashboardController(Renderer engine, ExamService examService) {
+    this.engine = engine;
     this.examService = examService;
-    this.exerciseService = exerciseService;
   }
 
   /**
@@ -43,19 +41,10 @@ public class DashboardController extends Controller {
    * @return the rendered page content
    */
   public String displayDashboard(Request request, Response response) {
-    long userId = Long.valueOf(request.session().attribute("user"));
-    Map<String, Object> model = new HashMap<>();
+    long userId = request.attribute("user");
+    Map<String, Object> model = request.attribute(MODEL);
     model.put("exams", examService.getExamsForAuthor(userId));
-    return render(model, "dashboard.ftl");
-  }
-
-  @Override
-  public void route() {
-    ExamController examController = new ExamController(this, examService, exerciseService);
-
-    get("/", this::displayDashboard);
-
-    path(examController.relativePath, examController::route);
+    return engine.render(model, "dashboard.ftl");
   }
 
 }

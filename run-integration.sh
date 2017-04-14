@@ -14,4 +14,9 @@ docker run --rm -it \
     -v examibur_int_userhome_gradle:/home/examibur/.gradle/ \
     --net=host \
     -e UI_TEST_URL=http://localhost:8080/ \
+    -e DB_HOST=localhost \
+    -e DB_USER=examibur \
+    -e DB_PASSWORD=m4U6ctWpEZE801T \
+    -e LOG_LEVEL=debug \
+    -e LOG_FILE=examibur.log \
     examibur/ui_tests

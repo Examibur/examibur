@@ -7,9 +7,9 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("text")
 public class TextExercise extends Exercise {
-  
+
   @Column(nullable = false)
-  private String taskDescription; 
+  private String taskDescription;
 
   public String getTaskDescription() {
     return taskDescription;
@@ -48,5 +48,5 @@ public class TextExercise extends Exercise {
     }
     return true;
   }
-  
+
 }

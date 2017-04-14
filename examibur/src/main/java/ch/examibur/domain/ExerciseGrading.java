@@ -46,7 +46,6 @@ public class ExerciseGrading {
   @JoinColumn(name = "exercisegrading_exercisesolutionId", nullable = false)
   private ExerciseSolution exerciseSolution;
 
-  
   public long getId() {
     return id;
   }
@@ -118,7 +117,6 @@ public class ExerciseGrading {
   public void setExerciseSolution(ExerciseSolution exerciseSolution) {
     this.exerciseSolution = exerciseSolution;
   }
-
 
   @Override
   public int hashCode() {

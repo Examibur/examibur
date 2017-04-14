@@ -1,20 +1,16 @@
 package ch.examibur.business.exercise;
 
-import ch.examibur.business.exam.ExamServiceImpl;
 import ch.examibur.integration.exercise.ExerciseDao;
-import ch.examibur.integration.exercise.ExerciseDaoImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import com.google.inject.Inject;
 
 public class ExerciseServiceImpl implements ExerciseService {
-  
-  private final ExerciseDao exerciseDao;
-  
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExamServiceImpl.class);
 
-  
-  public ExerciseServiceImpl() {
-    exerciseDao = new ExerciseDaoImpl();
+  private final ExerciseDao exerciseDao;
+
+  @Inject
+  public ExerciseServiceImpl(ExerciseDao exerciseDao) {
+    this.exerciseDao = exerciseDao;
   }
 
   @Override

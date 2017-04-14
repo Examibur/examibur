@@ -7,9 +7,9 @@ public class SingleResultNotFoundException extends RuntimeException {
   public SingleResultNotFoundException(String message) {
     super(message);
   }
-  
+
   public SingleResultNotFoundException(String message, Throwable t) {
     super(message, t);
   }
-  
+
 }

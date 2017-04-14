@@ -1,21 +1,24 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.util.TemplateUtil.render;
-import static spark.Spark.get;
-import static spark.Spark.path;
+import static ch.examibur.ui.app.filter.Filters.MODEL;
 
-import java.util.HashMap;
+import ch.examibur.ui.app.util.Renderer;
+
+import com.google.inject.Inject;
+
 import java.util.Map;
 
 import spark.Request;
 import spark.Response;
 
-public class ExamParticipationController extends Controller {
+public class ExamParticipationController implements Controller {
 
   public static final String PARAM_PARTICIPANT_ID = ":participantId";
+  private final Renderer engine;
 
-  public ExamParticipationController(Controller preController) {
-    super(preController, "/participants");
+  @Inject
+  public ExamParticipationController(Renderer engine) {
+    this.engine = engine;
   }
 
   /**
@@ -28,8 +31,8 @@ public class ExamParticipationController extends Controller {
    * @return the rendered page content
    */
   public String displayExamParticipation(Request request, Response response) {
-    Map<String, Object> model = new HashMap<>();
-    return render(model, "examParticipationTabExerciseView.ftl");
+    Map<String, Object> model = request.attribute(MODEL);
+    return engine.render(model, "examParticipationTabExerciseView.ftl");
   }
 
   /**
@@ -42,21 +45,8 @@ public class ExamParticipationController extends Controller {
    * @return the rendered page content
    */
   public String listExamParticipations(Request request, Response response) {
-    Map<String, Object> model = new HashMap<>();
-    return render(model, "examParticipationTabExerciseView.ftl");
-  }
-
-  @Override
-  public void route() {
-    ExerciseSolutionController exerciseSolutionController = new ExerciseSolutionController(this);
-
-    get("/", this::listExamParticipations);
-
-    path("/" + PARAM_PARTICIPANT_ID, () -> {
-      get("/", this::displayExamParticipation);
-
-      path(exerciseSolutionController.relativePath, exerciseSolutionController::route);
-    });
+    Map<String, Object> model = request.attribute(MODEL);
+    return engine.render(model, "examParticipationTabExerciseView.ftl");
   }
 
 }
