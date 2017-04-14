@@ -46,7 +46,7 @@ public class Filters {
   }
 
   /**
-   * Handles the user authentication and creates session cookie.
+   * Handles the user authentication.
    * 
    * @param request
    *          The current request.
@@ -55,7 +55,7 @@ public class Filters {
    */
   public static void handleAuthentication(Request request, Response response) {
     // TODO implement authentication
-    request.session().attribute("user", "4");
+    request.attribute("user", "4");
   }
 
   /**
