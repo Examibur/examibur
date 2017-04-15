@@ -27,7 +27,6 @@
 								<th>Punkte</th>
 								<th>Note</th>
 								<th>Bestanden</th>
-								<th>Status</th>
 								<th>Fortschritt</th>
 							</tr>
 						</thead>
@@ -44,8 +43,7 @@
 								  Nein
 								</#if>
 								</td>
-								<td></td>
-								<td></td>
+								<td>${participantOverview.formattedProgress}</td>
 							</tr>
 							</#items>
 						</tbody>

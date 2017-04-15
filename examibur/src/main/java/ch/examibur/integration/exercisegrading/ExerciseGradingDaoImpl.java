@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,22 +41,19 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
       entityManager.close();
     }
   }
-  
+
   @Override
   public double getTotalPointsOfExamGradings(long examId, long participationId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager.createQuery(
-          "select SUM(eg.points) from ExerciseGrading eg "
-          + "inner join ExerciseSolution es on eg.exerciseSolution.id = es.id "
-          + "inner join ExamParticipation ep on es.participation.id = ep.id "
-          + "inner join Exam e on ep.exam.id = e.id "
-          + "where eg.isFinalGrading = true and e.id = :examId "
-          + "and ep.participant.id = :participationId",
-              Double.class);
+      TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
+          .createQuery("SELECT SUM(eg.points) FROM ExerciseGrading eg "
+              + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
+              + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
+              + "INNER JOIN Exam e ON ep.exam.id = e.id WHERE eg.isFinalGrading = true "
+              + "AND e.id = :examId AND ep.participant.id = :participationId", Double.class);
       return totalPointsOfExamGradingsQuery.setParameter("examId", examId)
-          .setParameter("participationId", participationId)
-          .getSingleResult();
+          .setParameter("participationId", participationId).getSingleResult();
     } catch (Exception e) {
       LOGGER.error("Error occured during getTotalPointsOfExamGradings call", e);
       throw e;
@@ -63,5 +61,29 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
       entityManager.close();
     }
   }
-  
+
+  @Override
+  public double getProgressOfExamGradings(long examId, long participationId) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      Query progressOfExamGradingsQuery = entityManager
+          .createQuery("SELECT COUNT(NULLIF(es.isDone, false)), "
+              + "COUNT(es.isDone) FROM ExerciseGrading eg "
+              + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
+              + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
+              + "INNER JOIN Exam e ON ep.exam.id = e.id WHERE eg.isFinalGrading = true "
+              + "AND e.id = :examId AND ep.participant.id = :participationId")
+          .setParameter("examId", examId).setParameter("participationId", participationId);
+      Object[] result = (Object[]) progressOfExamGradingsQuery.getSingleResult();
+      long sumOfCompletedExamGradings = (long) result[0];
+      long sumOfExamGradings = (long) result[1];
+      return (double) sumOfCompletedExamGradings / sumOfExamGradings;
+    } catch (Exception e) {
+      LOGGER.error("Error occured during getProgressOfExamGradings call", e);
+      throw e;
+    } finally {
+      entityManager.close();
+    }
+  }
+
 }

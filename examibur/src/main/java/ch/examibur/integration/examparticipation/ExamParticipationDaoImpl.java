@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 public class ExamParticipationDaoImpl implements ExamParticipationDao {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ExamParticipationDaoImpl.class);
+  
   private final Provider<EntityManager> entityManagerProvider;
 
   @Inject
@@ -23,7 +24,6 @@ public class ExamParticipationDaoImpl implements ExamParticipationDao {
   public List<ExamParticipation> getExamParticipations(long examId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-
       TypedQuery<ExamParticipation> examParticipationsQuery = entityManager.createQuery(
           "SELECT ep FROM ExamParticipation ep WHERE ep.exam.id = :examId",
           ExamParticipation.class);

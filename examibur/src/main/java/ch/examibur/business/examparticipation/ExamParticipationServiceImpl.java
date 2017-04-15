@@ -15,7 +15,6 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
   private final ExerciseGradingDao exerciseGradingDao;
   private final ExerciseDao exerciseDao;
 
-
   /**
    * Constructor.
    * 
@@ -36,9 +35,9 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
   
   @Override
   public List<ExamParticipantOverview> getExamParticipantsOverview(long examId) {
-    List<ExamParticipantOverview> examParticipantsOverwiew = new ArrayList<>();
     List<ExamParticipation> examParticipations = examParticipationDao.getExamParticipations(examId);
     
+    List<ExamParticipantOverview> examParticipantsOverwiew = new ArrayList<>();
     for (ExamParticipation examParticipation : examParticipations) {
       ExamParticipantOverview examParticipantOverview = new ExamParticipantOverview();
       
@@ -51,14 +50,18 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
       double maxPoints = exerciseDao.getMaxPoints(examId);
       examParticipantOverview.setGrading(calculateGrading(totalPoints, maxPoints));
       
+      double progress = exerciseGradingDao.getProgressOfExamGradings(examId, participationId);
+      examParticipantOverview.setProgress(progress);
+      
       examParticipantsOverwiew.add(examParticipantOverview);
     }
+    
     return examParticipantsOverwiew;
   }
   
   private double calculateGrading(double totalPoints, double maxPoints) {
     double grading = (totalPoints / maxPoints) * 5 + 1;
-    return Math.round(grading * 4) / 4d;
+    return Math.round(grading * 100) / 100d;
   }
   
 }

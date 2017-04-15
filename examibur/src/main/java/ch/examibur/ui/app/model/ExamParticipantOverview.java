@@ -1,12 +1,14 @@
 package ch.examibur.ui.app.model;
 
 import ch.examibur.domain.ExamParticipation;
+import java.text.DecimalFormat;
 
 public final class ExamParticipantOverview {
 
   private ExamParticipation examParticipation;
   private double totalPoints;
   private double grading;
+  private double progress;
 
   public ExamParticipation getExamParticipation() {
     return examParticipation;
@@ -30,6 +32,18 @@ public final class ExamParticipantOverview {
 
   public void setGrading(double grading) {
     this.grading = grading;
+  }
+
+  public double getProgress() {
+    return progress;
+  }
+
+  public void setProgress(double progress) {
+    this.progress = progress;
+  }
+  
+  public String getFormattedProgress() {
+    return new DecimalFormat("#0.00%").format(progress);
   }
 
 }

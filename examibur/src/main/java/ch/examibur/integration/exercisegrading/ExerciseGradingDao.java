@@ -14,6 +14,22 @@ public interface ExerciseGradingDao {
    */
   public ExerciseGrading getGradingCreatedInState(long exerciseSolutionId, ExamState state);
   
+  /**
+   * @param examId
+   *          the id of the exam to get the total points of all gradings
+   * @param participationId
+   *          the id of the participation to get the total points for a specific participant
+   * @return the total points of a all exam gradings for a specific participant.
+   */
   public double getTotalPointsOfExamGradings(long examId, long participationId);
+
+  /**
+   * @param examId
+   *          the id of the exam to get the progress of an exam grading
+   * @param participationId
+   *          the id of the participation to get the progress for a specific participant
+   * @return the progress of a all exam gradings for a specific participant.
+   */
+  public double getProgressOfExamGradings(long examId, long participationId);
   
 }
