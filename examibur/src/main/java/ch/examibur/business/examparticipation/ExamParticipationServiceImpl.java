@@ -43,14 +43,14 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
       
       examParticipantOverview.setExamParticipation(examParticipation);
       
-      long participationId = examParticipation.getParticipant().getId();
-      double totalPoints = exerciseGradingDao.getTotalPointsOfExamGradings(examId, participationId);
+      long examParticipationId = examParticipation.getId();
+      double totalPoints = exerciseGradingDao.getTotalPointsOfExamGradings(examParticipationId);
       examParticipantOverview.setTotalPoints(totalPoints);
       
       double maxPoints = exerciseDao.getMaxPoints(examId);
       examParticipantOverview.setGrading(calculateGrading(totalPoints, maxPoints));
       
-      double progress = exerciseGradingDao.getProgressOfExamGradings(examId, participationId);
+      double progress = exerciseGradingDao.getProgressOfExamGradings(examParticipationId);
       examParticipantOverview.setProgress(progress);
       
       examParticipantsOverwiew.add(examParticipantOverview);

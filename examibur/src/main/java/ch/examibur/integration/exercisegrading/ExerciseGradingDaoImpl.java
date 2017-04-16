@@ -43,17 +43,18 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   }
 
   @Override
-  public double getTotalPointsOfExamGradings(long examId, long participationId) {
+  public double getTotalPointsOfExamGradings(long examParticipationId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
       TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
-          .createQuery("SELECT SUM(eg.points) FROM ExerciseGrading eg "
-              + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
-              + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
-              + "INNER JOIN Exam e ON ep.exam.id = e.id WHERE eg.isFinalGrading = true "
-              + "AND e.id = :examId AND ep.participant.id = :participationId", Double.class);
-      return totalPointsOfExamGradingsQuery.setParameter("examId", examId)
-          .setParameter("participationId", participationId).getSingleResult();
+          .createQuery(
+              "SELECT SUM(eg.points) FROM ExerciseGrading eg "
+                  + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
+                  + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
+                  + "WHERE eg.isFinalGrading = true AND ep.id = :examParticipationId",
+              Double.class);
+      return totalPointsOfExamGradingsQuery.setParameter("examParticipationId", examParticipationId)
+          .getSingleResult();
     } catch (Exception e) {
       LOGGER.error("Error occured during getTotalPointsOfExamGradings call", e);
       throw e;
@@ -63,7 +64,7 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   }
 
   @Override
-  public double getProgressOfExamGradings(long examId, long participationId) {
+  public double getProgressOfExamGradings(long examParticipationId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
       Query progressOfExamGradingsQuery = entityManager
@@ -71,9 +72,8 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
               + "COUNT(es.isDone) FROM ExerciseGrading eg "
               + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
               + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
-              + "INNER JOIN Exam e ON ep.exam.id = e.id WHERE eg.isFinalGrading = true "
-              + "AND e.id = :examId AND ep.participant.id = :participationId")
-          .setParameter("examId", examId).setParameter("participationId", participationId);
+              + "WHERE eg.isFinalGrading = true AND ep.id = :examParticipationId")
+          .setParameter("examParticipationId", examParticipationId);
       Object[] result = (Object[]) progressOfExamGradingsQuery.getSingleResult();
       long sumOfCompletedExamGradings = (long) result[0];
       long sumOfExamGradings = (long) result[1];
