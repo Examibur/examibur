@@ -35,6 +35,7 @@
 				    			<label>Letze Änderung</label>
 				    		</div>
 				    		<div class="col-md-4">
+				    			${exam.lastModified}
 				    		</div>
 						</div>
 				    	<div class="row">
