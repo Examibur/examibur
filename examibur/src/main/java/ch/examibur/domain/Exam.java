@@ -3,7 +3,6 @@ package ch.examibur.domain;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -27,6 +26,11 @@ public class Exam {
   private long id;
 
   private Date dueDate;
+
+  @Column(nullable = false)
+  private Date creationDate;
+
+  private Date lastModified;
 
   @ManyToOne
   @JoinColumn(name = "exam_authorId")
@@ -61,6 +65,22 @@ public class Exam {
 
   public void setDueDate(Date dueDate) {
     this.dueDate = dueDate;
+  }
+
+  public Date getCreationDate() {
+    return creationDate;
+  }
+
+  public void setCreationDate(Date creationDate) {
+    this.creationDate = creationDate;
+  }
+
+  public Date getLastModified() {
+    return lastModified;
+  }
+
+  public void setLastModified(Date lastModified) {
+    this.lastModified = lastModified;
   }
 
   public User getAuthor() {
