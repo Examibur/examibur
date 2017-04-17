@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 @DiscriminatorValue("text")
 public class TextExercise extends Exercise {
 
+  private String title;
+
   @Column(nullable = false)
   private String taskDescription;
 
@@ -17,6 +19,14 @@ public class TextExercise extends Exercise {
 
   public void setTaskDescription(String taskDescription) {
     this.taskDescription = taskDescription;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
   }
 
   @Override

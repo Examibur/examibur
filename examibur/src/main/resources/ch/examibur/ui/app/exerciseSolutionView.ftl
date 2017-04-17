@@ -4,7 +4,7 @@
 	<#local examState = exerciseSolution.exercise.exam.state>
 	
 	<header>
-		<h2>Prüfung ${exerciseSolution.exercise.exam.id} - Aufgabe ${exerciseSolution.exercise.id}</h2>
+		<h2>Prüfung ${exerciseSolution.exercise.exam.id} - Aufgabe ${exerciseSolution.exercise.orderInExam}</h2>
 	</header>
 	
 	<div class="row">
@@ -16,7 +16,7 @@
 		    			<label>ID</label>
 		    		</div>
 		    		<div class="col-md-10">
-		    			TODO
+		    			Aufgabe ${exerciseSolution.exercise.orderInExam}
 		    		</div>
 		    	</div>
 				<div class="row">
@@ -24,7 +24,7 @@
 		    			<label>Titel</label>
 		    		</div>
 		    		<div class="col-md-10">
-		    			TODO
+		    			${exerciseSolution.exercise.title}
 		    		</div>
 		    	</div>
 		    	<div class="row">

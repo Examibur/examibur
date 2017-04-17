@@ -28,6 +28,9 @@ public abstract class Exercise {
   @Column(nullable = false)
   private double maxPoints;
 
+  @Column(nullable = false)
+  private int orderInExam;
+
   @ManyToOne
   @JoinColumn(name = "exercise_examId", nullable = false)
   private Exam exam;
@@ -58,6 +61,14 @@ public abstract class Exercise {
 
   public void setMaxPoints(double maxPoints) {
     this.maxPoints = maxPoints;
+  }
+
+  public int getOrderInExam() {
+    return orderInExam;
+  }
+
+  public void setOrderInExam(int orderInExam) {
+    this.orderInExam = orderInExam;
   }
 
   public Exam getExam() {
