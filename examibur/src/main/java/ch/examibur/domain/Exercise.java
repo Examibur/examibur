@@ -114,6 +114,7 @@ public abstract class Exercise {
     long temp;
     temp = Double.doubleToLongBits(maxPoints);
     result = prime * result + (int) (temp ^ (temp >>> 32));
+    result = prime * result + orderInExam;
     result = prime * result + ((reviewer == null) ? 0 : reviewer.hashCode());
     return result;
   }
@@ -155,6 +156,9 @@ public abstract class Exercise {
       return false;
     }
     if (Double.doubleToLongBits(maxPoints) != Double.doubleToLongBits(other.maxPoints)) {
+      return false;
+    }
+    if (orderInExam != other.orderInExam) {
       return false;
     }
     if (reviewer == null) {
