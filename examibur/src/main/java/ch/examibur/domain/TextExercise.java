@@ -34,6 +34,7 @@ public class TextExercise extends Exercise {
     final int prime = 31;
     int result = super.hashCode();
     result = prime * result + ((taskDescription == null) ? 0 : taskDescription.hashCode());
+    result = prime * result + ((title == null) ? 0 : title.hashCode());
     return result;
   }
 
@@ -54,6 +55,13 @@ public class TextExercise extends Exercise {
         return false;
       }
     } else if (!taskDescription.equals(other.taskDescription)) {
+      return false;
+    }
+    if (title == null) {
+      if (other.title != null) {
+        return false;
+      }
+    } else if (!title.equals(other.title)) {
       return false;
     }
     return true;
