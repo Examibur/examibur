@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 @DiscriminatorValue("text")
 public class TextExercise extends Exercise {
 
+  private String title;
+
   @Column(nullable = false)
   private String taskDescription;
 
@@ -19,11 +21,20 @@ public class TextExercise extends Exercise {
     this.taskDescription = taskDescription;
   }
 
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = super.hashCode();
     result = prime * result + ((taskDescription == null) ? 0 : taskDescription.hashCode());
+    result = prime * result + ((title == null) ? 0 : title.hashCode());
     return result;
   }
 
@@ -44,6 +55,13 @@ public class TextExercise extends Exercise {
         return false;
       }
     } else if (!taskDescription.equals(other.taskDescription)) {
+      return false;
+    }
+    if (title == null) {
+      if (other.title != null) {
+        return false;
+      }
+    } else if (!title.equals(other.title)) {
       return false;
     }
     return true;

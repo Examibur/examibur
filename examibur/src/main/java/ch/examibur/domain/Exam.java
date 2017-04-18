@@ -3,7 +3,6 @@ package ch.examibur.domain;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -27,6 +26,11 @@ public class Exam {
   private long id;
 
   private Date dueDate;
+
+  @Column(nullable = false)
+  private Date creationDate;
+
+  private Date lastModified;
 
   @ManyToOne
   @JoinColumn(name = "exam_authorId")
@@ -61,6 +65,22 @@ public class Exam {
 
   public void setDueDate(Date dueDate) {
     this.dueDate = dueDate;
+  }
+
+  public Date getCreationDate() {
+    return creationDate;
+  }
+
+  public void setCreationDate(Date creationDate) {
+    this.creationDate = creationDate;
+  }
+
+  public Date getLastModified() {
+    return lastModified;
+  }
+
+  public void setLastModified(Date lastModified) {
+    this.lastModified = lastModified;
   }
 
   public User getAuthor() {
@@ -110,8 +130,10 @@ public class Exam {
     result = prime * result + allowedTimeInMin;
     result = prime * result + ((allowedUtilities == null) ? 0 : allowedUtilities.hashCode());
     result = prime * result + ((author == null) ? 0 : author.hashCode());
+    result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
     result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
     result = prime * result + (int) (id ^ (id >>> 32));
+    result = prime * result + ((lastModified == null) ? 0 : lastModified.hashCode());
     result = prime * result + ((module == null) ? 0 : module.hashCode());
     result = prime * result + ((state == null) ? 0 : state.hashCode());
     return result;
@@ -146,6 +168,13 @@ public class Exam {
     } else if (!author.equals(other.author)) {
       return false;
     }
+    if (creationDate == null) {
+      if (other.creationDate != null) {
+        return false;
+      }
+    } else if (!creationDate.equals(other.creationDate)) {
+      return false;
+    }
     if (dueDate == null) {
       if (other.dueDate != null) {
         return false;
@@ -154,6 +183,13 @@ public class Exam {
       return false;
     }
     if (id != other.id) {
+      return false;
+    }
+    if (lastModified == null) {
+      if (other.lastModified != null) {
+        return false;
+      }
+    } else if (!lastModified.equals(other.lastModified)) {
       return false;
     }
     if (module == null) {
