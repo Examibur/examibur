@@ -8,7 +8,8 @@ import static spark.Spark.path;
 import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
-import ch.examibur.integration.SingleResultNotFoundException;
+import ch.examibur.business.AuthorizationException;
+import ch.examibur.business.NotFoundException;
 import ch.examibur.ui.app.controller.DashboardController;
 import ch.examibur.ui.app.controller.ExamController;
 import ch.examibur.ui.app.controller.ExamParticipationController;
@@ -79,7 +80,9 @@ public final class Router {
     });
 
     get("*", exceptionController::handleNotFound);
-    exception(SingleResultNotFoundException.class, exceptionController::handleNotFoundException);
+    exception(NotFoundException.class, exceptionController::handleNotFoundException);
+    exception(NumberFormatException.class, exceptionController::handleNotFoundException);
+    exception(AuthorizationException.class, exceptionController::handleAuthorizationException);
     exception(Exception.class, exceptionController::handleException);
 
     after("*", Filters::addGzipHeader);

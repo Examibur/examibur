@@ -71,4 +71,21 @@ public class ExceptionController implements Controller {
     response.body(engine.render(model, "404.ftl"));
   }
 
+  /**
+   * Returns a 403 Error page because an AuthorizedException was thrown.
+   * 
+   * @param ex
+   *          the thrown exception, not used
+   * @param request
+   *          the HTTP request
+   * @param response
+   *          the HTTP response
+   */
+  public void handleAuthorizationException(Exception ex, Request request, Response response) {
+    LOGGER.debug("Returning 403 forbidden");
+    Map<String, Object> model = request.attribute(MODEL);
+    response.status(HttpStatus.FORBIDDEN_403);
+    response.body(engine.render(model, "403.ftl"));
+  }
+
 }

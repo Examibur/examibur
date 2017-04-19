@@ -1,20 +1,17 @@
 package ch.examibur.business.exercisegrading;
 
-import ch.examibur.business.exercisesolution.ExerciseSolutionServiceImpl;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
-
 import com.google.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ExerciseGradingServiceImpl implements ExerciseGradingService {
 
-  private final ExerciseGradingDao exerciseGradingDao;
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseGradingServiceImpl.class);
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseSolutionServiceImpl.class);
+  private final ExerciseGradingDao exerciseGradingDao;
 
   @Inject
   public ExerciseGradingServiceImpl(ExerciseGradingDao exerciseGradingDao) {
@@ -25,7 +22,6 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
   public ExerciseGrading getGradingForExerciseSolution(long exerciseSolutionId) {
     LOGGER.info("Get Grading vor ExerciseSolution {}", exerciseSolutionId);
     return getGradingCreatedInState(exerciseSolutionId, ExamState.CORRECTION);
-
   }
 
   @Override
@@ -35,6 +31,12 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
   }
 
   private ExerciseGrading getGradingCreatedInState(long exerciseSolutionId, ExamState state) {
+    if (exerciseSolutionId < 0) {
+      IllegalArgumentException illegalArgumentException = new IllegalArgumentException(
+          "exerciseSolution id is negative");
+      LOGGER.error(illegalArgumentException.getMessage(), illegalArgumentException);
+      throw illegalArgumentException;
+    }
     return exerciseGradingDao.getGradingCreatedInState(exerciseSolutionId, state);
   }
 

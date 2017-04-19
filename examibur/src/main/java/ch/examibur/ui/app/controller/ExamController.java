@@ -2,10 +2,13 @@ package ch.examibur.ui.app.controller;
 
 import static ch.examibur.ui.app.filter.Filters.MODEL;
 
+import ch.examibur.business.AuthorizationException;
+import ch.examibur.business.NotFoundException;
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.business.exercise.ExerciseService;
 import ch.examibur.ui.app.util.Renderer;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
@@ -43,8 +46,15 @@ public class ExamController implements Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
+   * @throws AuthorizationException
+   *           if the user is not authorized to display this exam.
+   * @throws NotFoundException
+   *           if the exam is not found.
+   * @throws IOException
+   *           if an exception during the communication occurs
    */
-  public String displayExam(Request request, Response response) {
+  public String displayExam(Request request, Response response)
+      throws NotFoundException, AuthorizationException, IOException {
     long examId = Long.valueOf(request.params(PARAM_EXAM_ID));
 
     Map<String, Object> model = request.attribute(MODEL);
