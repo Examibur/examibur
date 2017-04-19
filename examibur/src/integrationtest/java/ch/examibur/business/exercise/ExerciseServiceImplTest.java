@@ -18,21 +18,21 @@ public class ExerciseServiceImplTest {
 
   @Test
   public void testGetMaxPoints() throws NotFoundException, AuthorizationException, IOException {
-    double maxPoints = exerciseService.getMaxPoints(4);
+    double maxPoints = exerciseService.getMaxPoints(4L);
     Assert.assertEquals(6, maxPoints, 0.01);
   }
 
   @Test
   public void testGetMaxPointsForExamWithoutExercises()
       throws NotFoundException, AuthorizationException, IOException {
-    double maxPoints = exerciseService.getMaxPoints(1);
+    double maxPoints = exerciseService.getMaxPoints(1L);
     Assert.assertEquals(0, maxPoints, 0.01);
   }
 
   @Test(expected = NotFoundException.class)
   public void testGetMaxPointsWithNonexistentExamId()
       throws NotFoundException, AuthorizationException, IOException {
-    exerciseService.getMaxPoints(0);
+    exerciseService.getMaxPoints(0L);
     Assert.fail();
   }
 

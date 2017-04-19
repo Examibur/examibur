@@ -26,22 +26,43 @@ public class ExamServiceImplTest {
   }
 
   @Test
+  public void testGetExamsForAuthorWithUserWithoutExams()
+      throws AuthorizationException, IOException {
+    List<Exam> exams = examService.getExamsForAuthor(1L);
+    Assert.assertTrue(exams.isEmpty());
+  }
+
+  @Test
   public void testGetExamsForAuthorWithNonexistentAuthorId()
       throws AuthorizationException, IOException {
-    List<Exam> exams = examService.getExamsForAuthor(0);
-    Assert.assertEquals(0, exams.size());
+    List<Exam> exams = examService.getExamsForAuthor(0L);
+    Assert.assertTrue(exams.isEmpty());
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetExamsForNegativeAuthorId() throws AuthorizationException, IOException {
+    examService.getExamsForAuthor(-1L);
+    Assert.fail();
   }
 
   @Test
   public void testGetExam() throws NotFoundException, AuthorizationException, IOException {
-    Exam exam = examService.getExam(4);
+    Exam exam = examService.getExam(4L);
     Assert.assertNotNull(exam);
+    Assert.assertNotNull(exam.getAllowedUtilities());
   }
 
   @Test(expected = NotFoundException.class)
   public void testGetExamWithNonexistentExamId()
       throws NotFoundException, AuthorizationException, IOException {
-    examService.getExam(0);
+    examService.getExam(0L);
+    Assert.fail();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetExamWithNegativeExamId()
+      throws NotFoundException, AuthorizationException, IOException {
+    examService.getExam(-1L);
     Assert.fail();
   }
 
