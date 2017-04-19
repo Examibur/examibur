@@ -3,9 +3,16 @@
 <#macro body_header_navigation>
 	<ol class="breadcrumb">
 		<li><a href="/">Dashboard</a></li>
-		<li><a href="/exams/1/participants/1">Abschlussprüfung SE2 FS2017</a></li>
-		<li class="active">Anonymes Känguru</li>
 	</ol>
+	<#assign breadcrumb=url>
+	<#if breadcrumb?matches("^\\/exams\\/", "r")>
+		<li><a href="/exams/${exam.id}/">Prüfung ${exam.id}</a></li>
+		
+		${breadcrumb}
+	</#if>
+
+	${breadcrumb}
+	<li class="active">Anonymes Känguru</li>
 </#macro>
 
 <#macro body_main>

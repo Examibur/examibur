@@ -10,6 +10,7 @@ public class Filters {
 
   public static final String MODEL = "model";
   public static final String USER = "user";
+  public static final String URL = "url";
   public static final String TITLE = "title";
 
   private Filters() {
@@ -42,6 +43,7 @@ public class Filters {
     Map<String, Object> baseModel = new HashMap<>();
     baseModel.put(USER, "Max Muster");
     baseModel.put(TITLE, "Examibur");
+    baseModel.put(URL, request.uri());
     request.attribute(MODEL, baseModel);
   }
 
