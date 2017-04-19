@@ -1,4 +1,4 @@
----
+a---
 layout: default
 title: Error-Handling Policy
 ---
@@ -21,6 +21,16 @@ title: Error-Handling Policy
     * Use checked exceptions for recoverable conditions and runtime exceptions for programming errors.
     * Avoid unnecessary use of checked exceptions.
     * Throw exceptions appropriate to the abstraction.
+
+### Implementierung
+* Alle Exceptions, die der Integration-Layer werfen kann, werden vom Business-Layer gefangen, geloggt und weiter geworfen
+* Der Business-Layer wirft nur vordefinierte Exceptions:
+    * `ValidationException` für ungültige Werte, die vom User in den Service kommen und die Integrität der Daten verletzen würde
+    * `IllegalArgumentException` für ungültige Funktions-Parameter, z.B. eine negative ID
+    * `NotFoundException`, wenn eine angeforderte Ressource auf der Datenbank nicht gefunden wurde
+    * `AuthorizationException`, falls der User keine Berechtigung hat, diesen Service mit den spezifischen Argumenten aufzurufen
+    * `IOException`, wenn zwischen dem UI und dem Service ein Fehler in der Kommunikation auftritt
+* Der UI-Layer (Spark) verwaltet die Exceptions vom Business-Layer und zeigt dem User entsprechende Fehlermeldungen an
 
 ## Assertion Policy
 * Es werden keine Asserts verwendet, damit keine Diskrepanz zwischen Entwicklung und Produktion entstehen kann.
