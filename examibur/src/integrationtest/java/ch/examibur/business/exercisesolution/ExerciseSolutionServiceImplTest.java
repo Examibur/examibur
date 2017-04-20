@@ -2,9 +2,9 @@ package ch.examibur.business.exercisesolution;
 
 import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
 
-import ch.examibur.business.AuthorizationException;
 import ch.examibur.business.DatabaseResource;
-import ch.examibur.business.NotFoundException;
+import ch.examibur.business.exception.AuthorizationException;
+import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.domain.ExerciseSolution;
 import java.io.IOException;
 import org.junit.Assert;
@@ -25,7 +25,15 @@ public class ExerciseSolutionServiceImplTest {
 
     Assert.assertNotNull(exerciseSolution);
     Assert.assertNotNull(exerciseSolution.getParticipation());
+    Assert.assertNotNull(exerciseSolution.getParticipantSolution());
     Assert.assertNotNull(exerciseSolution.getExercise());
+
+    Assert.assertEquals(exerciseSolution.getId(), 1L);
+    Assert.assertEquals(exerciseSolution.isDone(), true);
+    Assert.assertEquals(exerciseSolution.getExercise().getId(), 1);
+    Assert.assertEquals(exerciseSolution.getParticipation().getId(), 1);
+    Assert.assertEquals(exerciseSolution.getParticipantSolution().getId(), 19);
+
   }
 
   @Test(expected = IllegalArgumentException.class)
