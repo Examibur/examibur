@@ -46,34 +46,34 @@ public final class Router {
     Spark.before("*", Filters::handleAuthentication);
     Spark.before("*", Filters::addBaseModel);
 
-    beforeAll(Routes.ROOT, dashboardController::addBreadCrumb);
-    get(Routes.ROOT, dashboardController::displayDashboard);
+    beforeAll(Route.ROOT, dashboardController::addBreadCrumb);
+    get(Route.ROOT, dashboardController::displayDashboard);
 
-    beforeAll(Routes.EXAMS, examController::addBreadCrumb);
-    get(Routes.EXAMS, examController::listExams);
+    beforeAll(Route.EXAMS, examController::addBreadCrumb);
+    get(Route.EXAMS, examController::listExams);
 
-    beforeAll(Routes.EXAM, examController::addSpecificBreadCrumb);
-    get(Routes.EXAM, examController::displayExam);
-    post(Routes.EXAM, examController::updateExam);
+    beforeAll(Route.EXAM, examController::addSpecificBreadCrumb);
+    get(Route.EXAM, examController::displayExam);
+    post(Route.EXAM, examController::updateExam);
 
-    beforeAll(Routes.EXERCISES, exerciseController::addBreadCrumb);
-    get(Routes.EXERCISES, exerciseController::listExercises);
+    beforeAll(Route.EXERCISES, exerciseController::addBreadCrumb);
+    get(Route.EXERCISES, exerciseController::listExercises);
 
-    beforeAll(Routes.EXERCISE, exerciseController::addSpecificBreadCrumb);
-    get(Routes.EXERCISE, exerciseController::displayExercise);
+    beforeAll(Route.EXERCISE, exerciseController::addSpecificBreadCrumb);
+    get(Route.EXERCISE, exerciseController::displayExercise);
 
-    beforeAll(Routes.PARTICIPANTS, participationController::addBreadCrumb);
-    get(Routes.PARTICIPANTS, participationController::listExamParticipations);
+    beforeAll(Route.PARTICIPANTS, participationController::addBreadCrumb);
+    get(Route.PARTICIPANTS, participationController::listExamParticipations);
 
-    beforeAll(Routes.PARTICIPANT, participationController::addSpecificBreadCrumb);
-    get(Routes.PARTICIPANT, participationController::displayExamParticipation);
+    beforeAll(Route.PARTICIPANT, participationController::addSpecificBreadCrumb);
+    get(Route.PARTICIPANT, participationController::displayExamParticipation);
 
-    beforeAll(Routes.SOLUTIONS, exerciseSolutionController::addBreadCrumb);
-    get(Routes.SOLUTIONS, exerciseSolutionController::listExerciseSolutions);
+    beforeAll(Route.SOLUTIONS, exerciseSolutionController::addBreadCrumb);
+    get(Route.SOLUTIONS, exerciseSolutionController::listExerciseSolutions);
 
-    beforeAll(Routes.SOLUTION, exerciseSolutionController::addSpecificBreadCrumb);
-    get(Routes.SOLUTION, exerciseSolutionController::displayExerciseSolution);
-    post(Routes.SOLUTION, exerciseGradingController::addExerciseGrading);
+    beforeAll(Route.SOLUTION, exerciseSolutionController::addSpecificBreadCrumb);
+    get(Route.SOLUTION, exerciseSolutionController::displayExerciseSolution);
+    post(Route.SOLUTION, exerciseGradingController::addExerciseGrading);
 
     Spark.get("*", exceptionController::handleNotFound);
     Spark.exception(SingleResultNotFoundException.class,
@@ -82,15 +82,15 @@ public final class Router {
     Spark.after("*", Filters::addGzipHeader);
   }
 
-  private static void get(Routes uri, spark.Route sparkRoute) {
+  private static void get(Route uri, spark.Route sparkRoute) {
     Spark.get(uri.url(), sparkRoute);
   }
 
-  private static void post(Routes uri, spark.Route sparkRoute) {
+  private static void post(Route uri, spark.Route sparkRoute) {
     Spark.post(uri.url(), sparkRoute);
   }
 
-  private static void beforeAll(Routes uri, Filter filter) {
+  private static void beforeAll(Route uri, Filter filter) {
     Spark.before(uri.url() + '*', filter);
   }
 

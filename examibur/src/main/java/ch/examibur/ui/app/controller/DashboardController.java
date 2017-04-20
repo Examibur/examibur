@@ -1,7 +1,7 @@
 package ch.examibur.ui.app.controller;
 
 import ch.examibur.business.exam.ExamService;
-import ch.examibur.ui.app.routing.Routes;
+import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
@@ -49,6 +49,6 @@ public class DashboardController implements Controller {
    * Add / in the breadcrumbs.
    */
   public void addBreadCrumb(Request request, Response response) {
-    RequestHelper.pushBreadCrumb(request, "Dashboard", Routes.ROOT.url());
+    RequestHelper.pushBreadCrumb(request, "Dashboard", RouteBuilder.toDashboard());
   }
 }

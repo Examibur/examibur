@@ -1,6 +1,6 @@
 package ch.examibur.ui.app.routing;
 
-public enum Routes {
+public enum Route {
   ROOT("/"),
   EXAMS(ROOT, "exams/"),
   EXAM(EXAMS, UrlParameter.EXAM_ID),
@@ -13,23 +13,19 @@ public enum Routes {
 
   private final String url;
 
-  private Routes(String url) {
+  private Route(String url) {
     this.url = url;
   }
 
-  private Routes(Routes paramRoute, String url) {
+  private Route(Route paramRoute, String url) {
     this.url = paramRoute.url + url;
   }
 
-  private Routes(Routes paramRoute, UrlParameter urlParameter) {
+  private Route(Route paramRoute, UrlParameter urlParameter) {
     this.url = paramRoute.url + urlParameter.toUrl() + '/';
   }
 
-  public PartialUrl with(UrlParameter parameter, Object replacement) {
-    return new PartialUrl(url, parameter, replacement);
-  }
-
-  public String url() {
+  String url() {
     return url;
   }
 

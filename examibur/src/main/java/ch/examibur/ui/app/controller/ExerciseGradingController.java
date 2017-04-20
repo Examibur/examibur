@@ -1,6 +1,6 @@
 package ch.examibur.ui.app.controller;
 
-import ch.examibur.ui.app.routing.Routes;
+import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.RequestHelper;
 import spark.Request;
@@ -22,9 +22,7 @@ public class ExerciseGradingController {
     long participantId = RequestHelper.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
     long solutionId = RequestHelper.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
 
-    response.redirect(Routes.SOLUTION.with(UrlParameter.EXAM_ID, examId)
-        .with(UrlParameter.PARTICIPANT_ID, participantId).with(UrlParameter.SOLUTION_ID, solutionId)
-        .url());
+    response.redirect(RouteBuilder.toExerciseSolution(examId, participantId, solutionId));
     return null;
   }
 

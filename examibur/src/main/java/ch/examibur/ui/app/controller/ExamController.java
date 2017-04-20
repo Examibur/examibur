@@ -2,7 +2,7 @@ package ch.examibur.ui.app.controller;
 
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.business.exercise.ExerciseService;
-import ch.examibur.ui.app.routing.Routes;
+import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
@@ -85,7 +85,7 @@ public class ExamController implements Controller {
    * Adds breadcurmb for `/exams`.
    */
   public void addBreadCrumb(Request request, Response response) {
-    RequestHelper.pushBreadCrumb(request, "Prüfungen", Routes.EXAMS.url());
+    RequestHelper.pushBreadCrumb(request, "Prüfungen", RouteBuilder.toExams());
   }
 
   /**
@@ -93,7 +93,6 @@ public class ExamController implements Controller {
    */
   public void addSpecificBreadCrumb(Request request, Response response) {
     long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
-    RequestHelper.pushBreadCrumb(request, "Prüfung #" + examId,
-        Routes.EXAM.with(UrlParameter.EXAM_ID, examId));
+    RequestHelper.pushBreadCrumb(request, "Prüfung #" + examId, RouteBuilder.toExam(examId));
   }
 }

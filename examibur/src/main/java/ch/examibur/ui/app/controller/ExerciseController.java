@@ -1,7 +1,6 @@
 package ch.examibur.ui.app.controller;
 
-import ch.examibur.ui.app.routing.PartialUrl;
-import ch.examibur.ui.app.routing.Routes;
+import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
@@ -53,8 +52,7 @@ public class ExerciseController implements Controller {
    */
   public void addBreadCrumb(Request request, Response response) {
     long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
-    RequestHelper.pushBreadCrumb(request, "Aufgaben",
-        Routes.EXERCISES.with(UrlParameter.EXAM_ID, examId));
+    RequestHelper.pushBreadCrumb(request, "Aufgaben", RouteBuilder.toExercises(examId));
   }
 
   /**
@@ -64,9 +62,8 @@ public class ExerciseController implements Controller {
     long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
     long exerciseId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXERCISE_ID);
 
-    PartialUrl url = Routes.EXERCISE.with(UrlParameter.EXAM_ID, examId)
-        .with(UrlParameter.EXERCISE_ID, exerciseId);
-    RequestHelper.pushBreadCrumb(request, "Aufgabe #" + exerciseId, url);
+    RequestHelper.pushBreadCrumb(request, "Aufgabe #" + exerciseId,
+        RouteBuilder.toExercise(examId, exerciseId));
 
   }
 }

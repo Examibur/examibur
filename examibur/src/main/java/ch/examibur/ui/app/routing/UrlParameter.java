@@ -21,8 +21,4 @@ public enum UrlParameter {
     return ":" + name;
   }
 
-  public String getRegex() {
-    return toUrl();
-  }
-
 }

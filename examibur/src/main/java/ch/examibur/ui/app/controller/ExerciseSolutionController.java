@@ -3,7 +3,7 @@ package ch.examibur.ui.app.controller;
 import ch.examibur.business.exercisegrading.ExerciseGradingService;
 import ch.examibur.business.exercisesolution.ExerciseSolutionService;
 import ch.examibur.integration.SingleResultNotFoundException;
-import ch.examibur.ui.app.routing.Routes;
+import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
@@ -79,8 +79,8 @@ public class ExerciseSolutionController implements Controller {
     long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
     long participantId = RequestHelper.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
 
-    RequestHelper.pushBreadCrumb(request, "Teilnehmer", Routes.SOLUTIONS
-        .with(UrlParameter.EXAM_ID, examId).with(UrlParameter.PARTICIPANT_ID, participantId));
+    RequestHelper.pushBreadCrumb(request, "Aufgabenlösungen",
+        RouteBuilder.toExerciseSolutions(examId, participantId));
   }
 
   /**
@@ -92,9 +92,7 @@ public class ExerciseSolutionController implements Controller {
     long solutionId = RequestHelper.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
 
     RequestHelper.pushBreadCrumb(request, "Aufgabenlösung #" + solutionId,
-        Routes.SOLUTION.with(UrlParameter.EXAM_ID, examId)
-            .with(UrlParameter.PARTICIPANT_ID, participantId)
-            .with(UrlParameter.SOLUTION_ID, solutionId));
+        RouteBuilder.toExerciseSolution(examId, participantId, solutionId));
   }
 
 }
