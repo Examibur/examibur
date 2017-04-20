@@ -1,15 +1,18 @@
 package ch.examibur.ui.app.controller;
 
+import java.util.Map;
+
+import com.google.inject.Inject;
+
 import ch.examibur.business.exercisegrading.ExerciseGradingService;
 import ch.examibur.business.exercisesolution.ExerciseSolutionService;
 import ch.examibur.integration.SingleResultNotFoundException;
 import ch.examibur.ui.app.routing.RouteBuilder;
+import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
-import com.google.inject.Inject;
-import java.util.Map;
 import spark.Request;
 import spark.Response;
 
@@ -50,7 +53,7 @@ public class ExerciseSolutionController implements Controller {
    *           when the exerciseSolution is not found
    */
   public String displayExerciseSolution(Request request, Response response) {
-    long exerciseSolutionId = RequestHelper.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+    long exerciseSolutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
     model.put("grading", exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId));
@@ -76,8 +79,8 @@ public class ExerciseSolutionController implements Controller {
    * Adds breadcurmb for `solutions/`.
    */
   public void addBreadCrumb(Request request, Response response) {
-    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RequestHelper.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
 
     RequestHelper.pushBreadCrumb(request, "Aufgabenlösungen",
         RouteBuilder.toExerciseSolutions(examId, participantId));
@@ -87,9 +90,9 @@ public class ExerciseSolutionController implements Controller {
    * Adds breadcurmb for `solutions/:solutionsId`.
    */
   public void addSpecificBreadCrumb(Request request, Response response) {
-    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RequestHelper.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
-    long solutionId = RequestHelper.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long solutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
 
     RequestHelper.pushBreadCrumb(request, "Aufgabenlösung #" + solutionId,
         RouteBuilder.toExerciseSolution(examId, participantId, solutionId));

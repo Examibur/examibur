@@ -14,7 +14,7 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
 
   private final ExerciseGradingDao exerciseGradingDao;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseSolutionServiceImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseGradingServiceImpl.class);
 
   @Inject
   public ExerciseGradingServiceImpl(ExerciseGradingDao exerciseGradingDao) {

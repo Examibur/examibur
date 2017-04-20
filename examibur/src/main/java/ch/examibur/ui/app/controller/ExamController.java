@@ -3,6 +3,7 @@ package ch.examibur.ui.app.controller;
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.business.exercise.ExerciseService;
 import ch.examibur.ui.app.routing.RouteBuilder;
+import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
@@ -45,7 +46,7 @@ public class ExamController implements Controller {
    * @return the rendered page content
    */
   public String displayExam(Request request, Response response) {
-    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
@@ -92,7 +93,7 @@ public class ExamController implements Controller {
    * Adds breadcurmb for `/exams/:examid`.
    */
   public void addSpecificBreadCrumb(Request request, Response response) {
-    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
     RequestHelper.pushBreadCrumb(request, "Prüfung #" + examId, RouteBuilder.toExam(examId));
   }
 }

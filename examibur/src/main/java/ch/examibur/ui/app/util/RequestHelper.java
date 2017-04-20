@@ -1,8 +1,8 @@
 package ch.examibur.ui.app.util;
 
-import ch.examibur.ui.app.routing.UrlParameter;
 import java.util.List;
 import java.util.Map;
+
 import spark.Request;
 
 public final class RequestHelper {
@@ -19,10 +19,6 @@ public final class RequestHelper {
     List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model
         .get(RequestAttributes.BREADCRUMB);
     breadcrumb.add(new BreadCrumbEntry(title, url));
-  }
-
-  public static long getLongUrlParameter(Request request, UrlParameter urlParameter) {
-    return Long.parseLong(request.params(urlParameter.toString()));
   }
 
 }

@@ -1,12 +1,15 @@
 package ch.examibur.ui.app.controller;
 
+import java.util.Map;
+
+import com.google.inject.Inject;
+
 import ch.examibur.ui.app.routing.RouteBuilder;
+import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
-import com.google.inject.Inject;
-import java.util.Map;
 import spark.Request;
 import spark.Response;
 
@@ -51,7 +54,7 @@ public class ExerciseController implements Controller {
    * Adds breadcurmb for `exercises/`.
    */
   public void addBreadCrumb(Request request, Response response) {
-    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
     RequestHelper.pushBreadCrumb(request, "Aufgaben", RouteBuilder.toExercises(examId));
   }
 
@@ -59,8 +62,8 @@ public class ExerciseController implements Controller {
    * Adds breadcurmb for `exercises/:exerciseId`.
    */
   public void addSpecificBreadCrumb(Request request, Response response) {
-    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long exerciseId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXERCISE_ID);
+    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long exerciseId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXERCISE_ID);
 
     RequestHelper.pushBreadCrumb(request, "Aufgabe #" + exerciseId,
         RouteBuilder.toExercise(examId, exerciseId));

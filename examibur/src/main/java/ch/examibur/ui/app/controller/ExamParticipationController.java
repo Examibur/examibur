@@ -1,6 +1,7 @@
 package ch.examibur.ui.app.controller;
 
 import ch.examibur.ui.app.routing.RouteBuilder;
+import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
@@ -51,7 +52,7 @@ public class ExamParticipationController implements Controller {
    * Adds breadcurmb for `exercises/`.
    */
   public void addBreadCrumb(Request request, Response response) {
-    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
     RequestHelper.pushBreadCrumb(request, "Teilnehmer", RouteBuilder.toExamParticipations(examId));
   }
 
@@ -59,8 +60,8 @@ public class ExamParticipationController implements Controller {
    * Adds breadcurmb for `exercises/:exerciseId`.
    */
   public void addSpecificBreadCrumb(Request request, Response response) {
-    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RequestHelper.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
 
     RequestHelper.pushBreadCrumb(request, "Teilnehmer #" + participantId,
         RouteBuilder.toExamParticipation(examId, participantId));

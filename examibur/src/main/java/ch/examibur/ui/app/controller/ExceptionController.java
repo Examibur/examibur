@@ -12,7 +12,7 @@ import spark.Response;
 
 public class ExceptionController implements Controller {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExamController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionController.class);
   private final Renderer engine;
 
   @Inject
