@@ -4,8 +4,11 @@ import static ch.examibur.ui.app.filter.Filters.MODEL;
 
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.business.exercise.ExerciseService;
+import ch.examibur.ui.app.filter.Filters;
+import ch.examibur.ui.app.util.BreadCrumbEntry;
 import ch.examibur.ui.app.util.Renderer;
 import com.google.inject.Inject;
+import java.util.List;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
@@ -45,7 +48,7 @@ public class ExamController implements Controller {
    * @return the rendered page content
    */
   public String displayExam(Request request, Response response) {
-    long examId = Long.valueOf(request.params(PARAM_EXAM_ID));
+    long examId = Long.parseLong(request.params(PARAM_EXAM_ID));
 
     Map<String, Object> model = request.attribute(MODEL);
     model.put("exam", examService.getExam(examId));
@@ -81,4 +84,24 @@ public class ExamController implements Controller {
     return null;
   }
 
+  /**
+   * Adds breadcurmb for `/exams`.
+   */
+  @SuppressWarnings("unchecked")
+  public void addBreadCrumb(Request request, Response response) {
+    Map<String, Object> model = request.attribute(MODEL);
+    List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model.get(Filters.BREADCRUMB);
+    breadcrumb.add(new BreadCrumbEntry("Prüfungen", "/exams"));
+  }
+
+  /**
+   * Adds breadcurmb for `/exams/:examid`.
+   */
+  @SuppressWarnings("unchecked")
+  public void addSpecificBreadCrumb(Request request, Response response) {
+    Map<String, Object> model = request.attribute(MODEL);
+    List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model.get(Filters.BREADCRUMB);
+    long examId = Long.parseLong(request.params(PARAM_EXAM_ID));
+    breadcrumb.add(new BreadCrumbEntry("Prüfung #" + examId, "/exams/" + examId));
+  }
 }

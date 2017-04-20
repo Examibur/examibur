@@ -53,24 +53,35 @@ public final class Router {
     before("*", Filters::addBaseModel);
 
     get("/", dashboardController::displayDashboard);
+    before("/*", dashboardController::addBreadCrumb);
 
     get("/exams", examController::listExams);
+    before("/exams/*", examController::addBreadCrumb);
     path("/exams/:examId", () -> {
+      before("/*", examController::addSpecificBreadCrumb);
       get("/", examController::displayExam);
       post("/", examController::updateExam);
+
       path("/exercises", () -> {
+        before("/*", exerciseController::addBreadCrumb);
         get("/", exerciseController::listExercises);
+
+        before("/:exerciseId/*", exerciseController::addSpecificBreadCrumb);
         get("/:exerciseId", exerciseController::displayExercise);
       });
 
       path("/participants", () -> {
+        before("/*", participationController::addBreadCrumb);
         get("/", participationController::listExamParticipations);
 
         path("/:participantId", () -> {
+          before("/*", participationController::addSpecificBreadCrumb);
           get("/", participationController::displayExamParticipation);
 
           path("/solutions", () -> {
+            before("/*", exerciseSolutionController::addBreadCrumb);
             get("/", exerciseSolutionController::listExerciseSolutions);
+            before("/:solutionId/*", exerciseSolutionController::addSpecificBreadCrumb);
             get("/:solutionId/", exerciseSolutionController::displayExerciseSolution);
             post("/:solutionId/", exerciseGradingController::addExerciseGrading);
           });

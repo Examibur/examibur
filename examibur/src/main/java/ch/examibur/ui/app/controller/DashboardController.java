@@ -3,12 +3,12 @@ package ch.examibur.ui.app.controller;
 import static ch.examibur.ui.app.filter.Filters.MODEL;
 
 import ch.examibur.business.exam.ExamService;
+import ch.examibur.ui.app.filter.Filters;
+import ch.examibur.ui.app.util.BreadCrumbEntry;
 import ch.examibur.ui.app.util.Renderer;
-
 import com.google.inject.Inject;
-
+import java.util.List;
 import java.util.Map;
-
 import spark.Request;
 import spark.Response;
 
@@ -47,4 +47,13 @@ public class DashboardController implements Controller {
     return engine.render(model, "dashboard.ftl");
   }
 
+  /**
+   * Add / in the breadcrumbs.
+   */
+  @SuppressWarnings("unchecked")
+  public void addBreadCrumb(Request request, Response response) {
+    Map<String, Object> model = request.attribute(MODEL);
+    List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model.get(Filters.BREADCRUMB);
+    breadcrumb.add(new BreadCrumbEntry("Dashboard", "/"));
+  }
 }

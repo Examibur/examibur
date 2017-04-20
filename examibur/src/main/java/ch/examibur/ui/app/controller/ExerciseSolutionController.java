@@ -5,8 +5,11 @@ import static ch.examibur.ui.app.filter.Filters.MODEL;
 import ch.examibur.business.exercisegrading.ExerciseGradingService;
 import ch.examibur.business.exercisesolution.ExerciseSolutionService;
 import ch.examibur.integration.SingleResultNotFoundException;
+import ch.examibur.ui.app.filter.Filters;
+import ch.examibur.ui.app.util.BreadCrumbEntry;
 import ch.examibur.ui.app.util.Renderer;
 import com.google.inject.Inject;
+import java.util.List;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
@@ -69,6 +72,37 @@ public class ExerciseSolutionController implements Controller {
   public String listExerciseSolutions(Request request, Response response) {
     Map<String, Object> model = request.attribute(MODEL);
     return engine.render(model, "404.ftl");
+  }
+
+  /**
+   * Adds breadcurmb for `solutions/`.
+   */
+  @SuppressWarnings("unchecked")
+  public void addBreadCrumb(Request request, Response response) {
+    Map<String, Object> model = request.attribute(MODEL);
+    List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model.get(Filters.BREADCRUMB);
+    long examId = Long.parseLong(request.params(ExamController.PARAM_EXAM_ID));
+    long participantId = Long
+        .parseLong(request.params(ExamParticipationController.PARAM_PARTICIPANT_ID));
+
+    breadcrumb.add(new BreadCrumbEntry("Teilnehmer",
+        "/exams/" + examId + "/participants/" + participantId + "/solutions/"));
+  }
+
+  /**
+   * Adds breadcurmb for `solutions/:solutionsId`.
+   */
+  @SuppressWarnings("unchecked")
+  public void addSpecificBreadCrumb(Request request, Response response) {
+    Map<String, Object> model = request.attribute(MODEL);
+    List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model.get(Filters.BREADCRUMB);
+
+    long examId = Long.parseLong(request.params(ExamController.PARAM_EXAM_ID));
+    long participantId = Long
+        .parseLong(request.params(ExamParticipationController.PARAM_PARTICIPANT_ID));
+    long solutionId = Long.parseLong(request.params(PARAM_SOLUTION_ID));
+    breadcrumb.add(new BreadCrumbEntry("Aufgabenlösung #" + solutionId,
+        "/exams/" + examId + "/participants/" + participantId + "/solutions/" + solutionId));
   }
 
 }

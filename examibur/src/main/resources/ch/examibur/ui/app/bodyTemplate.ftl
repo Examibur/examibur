@@ -2,17 +2,14 @@
 
 <#macro body_header_navigation>
 	<ol class="breadcrumb">
-		<li><a href="/">Dashboard</a></li>
-	</ol>
-	<#assign breadcrumb=url>
-	<#if breadcrumb?matches("^\\/exams\\/", "r")>
-		<li><a href="/exams/${exam.id}/">Prüfung ${exam.id}</a></li>
-		
-		${breadcrumb}
+	<#list breadcrumb as crumb>
+	<#if crumb?index == breadcrumb?size - 1>
+	    <li class="active">${crumb.title}</li>
+	<#else>
+		<li><a href="${crumb.location}">${crumb.title}</a></li>
 	</#if>
-
-	${breadcrumb}
-	<li class="active">Anonymes Känguru</li>
+	</#list>
+	</ol>
 </#macro>
 
 <#macro body_main>

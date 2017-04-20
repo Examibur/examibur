@@ -1,8 +1,9 @@
 package ch.examibur.ui.app.filter;
 
+import ch.examibur.ui.app.util.BreadCrumbEntry;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
-
 import spark.Request;
 import spark.Response;
 
@@ -12,6 +13,7 @@ public class Filters {
   public static final String USER = "user";
   public static final String URL = "url";
   public static final String TITLE = "title";
+  public static final String BREADCRUMB = "breadcrumb";
 
   private Filters() {
   }
@@ -44,6 +46,7 @@ public class Filters {
     baseModel.put(USER, "Max Muster");
     baseModel.put(TITLE, "Examibur");
     baseModel.put(URL, request.uri());
+    baseModel.put(BREADCRUMB, new LinkedList<BreadCrumbEntry>());
     request.attribute(MODEL, baseModel);
   }
 
