@@ -43,7 +43,16 @@ testSets {
 project.integrationTest {
     if( new File("/opt/geckodriver").exists() ) {
 		jvmArgs "-Dwebdriver.gecko.driver=/opt/geckodriver"
-    } 
+    }
+    
+    beforeTest { descriptor ->
+     logger.lifecycle("Running test: " + descriptor)
+  	}
+    
+}
+
+compileIntegrationTestJava {
+	options.encoding = "UTF-8"
 }
 
 task deployToTomcat(type: Copy) {
