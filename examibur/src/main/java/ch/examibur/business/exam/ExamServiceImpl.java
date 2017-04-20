@@ -1,6 +1,7 @@
 package ch.examibur.business.exam;
 
-import ch.examibur.business.NotFoundException;
+import ch.examibur.business.exception.NotFoundException;
+import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.Exam;
 import ch.examibur.integration.exam.ExamDao;
 import ch.examibur.integration.exam.ExamDaoImpl;
@@ -23,23 +24,13 @@ public final class ExamServiceImpl implements ExamService {
 
   @Override
   public List<Exam> getExamsForAuthor(long authorId) {
-    if (authorId < 0) {
-      IllegalArgumentException illegalArgumentException = new IllegalArgumentException(
-          "author id is negative");
-      LOGGER.error(illegalArgumentException.getMessage(), illegalArgumentException);
-      throw illegalArgumentException;
-    }
+    ValidationHelper.checkForNegativeId(authorId, LOGGER);
     return examDao.getExamsForAuthor(authorId);
   }
 
   @Override
   public Exam getExam(long examId) throws NotFoundException {
-    if (examId < 0) {
-      IllegalArgumentException illegalArgumentException = new IllegalArgumentException(
-          "exam id is negative");
-      LOGGER.error(illegalArgumentException.getMessage(), illegalArgumentException);
-      throw illegalArgumentException;
-    }
+    ValidationHelper.checkForNegativeId(examId, LOGGER);
     try {
       return examDao.getExam(examId);
     } catch (NoResultException ex) {
