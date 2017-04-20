@@ -2,11 +2,14 @@ package ch.examibur.ui.app.controller;
 
 import static ch.examibur.ui.app.filter.Filters.MODEL;
 
+import ch.examibur.business.exception.AuthorizationException;
+import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.exercisegrading.ExerciseGradingService;
 import ch.examibur.business.exercisesolution.ExerciseSolutionService;
-import ch.examibur.integration.SingleResultNotFoundException;
+import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.ui.app.util.Renderer;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
@@ -45,10 +48,16 @@ public class ExerciseSolutionController implements Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
-   * @throws SingleResultNotFoundException
-   *           when the exerciseSolution is not found
+   * @throws NotFoundException
+   *           if the exerciseSolution is not found
+   * @throws AuthorizationException
+   *           if the user is not authorized to display this {@link ExerciseSolution}
+   * @throws IOException
+   *           if an exception during the communication occurs
+   * 
    */
-  public String displayExerciseSolution(Request request, Response response) {
+  public String displayExerciseSolution(Request request, Response response)
+      throws NotFoundException, AuthorizationException, IOException {
     long exerciseSolutionId = Long.parseLong(request.params(PARAM_SOLUTION_ID));
     Map<String, Object> model = request.attribute(MODEL);
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
