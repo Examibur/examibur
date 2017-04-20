@@ -1,21 +1,18 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.filter.Filters.MODEL;
-
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.business.exercise.ExerciseService;
-import ch.examibur.ui.app.filter.Filters;
-import ch.examibur.ui.app.util.BreadCrumbEntry;
+import ch.examibur.ui.app.routing.Routes;
+import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
+import ch.examibur.ui.app.util.RequestAttributes;
+import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
-import java.util.List;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
 
 public class ExamController implements Controller {
-
-  public static final String PARAM_EXAM_ID = ":examId";
 
   private final ExamService examService;
   private final ExerciseService exerciseService;
@@ -48,9 +45,9 @@ public class ExamController implements Controller {
    * @return the rendered page content
    */
   public String displayExam(Request request, Response response) {
-    long examId = Long.parseLong(request.params(PARAM_EXAM_ID));
+    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
 
-    Map<String, Object> model = request.attribute(MODEL);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
     model.put("maxPoints", exerciseService.getMaxPoints(examId));
     return engine.render(model, "examInformationTab.ftl");
@@ -66,7 +63,7 @@ public class ExamController implements Controller {
    * @return the rendered page content
    */
   public String listExams(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     return engine.render(model, "404.ftl");
   }
 
@@ -87,21 +84,16 @@ public class ExamController implements Controller {
   /**
    * Adds breadcurmb for `/exams`.
    */
-  @SuppressWarnings("unchecked")
   public void addBreadCrumb(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
-    List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model.get(Filters.BREADCRUMB);
-    breadcrumb.add(new BreadCrumbEntry("Prüfungen", "/exams"));
+    RequestHelper.pushBreadCrumb(request, "Prüfungen", Routes.EXAMS.url());
   }
 
   /**
    * Adds breadcurmb for `/exams/:examid`.
    */
-  @SuppressWarnings("unchecked")
   public void addSpecificBreadCrumb(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
-    List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model.get(Filters.BREADCRUMB);
-    long examId = Long.parseLong(request.params(PARAM_EXAM_ID));
-    breadcrumb.add(new BreadCrumbEntry("Prüfung #" + examId, "/exams/" + examId));
+    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    RequestHelper.pushBreadCrumb(request, "Prüfung #" + examId,
+        Routes.EXAM.with(UrlParameter.EXAM_ID, examId));
   }
 }

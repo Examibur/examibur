@@ -1,5 +1,8 @@
 package ch.examibur.ui.app.controller;
 
+import ch.examibur.ui.app.routing.Routes;
+import ch.examibur.ui.app.routing.UrlParameter;
+import ch.examibur.ui.app.util.RequestHelper;
 import spark.Request;
 import spark.Response;
 
@@ -15,9 +18,13 @@ public class ExerciseGradingController {
    * @return nothing to return
    */
   public String addExerciseGrading(Request request, Response response) {
-    response.redirect("/exams/" + request.params(ExamController.PARAM_EXAM_ID) + "/participants/"
-        + request.params(ExamParticipationController.PARAM_PARTICIPANT_ID) + "/solutions/"
-        + request.params(ExerciseSolutionController.PARAM_SOLUTION_ID) + "/", 302);
+    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId = RequestHelper.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long solutionId = RequestHelper.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+
+    response.redirect(Routes.SOLUTION.with(UrlParameter.EXAM_ID, examId)
+        .with(UrlParameter.PARTICIPANT_ID, participantId).with(UrlParameter.SOLUTION_ID, solutionId)
+        .url());
     return null;
   }
 

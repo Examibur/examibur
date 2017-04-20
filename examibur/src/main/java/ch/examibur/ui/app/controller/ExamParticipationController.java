@@ -1,19 +1,17 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.filter.Filters.MODEL;
-
-import ch.examibur.ui.app.filter.Filters;
-import ch.examibur.ui.app.util.BreadCrumbEntry;
+import ch.examibur.ui.app.routing.Routes;
+import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
+import ch.examibur.ui.app.util.RequestAttributes;
+import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
-import java.util.List;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
 
 public class ExamParticipationController implements Controller {
 
-  public static final String PARAM_PARTICIPANT_ID = ":participantId";
   private final Renderer engine;
 
   @Inject
@@ -31,7 +29,7 @@ public class ExamParticipationController implements Controller {
    * @return the rendered page content
    */
   public String displayExamParticipation(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     return engine.render(model, "examParticipationTabExerciseView.ftl");
   }
 
@@ -45,33 +43,28 @@ public class ExamParticipationController implements Controller {
    * @return the rendered page content
    */
   public String listExamParticipations(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     return engine.render(model, "examParticipationTabExerciseView.ftl");
   }
 
   /**
    * Adds breadcurmb for `exercises/`.
    */
-  @SuppressWarnings("unchecked")
   public void addBreadCrumb(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
-    List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model.get(Filters.BREADCRUMB);
-    long examId = Long.parseLong(request.params(ExamController.PARAM_EXAM_ID));
-    breadcrumb.add(new BreadCrumbEntry("Teilnehmer", "/exams/" + examId + "/participants/"));
+    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    RequestHelper.pushBreadCrumb(request, "Teilnehmer",
+        Routes.PARTICIPANTS.with(UrlParameter.EXAM_ID, examId));
   }
 
   /**
    * Adds breadcurmb for `exercises/:exerciseId`.
    */
-  @SuppressWarnings("unchecked")
   public void addSpecificBreadCrumb(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
-    List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model.get(Filters.BREADCRUMB);
+    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId = RequestHelper.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
 
-    long examId = Long.parseLong(request.params(ExamController.PARAM_EXAM_ID));
-    long participantId = Long.parseLong(request.params(PARAM_PARTICIPANT_ID));
-    breadcrumb.add(new BreadCrumbEntry("Teilnehmer #" + participantId,
-        "/exams/" + examId + "/participants/" + participantId));
+    RequestHelper.pushBreadCrumb(request, "Teilnehmer #" + participantId, Routes.PARTICIPANT
+        .with(UrlParameter.EXAM_ID, examId).with(UrlParameter.PARTICIPANT_ID, participantId));
   }
 
 }

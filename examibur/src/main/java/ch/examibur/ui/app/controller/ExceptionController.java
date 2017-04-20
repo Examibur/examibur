@@ -1,8 +1,7 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.filter.Filters.MODEL;
-
 import ch.examibur.ui.app.util.Renderer;
+import ch.examibur.ui.app.util.RequestAttributes;
 import com.google.inject.Inject;
 import java.util.Map;
 import org.eclipse.jetty.http.HttpStatus;
@@ -34,7 +33,7 @@ public class ExceptionController implements Controller {
   public void handleException(Exception exception, Request request, Response response) {
     LOGGER.error("Caught unhandled exception", exception);
 
-    Map<String, Object> model = request.attribute(MODEL);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     response.status(HttpStatus.INTERNAL_SERVER_ERROR_500);
     response.body(engine.render(model, "500.ftl"));
 
@@ -49,7 +48,7 @@ public class ExceptionController implements Controller {
    *          the HTTP response
    */
   public String handleNotFound(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     response.status(HttpStatus.NOT_FOUND_404);
     return engine.render(model, "404.ftl");
   }
@@ -66,7 +65,7 @@ public class ExceptionController implements Controller {
    */
   public void handleNotFoundException(Exception ex, Request request, Response response) {
     LOGGER.debug("Returning 404 not found");
-    Map<String, Object> model = request.attribute(MODEL);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     response.status(HttpStatus.NOT_FOUND_404);
     response.body(engine.render(model, "404.ftl"));
   }

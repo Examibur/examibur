@@ -1,19 +1,18 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.filter.Filters.MODEL;
-
-import ch.examibur.ui.app.filter.Filters;
-import ch.examibur.ui.app.util.BreadCrumbEntry;
+import ch.examibur.ui.app.routing.PartialUrl;
+import ch.examibur.ui.app.routing.Routes;
+import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
+import ch.examibur.ui.app.util.RequestAttributes;
+import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
-import java.util.List;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
 
 public class ExerciseController implements Controller {
 
-  public static final String PARAM_EXERCISE_ID = ":exerciseId";
   private final Renderer engine;
 
   @Inject
@@ -31,7 +30,7 @@ public class ExerciseController implements Controller {
    * @return the rendered page content
    */
   public String displayExercise(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     return engine.render(model, "404.ftl");
   }
 
@@ -45,32 +44,29 @@ public class ExerciseController implements Controller {
    * @return the rendered page content
    */
   public String listExercises(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     return engine.render(model, "404.ftl");
   }
 
   /**
    * Adds breadcurmb for `exercises/`.
    */
-  @SuppressWarnings("unchecked")
   public void addBreadCrumb(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
-    List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model.get(Filters.BREADCRUMB);
-    long examId = Long.parseLong(request.params(ExamController.PARAM_EXAM_ID));
-    breadcrumb.add(new BreadCrumbEntry("Aufgaben", "/exams/" + examId + "/exercises/"));
+    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    RequestHelper.pushBreadCrumb(request, "Aufgaben",
+        Routes.EXERCISES.with(UrlParameter.EXAM_ID, examId));
   }
 
   /**
    * Adds breadcurmb for `exercises/:exerciseId`.
    */
-  @SuppressWarnings("unchecked")
   public void addSpecificBreadCrumb(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
-    List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model.get(Filters.BREADCRUMB);
+    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long exerciseId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXERCISE_ID);
 
-    long examId = Long.parseLong(request.params(ExamController.PARAM_EXAM_ID));
-    long exerciseId = Long.parseLong(request.params(PARAM_EXERCISE_ID));
-    breadcrumb.add(new BreadCrumbEntry("Aufgabe #" + exerciseId,
-        "/exams/" + examId + "/exercises/" + exerciseId));
+    PartialUrl url = Routes.EXERCISE.with(UrlParameter.EXAM_ID, examId)
+        .with(UrlParameter.EXERCISE_ID, exerciseId);
+    RequestHelper.pushBreadCrumb(request, "Aufgabe #" + exerciseId, url);
+
   }
 }

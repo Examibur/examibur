@@ -1,22 +1,20 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.filter.Filters.MODEL;
-
 import ch.examibur.business.exercisegrading.ExerciseGradingService;
 import ch.examibur.business.exercisesolution.ExerciseSolutionService;
 import ch.examibur.integration.SingleResultNotFoundException;
-import ch.examibur.ui.app.filter.Filters;
-import ch.examibur.ui.app.util.BreadCrumbEntry;
+import ch.examibur.ui.app.routing.Routes;
+import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
+import ch.examibur.ui.app.util.RequestAttributes;
+import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
-import java.util.List;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
 
 public class ExerciseSolutionController implements Controller {
 
-  public static final String PARAM_SOLUTION_ID = ":solutionId";
   private final Renderer engine;
   private final ExerciseSolutionService exerciseSolutionService;
   private final ExerciseGradingService exerciseGradingService;
@@ -52,8 +50,8 @@ public class ExerciseSolutionController implements Controller {
    *           when the exerciseSolution is not found
    */
   public String displayExerciseSolution(Request request, Response response) {
-    long exerciseSolutionId = Long.parseLong(request.params(PARAM_SOLUTION_ID));
-    Map<String, Object> model = request.attribute(MODEL);
+    long exerciseSolutionId = RequestHelper.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
     model.put("grading", exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId));
     model.put("review", exerciseGradingService.getReviewForExerciseSolution(exerciseSolutionId));
@@ -70,39 +68,33 @@ public class ExerciseSolutionController implements Controller {
    * @return the rendered page content
    */
   public String listExerciseSolutions(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     return engine.render(model, "404.ftl");
   }
 
   /**
    * Adds breadcurmb for `solutions/`.
    */
-  @SuppressWarnings("unchecked")
   public void addBreadCrumb(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
-    List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model.get(Filters.BREADCRUMB);
-    long examId = Long.parseLong(request.params(ExamController.PARAM_EXAM_ID));
-    long participantId = Long
-        .parseLong(request.params(ExamParticipationController.PARAM_PARTICIPANT_ID));
+    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId = RequestHelper.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
 
-    breadcrumb.add(new BreadCrumbEntry("Teilnehmer",
-        "/exams/" + examId + "/participants/" + participantId + "/solutions/"));
+    RequestHelper.pushBreadCrumb(request, "Teilnehmer", Routes.SOLUTIONS
+        .with(UrlParameter.EXAM_ID, examId).with(UrlParameter.PARTICIPANT_ID, participantId));
   }
 
   /**
    * Adds breadcurmb for `solutions/:solutionsId`.
    */
-  @SuppressWarnings("unchecked")
   public void addSpecificBreadCrumb(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
-    List<BreadCrumbEntry> breadcrumb = (List<BreadCrumbEntry>) model.get(Filters.BREADCRUMB);
+    long examId = RequestHelper.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId = RequestHelper.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long solutionId = RequestHelper.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
 
-    long examId = Long.parseLong(request.params(ExamController.PARAM_EXAM_ID));
-    long participantId = Long
-        .parseLong(request.params(ExamParticipationController.PARAM_PARTICIPANT_ID));
-    long solutionId = Long.parseLong(request.params(PARAM_SOLUTION_ID));
-    breadcrumb.add(new BreadCrumbEntry("Aufgabenlösung #" + solutionId,
-        "/exams/" + examId + "/participants/" + participantId + "/solutions/" + solutionId));
+    RequestHelper.pushBreadCrumb(request, "Aufgabenlösung #" + solutionId,
+        Routes.SOLUTION.with(UrlParameter.EXAM_ID, examId)
+            .with(UrlParameter.PARTICIPANT_ID, participantId)
+            .with(UrlParameter.SOLUTION_ID, solutionId));
   }
 
 }
