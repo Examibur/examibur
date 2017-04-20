@@ -15,6 +15,10 @@ title: Projektverlauf
 # Sprint 3
 [Scrum Board](https://gitlab.com/engineering-projekt/examibur/milestones/15)
 
+[Rekapitulation](https://gitlab.com/engineering-projekt/examibur/issues/26)
+
+# Sprint 4
+[Scrum Board](https://gitlab.com/engineering-projekt/examibur/milestones/16)
 
 # Velocity
 <div id="velocityChart">
