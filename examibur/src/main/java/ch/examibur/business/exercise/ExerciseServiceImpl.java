@@ -1,7 +1,8 @@
 package ch.examibur.business.exercise;
 
-import ch.examibur.business.AuthorizationException;
-import ch.examibur.business.NotFoundException;
+import ch.examibur.business.exception.AuthorizationException;
+import ch.examibur.business.exception.NotFoundException;
+import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.integration.exercise.ExerciseDao;
 import com.google.inject.Inject;
 import javax.persistence.NoResultException;
@@ -21,12 +22,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
   @Override
   public double getMaxPoints(long examId) throws NotFoundException, AuthorizationException {
-    if (examId < 0) {
-      IllegalArgumentException illegalArgumentException = new IllegalArgumentException(
-          "exam id is negative");
-      LOGGER.error(illegalArgumentException.getMessage(), illegalArgumentException);
-      throw illegalArgumentException;
-    }
+    ValidationHelper.checkForNegativeId(examId, LOGGER);
 
     try {
       return exerciseDao.getMaxPoints(examId);

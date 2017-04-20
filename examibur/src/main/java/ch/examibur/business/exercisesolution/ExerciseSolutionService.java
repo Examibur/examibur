@@ -1,7 +1,7 @@
 package ch.examibur.business.exercisesolution;
 
-import ch.examibur.business.AuthorizationException;
-import ch.examibur.business.NotFoundException;
+import ch.examibur.business.exception.AuthorizationException;
+import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.domain.ExerciseSolution;
 import java.io.IOException;
 

@@ -27,10 +27,10 @@ title: Error-Handling Policy
 * Der Business-Layer wirft nur vordefinierte Exceptions:
     * `ValidationException` für ungültige Werte, die vom User in den Service kommen und die Integrität der Daten verletzen würde
     * `IllegalArgumentException` für ungültige Funktions-Parameter, z.B. eine negative ID
-    * `NotFoundException`, wenn eine angeforderte Ressource auf der Datenbank nicht gefunden wurde
+    * `NotFoundException`, wenn eine angeforderte Ressource auf der Datenbank nicht gefunden wurde, aber zwingend ein Resultat benötigt wird
     * `AuthorizationException`, falls der User keine Berechtigung hat, diesen Service mit den spezifischen Argumenten aufzurufen
     * `IOException`, wenn zwischen dem UI und dem Service ein Fehler in der Kommunikation auftritt
-* Der UI-Layer (Spark) verwaltet die Exceptions vom Business-Layer und zeigt dem User entsprechende Fehlermeldungen an
+* Der UI-Layer (Spark) verwaltet die Exceptions vom Business-Layer und zeigt dem User entsprechende verständliche (nicht-technische) Fehlermeldungen an
 
 ## Assertion Policy
 * Es werden keine Asserts verwendet, damit keine Diskrepanz zwischen Entwicklung und Produktion entstehen kann.

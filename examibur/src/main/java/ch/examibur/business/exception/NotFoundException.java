@@ -1,4 +1,4 @@
-package ch.examibur.business;
+package ch.examibur.business.exception;
 
 public class NotFoundException extends Exception {
 

@@ -1,6 +1,6 @@
 package ch.examibur.business.exercisegrading;
 
-import ch.examibur.business.AuthorizationException;
+import ch.examibur.business.exception.AuthorizationException;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.domain.ExerciseSolution;
 import java.io.IOException;

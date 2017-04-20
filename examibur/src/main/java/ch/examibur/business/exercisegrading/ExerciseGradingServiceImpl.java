@@ -1,5 +1,6 @@
 package ch.examibur.business.exercisegrading;
 
+import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
@@ -31,12 +32,7 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
   }
 
   private ExerciseGrading getGradingCreatedInState(long exerciseSolutionId, ExamState state) {
-    if (exerciseSolutionId < 0) {
-      IllegalArgumentException illegalArgumentException = new IllegalArgumentException(
-          "exerciseSolution id is negative");
-      LOGGER.error(illegalArgumentException.getMessage(), illegalArgumentException);
-      throw illegalArgumentException;
-    }
+    ValidationHelper.checkForNegativeId(exerciseSolutionId, LOGGER);
     return exerciseGradingDao.getGradingCreatedInState(exerciseSolutionId, state);
   }
 
