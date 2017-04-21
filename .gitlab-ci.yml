@@ -39,6 +39,8 @@ build:
 test:
   image: docker:latest 
   stage: test
+  services:
+    - docker:dind
   variables:
     DOCKER_DRIVER: overlay
   script:
