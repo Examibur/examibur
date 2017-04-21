@@ -1,9 +1,5 @@
 package ch.examibur.ui.app.controller;
 
-import java.util.Map;
-
-import com.google.inject.Inject;
-
 import ch.examibur.business.exercisegrading.ExerciseGradingService;
 import ch.examibur.business.exercisesolution.ExerciseSolutionService;
 import ch.examibur.integration.SingleResultNotFoundException;
@@ -13,6 +9,8 @@ import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
+import com.google.inject.Inject;
+import java.util.Map;
 import spark.Request;
 import spark.Response;
 

@@ -1,12 +1,9 @@
 package ch.examibur.business.exercisegrading;
 
-import ch.examibur.business.exercisesolution.ExerciseSolutionServiceImpl;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
-
 import com.google.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
