@@ -34,6 +34,6 @@ services:
     ports:
     - 4000:4000
     volumes:
-      - ./docs/:/src/
+      - ./docs/:/src/:Z
     command: jekyll serve -d public
 
