@@ -1,5 +1,6 @@
 package ch.examibur.business.exercisegrading;
 
+import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
@@ -9,9 +10,9 @@ import org.slf4j.LoggerFactory;
 
 public class ExerciseGradingServiceImpl implements ExerciseGradingService {
 
-  private final ExerciseGradingDao exerciseGradingDao;
-
   private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseGradingServiceImpl.class);
+
+  private final ExerciseGradingDao exerciseGradingDao;
 
   @Inject
   public ExerciseGradingServiceImpl(ExerciseGradingDao exerciseGradingDao) {
@@ -22,7 +23,6 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
   public ExerciseGrading getGradingForExerciseSolution(long exerciseSolutionId) {
     LOGGER.info("Get Grading vor ExerciseSolution {}", exerciseSolutionId);
     return getGradingCreatedInState(exerciseSolutionId, ExamState.CORRECTION);
-
   }
 
   @Override
@@ -32,6 +32,7 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
   }
 
   private ExerciseGrading getGradingCreatedInState(long exerciseSolutionId, ExamState state) {
+    ValidationHelper.checkForNegativeId(exerciseSolutionId, LOGGER);
     return exerciseGradingDao.getGradingCreatedInState(exerciseSolutionId, state);
   }
 

@@ -1,6 +1,7 @@
 package ch.examibur.ui.app.routing;
 
-import ch.examibur.integration.SingleResultNotFoundException;
+import ch.examibur.business.exception.AuthorizationException;
+import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.ui.app.controller.DashboardController;
 import ch.examibur.ui.app.controller.ExamController;
 import ch.examibur.ui.app.controller.ExamParticipationController;
@@ -76,10 +77,11 @@ public final class Router {
     post(Route.SOLUTION, exerciseGradingController::addExerciseGrading);
 
     Spark.get("*", exceptionController::handleNotFound);
-    Spark.exception(SingleResultNotFoundException.class,
-        exceptionController::handleNotFoundException);
+    Spark.exception(NotFoundException.class, exceptionController::handleNotFoundException);
+    Spark.exception(NumberFormatException.class, exceptionController::handleNotFoundException);
+    Spark.exception(AuthorizationException.class,
+        exceptionController::handleAuthorizationException);
     Spark.exception(Exception.class, exceptionController::handleException);
-    Spark.after("*", Filters::addGzipHeader);
   }
 
   private static void get(Route uri, spark.Route sparkRoute) {

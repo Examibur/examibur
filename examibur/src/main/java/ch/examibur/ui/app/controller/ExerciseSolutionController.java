@@ -1,8 +1,10 @@
 package ch.examibur.ui.app.controller;
 
+import ch.examibur.business.exception.AuthorizationException;
+import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.exercisegrading.ExerciseGradingService;
 import ch.examibur.business.exercisesolution.ExerciseSolutionService;
-import ch.examibur.integration.SingleResultNotFoundException;
+import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
@@ -10,6 +12,7 @@ import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
@@ -47,12 +50,20 @@ public class ExerciseSolutionController implements Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
-   * @throws SingleResultNotFoundException
-   *           when the exerciseSolution is not found
+   * @throws NotFoundException
+   *           if the exerciseSolution is not found
+   * @throws AuthorizationException
+   *           if the user is not authorized to display this {@link ExerciseSolution}
+   * @throws IOException
+   *           if an exception during the communication occurs
+   * 
    */
-  public String displayExerciseSolution(Request request, Response response) {
+  public String displayExerciseSolution(Request request, Response response)
+      throws NotFoundException, AuthorizationException, IOException {
+
     long exerciseSolutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
+
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
     model.put("grading", exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId));
     model.put("review", exerciseGradingService.getReviewForExerciseSolution(exerciseSolutionId));
