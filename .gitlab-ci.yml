@@ -44,6 +44,7 @@ test:
   variables:
     DOCKER_DRIVER: overlay
   script:
+    - cp examibur/build/libs/*.war /usr/local/tomcat/webapps/ROOT.war
     - ./docker/testing/ci_runtests.sh
   artifacts:
     paths:
