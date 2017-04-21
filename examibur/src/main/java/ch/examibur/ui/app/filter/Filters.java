@@ -1,16 +1,14 @@
 package ch.examibur.ui.app.filter;
 
+import ch.examibur.ui.app.util.BreadCrumbEntry;
+import ch.examibur.ui.app.util.RequestAttributes;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
-
 import spark.Request;
 import spark.Response;
 
 public class Filters {
-
-  public static final String MODEL = "model";
-  public static final String USER = "user";
-  public static final String TITLE = "title";
 
   private Filters() {
   }
@@ -40,9 +38,11 @@ public class Filters {
    */
   public static void addBaseModel(Request request, Response response) {
     Map<String, Object> baseModel = new HashMap<>();
-    baseModel.put(USER, "Max Muster");
-    baseModel.put(TITLE, "Examibur");
-    request.attribute(MODEL, baseModel);
+    baseModel.put(RequestAttributes.USER, "Max Muster");
+    baseModel.put(RequestAttributes.TITLE, "Examibur");
+    baseModel.put(RequestAttributes.URL, request.uri());
+    baseModel.put(RequestAttributes.BREADCRUMB, new LinkedList<BreadCrumbEntry>());
+    request.attribute(RequestAttributes.MODEL, baseModel);
   }
 
   /**
@@ -55,7 +55,7 @@ public class Filters {
    */
   public static void handleAuthentication(Request request, Response response) {
     // TODO implement authentication
-    request.attribute("user", 4l);
+    request.attribute("user", 4L);
   }
 
   /**
