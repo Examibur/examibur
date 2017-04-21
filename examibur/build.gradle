@@ -46,9 +46,28 @@ project.integrationTest {
     }
     
     beforeTest { descriptor ->
-     logger.lifecycle("Running test: " + descriptor)
+     	logger.lifecycle("Running test: " + descriptor)
   	}
-    
+  	
+  	jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/jacocoInt.exec")
+    }
+}
+
+jacocoTestReport{
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${buildDir}/reports/jacoco/html"
+    }
+    sourceSets sourceSets.main
+    executionData = files("$buildDir/jacoco/jacocoInt.exec")
+}
+
+
+compileJava {
+	options.encoding = "UTF-8"
 }
 
 compileIntegrationTestJava {
