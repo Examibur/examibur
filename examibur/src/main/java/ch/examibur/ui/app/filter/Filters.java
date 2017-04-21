@@ -54,6 +54,7 @@ public class Filters {
    *          The planned response.
    */
   public static void handleAuthentication(Request request, Response response) {
+    // TODO implement authentication
     request.attribute("user", 4l);
   }
 

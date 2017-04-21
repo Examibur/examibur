@@ -5,6 +5,7 @@ import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.Exercise;
 import ch.examibur.integration.exercise.ExerciseDao;
+
 import com.google.inject.Inject;
 import javax.persistence.NoResultException;
 import org.slf4j.Logger;

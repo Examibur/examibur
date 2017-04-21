@@ -1,9 +1,9 @@
 package ch.examibur.integration.exercise;
 
 import ch.examibur.domain.Exam;
+import ch.examibur.domain.Exercise;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import ch.examibur.domain.Exercise;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
