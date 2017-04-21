@@ -44,7 +44,7 @@ test:
   variables:
     DOCKER_DRIVER: overlay
   script:
-    - /bin/sh ./docker/testing/ci_runtests.sh
+    - ./docker/testing/ci_runtests.sh
   artifacts:
     paths:
       - examibur/jacoco/
