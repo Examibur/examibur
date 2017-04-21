@@ -1,12 +1,15 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.filter.Filters.MODEL;
-
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.business.exception.AuthorizationException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.exercise.ExerciseService;
+import ch.examibur.ui.app.routing.RouteBuilder;
+import ch.examibur.ui.app.routing.RoutingHelpers;
+import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
+import ch.examibur.ui.app.util.RequestAttributes;
+import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Map;
@@ -14,8 +17,6 @@ import spark.Request;
 import spark.Response;
 
 public class ExamController implements Controller {
-
-  public static final String PARAM_EXAM_ID = ":examId";
 
   private final ExamService examService;
   private final ExerciseService exerciseService;
@@ -55,9 +56,10 @@ public class ExamController implements Controller {
    */
   public String displayExam(Request request, Response response)
       throws NotFoundException, AuthorizationException, IOException {
-    long examId = Long.valueOf(request.params(PARAM_EXAM_ID));
 
-    Map<String, Object> model = request.attribute(MODEL);
+    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
     model.put("maxPoints", exerciseService.getMaxPoints(examId));
     return engine.render(model, "examInformationTab.ftl");
@@ -73,7 +75,7 @@ public class ExamController implements Controller {
    * @return the rendered page content
    */
   public String listExams(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     return engine.render(model, "404.ftl");
   }
 
@@ -91,4 +93,18 @@ public class ExamController implements Controller {
     return null;
   }
 
+  /**
+   * Adds breadcurmb for `/exams`.
+   */
+  public void addBreadCrumb(Request request, Response response) {
+    RequestHelper.pushBreadCrumb(request, "Prüfungen", RouteBuilder.toExams());
+  }
+
+  /**
+   * Adds breadcurmb for `/exams/:examid`.
+   */
+  public void addSpecificBreadCrumb(Request request, Response response) {
+    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    RequestHelper.pushBreadCrumb(request, "Prüfung #" + examId, RouteBuilder.toExam(examId));
+  }
 }
