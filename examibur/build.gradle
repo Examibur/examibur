@@ -51,7 +51,7 @@ project.integrationTest {
   	
   	jacoco {
         append = false
-        destinationFile = file("$buildDir/jacoco/jacocoInt.exec")
+        destinationFile = file("jacoco/jacocoInt.exec")
     }
 }
 
@@ -62,7 +62,8 @@ jacocoTestReport{
         html.destination "${buildDir}/reports/jacoco/html"
     }
     sourceSets sourceSets.main
-    executionData = files("$buildDir/jacoco/jacocoInt.exec")
+    //executionData = files("$buildDir/jacoco/jacocoInt.exec")
+    executionData = files("jacoco/jacocoUi.exec", "jacoco/jacocoInt.exec")
 }
 
 

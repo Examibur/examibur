@@ -37,15 +37,15 @@ build:
       - examibur/build/libs/
 
 test:
-  image: java:8-jdk
+  image: docker:latest 
   stage: test
+  variables:
+    DOCKER_DRIVER: overlay
   script:
-    - cd examibur/
-    - ./gradlew check
-    - ./gradlew jacocoTestReport
+    - ./docker/testing/ci_runtests.sh
   artifacts:
     paths:
-      - examibur/build/reports/
+      - examibur/jacoco/
 
 report_sonar:
   image: java:8-jdk

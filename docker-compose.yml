@@ -19,7 +19,8 @@ services:
       - 8080:8080
       - 8000:8000
     volumes:
-      - ./examibur/webapps/:/usr/local/tomcat/webapps/
+      - ./examibur/webapps/:/usr/local/tomcat/webapps/:z
+      - ./examibur/jacoco/:/var/jacoco/:z
     environment:
       DB_HOST: "postgres"
       DB_USER: "examibur"
@@ -34,6 +35,6 @@ services:
     ports:
     - 4000:4000
     volumes:
-      - ./docs/:/src/
+      - ./docs/:/src/:Z
     command: jekyll serve -d public
 
