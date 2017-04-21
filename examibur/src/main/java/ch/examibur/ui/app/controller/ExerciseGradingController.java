@@ -18,9 +18,9 @@ public class ExerciseGradingController {
    * @return nothing to return
    */
   public String addExerciseGrading(Request request, Response response) {
-    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
-    long solutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long solutionId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
 
     response.redirect(RouteBuilder.toExerciseSolution(examId, participantId, solutionId));
     return null;

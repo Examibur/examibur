@@ -20,7 +20,8 @@ public final class RouteBuilder {
   }
 
   /**
-   * Returns the absolute url to the exam with the given id.
+   * Returns the absolute url to the exam with the given id. It is the responsibility of the caller
+   * to provide a valid id!
    */
   public static String toExam(long examId) {
     String url = Route.EXAM.url();
@@ -29,7 +30,8 @@ public final class RouteBuilder {
   }
 
   /**
-   * Returns the absolute url to all exercises of the given exam.
+   * Returns the absolute url to all exercises of the given exam. It is the responsibility of the
+   * caller to provide a valid id!
    */
   public static String toExercises(long examId) {
     String url = Route.EXERCISES.url();
@@ -38,7 +40,8 @@ public final class RouteBuilder {
   }
 
   /**
-   * Returns the absolute url to the exercise with the given id of the given exam.
+   * Returns the absolute url to the exercise with the given id of the given exam. It is the
+   * responsibility of the caller to provide a valid ids!
    */
   public static String toExercise(long examId, long exerciseId) {
     String url = Route.EXERCISE.url();
@@ -48,7 +51,8 @@ public final class RouteBuilder {
   }
 
   /**
-   * Returns the absolute url to all participants of the given exam.
+   * Returns the absolute url to all participants of the given exam. It is the responsibility of the
+   * caller to provide a valid ids!
    */
   public static String toExamParticipations(long examId) {
     String url = Route.PARTICIPANTS.url();
@@ -57,7 +61,8 @@ public final class RouteBuilder {
   }
 
   /**
-   * Returns the absolute url to the participants with the given id of the given exam.
+   * Returns the absolute url to the participants with the given id of the given exam. It is the
+   * responsibility of the caller to provide a valid ids!
    */
   public static String toExamParticipation(long examId, long participantId) {
     String url = Route.PARTICIPANT.url();
