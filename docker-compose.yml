@@ -19,7 +19,7 @@ services:
       - 8080:8080
       - 8000:8000
     volumes:
-      - ./examibur/webapps/:/usr/local/tomcat/webapps/:Z
+      - ./examibur/webapps/:/usr/local/tomcat/webapps/:z
     environment:
       DB_HOST: "postgres"
       DB_USER: "examibur"
