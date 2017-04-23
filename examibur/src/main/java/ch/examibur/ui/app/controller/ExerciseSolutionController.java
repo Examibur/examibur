@@ -79,14 +79,13 @@ public class ExerciseSolutionController implements Controller {
           .getExerciseSolutionIdFromNextParticipation(currentExerciseSolutionId);
 
       String target;
+      long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+      long participantId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
       if (nextExerciseSolutionId != 0) {
-        target = "/exams/" + request.params(UrlParameter.EXAM_ID.toUrl()) + "/participants/"
-            + request.params(UrlParameter.PARTICIPANT_ID.toUrl()) + "/solutions/"
-            + nextExerciseSolutionId + "/?" + QUERY_PARAM_VIEW_MODE + "="
-            + request.queryParams(QUERY_PARAM_VIEW_MODE);
+        target = RouteBuilder.toExerciseSolution(examId, participantId, nextExerciseSolutionId);
+        target += "?" + QUERY_PARAM_VIEW_MODE + "=" + request.queryParams(QUERY_PARAM_VIEW_MODE);
       } else {
-        target = "/exams/" + request.params(UrlParameter.EXAM_ID.toUrl()) + "/participants/"
-            + request.params(UrlParameter.PARTICIPANT_ID.toUrl()) + "/";
+        target = RouteBuilder.toExamParticipation(examId, participantId);
       }
       response.redirect(target, 302);
     }
