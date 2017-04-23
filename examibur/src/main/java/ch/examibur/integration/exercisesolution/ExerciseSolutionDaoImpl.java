@@ -3,6 +3,7 @@ package ch.examibur.integration.exercisesolution;
 import ch.examibur.domain.ExerciseSolution;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -24,6 +25,29 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
           ExerciseSolution.class);
       return exerciseSolutionQuery.setParameter("exerciseSolutionId", exerciseSolutionId)
           .getSingleResult();
+    } finally {
+      entityManager.close();
+    }
+  }
+
+  @Override
+  public long getExerciseSolutionIdFromNextParticipation(long currentExerciseSolutionId) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      TypedQuery<Long> nextExerciseSolutionIdQuery = entityManager.createQuery(
+          "SELECT e.id FROM ExerciseSolution e WHERE e.isDone = false AND e.exercise.id = ( "
+              + "SELECT e1.exercise.id FROM ExerciseSolution e1 WHERE e1.id = :currentExerciseSolutionId ) "
+              + "AND e.participation.id > ( "
+              + "SELECT e2.participation.id FROM ExerciseSolution e2 WHERE e2.id = :currentExerciseSolutionId ) "
+              + "ORDER BY e.id",
+          Long.class);
+      List<Long> resultList = nextExerciseSolutionIdQuery
+          .setParameter("currentExerciseSolutionId", currentExerciseSolutionId).getResultList();
+      if (!resultList.isEmpty()) {
+        return resultList.get(0);
+      } else {
+        return 0;
+      }
     } finally {
       entityManager.close();
     }

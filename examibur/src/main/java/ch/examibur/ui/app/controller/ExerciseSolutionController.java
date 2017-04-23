@@ -23,6 +23,10 @@ public class ExerciseSolutionController implements Controller {
   private final ExerciseSolutionService exerciseSolutionService;
   private final ExerciseGradingService exerciseGradingService;
 
+  public static final String QUERY_PARAM_QUERY_NEXT = "query-next-solution";
+  public static final String QUERY_PARAM_VIEW_MODE = "view-mode";
+  public static final String VIEW_MODE_BROWSE_PARTICIPATIONS = "browse-participations";
+
   /**
    * Constructor.
    * 
@@ -63,6 +67,29 @@ public class ExerciseSolutionController implements Controller {
 
     long exerciseSolutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
+
+    if (request.queryParams(QUERY_PARAM_VIEW_MODE) != null) {
+      model.put("viewmode", request.queryParams(QUERY_PARAM_VIEW_MODE));
+    }
+
+    if (request.queryParams(QUERY_PARAM_QUERY_NEXT) != null) {
+      long currentExerciseSolutionId = RoutingHelpers.getLongUrlParameter(request,
+          UrlParameter.SOLUTION_ID);
+      long nextExerciseSolutionId = exerciseSolutionService
+          .getExerciseSolutionIdFromNextParticipation(currentExerciseSolutionId);
+
+      String target;
+      if (nextExerciseSolutionId != 0) {
+        target = "/exams/" + request.params(UrlParameter.EXAM_ID.toUrl()) + "/participants/"
+            + request.params(UrlParameter.PARTICIPANT_ID.toUrl()) + "/solutions/"
+            + nextExerciseSolutionId + "/?" + QUERY_PARAM_VIEW_MODE + "="
+            + request.queryParams(QUERY_PARAM_VIEW_MODE);
+      } else {
+        target = "/exams/" + request.params(UrlParameter.EXAM_ID.toUrl()) + "/participants/"
+            + request.params(UrlParameter.PARTICIPANT_ID.toUrl()) + "/";
+      }
+      response.redirect(target, 302);
+    }
 
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
     model.put("grading", exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId));

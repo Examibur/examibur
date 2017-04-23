@@ -35,4 +35,22 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
     }
   }
 
+  @Override
+  public long getExerciseSolutionIdFromNextParticipation(long currentExerciseSolutionId)
+      throws NotFoundException {
+    ValidationHelper.checkForNegativeId(currentExerciseSolutionId, LOGGER);
+
+    LOGGER.info("Get ExerciseSolutionId from next Participation (current id {})",
+        currentExerciseSolutionId);
+    try {
+      return exerciseSolutionDao
+          .getExerciseSolutionIdFromNextParticipation(currentExerciseSolutionId);
+    } catch (NoResultException ex) {
+      NotFoundException notFoundException = new NotFoundException(
+          "ExerciseSolution with id " + currentExerciseSolutionId + " not found", ex);
+      LOGGER.error(notFoundException.getMessage(), notFoundException);
+      throw notFoundException;
+    }
+  }
+
 }

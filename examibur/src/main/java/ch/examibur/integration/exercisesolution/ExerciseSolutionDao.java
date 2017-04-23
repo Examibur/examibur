@@ -11,4 +11,13 @@ public interface ExerciseSolutionDao {
    * @return the {@link ExerciseSolution} with the given id.
    */
   ExerciseSolution getExerciseSolution(long exerciseSolutionId);
+
+  /**
+   * @param currentExerciseSolutionId
+   *          the id of the current exerciseSolution. If the record is not found, a
+   *          {@link NoResultException} is thrown.
+   * @return the exerciseSolutionId from the same exercise of the next participation ordered by the
+   *         examParticipationId. If the last exerciseSolution is reached, 0 will be returned.
+   */
+  long getExerciseSolutionIdFromNextParticipation(long currentExerciseSolutionId);
 }
