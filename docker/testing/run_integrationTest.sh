@@ -14,5 +14,5 @@ runuser -l examibur -c "export UI_TEST_URL=$UI_TEST_URL && \
                            export LOG_LEVEL=$LOG_LEVEL && 
                            export LOG_FILE=$LOG_FILE && \
                            export DISPLAY=:99 && cd /src/ && \
-                           ./gradlew clean integrationTest"
+                           /bin/bash ./gradlew clean integrationTest"
 
