@@ -37,7 +37,7 @@ build:
       - examibur/build/libs/
 
 test:
-  image: docker:latest 
+  image: tmaier/docker-compose
   stage: test
   services:
     - docker:dind
@@ -45,7 +45,8 @@ test:
     DOCKER_DRIVER: overlay
   script:
     - cp examibur/build/libs/*.war examibur/webapps/ROOT.war
-    - ./docker/testing/ci_runtests.sh
+    - apk add --no-cache bash
+    - /bin/bash docker/testing/ci_runtests.sh
   artifacts:
     paths:
       - examibur/jacoco/
