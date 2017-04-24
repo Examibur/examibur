@@ -49,6 +49,8 @@ test:
     - docker-compose up --build -d
     - cp -R /builds/engineering-projekt/examibur /workspace/
     - cd /workspace/
+    - mkdir /workspace/examibur/screenshots
+    - chown -R 1000:1000 /workspace/
     - /bin/bash ./run-integration.sh
     - docker-compose stop
     - docker-compose logs
