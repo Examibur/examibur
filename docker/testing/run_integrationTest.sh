@@ -6,6 +6,10 @@ Xvfb :99 -ac -screen 0 $XVFB_WHD -nolisten tcp & xvfb=$!
 
 export DISPLAY=:99
 
+
+echo "run ui tests in ubuntu container"
+ls -la /src
+
 chown examibur:examibur /src/screenshots
 runuser -l examibur -c "export UI_TEST_URL=$UI_TEST_URL && \
                            export DB_HOST=$DB_HOST && \

@@ -11,6 +11,10 @@ docker volume create --name examibur_int_userhome_gradle > /dev/null
 # Run the image
 REPO_BASE=$( cd "$( dirname "$0" )" && pwd )
 echo "Repo base: $REPO_BASE"
+
+echo "run ui_tests docker"
+ls -la $REPO_BASE
+ls -la $REPO_BASE/examibur
 docker run --rm -i \
     -v "${REPO_BASE}/examibur":/src/:z \
     -v "${REPO_BASE}/examibur/screenshots/":/src/screenshots:z \
