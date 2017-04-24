@@ -1,3 +1,4 @@
+#!/bin/bash
 XVFB_WHD=${XVFB_WHD:-5120x2880x16}
 
 # Start Xvfb

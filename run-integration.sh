@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Build the latest integration image...
 docker build -t examibur/ui_tests -f docker/testing/Dockerfile.integration docker/testing
 
