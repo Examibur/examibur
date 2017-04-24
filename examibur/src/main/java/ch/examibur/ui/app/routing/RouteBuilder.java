@@ -90,4 +90,12 @@ public final class RouteBuilder {
   private static String replace(String url, UrlParameter param, Object replacement) {
     return url.replaceFirst(param.toUrl(), replacement == null ? "" : replacement.toString());
   }
+
+  public static String addQueryParameter(String url, String key, String value) {
+    char delimiter = '?';
+    if (url.indexOf(delimiter) != -1) {
+      delimiter = '&';
+    }
+    return url + delimiter + key + "=" + value;
+  }
 }

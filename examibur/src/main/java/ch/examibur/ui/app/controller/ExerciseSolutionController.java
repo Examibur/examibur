@@ -14,6 +14,7 @@ import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Map;
+import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
 import spark.Response;
 
@@ -82,13 +83,14 @@ public class ExerciseSolutionController implements Controller {
       long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
       if (nextExerciseSolution != null) {
         long participantId = nextExerciseSolution.getParticipation().getId();
-        target = RouteBuilder.toExerciseSolution(examId, participantId,
-            nextExerciseSolution.getId());
-        target += "?" + QUERY_PARAM_BROWSE + "=" + request.queryParams(QUERY_PARAM_BROWSE);
+        long nextExerciseSolutionId = nextExerciseSolution.getId();
+        target = RouteBuilder.addQueryParameter(
+            RouteBuilder.toExerciseSolution(examId, participantId, nextExerciseSolutionId),
+            QUERY_PARAM_BROWSE, request.queryParams(QUERY_PARAM_BROWSE));
       } else {
         target = RouteBuilder.toExam(examId);
       }
-      response.redirect(target, 302);
+      response.redirect(target, HttpStatus.FOUND_302);
     }
 
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
