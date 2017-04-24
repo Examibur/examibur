@@ -8,7 +8,7 @@ docker volume create --name examibur_int_userhome_gradle > /dev/null
 
 # Run the image
 REPO_BASE=$( cd "$( dirname "$0" )" && pwd )
-docker run --rm -it \
+docker run --rm -i \
     -v "${REPO_BASE}/examibur":/src/:z \
     -v "${REPO_BASE}/examibur/screenshots/":/src/screenshots:z \
     -v examibur_int_userhome_gradle:/home/examibur/.gradle/ \
