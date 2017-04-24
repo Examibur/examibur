@@ -39,6 +39,8 @@ build:
 test:
   image: tmaier/docker-compose
   stage: test
+  variables:
+    DOCKER_DRIVER: overlay
   services:
     - docker:dind
   script:
