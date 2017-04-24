@@ -46,7 +46,9 @@ test:
   script:
     - cp examibur/build/libs/*.war examibur/webapps/ROOT.war
     - apk add --no-cache bash
-    - /bin/bash docker/testing/ci_runtests.sh
+    - docker-compose up --build -d
+    - /bin/bash ./run-integration.sh
+    - docker-compose stop
   artifacts:
     paths:
       - examibur/jacoco/
