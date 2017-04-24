@@ -15,9 +15,9 @@ echo "Repo base: $REPO_BASE"
 echo "run ui_tests docker"
 ls -la $REPO_BASE
 ls -la $REPO_BASE/examibur
+#    -v "${REPO_BASE}/examibur/screenshots/":/src/screenshots:z \
 docker run --rm -i \
     -v "${REPO_BASE}/examibur":/src/:z \
-#    -v "${REPO_BASE}/examibur/screenshots/":/src/screenshots:z \
     -v examibur_int_userhome_gradle:/home/examibur/.gradle/ \
     --net=host \
     -e UI_TEST_URL=http://localhost:8080/ \
