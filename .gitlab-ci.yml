@@ -37,12 +37,10 @@ build:
       - examibur/build/libs/
 
 test:
-  image: tmaier/docker-compose
+  image: docker:latest 
   stage: test
   services:
     - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay
   script:
     - cp examibur/build/libs/*.war examibur/webapps/ROOT.war
     - apk add --no-cache bash
