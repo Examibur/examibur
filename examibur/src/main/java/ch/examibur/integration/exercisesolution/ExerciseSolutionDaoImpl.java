@@ -31,22 +31,23 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
   }
 
   @Override
-  public long getExerciseSolutionIdFromNextParticipation(long currentExerciseSolutionId) {
+  public ExerciseSolution getExerciseSolutionFromNextParticipation(
+      long currentExerciseSolutionId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<Long> nextExerciseSolutionIdQuery = entityManager.createQuery(
-          "SELECT e.id FROM ExerciseSolution e WHERE e.isDone = false AND e.exercise.id = ( "
+      TypedQuery<ExerciseSolution> nextExerciseSolutionQuery = entityManager.createQuery(
+          "SELECT e FROM ExerciseSolution e WHERE e.isDone = false AND e.exercise.id = ( "
               + "SELECT e1.exercise.id FROM ExerciseSolution e1 WHERE e1.id = :currentExerciseSolutionId ) "
               + "AND e.participation.id > ( "
               + "SELECT e2.participation.id FROM ExerciseSolution e2 WHERE e2.id = :currentExerciseSolutionId ) "
               + "ORDER BY e.id",
-          Long.class);
-      List<Long> resultList = nextExerciseSolutionIdQuery
+          ExerciseSolution.class);
+      List<ExerciseSolution> resultList = nextExerciseSolutionQuery
           .setParameter("currentExerciseSolutionId", currentExerciseSolutionId).getResultList();
       if (!resultList.isEmpty()) {
         return resultList.get(0);
       } else {
-        return 0;
+        return null;
       }
     } finally {
       entityManager.close();

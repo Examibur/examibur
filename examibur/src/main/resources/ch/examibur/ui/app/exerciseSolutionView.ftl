@@ -7,12 +7,12 @@
 		<h2>Prüfung ${exerciseSolution.exercise.exam.id} - Aufgabe ${exerciseSolution.exercise.orderInExam}</h2>
 	</header>
 	
-	<#if viewmode??>
+	<#if browse??>
 	<div class="row">
 		<div class="pull-right">
 			<form method="get">
-				<input type="hidden" name="view-mode" value="${viewmode}">
-				<input type="hidden" name="query-next-solution">
+				<input type="hidden" name="browse" value="${browse}">
+				<input type="hidden" name="querynext">
 				<button type="submit" class="btn btn-primary">Nächste Aufgabe</button>
 			</form>
 		</div>

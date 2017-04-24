@@ -23,9 +23,9 @@ public class ExerciseSolutionController implements Controller {
   private final ExerciseSolutionService exerciseSolutionService;
   private final ExerciseGradingService exerciseGradingService;
 
-  public static final String QUERY_PARAM_QUERY_NEXT = "query-next-solution";
-  public static final String QUERY_PARAM_VIEW_MODE = "view-mode";
-  public static final String VIEW_MODE_BROWSE_PARTICIPATIONS = "browse-participations";
+  public static final String QUERY_PARAM_QUERY_NEXT = "querynext";
+  public static final String QUERY_PARAM_BROWSE = "browse";
+  public static final String BROWSE_PARTICIPATIONS = "participations";
 
   /**
    * Constructor.
@@ -68,24 +68,25 @@ public class ExerciseSolutionController implements Controller {
     long exerciseSolutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
 
-    if (request.queryParams(QUERY_PARAM_VIEW_MODE) != null) {
-      model.put("viewmode", request.queryParams(QUERY_PARAM_VIEW_MODE));
+    if (request.queryParams(QUERY_PARAM_BROWSE) != null) {
+      model.put("browse", request.queryParams(QUERY_PARAM_BROWSE));
     }
 
     if (request.queryParams(QUERY_PARAM_QUERY_NEXT) != null) {
       long currentExerciseSolutionId = RoutingHelpers.getLongUrlParameter(request,
           UrlParameter.SOLUTION_ID);
-      long nextExerciseSolutionId = exerciseSolutionService
-          .getExerciseSolutionIdFromNextParticipation(currentExerciseSolutionId);
+      ExerciseSolution nextExerciseSolution = exerciseSolutionService
+          .getExerciseSolutionFromNextParticipation(currentExerciseSolutionId);
 
       String target;
       long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
-      long participantId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
-      if (nextExerciseSolutionId != 0) {
-        target = RouteBuilder.toExerciseSolution(examId, participantId, nextExerciseSolutionId);
-        target += "?" + QUERY_PARAM_VIEW_MODE + "=" + request.queryParams(QUERY_PARAM_VIEW_MODE);
+      if (nextExerciseSolution != null) {
+        long participantId = nextExerciseSolution.getParticipation().getId();
+        target = RouteBuilder.toExerciseSolution(examId, participantId,
+            nextExerciseSolution.getId());
+        target += "?" + QUERY_PARAM_BROWSE + "=" + request.queryParams(QUERY_PARAM_BROWSE);
       } else {
-        target = RouteBuilder.toExamParticipation(examId, participantId);
+        target = RouteBuilder.toExam(examId);
       }
       response.redirect(target, 302);
     }

@@ -19,5 +19,5 @@ public interface ExerciseSolutionDao {
    * @return the exerciseSolutionId from the same exercise of the next participation ordered by the
    *         examParticipationId. If the last exerciseSolution is reached, 0 will be returned.
    */
-  long getExerciseSolutionIdFromNextParticipation(long currentExerciseSolutionId);
+  ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId);
 }
