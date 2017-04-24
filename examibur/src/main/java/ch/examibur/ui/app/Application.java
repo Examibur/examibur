@@ -4,8 +4,7 @@ import ch.examibur.business.BusinessEntrypoint;
 import ch.examibur.business.Entrypoint;
 import ch.examibur.ui.app.module.ControllerModule;
 import ch.examibur.ui.app.module.ServiceModule;
-import ch.examibur.ui.app.router.Router;
-
+import ch.examibur.ui.app.routing.Router;
 import com.google.inject.CreationException;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;

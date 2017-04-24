@@ -1,19 +1,24 @@
 package ch.examibur.ui.app.controller;
 
-import static ch.examibur.ui.app.filter.Filters.MODEL;
-
+import ch.examibur.business.exception.AuthorizationException;
+import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.exercisegrading.ExerciseGradingService;
 import ch.examibur.business.exercisesolution.ExerciseSolutionService;
-import ch.examibur.integration.SingleResultNotFoundException;
+import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.ui.app.routing.RouteBuilder;
+import ch.examibur.ui.app.routing.RoutingHelpers;
+import ch.examibur.ui.app.routing.UrlParameter;
 import ch.examibur.ui.app.util.Renderer;
+import ch.examibur.ui.app.util.RequestAttributes;
+import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
 
 public class ExerciseSolutionController implements Controller {
 
-  public static final String PARAM_SOLUTION_ID = ":solutionId";
   private final Renderer engine;
   private final ExerciseSolutionService exerciseSolutionService;
   private final ExerciseGradingService exerciseGradingService;
@@ -45,12 +50,20 @@ public class ExerciseSolutionController implements Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
-   * @throws SingleResultNotFoundException
-   *           when the exerciseSolution is not found
+   * @throws NotFoundException
+   *           if the exerciseSolution is not found
+   * @throws AuthorizationException
+   *           if the user is not authorized to display this {@link ExerciseSolution}
+   * @throws IOException
+   *           if an exception during the communication occurs
+   * 
    */
-  public String displayExerciseSolution(Request request, Response response) {
-    long exerciseSolutionId = Long.parseLong(request.params(PARAM_SOLUTION_ID));
-    Map<String, Object> model = request.attribute(MODEL);
+  public String displayExerciseSolution(Request request, Response response)
+      throws NotFoundException, AuthorizationException, IOException {
+
+    long exerciseSolutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
+
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
     model.put("grading", exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId));
     model.put("review", exerciseGradingService.getReviewForExerciseSolution(exerciseSolutionId));
@@ -67,8 +80,31 @@ public class ExerciseSolutionController implements Controller {
    * @return the rendered page content
    */
   public String listExerciseSolutions(Request request, Response response) {
-    Map<String, Object> model = request.attribute(MODEL);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     return engine.render(model, "404.ftl");
+  }
+
+  /**
+   * Adds breadcurmb for `solutions/`.
+   */
+  public void addBreadCrumb(Request request, Response response) {
+    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+
+    RequestHelper.pushBreadCrumb(request, "Aufgabenlösungen",
+        RouteBuilder.toExerciseSolutions(examId, participantId));
+  }
+
+  /**
+   * Adds breadcurmb for `solutions/:solutionsId`.
+   */
+  public void addSpecificBreadCrumb(Request request, Response response) {
+    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long solutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+
+    RequestHelper.pushBreadCrumb(request, "Aufgabenlösung #" + solutionId,
+        RouteBuilder.toExerciseSolution(examId, participantId, solutionId));
   }
 
 }

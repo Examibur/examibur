@@ -2,9 +2,13 @@
 
 <#macro body_header_navigation>
 	<ol class="breadcrumb">
-		<li><a href="/">Dashboard</a></li>
-		<li><a href="/exams/1/participants/1">Abschlussprüfung SE2 FS2017</a></li>
-		<li class="active">Anonymes Känguru</li>
+	<#list breadcrumb as crumb>
+	<#if crumb?index == breadcrumb?size - 1>
+	    <li class="active">${crumb.title}</li>
+	<#else>
+		<li><a href="${crumb.location}">${crumb.title}</a></li>
+	</#if>
+	</#list>
 	</ol>
 </#macro>
 
