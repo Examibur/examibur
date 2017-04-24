@@ -31,19 +31,21 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
   }
 
   @Override
-  public ExerciseSolution getExerciseSolutionFromNextParticipation(
-      long currentExerciseSolutionId) {
+  public ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId) {
+    // check if ExerciseSolution exists, throws a NoResultException if it doesn't.
+    ExerciseSolution currentExerciseSolution = getExerciseSolution(currentExerciseSolutionId);
+
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<ExerciseSolution> nextExerciseSolutionQuery = entityManager.createQuery(
-          "SELECT e FROM ExerciseSolution e WHERE e.isDone = false AND e.exercise.id = ( "
-              + "SELECT e1.exercise.id FROM ExerciseSolution e1 WHERE e1.id = :currentExerciseSolutionId ) "
-              + "AND e.participation.id > ( "
-              + "SELECT e2.participation.id FROM ExerciseSolution e2 WHERE e2.id = :currentExerciseSolutionId ) "
-              + "ORDER BY e.id",
-          ExerciseSolution.class);
+      TypedQuery<ExerciseSolution> nextExerciseSolutionQuery = entityManager
+          .createQuery(
+              "SELECT e FROM ExerciseSolution e WHERE e.isDone = false AND e.exercise.id = :exerciseId "
+                  + "AND e.participation.id > :participationId ORDER BY e.id",
+              ExerciseSolution.class);
       List<ExerciseSolution> resultList = nextExerciseSolutionQuery
-          .setParameter("currentExerciseSolutionId", currentExerciseSolutionId).getResultList();
+          .setParameter("exerciseId", currentExerciseSolution.getExercise().getId())
+          .setParameter("participationId", currentExerciseSolution.getParticipation().getId())
+          .getResultList();
       if (!resultList.isEmpty()) {
         return resultList.get(0);
       } else {
