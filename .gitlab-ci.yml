@@ -47,6 +47,8 @@ test:
     - cp examibur/build/libs/*.war examibur/webapps/ROOT.war
     - apk add --no-cache bash
     - docker-compose up --build -d
+    - cp -R /builds/engineering-projekt/examibur /workspace/
+    - cd /workspace/
     - /bin/bash ./run-integration.sh
     - docker-compose stop
     - docker-compose logs
