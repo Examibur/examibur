@@ -37,7 +37,7 @@ build:
       - examibur/build/libs/
 
 test:
-  image: docker:latest 
+  image: tmaier/docker-compose
   stage: test
   services:
     - docker:dind
