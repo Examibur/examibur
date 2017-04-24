@@ -49,6 +49,7 @@ test:
     - docker-compose up --build -d
     - /bin/bash ./run-integration.sh
     - docker-compose stop
+    - docker-compose logs
   artifacts:
     paths:
       - examibur/jacoco/
