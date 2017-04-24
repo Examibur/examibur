@@ -85,41 +85,6 @@ Das OR-Mapping von der Datenbank zu den Java-Objekten wird anhand des [Datenmode
 ### Logging-, Error- und Exception-Handling
 Das Logging-, Error- und Exception-Handling ist im Kapitel [Error-Handling Policy](../projektplan/error-handling-policy.html) genauer beschrieben.
 
-### Frontend Framework
-Für das Frontend wurden die Frameworks *Spring Boot*, *Play* und *Spark* in Betracht gezogen. Nachfolgend werden einige Vor- und Nachteile der einzelnen Frameworks, bezogen auf unser Projekt, aufgelistet. Anschliessend wird ein Framework für unser Projekt ausgewählt.
-
-#### Spring Boot
- Vorteile                               | Nachteile
-----------------------------------------|--------------------------------
- Etabliertes Framework für Web-Projekte | Sehr umfangreich und komplex
- Viele Funktionen out-of-the-box oder gut integriert mit anderen Lösungen | Niemand vom Projektteam hat Erfahrung mit Spring
- Mit Spring Boot Starters schnell up-and-running | Dadurch aber nur schwer durchschaubar (Convention over Configuration)
-  Grosse Community |
-
-#### Play Framework
-Vorteile                                | Nachteile
-----------------------------------------|--------------------------------
-Schlanker als Spring | Stark auf Scala konzipiert
-Grosse und stetig wachsende Community | Niemand vom Projektteam hat Erfahrung mit Play
-- | Wenig unterstützung für weitere Funktionalität, z.B. LDAP Integration
-
-#### Spark
-Vorteile                                | Nachteile
-----------------------------------------|--------------------------------
-Sehr schlankes Framework | Wenig Funktionalität out-of-the-box
-Einfach zu verstehende Konzepte | Für Testing, Template-Engine usw. müssen weitere Frameworks benutzt werden
-Unterstützung für viele andere Frameworks | Architektur muss selbst sauber aufgebaut werden
-
-#### Entscheid
-Aufgrund der Einfachheit und der Möglichkeit, sich schnell in das Framework einarbeiten zu können, haben wir uns für **Spark** entschieden. Für unsere Anforderungen genügt ein schlankes Framework, das wir mit u.a. Testing-Frameworks und OR-Mapper beliebig erweitern können.
-
-Als Einschränkung soll beachtet werden, dass z.B. die Routes und Controller in der Dokumentation von Spark nicht sauber getrennt sind. Diese Trennung muss selbst realisiert werden und ist wichtig für den Aufbau der Architektur.
-
-### Template-Engine
-Für die Seitenbeschreibung wird das Konzept der Templates von Freemarker verwendet. Es gibt ein Basis-Template, welches das Layout und die Strukturierung vorgibt. Alle Seiten der Applikation bauen auf diesem Basis-Template auf. Dadurch ist gewährleistet, dass alle Seiten mit der gleichen Struktur und einheitlichem Aussehen daher kommen.
-
-Zur Auswahl standen [Velocity](http://velocity.apache.org/) und [Freemarker](http://freemarker.org/), welche beide von Spark empfohlen werden.
-Der Entscheid fiel auf Freemarker, weil Velocity seit 2010 keine neue Version nachgeliefert hat und wir so davon ausgehen, dass es in naher Zukunft eingestellt werden könnte.
 
 ## Design der Programmkonstrukte
 
@@ -162,18 +127,6 @@ Das applikationsspezifische Styling von Examibur wird im separaten CSS-Dokument 
 
 Um das User-Feeling zu verbessern, wird teilweise Javascript verwendet.
 
-#### Utilities
-
-Im Package "util" sind Klassen abgelegt, die verschiedene Funktionalität abdecken. Nachfolgend sind die verwendeten Funktionalitäten aufgeführt:
-> TODO hier laufend UTIL-Klassen kurz beschreiben
-
-  * **TemplateUtil** enthält Methoden, um die Templates zu rendern
-  * **DateUtil** enthält Methoden für die Formatierung von Datumswerten
-  * **FormatUtil** enthält allgemeine Formatierungsmethoden
-  * **MessageUtil** enthält Methoden für das Laden von sprachabhängigen Texten
-
-Die sprachabhängigen Texte sind in den Language-Files unter `src/main/resources` abelegt. Pro Sprache wird eine Datei abgelegt.
-
 ### Programmkonstrukt Business-Schicht
 In der Business-Schicht ist die Geschäftslogik gekapselt.
 
@@ -195,6 +148,8 @@ In diesem Kapitel wird das Zusammenspiel der einzelnen Programmkonstrukte beschr
 Zur Veranschaulichung des Zusammenspiels der Programmkonstrukte wird der Use Case "UC002 Prüfung öffnen" in einem Sequenzdiagram dargestellt.
 
 ![](resources/softwareArchitektur/zusammenspielProgrammkonstrukte.svg)
+
+Um eine möglichst lose Kopplung und hohe Kohäsion in Partitionen zu erreichen wird [Google Guice](https://github.com/google/guice) eingesetzt.
 
 ### Zugehörigkeit der Objekte zu den Schichten:
 #### UI-Schicht
