@@ -29,7 +29,6 @@ public class ExerciseSolutionServiceImplTest {
   public void testGetExerciseSolutionWithNonexistentId()
       throws NotFoundException, AuthorizationException, IOException {
     exerciseSolutionService.getExerciseSolution(0);
-    Assert.fail();
   }
 
   @Test
@@ -52,7 +51,6 @@ public class ExerciseSolutionServiceImplTest {
   public void testGetExerciseSolutionFromNextParticipationWithNonexistentId()
       throws NotFoundException, AuthorizationException, IOException {
     exerciseSolutionService.getExerciseSolutionFromNextParticipation(0);
-    Assert.fail();
   }
 
 }
