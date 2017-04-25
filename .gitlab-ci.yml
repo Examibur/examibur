@@ -62,7 +62,7 @@ test:
     - cd examibur && ./gradlew clean integrationTest
   artifacts:
     paths:
-      - examibur/jacoco/
+      - examibur/jacoco/jacocoInt.exec
 
 after_test:
   image: tmaier/docker-compose
@@ -76,6 +76,9 @@ after_test:
     - docker-compose kill tomcat postgres
     - docker-compose rm -f tomcat postgres
   when: always
+  artifacts:
+    paths:
+      - examibur/jacoco/jacocoUi.exec
 
 report_sonar:
   image: java:8-jdk
