@@ -25,7 +25,7 @@ public class ExerciseDaoImpl implements ExerciseDao {
       examQuery.setParameter("examId", examId).getSingleResult();
 
       TypedQuery<Double> maxPointsQuery = entityManager.createQuery(
-          "SELECT COALESCE(SUM(e.maxPoints), 0) " + "FROM Exercise e WHERE e.exam.id = :examId",
+          "SELECT COALESCE(SUM(e.maxPoints), 0) FROM Exercise e WHERE e.exam.id = :examId",
           Double.class);
       return maxPointsQuery.setParameter("examId", examId).getSingleResult();
     } finally {
