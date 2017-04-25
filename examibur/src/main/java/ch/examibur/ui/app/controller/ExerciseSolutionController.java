@@ -69,15 +69,9 @@ public class ExerciseSolutionController implements Controller {
     long exerciseSolutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
 
-    if (request.queryParams(QUERY_PARAM_BROWSE) != null) {
-      model.put("browse", request.queryParams(QUERY_PARAM_BROWSE));
-    }
-
     if (request.queryParams(QUERY_PARAM_QUERY_NEXT) != null) {
-      long currentExerciseSolutionId = RoutingHelpers.getLongUrlParameter(request,
-          UrlParameter.SOLUTION_ID);
       ExerciseSolution nextExerciseSolution = exerciseSolutionService
-          .getExerciseSolutionFromNextParticipation(currentExerciseSolutionId);
+          .getExerciseSolutionFromNextParticipation(exerciseSolutionId);
 
       String target;
       long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
@@ -91,6 +85,10 @@ public class ExerciseSolutionController implements Controller {
         target = RouteBuilder.toExam(examId);
       }
       response.redirect(target, HttpStatus.FOUND_302);
+    }
+
+    if (request.queryParams(QUERY_PARAM_BROWSE) != null) {
+      model.put("browse", request.queryParams(QUERY_PARAM_BROWSE));
     }
 
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
