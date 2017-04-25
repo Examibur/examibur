@@ -59,7 +59,7 @@ test:
     LOG_LEVEL: INFO
     LOG_FILE: examibur.log
   script:
-    - ./gradlew clean integrationTest
+    - cd examibur && ./gradlew clean integrationTest
   artifacts:
     paths:
       - examibur/jacoco/
