@@ -33,7 +33,7 @@ public class ExamParticipationController implements Controller {
    *          the service to access exam participations
    */
   @Inject
-  public ExamParticipationController(Renderer engine, ExamService examService, 
+  public ExamParticipationController(Renderer engine, ExamService examService,
       ExamParticipationService examParticipationService) {
     this.engine = engine;
     this.examService = examService;
@@ -69,7 +69,8 @@ public class ExamParticipationController implements Controller {
    * @throws NotFoundException
    *           if the exam is not found
    */
-  public String listExamParticipations(Request request, Response response) throws NotFoundException, AuthorizationException, IOException {
+  public String listExamParticipations(Request request, Response response)
+      throws NotFoundException, AuthorizationException, IOException {
     long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
@@ -94,7 +95,7 @@ public class ExamParticipationController implements Controller {
     long participantId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
 
     RequestHelper.pushBreadCrumb(request, "Teilnehmer #" + participantId,
-    RouteBuilder.toExamParticipation(examId, participantId));
+        RouteBuilder.toExamParticipation(examId, participantId));
   }
 
 }
