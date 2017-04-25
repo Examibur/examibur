@@ -42,15 +42,15 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
               "SELECT e FROM ExerciseSolution e WHERE e.isDone = false AND e.exercise.id = :exerciseId "
                   + "AND e.participation.id > :participationId ORDER BY e.id",
               ExerciseSolution.class);
+      // can't use getSingleResult() because null should also be possible
       List<ExerciseSolution> resultList = nextExerciseSolutionQuery
           .setParameter("exerciseId", currentExerciseSolution.getExercise().getId())
           .setParameter("participationId", currentExerciseSolution.getParticipation().getId())
-          .getResultList();
+          .setMaxResults(1).getResultList();
       if (!resultList.isEmpty()) {
         return resultList.get(0);
-      } else {
-        return null;
       }
+      return null;
     } finally {
       entityManager.close();
     }
