@@ -1,6 +1,6 @@
 package ch.examibur.business.exercise;
 
-import ch.examibur.business.exception.AuthorizationException;
+import ch.examibur.business.exception.ExamiburException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.integration.exercise.ExerciseDao;
@@ -21,7 +21,7 @@ public class ExerciseServiceImpl implements ExerciseService {
   }
 
   @Override
-  public double getMaxPoints(long examId) throws NotFoundException, AuthorizationException {
+  public double getMaxPoints(long examId) throws ExamiburException {
     ValidationHelper.checkForNegativeId(examId, LOGGER);
 
     try {

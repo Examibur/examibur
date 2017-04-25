@@ -1,6 +1,7 @@
 package ch.examibur.ui.app.controller;
 
 import ch.examibur.business.exception.AuthorizationException;
+import ch.examibur.business.exception.ExamiburException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.exercisegrading.ExerciseGradingService;
 import ch.examibur.business.exercisesolution.ExerciseSolutionService;
@@ -59,7 +60,7 @@ public class ExerciseSolutionController implements Controller {
    * 
    */
   public String displayExerciseSolution(Request request, Response response)
-      throws NotFoundException, AuthorizationException, IOException {
+      throws ExamiburException {
 
     long exerciseSolutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);

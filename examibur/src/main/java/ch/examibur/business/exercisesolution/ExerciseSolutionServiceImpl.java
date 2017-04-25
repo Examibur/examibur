@@ -1,5 +1,6 @@
 package ch.examibur.business.exercisesolution;
 
+import ch.examibur.business.exception.ExamiburException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.ExerciseSolution;
@@ -21,7 +22,7 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
   }
 
   @Override
-  public ExerciseSolution getExerciseSolution(long exerciseSolutionId) throws NotFoundException {
+  public ExerciseSolution getExerciseSolution(long exerciseSolutionId) throws ExamiburException {
     ValidationHelper.checkForNegativeId(exerciseSolutionId, LOGGER);
 
     LOGGER.info("Get ExerciseSolution with id {}", exerciseSolutionId);

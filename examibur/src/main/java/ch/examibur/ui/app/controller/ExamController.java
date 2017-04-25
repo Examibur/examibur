@@ -2,6 +2,7 @@ package ch.examibur.ui.app.controller;
 
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.business.exception.AuthorizationException;
+import ch.examibur.business.exception.ExamiburException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.exercise.ExerciseService;
 import ch.examibur.ui.app.routing.RouteBuilder;
@@ -54,8 +55,7 @@ public class ExamController implements Controller {
    * @throws IOException
    *           if an exception during the communication occurs
    */
-  public String displayExam(Request request, Response response)
-      throws NotFoundException, AuthorizationException, IOException {
+  public String displayExam(Request request, Response response) throws ExamiburException {
 
     long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
 
