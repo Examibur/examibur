@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - report
   - docs
   - deploy
 
@@ -81,9 +82,18 @@ after_test:
     paths:
       - examibur/jacoco/jacocoUi.exec
 
+jacoco:
+  image: java:8-jdk
+  stage: report
+  script:
+    - cd examibur && ./gradlew jacocoTestReport
+  artifacts:
+    paths:
+      - examibur/build/reports/jacoco/
+
 report_sonar:
   image: java:8-jdk
-  stage: test
+  stage: report
   script:
     - cd examibur/
     - ./gradlew sonarqube -Dsonar.login=$SONARQUBE_TOKEN
