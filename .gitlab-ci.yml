@@ -73,6 +73,7 @@ after_test:
     - docker:dind
   script:
     - docker-compose stop tomcat postgres
+    - docker cp examibur_tomcat_1:/var/jacoco/jacocoUi.exec examibur/jacoco/jacocoUi.exec
     - docker-compose kill tomcat postgres
     - docker-compose rm -f tomcat postgres
   when: always
