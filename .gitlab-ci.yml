@@ -36,8 +36,8 @@ build:
     paths:
       - examibur/build/libs/
 
-setup_tests:
-  image: docker
+before_test:
+  image: tmaier/docker-compose
   stage: test
   variables:
     DOCKER_DRIVER: overlay
@@ -55,7 +55,7 @@ test:
     UI_TEST_URL: http://tomcat:8080/
     DB_HOST: postgres
     DB_USER: examibur
-    DB_PASSWORD: examibur
+    DB_PASSWORD: "m4U6ctWpEZE801T"
     LOG_LEVEL: INFO
     LOG_FILE: examibur.log
   script:
@@ -64,8 +64,8 @@ test:
     paths:
       - examibur/jacoco/
 
-cleanup_test:
-  image: docker
+after_test:
+  image: tmaier/docker-compose
   stage: test
   variables:
     DOCKER_DRIVER: overlay
