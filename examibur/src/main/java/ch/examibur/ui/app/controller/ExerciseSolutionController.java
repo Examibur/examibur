@@ -65,28 +65,13 @@ public class ExerciseSolutionController implements Controller {
    */
   public String displayExerciseSolution(Request request, Response response)
       throws NotFoundException, AuthorizationException, IOException {
-
     long exerciseSolutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
 
     if (request.queryParams(QUERY_PARAM_QUERY_NEXT) != null) {
-      ExerciseSolution nextExerciseSolution = exerciseSolutionService
-          .getExerciseSolutionFromNextParticipation(exerciseSolutionId);
-
-      String target;
-      long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
-      if (nextExerciseSolution != null) {
-        long participantId = nextExerciseSolution.getParticipation().getId();
-        long nextExerciseSolutionId = nextExerciseSolution.getId();
-        target = RouteBuilder.addQueryParameter(
-            RouteBuilder.toExerciseSolution(examId, participantId, nextExerciseSolutionId),
-            QUERY_PARAM_BROWSE, request.queryParams(QUERY_PARAM_BROWSE));
-      } else {
-        target = RouteBuilder.toExam(examId);
-      }
-      response.redirect(target, HttpStatus.FOUND_302);
+      redirectToNextExerciseSolution(request, response);
+      return null;
     }
-
     if (request.queryParams(QUERY_PARAM_BROWSE) != null) {
       model.put("browse", request.queryParams(QUERY_PARAM_BROWSE));
     }
@@ -95,6 +80,26 @@ public class ExerciseSolutionController implements Controller {
     model.put("grading", exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId));
     model.put("review", exerciseGradingService.getReviewForExerciseSolution(exerciseSolutionId));
     return engine.render(model, "exerciseSolutionView.ftl");
+  }
+
+  private void redirectToNextExerciseSolution(Request request, Response response)
+      throws NotFoundException, AuthorizationException, IOException {
+    long exerciseSolutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+    ExerciseSolution nextExerciseSolution = exerciseSolutionService
+        .getExerciseSolutionFromNextParticipation(exerciseSolutionId);
+
+    String target;
+    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    if (nextExerciseSolution != null) {
+      long participantId = nextExerciseSolution.getParticipation().getId();
+      long nextExerciseSolutionId = nextExerciseSolution.getId();
+      target = RouteBuilder.addQueryParameter(
+          RouteBuilder.toExerciseSolution(examId, participantId, nextExerciseSolutionId),
+          QUERY_PARAM_BROWSE, request.queryParams(QUERY_PARAM_BROWSE));
+    } else {
+      target = RouteBuilder.toExam(examId);
+    }
+    response.redirect(target, HttpStatus.FOUND_302);
   }
 
   /**
