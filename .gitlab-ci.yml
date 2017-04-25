@@ -36,27 +36,46 @@ build:
     paths:
       - examibur/build/libs/
 
-test:
-  image: tmaier/docker-compose
+setup_tests:
+  image: docker
   stage: test
   variables:
     DOCKER_DRIVER: overlay
   services:
     - docker:dind
   script:
-    - cp examibur/build/libs/*.war examibur/webapps/ROOT.war
-    - apk add --no-cache bash
-    - docker-compose up --build -d tomcat postgres
-    - cp -R /builds/engineering-projekt/examibur /workspace/
-    - cd /workspace/
-    - mkdir /workspace/examibur/screenshots
-    - chown -R 1000:1000 /workspace/
-    - /bin/bash ./run-integration.sh
-    - docker-compose down
-    - docker-compose logs
+    - docker-compose rm -f tomcat postgres
+    - docker-compose up -d tomcat postgres
+    - sleep 15
+
+test:
+  image: java:8-jdk
+  stage: test
+  variables:
+    UI_TEST_URL: http://tomcat:8080/
+    DB_HOST: postgres
+    DB_USER: examibur
+    DB_PASSWORD: examibur
+    LOG_LEVEL: INFO
+    LOG_FILE: examibur.log
+  script:
+    - ./gradlew clean integrationTest
   artifacts:
     paths:
       - examibur/jacoco/
+
+cleanup_test:
+  image: docker
+  stage: test
+  variables:
+    DOCKER_DRIVER: overlay
+  services:
+    - docker:dind
+  script:
+    - docker-compose stop tomcat postgres
+    - docker-compose kill tomcat postgres
+    - docker-compose rm -f tomcat postgres
+  when: always
 
 report_sonar:
   image: java:8-jdk

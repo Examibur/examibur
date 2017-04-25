@@ -8,6 +8,8 @@ services:
     environment:
       POSTGRES_PASSWORD: "m4U6ctWpEZE801T"
       POSTGRES_USER: "examibur"
+    networks:
+      - examibur
   tomcat:
     build:
       dockerfile: ./Dockerfile.tomcat-dev
@@ -27,6 +29,8 @@ services:
       DB_PASSWORD: "m4U6ctWpEZE801T"
       LOG_LEVEL: "debug"
       LOG_FILE: "/usr/local/tomcat/logs/examibur.log"
+    networks:
+      - examibur
   website:
     user: jekyll
     build:
@@ -38,3 +42,5 @@ services:
       - ./docs/:/src/:Z
     command: jekyll serve -d public
 
+networks:
+  examibur:
