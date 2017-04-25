@@ -1,6 +1,6 @@
 package ch.examibur.business.examparticipation;
 
-import ch.examibur.ui.app.model.ExamParticipantOverview;
+import ch.examibur.business.model.ExamParticipantOverview;
 import java.util.List;
 
 @FunctionalInterface

@@ -3,7 +3,7 @@ package ch.examibur.business.examparticipation;
 import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
 
 import ch.examibur.business.DatabaseResource;
-import ch.examibur.ui.app.model.ExamParticipantOverview;
+import ch.examibur.business.model.ExamParticipantOverview;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.ClassRule;

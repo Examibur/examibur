@@ -1,4 +1,4 @@
-package ch.examibur.ui.app.model;
+package ch.examibur.business.model;
 
 import ch.examibur.domain.ExamParticipation;
 import java.text.DecimalFormat;

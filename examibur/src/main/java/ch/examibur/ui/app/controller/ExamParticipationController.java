@@ -18,8 +18,6 @@ import spark.Response;
 
 public class ExamParticipationController implements Controller {
 
-  public static final String PARAM_PARTICIPANT_ID = ":participantId";
-
   private final ExamService examService;
   private final ExamParticipationService examParticipationService;
   private final Renderer engine;
@@ -81,7 +79,7 @@ public class ExamParticipationController implements Controller {
   }
 
   /**
-   * Adds breadcurmb for `exercises/`.
+   * Adds breadcrumb for `exercises/`.
    */
   public void addBreadCrumb(Request request, Response response) {
     long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
@@ -89,7 +87,7 @@ public class ExamParticipationController implements Controller {
   }
 
   /**
-   * Adds breadcurmb for `exercises/:exerciseId`.
+   * Adds breadcrumb for `exercises/:exerciseId`.
    */
   public void addSpecificBreadCrumb(Request request, Response response) {
     long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
