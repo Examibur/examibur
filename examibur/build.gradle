@@ -35,13 +35,16 @@ dependencies {
 
 }
 
+
 testSets {
     integrationTest { dirName = 'integrationtest' }
+    uiTest { dirName = 'integrationtest' }
 }
 
-
 project.integrationTest {
-     
+
+    exclude "ch/examibur/ui/app/**"
+
     beforeTest { descriptor ->
         logger.lifecycle("Running integration test: " + descriptor)
     }
@@ -49,6 +52,15 @@ project.integrationTest {
     jacoco {
         append = false
         destinationFile = file("jacoco/jacocoInt.exec")
+    }
+}
+
+project.uiTest {
+
+    include "ch/examibur/ui/app/**"
+
+    beforeTest { descriptor ->
+        logger.lifecycle("Running UI test: " + descriptor)
     }
 }
 
