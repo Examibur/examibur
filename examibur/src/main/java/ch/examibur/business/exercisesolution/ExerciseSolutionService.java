@@ -20,4 +20,19 @@ public interface ExerciseSolutionService {
    *           during the communication occurs.
    */
   ExerciseSolution getExerciseSolution(long exerciseSolutionId) throws ExamiburException;
+
+  /**
+   * @param currentExerciseSolutionId
+   *          the id of the current exercisesolution.
+   * @return the exerciseSolution from the same exercise of the next participation ordered by the
+   *         id. If the last exerciseSolution is reached, null will be returned.
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if the id is < 0. throws
+   *           {@link NotFoundException} if the {@link ExerciseSolution} with the given id is not
+   *           found. throws {@link AuthorizationException} if the user is not authorized to access
+   *           this {@link ExerciseSolution}. throws {@link CommunicationException} if an exception
+   *           during the communication occurs.
+   */
+  ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId)
+      throws ExamiburException;
 }
