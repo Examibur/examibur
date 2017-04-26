@@ -3,11 +3,14 @@ package ch.examibur.business.exercise;
 import ch.examibur.business.exception.ExamiburException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.util.ValidationHelper;
+import ch.examibur.domain.Exercise;
 import ch.examibur.integration.exercise.ExerciseDao;
+
 import com.google.inject.Inject;
 import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.List;
 
 public class ExerciseServiceImpl implements ExerciseService {
 
@@ -32,6 +35,11 @@ public class ExerciseServiceImpl implements ExerciseService {
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
     }
+  }
+
+  @Override
+  public List<Exercise> getExercises(long examId) {
+    return exerciseDao.getExercises(examId);
   }
 
 }

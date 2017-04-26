@@ -6,6 +6,8 @@ import ch.examibur.business.exception.ExamiburException;
 import ch.examibur.business.exception.InvalidParameterException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.domain.Exam;
+import ch.examibur.domain.Exercise;
+import java.util.List;
 
 public interface ExerciseService {
 
@@ -20,5 +22,7 @@ public interface ExerciseService {
    *           {@link CommunicationException} if an exception during the communication occurs.
    */
   public double getMaxPoints(long examId) throws ExamiburException;
+
+  public List<Exercise> getExercises(long examId);
 
 }
