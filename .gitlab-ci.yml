@@ -1,6 +1,8 @@
 stages:
   - build
+  - test_setup
   - test
+  - test_teardown
   - report
   - docs
   - deploy
@@ -39,7 +41,7 @@ build:
 
 before_test:
   image: tmaier/docker-compose
-  stage: test
+  stage: test_setup
   variables:
     DOCKER_DRIVER: overlay
   services:
@@ -67,7 +69,7 @@ test:
 
 after_test:
   image: tmaier/docker-compose
-  stage: test
+  stage: test_teardown
   variables:
     DOCKER_DRIVER: overlay
   services:
