@@ -28,11 +28,11 @@ public class ExerciseSolutionServiceImplTest {
     Assert.assertNotNull(exerciseSolution.getParticipantSolution());
     Assert.assertNotNull(exerciseSolution.getExercise());
 
-    Assert.assertEquals(exerciseSolution.getId(), 1L);
-    Assert.assertEquals(exerciseSolution.isDone(), true);
-    Assert.assertEquals(exerciseSolution.getExercise().getId(), 1);
-    Assert.assertEquals(exerciseSolution.getParticipation().getId(), 1);
-    Assert.assertEquals(exerciseSolution.getParticipantSolution().getId(), 19);
+    Assert.assertEquals(1L, exerciseSolution.getId());
+    Assert.assertEquals(true, exerciseSolution.isDone());
+    Assert.assertEquals(1L, exerciseSolution.getExercise().getId());
+    Assert.assertEquals(1L, exerciseSolution.getParticipation().getId());
+    Assert.assertEquals(19L, exerciseSolution.getParticipantSolution().getId());
 
   }
 
@@ -40,13 +40,11 @@ public class ExerciseSolutionServiceImplTest {
   public void testGetExerciseSolutionWithNegativeId()
       throws NotFoundException, AuthorizationException, IOException {
     exerciseSolutionService.getExerciseSolution(-1L);
-    Assert.fail();
   }
 
   @Test(expected = NotFoundException.class)
   public void testGetExerciseSolutionWithNonexistentId()
       throws NotFoundException, AuthorizationException, IOException {
     exerciseSolutionService.getExerciseSolution(1000L);
-    Assert.fail();
   }
 }

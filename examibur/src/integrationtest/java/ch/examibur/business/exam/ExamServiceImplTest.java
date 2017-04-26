@@ -48,7 +48,6 @@ public class ExamServiceImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testGetExamsForNegativeAuthorId() throws AuthorizationException, IOException {
     examService.getExamsForAuthor(-1L);
-    Assert.fail();
   }
 
   @Test
@@ -61,16 +60,16 @@ public class ExamServiceImplTest {
     Assert.assertNotNull(exam.getAllowedUtilities());
 
     Assert.assertNotNull(exam);
-    Assert.assertEquals(exam.getId(), 4L);
-    Assert.assertEquals(exam.getAllowedTimeInMin(), 60);
-    Assert.assertEquals(exam.getDueDate(), new Date(DATE_FORMAT.parse("2017-01-16").getTime()));
-    Assert.assertEquals(exam.getState(), ExamState.APPROVAL);
-    Assert.assertEquals(exam.getAuthor().getId(), 9);
-    Assert.assertEquals(exam.getModule().getId(), 6);
-    Assert.assertEquals(exam.getLastModified(),
-        new Date(DATE_FORMAT.parse("2017-01-20").getTime()));
-    Assert.assertEquals(exam.getCreationDate(),
-        new Date(DATE_FORMAT.parse("2017-01-03").getTime()));
+    Assert.assertEquals(4L, exam.getId());
+    Assert.assertEquals(60, exam.getAllowedTimeInMin());
+    Assert.assertEquals(new Date(DATE_FORMAT.parse("2017-01-16").getTime()), exam.getDueDate());
+    Assert.assertEquals(ExamState.APPROVAL, exam.getState());
+    Assert.assertEquals(9, exam.getAuthor().getId());
+    Assert.assertEquals(6, exam.getModule().getId());
+    Assert.assertEquals(new Date(DATE_FORMAT.parse("2017-01-20").getTime()),
+        exam.getLastModified());
+    Assert.assertEquals(new Date(DATE_FORMAT.parse("2017-01-03").getTime()),
+        exam.getCreationDate());
 
   }
 
@@ -78,14 +77,12 @@ public class ExamServiceImplTest {
   public void testGetExamWithNonexistentExamId()
       throws NotFoundException, AuthorizationException, IOException {
     examService.getExam(0L);
-    Assert.fail();
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testGetExamWithNegativeExamId()
       throws NotFoundException, AuthorizationException, IOException {
     examService.getExam(-1L);
-    Assert.fail();
   }
 
 }

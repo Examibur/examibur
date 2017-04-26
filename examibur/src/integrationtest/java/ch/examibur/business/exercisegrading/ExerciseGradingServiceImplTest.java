@@ -32,16 +32,16 @@ public class ExerciseGradingServiceImplTest {
     Assert.assertNotNull(grading.getExerciseSolution());
     Assert.assertNotNull(grading.getGradingAuthor());
 
-    Assert.assertEquals(grading.getId(), 1L);
-    Assert.assertEquals(grading.getComment(), "Sehr gut gelöst.");
-    Assert.assertEquals(grading.getCreatedInState(), ExamState.CORRECTION);
-    Assert.assertEquals(grading.getcreationDate(),
-        new Date(DATE_FORMAT.parse("2016-08-22").getTime()));
-    Assert.assertEquals(grading.isFinalGrading(), true);
-    Assert.assertEquals(grading.getPoints(), 5.0, 0.01);
-    Assert.assertEquals(grading.getReasoning(), "");
-    Assert.assertEquals(grading.getExerciseSolution().getId(), 1);
-    Assert.assertEquals(grading.getGradingAuthor().getId(), 5);
+    Assert.assertEquals(1L, grading.getId());
+    Assert.assertEquals("Sehr gut gelöst.", grading.getComment());
+    Assert.assertEquals(ExamState.CORRECTION, grading.getCreatedInState());
+    Assert.assertEquals(new Date(DATE_FORMAT.parse("2016-08-22").getTime()),
+        grading.getcreationDate());
+    Assert.assertEquals(true, grading.isFinalGrading());
+    Assert.assertEquals(5.0, grading.getPoints(), 0.01);
+    Assert.assertEquals("", grading.getReasoning());
+    Assert.assertEquals(1L, grading.getExerciseSolution().getId());
+    Assert.assertEquals(5L, grading.getGradingAuthor().getId());
 
   }
 
@@ -63,7 +63,6 @@ public class ExerciseGradingServiceImplTest {
   public void testGetGradingForExerciseSolutionWithNegativeId()
       throws AuthorizationException, IOException {
     exerciseGradingService.getGradingForExerciseSolution(-1L);
-    Assert.fail();
   }
 
   @Test

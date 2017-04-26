@@ -33,7 +33,6 @@ public class ExerciseServiceImplTest {
   public void testGetMaxPointsWithNonexistentExamId()
       throws NotFoundException, AuthorizationException, IOException {
     exerciseService.getMaxPoints(0L);
-    Assert.fail();
   }
 
 }
