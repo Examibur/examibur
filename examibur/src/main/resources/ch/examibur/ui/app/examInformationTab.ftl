@@ -11,8 +11,8 @@
 
 	<ul class="nav nav-tabs">
 		<li role="presentation" class="active"><a href="#">Informationen</a></li>
-		<li role="presentation"><a href="#">Teilnahmen</a></li>
-		<li role="presentation"><a href="#">Aufgaben</a></li>
+		<li role="presentation"><a href="participants">Teilnahmen</a></li>
+		<li role="presentation"><a href="exercises">Aufgaben</a></li>
 		<li role="presentation"><a href="#">Auswertung</a></li>
 	</ul>	
 

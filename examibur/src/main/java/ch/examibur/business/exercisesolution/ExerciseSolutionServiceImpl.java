@@ -1,5 +1,6 @@
 package ch.examibur.business.exercisesolution;
 
+import ch.examibur.business.exception.ExamiburException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.ExerciseSolution;
@@ -21,7 +22,7 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
   }
 
   @Override
-  public ExerciseSolution getExerciseSolution(long exerciseSolutionId) throws NotFoundException {
+  public ExerciseSolution getExerciseSolution(long exerciseSolutionId) throws ExamiburException {
     ValidationHelper.checkForNegativeId(exerciseSolutionId, LOGGER);
 
     LOGGER.info("Get ExerciseSolution with id {}", exerciseSolutionId);
@@ -30,6 +31,24 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
     } catch (NoResultException ex) {
       NotFoundException notFoundException = new NotFoundException(
           "ExerciseSolution with id " + exerciseSolutionId + " not found", ex);
+      LOGGER.error(notFoundException.getMessage(), notFoundException);
+      throw notFoundException;
+    }
+  }
+
+  @Override
+  public ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId)
+      throws ExamiburException {
+    ValidationHelper.checkForNegativeId(currentExerciseSolutionId, LOGGER);
+
+    LOGGER.info("Get ExerciseSolution from next Participation (current id {})",
+        currentExerciseSolutionId);
+    try {
+      return exerciseSolutionDao
+          .getExerciseSolutionFromNextParticipation(currentExerciseSolutionId);
+    } catch (NoResultException ex) {
+      NotFoundException notFoundException = new NotFoundException(
+          "ExerciseSolution with id " + currentExerciseSolutionId + " not found", ex);
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
     }

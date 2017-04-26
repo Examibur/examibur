@@ -1,6 +1,6 @@
 package ch.examibur.business.exception;
 
-public class ValidationException extends Exception {
+public class ValidationException extends ExamiburException {
 
   private static final long serialVersionUID = 6275984477188893803L;
 

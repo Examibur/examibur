@@ -3,11 +3,11 @@ package ch.examibur.business.exam;
 import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
 
 import ch.examibur.business.DatabaseResource;
-import ch.examibur.business.exception.AuthorizationException;
+import ch.examibur.business.exception.ExamiburException;
+import ch.examibur.business.exception.InvalidParameterException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.domain.Exam;
 import ch.examibur.domain.ExamState;
-import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,33 +26,30 @@ public class ExamServiceImplTest {
   private final ExamService examService = INJECTOR.getInstance(ExamService.class);
 
   @Test
-  public void testGetExamsForAuthor() throws AuthorizationException, IOException {
+  public void testGetExamsForAuthor() throws ExamiburException {
     List<Exam> exams = examService.getExamsForAuthor(4);
     Assert.assertEquals(4, exams.size());
   }
 
   @Test
-  public void testGetExamsForAuthorWithUserWithoutExams()
-      throws AuthorizationException, IOException {
+  public void testGetExamsForAuthorWithUserWithoutExams() throws ExamiburException {
     List<Exam> exams = examService.getExamsForAuthor(1L);
     Assert.assertTrue(exams.isEmpty());
   }
 
   @Test
-  public void testGetExamsForAuthorWithNonexistentAuthorId()
-      throws AuthorizationException, IOException {
+  public void testGetExamsForAuthorWithNonexistentAuthorId() throws ExamiburException {
     List<Exam> exams = examService.getExamsForAuthor(0L);
     Assert.assertTrue(exams.isEmpty());
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testGetExamsForNegativeAuthorId() throws AuthorizationException, IOException {
+  @Test(expected = InvalidParameterException.class)
+  public void testGetExamsForNegativeAuthorId() throws ExamiburException {
     examService.getExamsForAuthor(-1L);
   }
 
   @Test
-  public void testGetExam()
-      throws NotFoundException, AuthorizationException, IOException, ParseException {
+  public void testGetExam() throws ExamiburException, ParseException {
     Exam exam = examService.getExam(4L);
 
     Assert.assertNotNull(exam.getAuthor());
@@ -74,14 +71,12 @@ public class ExamServiceImplTest {
   }
 
   @Test(expected = NotFoundException.class)
-  public void testGetExamWithNonexistentExamId()
-      throws NotFoundException, AuthorizationException, IOException {
+  public void testGetExamWithNonexistentExamId() throws ExamiburException {
     examService.getExam(0L);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testGetExamWithNegativeExamId()
-      throws NotFoundException, AuthorizationException, IOException {
+  @Test(expected = InvalidParameterException.class)
+  public void testGetExamWithNegativeExamId() throws ExamiburException {
     examService.getExam(-1L);
   }
 

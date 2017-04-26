@@ -2,6 +2,9 @@ package ch.examibur.ui.app.controller;
 
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.business.exception.AuthorizationException;
+import ch.examibur.business.exception.CommunicationException;
+import ch.examibur.business.exception.ExamiburException;
+import ch.examibur.business.exception.InvalidParameterException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.exercise.ExerciseService;
 import ch.examibur.ui.app.routing.RouteBuilder;
@@ -11,7 +14,6 @@ import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
-import java.io.IOException;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
@@ -47,17 +49,15 @@ public class ExamController implements Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
-   * @throws AuthorizationException
-   *           if the user is not authorized to display this exam.
-   * @throws NotFoundException
-   *           if the exam is not found.
-   * @throws IOException
-   *           if an exception during the communication occurs
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if a parameter is invalid. throws
+   *           {@link AuthorizationException} if the user is not authorized to display this exam.
+   *           throws {@link NotFoundException} if the exam is not found. throws
+   *           {@link CommunicationException} if an exception during the communication occurs
    */
-  public String displayExam(Request request, Response response)
-      throws NotFoundException, AuthorizationException, IOException {
 
-    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+  public String displayExam(Request request, Response response) throws ExamiburException {
+    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
@@ -102,9 +102,13 @@ public class ExamController implements Controller {
 
   /**
    * Adds breadcurmb for `/exams/:examid`.
+   * 
+   * @throws InvalidParameterException
+   *           if the examid parameter is not set or < 0.
    */
-  public void addSpecificBreadCrumb(Request request, Response response) {
-    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+  public void addSpecificBreadCrumb(Request request, Response response)
+      throws InvalidParameterException {
+    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
     RequestHelper.pushBreadCrumb(request, "Prüfung #" + examId, RouteBuilder.toExam(examId));
   }
 }

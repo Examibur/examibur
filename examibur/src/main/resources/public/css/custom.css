@@ -23,3 +23,10 @@ footer {
 .top-navigation {
 	padding-right: 15px;
 }
+
+td.td-ellipsis {
+	max-width: 370px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

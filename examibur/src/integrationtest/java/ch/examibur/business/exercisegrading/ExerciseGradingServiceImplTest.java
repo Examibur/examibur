@@ -3,10 +3,10 @@ package ch.examibur.business.exercisegrading;
 import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
 
 import ch.examibur.business.DatabaseResource;
-import ch.examibur.business.exception.AuthorizationException;
+import ch.examibur.business.exception.ExamiburException;
+import ch.examibur.business.exception.InvalidParameterException;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
-import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,8 +24,7 @@ public class ExerciseGradingServiceImplTest {
       .getInstance(ExerciseGradingService.class);
 
   @Test
-  public void testGetGradingForExerciseSolution()
-      throws AuthorizationException, IOException, ParseException {
+  public void testGetGradingForExerciseSolution() throws ParseException, ExamiburException {
     ExerciseGrading grading = exerciseGradingService.getGradingForExerciseSolution(1L);
 
     Assert.assertNotNull(grading);
@@ -46,27 +45,25 @@ public class ExerciseGradingServiceImplTest {
   }
 
   @Test
-  public void testGetGradingForExerciseSolutionWithNonexistentId()
-      throws AuthorizationException, IOException {
+  public void testGetGradingForExerciseSolutionWithNonexistentId() throws ExamiburException {
     ExerciseGrading grading = exerciseGradingService.getGradingForExerciseSolution(100L);
     Assert.assertNull(grading);
   }
 
   @Test
   public void testGetGradingForExerciseSolutionForSolutionWithoutGrading()
-      throws AuthorizationException, IOException {
+      throws ExamiburException {
     ExerciseGrading grading = exerciseGradingService.getGradingForExerciseSolution(50L);
     Assert.assertNull(grading);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testGetGradingForExerciseSolutionWithNegativeId()
-      throws AuthorizationException, IOException {
+  @Test(expected = InvalidParameterException.class)
+  public void testGetGradingForExerciseSolutionWithNegativeId() throws ExamiburException {
     exerciseGradingService.getGradingForExerciseSolution(-1L);
   }
 
   @Test
-  public void testGetReviewForExerciseSolution() throws AuthorizationException, IOException {
+  public void testGetReviewForExerciseSolution() throws ExamiburException {
     ExerciseGrading review = exerciseGradingService.getReviewForExerciseSolution(2L);
     Assert.assertNotNull(review);
     Assert.assertNotNull(review.getExerciseSolution());
@@ -74,22 +71,19 @@ public class ExerciseGradingServiceImplTest {
   }
 
   @Test
-  public void testGetReviewForExerciseSolutionWithNonexistendId()
-      throws AuthorizationException, IOException {
+  public void testGetReviewForExerciseSolutionWithNonexistendId() throws ExamiburException {
     ExerciseGrading review = exerciseGradingService.getReviewForExerciseSolution(200L);
     Assert.assertNull(review);
   }
 
   @Test
-  public void testGetReviewForExerciseSolutionForSolutionWithoutReview()
-      throws AuthorizationException, IOException {
+  public void testGetReviewForExerciseSolutionForSolutionWithoutReview() throws ExamiburException {
     ExerciseGrading review = exerciseGradingService.getReviewForExerciseSolution(20L);
     Assert.assertNull(review);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testGetReviewForExerciseSolutionWithNegativeId()
-      throws AuthorizationException, IOException {
+  @Test(expected = InvalidParameterException.class)
+  public void testGetReviewForExerciseSolutionWithNegativeId() throws ExamiburException {
     exerciseGradingService.getReviewForExerciseSolution(-1L);
   }
 

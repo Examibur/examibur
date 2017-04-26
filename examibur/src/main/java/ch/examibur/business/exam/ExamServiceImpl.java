@@ -1,5 +1,6 @@
 package ch.examibur.business.exam;
 
+import ch.examibur.business.exception.ExamiburException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.Exam;
@@ -23,13 +24,13 @@ public final class ExamServiceImpl implements ExamService {
   }
 
   @Override
-  public List<Exam> getExamsForAuthor(long authorId) {
+  public List<Exam> getExamsForAuthor(long authorId) throws ExamiburException {
     ValidationHelper.checkForNegativeId(authorId, LOGGER);
     return examDao.getExamsForAuthor(authorId);
   }
 
   @Override
-  public Exam getExam(long examId) throws NotFoundException {
+  public Exam getExam(long examId) throws ExamiburException {
     ValidationHelper.checkForNegativeId(examId, LOGGER);
     try {
       return examDao.getExam(examId);
