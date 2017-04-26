@@ -3,6 +3,9 @@ package ch.examibur.business.exercise;
 import ch.examibur.business.exception.AuthorizationException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.domain.Exam;
+import ch.examibur.domain.Exercise;
+
+import java.util.List;
 import java.io.IOException;
 
 public interface ExerciseService {
@@ -20,5 +23,7 @@ public interface ExerciseService {
    */
   public double getMaxPoints(long examId)
       throws NotFoundException, AuthorizationException, IOException;
+
+  public List<Exercise> getExercises(long examId); 
 
 }
