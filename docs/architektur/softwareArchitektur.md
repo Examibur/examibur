@@ -37,28 +37,27 @@ In diesem Abschnitt wird vertiefter in die einzelnen Teile bis auf die Top-Level
 Application ist der zentrale Einstiegspunkt der Spark-Applikation.
 Das Routing der Requests auf die einzelnen Controller wird in dieser Schicht durchgeführt.
 
-#### webapp
-In dieser Partition sind die dargestellten Elemente enthalten, sowie de Resourcen (Bilder, JavaScript) und die Konfiguration der Webapplikation.
-
-Dazu gehören Freemarker-Templates und die Stylesheet Layout Definitionen.
-
 #### controller
 Die clientspezifische Business-Logik ist in dieser Schicht enthalten. So werden unter anderem die Serviceaufrufe auf die Business-Layer abgewickelt.
-Dazu gehört auch das Aufbereiten der Daten in die clientinternen Datenmodelle, das Überführen in die zuständigen Views sowie das Abarbeiten von Events.
+Dazu gehört auch das Aufbereiten der Daten in die clientinternen Datenmodelle, das Überführen in die zuständigen Views sowie das Abarbeiten von Events. Die Kontroller sind eng mit dem Routing verbunden.
+Alle Controller-Methoden müssen Thread-Safe implementiert sein!
 
-#### model
-Enthält View-Models um das Rendering auf dem Client zu vereinfachen. Grundsätzlich wird das Domain-Model wann möglich direkt verwendet.
+#### routing
+Enthält die Logik, welche URLs auf welche Controller führen sowie Hilfsklassen zum Erstellen von URLs.
 
-#### util
-Darin sind Hilfsklassen enthalten, die eine spezifische Funktionalität kapseln, wie zum Beispiel i18n, Konvertierung, Formatierung, Validierung, Exception Handling, etc..
+#### renderer
+Eine Thread-sichere Rendering-Implementation, welche von den Controllern verwendet wird.
 
-### service
+#### filter
+Enthält Spark-Filtermethoden, welche die Bearbeitung von Requests in den Controllern vereinfacht.
+
+### REST oder rpc
 Diese Schicht agiert als Proxy zwischen der clientspezifischen Business Logik und der Business Schicht. **In einem ersten Schritt wird diese Schicht weggelassen.** Falls die Applikation auf eine verteilte Applikation umgestellt werden muss, sei dies aus Performance- oder Sicherheits-Gründen, kann diese Schicht schnell dazwischen geschaltet werden.
 
 Es würde sich dabei um Proxy-Methoden halten, die die Aufrufe einfach in die Business-Schicht weiterleiten und keine eigene Logik enthalten.
 
 ### business
-Die Business Logik der eigenen Services und für die Aufbereitung von Daten der Datenbank ist in dieser Schicht enthalten.
+Die Business Logik der eigenen Services und für die Aufbereitung von Daten der Datenbank ist in dieser Schicht enthalten. Die Business-Schicht ist im wesentlichen die effektive Implementation der Service-Schicht.
 
 ### messaging
 Enthält die Queue für das Tracking der Benutzeraktionen. Jede ausgeführte Aktion erzeugt eine Nachricht, die in diese Queue gestellt wird.
@@ -66,6 +65,16 @@ Enthält die Queue für das Tracking der Benutzeraktionen. Jede ausgeführte Akt
 **In einem ersten Schritt wird auf den Einsatz einer Message-Queue verzichtet.**
 
 Lösungen wie ActiveMQ könnten hier in Betracht gezogen werden.
+
+### Service
+Beschreibt die Schnittstellendefinition des Business-Layers. Diese Auslagerung ermöglicht es, die Business- und die Darstellungslogik in Zukunft zu trennen.
+Alle Service-Methoden müssen Thread-Safe implementiert sein!
+
+#### model
+Enthält Modelle um das Aggregierte Informationen aus dem Services zu liefern. Grundsätzlich wird das Domain-Model wann möglich direkt verwendet.
+
+#### exception
+Definiert eigene Exceptions, welche alle von `ExamiburException` erben. Dies vereinfacht die Service-Schnittstellen und Fehlerbehandlung auf den Clients.
 
 ### integration
 In dieser Schicht werden die Queries zur Datenbank abgesetzt, in die Domain-Objekte geladen und von den Objekten wieder zurück in die Datenbank geschrieben.
