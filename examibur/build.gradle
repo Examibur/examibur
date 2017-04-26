@@ -32,6 +32,8 @@ dependencies {
     testCompile 'junit:junit:4.+'
     testCompile 'org.seleniumhq.selenium:selenium-java:3.4.0'
     testCompile 'ru.yandex.qatools.ashot:ashot:1.5.2'
+    testCompile 'org.mockito:mockito-all:1.+'
+    testCompile 'ru.yandex.qatools.ashot:ashot:1.5.2'
 
 }
 

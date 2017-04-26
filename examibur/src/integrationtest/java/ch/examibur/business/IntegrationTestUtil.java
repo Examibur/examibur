@@ -1,7 +1,7 @@
 package ch.examibur.business;
 
+import ch.examibur.business.service.ServiceModule;
 import ch.examibur.integration.IntegrationEntrypoint;
-import ch.examibur.ui.app.module.ServiceModule;
 import com.google.inject.Injector;
 
 public class IntegrationTestUtil {
