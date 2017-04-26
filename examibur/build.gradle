@@ -49,7 +49,7 @@ project.integrationTest {
     exclude "ch/examibur/ui/app/**"
     
     beforeTest { descriptor ->
-        logger.lifecycle("Running test: " + descriptor)
+        logger.lifecycle("Running integration test: " + descriptor)
     }
 
     jacoco {
@@ -58,6 +58,16 @@ project.integrationTest {
     }
 }
 
+test {
+    beforeTest { descriptor ->
+        logger.lifecycle("Running unit test: " + descriptor)
+    }
+    jacoco {
+        append = false
+        destinationFile = file("jacoco/jacocoUnit.exec")
+    }
+
+}
 jacocoTestReport{
     reports {
         xml.enabled false
@@ -65,7 +75,7 @@ jacocoTestReport{
         html.destination "${buildDir}/reports/jacoco/html"
     }
     sourceSets sourceSets.main
-    executionData = files("jacoco/jacocoTomcat.exec", "jacoco/jacocoInt.exec")
+    executionData = files("jacoco/jacocoUnit.exec", "jacoco/jacocoTomcat.exec", "jacoco/jacocoInt.exec")
 }
 
 sonarqube {
