@@ -65,7 +65,7 @@ jacocoTestReport{
         html.destination "${buildDir}/reports/jacoco/html"
     }
     sourceSets sourceSets.main
-    executionData = files("jacoco/jacocoUi.exec", "jacoco/jacocoInt.exec")
+    executionData = files("jacoco/jacocoTomcat.exec", "jacoco/jacocoInt.exec")
 }
 
 sonarqube {

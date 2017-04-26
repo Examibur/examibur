@@ -12,3 +12,4 @@
 /examibur/geckodriver
 /examibur/geckodriver.exe
 /examibur/examibur.log
+/examibur/jacoco/*.exec
