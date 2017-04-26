@@ -19,7 +19,7 @@ import spark.Request;
 import spark.Response;
 
 public class ExerciseSolutionController implements Controller {
-  
+
   public static final String QUERY_PARAM_QUERY_NEXT = "querynext";
   public static final String QUERY_PARAM_BROWSE = "browse";
   public static final String BROWSE_PARTICIPATIONS = "participations";
@@ -65,13 +65,15 @@ public class ExerciseSolutionController implements Controller {
    */
   public String displayExerciseSolution(Request request, Response response)
       throws NotFoundException, AuthorizationException, IOException {
-    long exerciseSolutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
-    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
 
     if (request.queryParams(QUERY_PARAM_QUERY_NEXT) != null) {
       redirectToNextExerciseSolution(request, response);
       return null;
     }
+
+    long exerciseSolutionId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+    Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
+
     if (request.queryParams(QUERY_PARAM_BROWSE) != null) {
       model.put("browse", request.queryParams(QUERY_PARAM_BROWSE));
     }
@@ -117,7 +119,7 @@ public class ExerciseSolutionController implements Controller {
   }
 
   /**
-   * Adds breadcurmb for `solutions/`.
+   * Adds breadcrumb for `solutions/`.
    */
   public void addBreadCrumb(Request request, Response response) {
     long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
@@ -128,7 +130,7 @@ public class ExerciseSolutionController implements Controller {
   }
 
   /**
-   * Adds breadcurmb for `solutions/:solutionsId`.
+   * Adds breadcrumb for `solutions/:solutionsId`.
    */
   public void addSpecificBreadCrumb(Request request, Response response) {
     long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
