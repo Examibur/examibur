@@ -1,0 +1,12 @@
+FROM java:8-jdk
+
+MAINTAINER Raphael Zimmermann <raphael.zimmermann@hsr.ch>
+
+RUN groupadd -g 1000 examibur
+RUN useradd --home /home/examibur -u 1000 -g 1000 -M examibur
+RUN mkdir -p /home/examibur/.gradle && chown -R examibur:examibur /home/examibur/
+RUN mkdir -p /src/screenshots /src/.build /src/.gradle
+RUN chown -R examibur:examibur /src/
+
+WORKDIR /src/
+CMD ./gradlew clean integrationTest

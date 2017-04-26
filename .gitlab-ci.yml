@@ -47,8 +47,8 @@ before_test:
   services:
     - docker:dind
   script:
-    - docker-compose rm -f tomcat postgres
-    - docker-compose up -d --build tomcat postgres
+    - docker-compose rm -f tomcat postgres selenium-hub selenium-firefox
+    - docker-compose up -d --build tomcat postgres selenium-hub selenium-firefox
     - sleep 15
 
 test:
@@ -75,10 +75,10 @@ after_test:
   services:
     - docker:dind
   script:
-    - docker-compose stop tomcat postgres
+    - docker-compose stop tomcat postgres selenium-hub selenium-firefox
     - docker cp examibur_tomcat_1:/var/jacoco/jacocoTomcat.exec examibur/jacoco/jacocoTomcat.exec
-    - docker-compose kill tomcat postgres
-    - docker-compose rm -f tomcat postgres
+    - docker-compose kill tomcat postgres selenium-hub selenium-firefox
+    - docker-compose rm -f tomcat postgres selenium-hub selenium-firefox
   when: always
   artifacts:
     paths:
