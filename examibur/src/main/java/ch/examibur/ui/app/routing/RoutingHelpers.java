@@ -1,6 +1,6 @@
 package ch.examibur.ui.app.routing;
 
-import ch.examibur.business.exception.InvalidParameterException;
+import ch.examibur.service.exception.InvalidParameterException;
 import spark.Request;
 
 public final class RoutingHelpers {

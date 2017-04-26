@@ -1,11 +1,11 @@
 package ch.examibur.ui.app.controller;
 
-import ch.examibur.business.exam.ExamService;
-import ch.examibur.business.exception.AuthorizationException;
-import ch.examibur.business.exception.CommunicationException;
-import ch.examibur.business.exception.ExamiburException;
+import ch.examibur.service.ExamService;
+import ch.examibur.service.exception.AuthorizationException;
+import ch.examibur.service.exception.CommunicationException;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.ui.app.render.Renderer;
 import ch.examibur.ui.app.routing.RouteBuilder;
-import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;

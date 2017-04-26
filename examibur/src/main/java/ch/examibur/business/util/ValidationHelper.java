@@ -1,6 +1,6 @@
 package ch.examibur.business.util;
 
-import ch.examibur.business.exception.InvalidParameterException;
+import ch.examibur.service.exception.InvalidParameterException;
 import org.slf4j.Logger;
 
 public final class ValidationHelper {

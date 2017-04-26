@@ -1,6 +1,6 @@
 package ch.examibur.ui.app.routing;
 
-import ch.examibur.business.exception.InvalidParameterException;
+import ch.examibur.service.exception.InvalidParameterException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;

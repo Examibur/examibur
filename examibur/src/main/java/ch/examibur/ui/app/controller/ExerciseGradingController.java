@@ -1,6 +1,6 @@
 package ch.examibur.ui.app.controller;
 
-import ch.examibur.business.exception.InvalidParameterException;
+import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;

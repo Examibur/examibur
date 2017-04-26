@@ -3,10 +3,11 @@ package ch.examibur.business.exercisegrading;
 import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
 
 import ch.examibur.business.DatabaseResource;
-import ch.examibur.business.exception.ExamiburException;
-import ch.examibur.business.exception.InvalidParameterException;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
+import ch.examibur.service.ExerciseGradingService;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidParameterException;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
