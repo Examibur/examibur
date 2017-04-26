@@ -65,12 +65,6 @@ cd examibur
 ./gradlew assemble -t
 ```
 
-### Troubleshooting
-Wenn SELinux aktiviert ist (z.B. unter Fedora) kann es sein, dass die Zugriffe auf die Docker-Volumes vom System blockiert werden. Dann muss für die beiden Verzeichnisse `docs/` und `examibur/webapps` der Kontext entsprechend gesetzt werden:
-```bash
-sudo chcon -Rt svirt_sandbox_file_t docs/ examibur/webapps/
-```
-
 ## Tomcat Debugging
 
 * Tomcat normal starten und aktuelle version darauf deployen

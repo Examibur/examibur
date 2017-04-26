@@ -9,8 +9,8 @@ docker volume create --name examibur_int_userhome_gradle > /dev/null
 # Run the image
 REPO_BASE=$( cd "$( dirname "$0" )" && pwd )
 docker run --rm -it \
-    -v "${REPO_BASE}/examibur":/src/:rw \
-    -v "${REPO_BASE}/examibur/screenshots/":/src/screenshots:rw \
+    -v "${REPO_BASE}/examibur":/src/:z \
+    -v "${REPO_BASE}/examibur/screenshots/":/src/screenshots:z \
     -v examibur_int_userhome_gradle:/home/examibur/.gradle/ \
     --net=host \
     -e UI_TEST_URL=http://localhost:8080/ \

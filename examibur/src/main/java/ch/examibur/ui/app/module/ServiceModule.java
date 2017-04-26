@@ -2,6 +2,8 @@ package ch.examibur.ui.app.module;
 
 import ch.examibur.business.exam.ExamService;
 import ch.examibur.business.exam.ExamServiceImpl;
+import ch.examibur.business.examparticipation.ExamParticipationService;
+import ch.examibur.business.examparticipation.ExamParticipationServiceImpl;
 import ch.examibur.business.exercise.ExerciseService;
 import ch.examibur.business.exercise.ExerciseServiceImpl;
 import ch.examibur.business.exercisegrading.ExerciseGradingService;
@@ -19,7 +21,7 @@ public class ServiceModule extends AbstractModule {
     bind(ExerciseService.class).to(ExerciseServiceImpl.class);
     bind(ExerciseGradingService.class).to(ExerciseGradingServiceImpl.class);
     bind(ExerciseSolutionService.class).to(ExerciseSolutionServiceImpl.class);
-
+    bind(ExamParticipationService.class).to(ExamParticipationServiceImpl.class);
   }
 
 }
