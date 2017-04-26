@@ -19,14 +19,14 @@ import spark.Request;
 import spark.Response;
 
 public class ExerciseSolutionController implements Controller {
+  
+  public static final String QUERY_PARAM_QUERY_NEXT = "querynext";
+  public static final String QUERY_PARAM_BROWSE = "browse";
+  public static final String BROWSE_PARTICIPATIONS = "participations";
 
   private final Renderer engine;
   private final ExerciseSolutionService exerciseSolutionService;
   private final ExerciseGradingService exerciseGradingService;
-
-  public static final String QUERY_PARAM_QUERY_NEXT = "querynext";
-  public static final String QUERY_PARAM_BROWSE = "browse";
-  public static final String BROWSE_PARTICIPATIONS = "participations";
 
   /**
    * Constructor.
