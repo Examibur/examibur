@@ -72,7 +72,8 @@ public final class RouteBuilder {
   }
 
   /**
-   * Returns the absolute url to all exercise solutions of the given participation.
+   * Returns the absolute url to all exercise solutions of the given participation. It is the
+   * responsibility of the caller to provide a valid ids!
    */
   public static String toExerciseSolutions(long examId, long participantId) {
     String url = Route.SOLUTIONS.url();
@@ -83,6 +84,7 @@ public final class RouteBuilder {
 
   /**
    * Returns the absolute url to the exercise soltion with the given id of the given participation.
+   * It is the responsibility of the caller to provide a valid ids!
    */
   public static String toExerciseSolution(long examId, long participantId, long solutionId) {
     String url = Route.SOLUTION.url();

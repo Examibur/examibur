@@ -52,4 +52,12 @@ public class RouteBuilderTest {
         RouteBuilder.toExerciseSolution(1, 2, 3));
   }
 
+  @Test
+  public void testExerciseSolutionRouteWithNegativeValues() {
+    // negative values are not checked! It's the responisibility of the caller
+    // call the RouteBuilder with valid ids.
+    Assert.assertEquals("/exams/-1/participants/-2/solutions/-3/",
+        RouteBuilder.toExerciseSolution(-1, -2, -3));
+  }
+
 }
