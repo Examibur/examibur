@@ -60,7 +60,7 @@ test:
     LOG_LEVEL: INFO
     LOG_FILE: examibur.log
   script:
-    - cd examibur && ./gradlew clean integrationTest
+    - cd examibur && ./gradlew clean test integrationTest
   artifacts:
     paths:
       - examibur/jacoco/jacocoInt.exec
