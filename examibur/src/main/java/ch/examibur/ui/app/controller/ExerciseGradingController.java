@@ -1,5 +1,6 @@
 package ch.examibur.ui.app.controller;
 
+import ch.examibur.business.exception.InvalidParameterException;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
@@ -16,10 +17,14 @@ public class ExerciseGradingController {
    * @param response
    *          the HTTP response
    * @return nothing to return
+   * @throws InvalidParameterException
+   *           if an id parameter is negative or < 0.
    */
-  public String addExerciseGrading(Request request, Response response) {
+  public String addExerciseGrading(Request request, Response response)
+      throws InvalidParameterException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
+        UrlParameter.PARTICIPANT_ID);
     long solutionId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
 
     response.redirect(RouteBuilder.toExerciseSolution(examId, participantId, solutionId));
