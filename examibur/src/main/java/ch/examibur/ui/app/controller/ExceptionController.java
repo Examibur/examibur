@@ -1,6 +1,6 @@
 package ch.examibur.ui.app.controller;
 
-import ch.examibur.ui.app.util.Renderer;
+import ch.examibur.ui.app.render.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
 import com.google.inject.Inject;
 import java.util.Map;

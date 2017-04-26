@@ -2,8 +2,8 @@ package ch.examibur.ui.app;
 
 import ch.examibur.business.BusinessEntrypoint;
 import ch.examibur.business.Entrypoint;
+import ch.examibur.ui.app.render.RenderingModule;
 import ch.examibur.ui.app.routing.Router;
-import ch.examibur.ui.app.util.RenderingModule;
 import com.google.inject.CreationException;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;

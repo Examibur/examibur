@@ -1,4 +1,4 @@
-package ch.examibur.ui.app.util;
+package ch.examibur.ui.app.render;
 
 import java.util.Map;
 
