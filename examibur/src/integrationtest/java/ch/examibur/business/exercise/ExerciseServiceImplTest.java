@@ -1,8 +1,7 @@
 package ch.examibur.business.exercise;
 
-import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
-
 import ch.examibur.business.DatabaseResource;
+import ch.examibur.business.IntegrationTestUtil;
 import ch.examibur.business.exception.AuthorizationException;
 import ch.examibur.business.exception.NotFoundException;
 import java.io.IOException;
@@ -14,7 +13,8 @@ public class ExerciseServiceImplTest {
 
   @ClassRule
   public static final DatabaseResource RES = new DatabaseResource();
-  private final ExerciseService exerciseService = INJECTOR.getInstance(ExerciseService.class);
+  private final ExerciseService exerciseService = IntegrationTestUtil.getInjector()
+      .getInstance(ExerciseService.class);
 
   @Test
   public void testGetMaxPoints() throws NotFoundException, AuthorizationException, IOException {

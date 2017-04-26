@@ -1,8 +1,7 @@
 package ch.examibur.business.exercisesolution;
 
-import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
-
 import ch.examibur.business.DatabaseResource;
+import ch.examibur.business.IntegrationTestUtil;
 import ch.examibur.business.exception.AuthorizationException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.domain.ExerciseSolution;
@@ -15,7 +14,7 @@ public class ExerciseSolutionServiceImplTest {
 
   @ClassRule
   public static final DatabaseResource RES = new DatabaseResource();
-  private final ExerciseSolutionService exerciseSolutionService = INJECTOR
+  private final ExerciseSolutionService exerciseSolutionService = IntegrationTestUtil.getInjector()
       .getInstance(ExerciseSolutionService.class);
 
   @Test

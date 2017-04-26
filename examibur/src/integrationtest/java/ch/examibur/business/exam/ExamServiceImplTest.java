@@ -1,8 +1,7 @@
 package ch.examibur.business.exam;
 
-import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
-
 import ch.examibur.business.DatabaseResource;
+import ch.examibur.business.IntegrationTestUtil;
 import ch.examibur.business.exception.AuthorizationException;
 import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.domain.Exam;
@@ -23,7 +22,8 @@ public class ExamServiceImplTest {
 
   private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
-  private final ExamService examService = INJECTOR.getInstance(ExamService.class);
+  private final ExamService examService = IntegrationTestUtil.getInjector()
+      .getInstance(ExamService.class);
 
   @Test
   public void testGetExamsForAuthor() throws AuthorizationException, IOException {

@@ -1,8 +1,7 @@
 package ch.examibur.business.exercisegrading;
 
-import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
-
 import ch.examibur.business.DatabaseResource;
+import ch.examibur.business.IntegrationTestUtil;
 import ch.examibur.business.exception.AuthorizationException;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
@@ -20,7 +19,7 @@ public class ExerciseGradingServiceImplTest {
 
   private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
-  private final ExerciseGradingService exerciseGradingService = INJECTOR
+  private final ExerciseGradingService exerciseGradingService = IntegrationTestUtil.getInjector()
       .getInstance(ExerciseGradingService.class);
 
   @Test
