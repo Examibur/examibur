@@ -56,8 +56,7 @@ public class ExamController implements Controller {
    */
   public String displayExam(Request request, Response response)
       throws NotFoundException, AuthorizationException, IOException {
-
-    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
@@ -104,7 +103,7 @@ public class ExamController implements Controller {
    * Adds breadcurmb for `/exams/:examid`.
    */
   public void addSpecificBreadCrumb(Request request, Response response) {
-    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
     RequestHelper.pushBreadCrumb(request, "Prüfung #" + examId, RouteBuilder.toExam(examId));
   }
 }
