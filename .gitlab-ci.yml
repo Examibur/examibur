@@ -64,7 +64,9 @@ test:
   script:
     - cd examibur && ./gradlew clean test integrationTest
   artifacts:
+    when: always
     paths:
+      - examibur/screenshots/
       - examibur/jacoco/jacocoInt.exec
 
 after_test:
