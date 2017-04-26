@@ -83,7 +83,7 @@ public class ExamParticipationController implements Controller {
    * Adds breadcrumb for `exercises/`.
    */
   public void addBreadCrumb(Request request, Response response) {
-    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
     RequestHelper.pushBreadCrumb(request, "Teilnehmer", RouteBuilder.toExamParticipations(examId));
   }
 
@@ -91,8 +91,8 @@ public class ExamParticipationController implements Controller {
    * Adds breadcrumb for `exercises/:exerciseId`.
    */
   public void addSpecificBreadCrumb(Request request, Response response) {
-    long examId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RoutingHelpers.getLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
 
     RequestHelper.pushBreadCrumb(request, "Teilnehmer #" + participantId,
         RouteBuilder.toExamParticipation(examId, participantId));
