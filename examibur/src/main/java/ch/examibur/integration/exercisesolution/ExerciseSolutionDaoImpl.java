@@ -39,7 +39,8 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
     try {
       TypedQuery<ExerciseSolution> nextExerciseSolutionQuery = entityManager
           .createQuery(
-              "SELECT e FROM ExerciseSolution e WHERE e.isDone = false AND e.exercise.id = :exerciseId "
+              "SELECT e FROM ExerciseSolution e WHERE e.isDone = false "
+                  + "AND e.exercise.id = :exerciseId "
                   + "AND e.participation.id > :participationId ORDER BY e.id",
               ExerciseSolution.class);
       // can't use getSingleResult() because null should also be possible

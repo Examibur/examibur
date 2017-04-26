@@ -1,6 +1,6 @@
 package ch.examibur.business.exception;
 
-public class AuthorizationException extends Exception {
+public class AuthorizationException extends ExamiburException {
 
   private static final long serialVersionUID = 4135500762348965806L;
 

@@ -1,5 +1,7 @@
 package ch.examibur.business.exercisegrading;
 
+import ch.examibur.business.exception.ExamiburException;
+import ch.examibur.business.exception.InvalidParameterException;
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
@@ -20,18 +22,21 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
   }
 
   @Override
-  public ExerciseGrading getGradingForExerciseSolution(long exerciseSolutionId) {
+  public ExerciseGrading getGradingForExerciseSolution(long exerciseSolutionId)
+      throws ExamiburException {
     LOGGER.info("Get Grading vor ExerciseSolution {}", exerciseSolutionId);
     return getGradingCreatedInState(exerciseSolutionId, ExamState.CORRECTION);
   }
 
   @Override
-  public ExerciseGrading getReviewForExerciseSolution(long exerciseSolutionId) {
+  public ExerciseGrading getReviewForExerciseSolution(long exerciseSolutionId)
+      throws ExamiburException {
     LOGGER.info("Get Review vor ExerciseSolution {}", exerciseSolutionId);
     return getGradingCreatedInState(exerciseSolutionId, ExamState.REVIEW);
   }
 
-  private ExerciseGrading getGradingCreatedInState(long exerciseSolutionId, ExamState state) {
+  private ExerciseGrading getGradingCreatedInState(long exerciseSolutionId, ExamState state)
+      throws InvalidParameterException {
     ValidationHelper.checkForNegativeId(exerciseSolutionId, LOGGER);
     return exerciseGradingDao.getGradingCreatedInState(exerciseSolutionId, state);
   }

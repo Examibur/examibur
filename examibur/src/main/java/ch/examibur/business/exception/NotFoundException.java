@@ -1,6 +1,6 @@
 package ch.examibur.business.exception;
 
-public class NotFoundException extends Exception {
+public class NotFoundException extends ExamiburException {
 
   private static final long serialVersionUID = -1476991523782828003L;
 
