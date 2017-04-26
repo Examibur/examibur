@@ -1,17 +1,17 @@
 package ch.examibur.ui.app.controller;
 
-import ch.examibur.business.exception.AuthorizationException;
-import ch.examibur.business.exception.CommunicationException;
-import ch.examibur.business.exception.ExamiburException;
-import ch.examibur.business.exception.InvalidParameterException;
-import ch.examibur.business.exception.NotFoundException;
-import ch.examibur.business.exercisegrading.ExerciseGradingService;
-import ch.examibur.business.exercisesolution.ExerciseSolutionService;
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.service.ExerciseGradingService;
+import ch.examibur.service.ExerciseSolutionService;
+import ch.examibur.service.exception.AuthorizationException;
+import ch.examibur.service.exception.CommunicationException;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidParameterException;
+import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.ui.app.render.Renderer;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
-import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
