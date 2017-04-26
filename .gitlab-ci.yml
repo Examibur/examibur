@@ -48,7 +48,7 @@ before_test:
     - docker:dind
   script:
     - docker-compose rm -f tomcat postgres
-    - docker-compose up -d tomcat postgres
+    - docker-compose up -d --build tomcat postgres
     - sleep 15
 
 test:
