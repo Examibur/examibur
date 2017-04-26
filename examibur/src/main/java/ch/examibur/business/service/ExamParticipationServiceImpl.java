@@ -1,10 +1,11 @@
-package ch.examibur.business.examparticipation;
+package ch.examibur.business.service;
 
-import ch.examibur.business.model.ExamParticipantOverview;
 import ch.examibur.domain.ExamParticipation;
 import ch.examibur.integration.examparticipation.ExamParticipationDao;
 import ch.examibur.integration.exercise.ExerciseDao;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
+import ch.examibur.service.ExamParticipationService;
+import ch.examibur.service.model.ExamParticipantOverview;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;

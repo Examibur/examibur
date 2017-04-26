@@ -1,9 +1,10 @@
-package ch.examibur.business.examparticipation;
+package ch.examibur.business.service;
 
 import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
 
 import ch.examibur.business.DatabaseResource;
-import ch.examibur.business.model.ExamParticipantOverview;
+import ch.examibur.service.ExamParticipationService;
+import ch.examibur.service.model.ExamParticipantOverview;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.ClassRule;

@@ -1,11 +1,12 @@
-package ch.examibur.business.exercisegrading;
+package ch.examibur.business.service;
 
-import ch.examibur.business.exception.ExamiburException;
-import ch.examibur.business.exception.InvalidParameterException;
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
+import ch.examibur.service.ExerciseGradingService;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidParameterException;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

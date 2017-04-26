@@ -175,7 +175,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFa5hiJFZbExoE="
 									},
-									"name": "Routing",
+									"name": "routing",
 									"ownedElements": [
 										{
 											"_type": "UMLDependency",
@@ -3521,7 +3521,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "services",
+											"text": "service",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -4933,7 +4933,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Routing",
+											"text": "routing",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -6867,7 +6867,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "(from services)",
+											"text": "(from service)",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -8869,7 +8869,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Exceptions",
+											"text": "exception",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -9363,7 +9363,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "(from Exceptions)",
+											"text": "(from exception)",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -10486,7 +10486,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Models",
+											"text": "model",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -10833,7 +10833,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFa7T85qUwQkxk="
 							},
-							"name": "services",
+							"name": "service",
 							"ownedElements": [
 								{
 									"_type": "UMLDependency",
@@ -11223,7 +11223,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFbqZXJm++IbuI="
 							},
-							"name": "Models",
+							"name": "model",
 							"visibility": "public"
 						}
 					],
@@ -11235,7 +11235,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFa5g19oZY+32A="
 					},
-					"name": "Exceptions",
+					"name": "exception",
 					"ownedElements": [
 						{
 							"_type": "UMLClass",

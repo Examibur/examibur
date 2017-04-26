@@ -1,4 +1,4 @@
-package ch.examibur.business.exception;
+package ch.examibur.service.exception;
 
 public class AuthorizationException extends ExamiburException {
 

@@ -1,11 +1,12 @@
-package ch.examibur.business.exercisesolution;
+package ch.examibur.business.service;
 
 import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
 
 import ch.examibur.business.DatabaseResource;
-import ch.examibur.business.exception.ExamiburException;
-import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.service.ExerciseSolutionService;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.NotFoundException;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;

@@ -1,10 +1,10 @@
-package ch.examibur.business.exercisegrading;
+package ch.examibur.service;
 
-import ch.examibur.business.exception.AuthorizationException;
-import ch.examibur.business.exception.CommunicationException;
-import ch.examibur.business.exception.ExamiburException;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.service.exception.AuthorizationException;
+import ch.examibur.service.exception.CommunicationException;
+import ch.examibur.service.exception.ExamiburException;
 
 public interface ExerciseGradingService {
   /**

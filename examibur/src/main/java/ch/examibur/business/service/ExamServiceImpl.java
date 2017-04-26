@@ -1,11 +1,12 @@
-package ch.examibur.business.exam;
+package ch.examibur.business.service;
 
-import ch.examibur.business.exception.ExamiburException;
-import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.Exam;
 import ch.examibur.integration.exam.ExamDao;
 import ch.examibur.integration.exam.ExamDaoImpl;
+import ch.examibur.service.ExamService;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.NotFoundException;
 import com.google.inject.Inject;
 import java.util.List;
 import javax.persistence.NoResultException;

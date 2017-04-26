@@ -1,11 +1,11 @@
-package ch.examibur.business.exam;
+package ch.examibur.service;
 
-import ch.examibur.business.exception.AuthorizationException;
-import ch.examibur.business.exception.CommunicationException;
-import ch.examibur.business.exception.ExamiburException;
-import ch.examibur.business.exception.InvalidParameterException;
-import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.domain.Exam;
+import ch.examibur.service.exception.AuthorizationException;
+import ch.examibur.service.exception.CommunicationException;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidParameterException;
+import ch.examibur.service.exception.NotFoundException;
 import java.util.List;
 
 public interface ExamService {

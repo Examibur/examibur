@@ -1,12 +1,12 @@
 package ch.examibur.ui.app.controller;
 
-import ch.examibur.business.exam.ExamService;
-import ch.examibur.business.examparticipation.ExamParticipationService;
-import ch.examibur.business.exception.AuthorizationException;
-import ch.examibur.business.exception.CommunicationException;
-import ch.examibur.business.exception.ExamiburException;
-import ch.examibur.business.exception.InvalidParameterException;
-import ch.examibur.business.exception.NotFoundException;
+import ch.examibur.service.ExamParticipationService;
+import ch.examibur.service.ExamService;
+import ch.examibur.service.exception.AuthorizationException;
+import ch.examibur.service.exception.CommunicationException;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidParameterException;
+import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;

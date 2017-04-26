@@ -1,4 +1,4 @@
-package ch.examibur.business.exception;
+package ch.examibur.service.exception;
 
 /**
  * Superclass of all exception that the examibur service throws.
