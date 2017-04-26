@@ -67,7 +67,7 @@ test:
     when: always
     paths:
       - examibur/screenshots/
-      - examibur/jacoco/jacocoInt.exec
+      - examibur/jacoco/jacoco*.exec
 
 after_test:
   image: tmaier/docker-compose
@@ -90,7 +90,7 @@ jacoco:
   image: java:8-jdk
   stage: report
   script:
-    - cd examibur && ./gradlew jacocoTestReport
+    - cd examibur && ls -la jacoco/ && ./gradlew jacocoTestReport
   artifacts:
     paths:
       - examibur/build/reports/jacoco/
