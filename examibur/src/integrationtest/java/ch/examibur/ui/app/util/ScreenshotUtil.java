@@ -57,6 +57,7 @@ public class ScreenshotUtil {
       } else {
         destination.mkdirs();
       }
+      setUp = true;
     }
   }
 
@@ -97,8 +98,7 @@ public class ScreenshotUtil {
         Screenshot screenshot = new AShot()
             .shootingStrategy(ShootingStrategies.viewportPasting(100)).takeScreenshot(driver);
 
-        String screenshotName = format("{0}_{1, number,#}x{2,number,#}.png", sceneName,
-            resolution.getWidth(), resolution.getHeight());
+        String screenshotName = format("{0}_{1, number,#}w.png", sceneName, resolution.getWidth());
 
         BufferedImage actual = screenshot.getImage();
         ImageIO.write(actual, SCREENSHOT_FILE_FORMAT,

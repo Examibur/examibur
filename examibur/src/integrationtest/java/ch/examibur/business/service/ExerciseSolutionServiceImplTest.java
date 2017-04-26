@@ -6,6 +6,7 @@ import ch.examibur.business.DatabaseResource;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.service.ExerciseSolutionService;
 import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -20,8 +21,24 @@ public class ExerciseSolutionServiceImplTest {
 
   @Test
   public void testGetExerciseSolution() throws ExamiburException {
-    ExerciseSolution exerciseSolution = exerciseSolutionService.getExerciseSolution(1);
-    Assert.assertEquals(exerciseSolution.getId(), 1L);
+    ExerciseSolution exerciseSolution = exerciseSolutionService.getExerciseSolution(1L);
+
+    Assert.assertNotNull(exerciseSolution);
+    Assert.assertNotNull(exerciseSolution.getParticipation());
+    Assert.assertNotNull(exerciseSolution.getParticipantSolution());
+    Assert.assertNotNull(exerciseSolution.getExercise());
+
+    Assert.assertEquals(1L, exerciseSolution.getId());
+    Assert.assertEquals(true, exerciseSolution.isDone());
+    Assert.assertEquals(1L, exerciseSolution.getExercise().getId());
+    Assert.assertEquals(1L, exerciseSolution.getParticipation().getId());
+    Assert.assertEquals(19L, exerciseSolution.getParticipantSolution().getId());
+
+  }
+
+  @Test(expected = InvalidParameterException.class)
+  public void testGetExerciseSolutionWithNegativeId() throws ExamiburException {
+    exerciseSolutionService.getExerciseSolution(-1L);
   }
 
   @Test(expected = NotFoundException.class)
@@ -48,5 +65,4 @@ public class ExerciseSolutionServiceImplTest {
       throws ExamiburException {
     exerciseSolutionService.getExerciseSolutionFromNextParticipation(0);
   }
-
 }
