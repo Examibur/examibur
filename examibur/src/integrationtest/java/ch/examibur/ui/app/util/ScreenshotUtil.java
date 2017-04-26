@@ -127,7 +127,7 @@ public class ScreenshotUtil {
    */
   public static WebDriver getDriver() {
     if (instance == null) {
-      DesiredCapabilities capability = DesiredCapabilities.firefox();
+      DesiredCapabilities capability = DesiredCapabilities.chrome();
       try {
         instance = new RemoteWebDriver(new URL("http://selenium-hub:4444/wd/hub"), capability);
         if (instance.manage().window().getSize().width != 800) {
