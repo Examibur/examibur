@@ -5,12 +5,11 @@ import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.Exercise;
 import ch.examibur.integration.exercise.ExerciseDao;
-
 import com.google.inject.Inject;
+import java.util.List;
 import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
 
 public class ExerciseServiceImpl implements ExerciseService {
 
