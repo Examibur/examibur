@@ -14,10 +14,15 @@ import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Map;
+import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
 import spark.Response;
 
 public class ExerciseSolutionController implements Controller {
+
+  public static final String QUERY_PARAM_QUERY_NEXT = "querynext";
+  public static final String QUERY_PARAM_BROWSE = "browse";
+  public static final String BROWSE_PARTICIPATIONS = "participations";
 
   private final Renderer engine;
   private final ExerciseSolutionService exerciseSolutionService;
@@ -61,13 +66,44 @@ public class ExerciseSolutionController implements Controller {
   public String displayExerciseSolution(Request request, Response response)
       throws NotFoundException, AuthorizationException, IOException {
 
-    long exerciseSolutionId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+    if (request.queryParams(QUERY_PARAM_QUERY_NEXT) != null) {
+      redirectToNextExerciseSolution(request, response);
+      return null;
+    }
+
+    long exerciseSolutionId = RoutingHelpers.getUnsignedLongUrlParameter(request,
+        UrlParameter.SOLUTION_ID);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
+
+    if (request.queryParams(QUERY_PARAM_BROWSE) != null) {
+      model.put("browse", request.queryParams(QUERY_PARAM_BROWSE));
+    }
 
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
     model.put("grading", exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId));
     model.put("review", exerciseGradingService.getReviewForExerciseSolution(exerciseSolutionId));
     return engine.render(model, "exerciseSolutionView.ftl");
+  }
+
+  private void redirectToNextExerciseSolution(Request request, Response response)
+      throws NotFoundException, AuthorizationException, IOException {
+    long exerciseSolutionId = RoutingHelpers.getUnsignedLongUrlParameter(request,
+        UrlParameter.SOLUTION_ID);
+    ExerciseSolution nextExerciseSolution = exerciseSolutionService
+        .getExerciseSolutionFromNextParticipation(exerciseSolutionId);
+
+    String target;
+    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    if (nextExerciseSolution != null) {
+      long participantId = nextExerciseSolution.getParticipation().getId();
+      long nextExerciseSolutionId = nextExerciseSolution.getId();
+      target = RouteBuilder.addQueryParameter(
+          RouteBuilder.toExerciseSolution(examId, participantId, nextExerciseSolutionId),
+          QUERY_PARAM_BROWSE, request.queryParams(QUERY_PARAM_BROWSE));
+    } else {
+      target = RouteBuilder.toExam(examId);
+    }
+    response.redirect(target, HttpStatus.FOUND_302);
   }
 
   /**
@@ -85,22 +121,24 @@ public class ExerciseSolutionController implements Controller {
   }
 
   /**
-   * Adds breadcurmb for `solutions/`.
+   * Adds breadcrumb for `solutions/`.
    */
   public void addBreadCrumb(Request request, Response response) {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
+        UrlParameter.PARTICIPANT_ID);
 
     RequestHelper.pushBreadCrumb(request, "Aufgabenlösungen",
         RouteBuilder.toExerciseSolutions(examId, participantId));
   }
 
   /**
-   * Adds breadcurmb for `solutions/:solutionsId`.
+   * Adds breadcrumb for `solutions/:solutionsId`.
    */
   public void addSpecificBreadCrumb(Request request, Response response) {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
+        UrlParameter.PARTICIPANT_ID);
     long solutionId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
 
     RequestHelper.pushBreadCrumb(request, "Aufgabenlösung #" + solutionId,

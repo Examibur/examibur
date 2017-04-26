@@ -7,6 +7,22 @@
 		<h2>Prüfung ${exerciseSolution.exercise.exam.id} - Aufgabe ${exerciseSolution.exercise.orderInExam}</h2>
 	</header>
 	
+	
+	<div class="row">
+		<div class="pull-right">
+			<form method="get">
+				<#if browse??>
+					<input type="hidden" name="browse" value="${browse}">
+					<input type="hidden" name="querynext">
+					<button type="submit" class="btn btn-primary">Nächste Aufgabe</button>
+				<#else>
+					<input type="hidden" name="browse" value="participations">
+					<button type="submit" class="btn btn-default">Aufgabenweise korrigieren</button>
+				</#if>
+			</form>
+		</div>
+	</div>
+	
 	<div class="row">
 		<div class="panel panel-default">
 			<div class="panel-heading">Aufgabenstellung</div>
