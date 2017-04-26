@@ -33,7 +33,7 @@
 							<#items as exercise>
 							<tr>
 								<td><a href="/exams/${exam.id}/exercises/${exercise.id}">${exercise.id}</a></td>
-								<td>${exercise.title}</td>
+								<td><a href="/exams/${exam.id}/exercises/${exercise.id}">${exercise.title}</a></td>
 								<td>${exercise.maxPoints}</td>
 								<td class="td-ellipsis">${exercise.taskDescription}</td>
 							</tr>
