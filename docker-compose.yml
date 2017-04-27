@@ -39,14 +39,16 @@ services:
       GRID_TIMEOUT: "10"
     networks:
       - examibur
-  selenium-chrome:
-    image: selenium/node-chrome:3.4.0
+
+  selenium-firefox:
+    image: selenium/node-firefox:3.4.0
     restart: always
     environment:
       HUB_PORT_4444_TCP_ADDR: selenium-hub
       HUB_PORT_4444_TCP_PORT: 4444
     networks:
       - examibur
+
   website:
     user: jekyll
     build:
