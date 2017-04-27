@@ -1,8 +1,7 @@
 package ch.examibur.business.service;
 
-import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
-
 import ch.examibur.business.DatabaseResource;
+import ch.examibur.business.IntegrationTestUtil;
 import ch.examibur.service.ExamParticipationService;
 import ch.examibur.service.model.ExamParticipantOverview;
 import java.util.List;
@@ -17,8 +16,8 @@ public class ExamParticipationServiceImplTest {
 
   @ClassRule
   public static final DatabaseResource RES = new DatabaseResource();
-  private final ExamParticipationService examParticipationService = INJECTOR
-      .getInstance(ExamParticipationService.class);
+  private final ExamParticipationService examParticipationService = IntegrationTestUtil
+      .getInjector().getInstance(ExamParticipationService.class);
 
   @Test
   public void testGetExamParticipantsOverview() {
@@ -27,15 +26,15 @@ public class ExamParticipationServiceImplTest {
     Assert.assertEquals(3, examParticipantOverviewList.size());
     for (ExamParticipantOverview examParticipantOverview : examParticipantOverviewList) {
       if (examParticipantOverview.getExamParticipation().getPseudonym()
-          .equals("Anonymes Einhorn")) {  //ParticipantionId: 1
+          .equals("Anonymes Einhorn")) { // ParticipantionId: 1
         testExamParticipantOverview(examParticipantOverview, 5, 5.17, 3d, SUM_EXAM_GRADINGS_EXAM_4,
             "100.00%");
       } else if (examParticipantOverview.getExamParticipation().getPseudonym()
-          .equals("Anonyme Gazelle")) {   //ParticipantionId: 2
+          .equals("Anonyme Gazelle")) { // ParticipantionId: 2
         testExamParticipantOverview(examParticipantOverview, 4, 4.33, 2d, SUM_EXAM_GRADINGS_EXAM_4,
             "66.67%");
       } else if (examParticipantOverview.getExamParticipation().getPseudonym()
-          .equals("Anonymes Zebra")) {    //ParticipantionId: 3
+          .equals("Anonymes Zebra")) { // ParticipantionId: 3
         testExamParticipantOverview(examParticipantOverview, 5, 5.17, 1d, SUM_EXAM_GRADINGS_EXAM_4,
             "33.33%");
       } else {
@@ -43,15 +42,14 @@ public class ExamParticipationServiceImplTest {
       }
     }
   }
-  
+
   @Test
   public void testGetExamParticipantsOverviewWithNoGradings() {
     List<ExamParticipantOverview> examParticipantOverviewList = examParticipationService
         .getExamParticipantsOverview(1);
     Assert.assertEquals(0, examParticipantOverviewList.size());
   }
-  
-  
+
   @Test
   public void testGetExamParticipantsOverviewWithNonexistentExamId() {
     List<ExamParticipantOverview> examParticipantOverviewList = examParticipationService

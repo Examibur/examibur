@@ -27,35 +27,55 @@ dependencies {
     compile 'org.apache.logging.log4j:log4j-core:2.8.1'
     compile 'org.flywaydb:flyway-core:4.1.2'
     compile 'com.google.inject:guice:4.1.0'
-	compile 'com.google.inject.extensions:guice-assistedinject:4.0'
+    compile 'com.google.inject.extensions:guice-assistedinject:4.0'
 
     testCompile 'junit:junit:4.+'
+    testCompile 'org.seleniumhq.selenium:selenium-java:3.4.0'
+    testCompile 'ru.yandex.qatools.ashot:ashot:1.5.2'
     testCompile 'org.mockito:mockito-all:1.+'
-    testCompile 'org.seleniumhq.selenium:selenium-java:3.3.1'
-    testCompile 'org.seleniumhq.selenium:selenium-firefox-driver:3.3.1'
-	testCompile 'ru.yandex.qatools.ashot:ashot:1.5.2'
+    testCompile 'ru.yandex.qatools.ashot:ashot:1.5.2'
 
 }
+
 
 testSets {
     integrationTest { dirName = 'integrationtest' }
+    uiTest { dirName = 'integrationtest' }
 }
 
 project.integrationTest {
-    if( new File("/opt/geckodriver").exists() ) {
-		jvmArgs "-Dwebdriver.gecko.driver=/opt/geckodriver"
-    }
-    
+
+    exclude "ch/examibur/ui/app/**"
+
     beforeTest { descriptor ->
-     	logger.lifecycle("Running test: " + descriptor)
-  	}
-  	
-  	jacoco {
+        logger.lifecycle("Running integration test: " + descriptor)
+    }
+
+    jacoco {
         append = false
-        destinationFile = file("$buildDir/jacoco/jacocoInt.exec")
+        destinationFile = file("jacoco/jacocoInt.exec")
     }
 }
 
+project.uiTest {
+
+    include "ch/examibur/ui/app/**"
+
+    beforeTest { descriptor ->
+        logger.lifecycle("Running UI test: " + descriptor)
+    }
+}
+
+test {
+    beforeTest { descriptor ->
+        logger.lifecycle("Running unit test: " + descriptor)
+    }
+    jacoco {
+        append = false
+        destinationFile = file("jacoco/jacocoUnit.exec")
+    }
+
+}
 jacocoTestReport{
     reports {
         xml.enabled false
@@ -63,16 +83,21 @@ jacocoTestReport{
         html.destination "${buildDir}/reports/jacoco/html"
     }
     sourceSets sourceSets.main
-    executionData = files("$buildDir/jacoco/jacocoInt.exec")
+    executionData = files("jacoco/jacocoUnit.exec", "jacoco/jacocoTomcat.exec", "jacoco/jacocoInt.exec")
 }
 
+sonarqube {
+    properties {
+        property "sonar.jacoco.reportPaths", "jacocoUnit.exec, jacoco/jacocoTomcat.exec, jacoco/jacocoInt.exec"
+    }
+}
 
 compileJava {
-	options.encoding = "UTF-8"
+    options.encoding = "UTF-8"
 }
 
 compileIntegrationTestJava {
-	options.encoding = "UTF-8"
+    options.encoding = "UTF-8"
 }
 
 task deployToTomcat(type: Copy) {

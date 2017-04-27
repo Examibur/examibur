@@ -1,8 +1,7 @@
 package ch.examibur.business.service;
 
-import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
-
 import ch.examibur.business.DatabaseResource;
+import ch.examibur.business.IntegrationTestUtil;
 import ch.examibur.domain.Exercise;
 import ch.examibur.service.ExerciseService;
 import ch.examibur.service.exception.ExamiburException;
@@ -16,7 +15,8 @@ public class ExerciseServiceImplTest {
 
   @ClassRule
   public static final DatabaseResource RES = new DatabaseResource();
-  private final ExerciseService exerciseService = INJECTOR.getInstance(ExerciseService.class);
+  private final ExerciseService exerciseService = IntegrationTestUtil.getInjector()
+      .getInstance(ExerciseService.class);
 
   @Test
   public void testGetMaxPoints() throws ExamiburException {

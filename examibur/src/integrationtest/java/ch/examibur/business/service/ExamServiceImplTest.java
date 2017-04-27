@@ -1,8 +1,7 @@
 package ch.examibur.business.service;
 
-import static ch.examibur.business.IntegrationTestUtil.INJECTOR;
-
 import ch.examibur.business.DatabaseResource;
+import ch.examibur.business.IntegrationTestUtil;
 import ch.examibur.domain.Exam;
 import ch.examibur.domain.ExamState;
 import ch.examibur.service.ExamService;
@@ -24,7 +23,8 @@ public class ExamServiceImplTest {
 
   private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
-  private final ExamService examService = INJECTOR.getInstance(ExamService.class);
+  private final ExamService examService = IntegrationTestUtil.getInjector()
+      .getInstance(ExamService.class);
 
   @Test
   public void testGetExamsForAuthor() throws ExamiburException {

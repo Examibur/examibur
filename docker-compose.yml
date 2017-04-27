@@ -8,6 +8,8 @@ services:
     environment:
       POSTGRES_PASSWORD: "m4U6ctWpEZE801T"
       POSTGRES_USER: "examibur"
+    networks:
+      - examibur
   tomcat:
     build:
       dockerfile: ./Dockerfile.tomcat-dev
@@ -20,12 +22,33 @@ services:
       - 8000:8000
     volumes:
       - ./examibur/webapps/:/usr/local/tomcat/webapps/:z
+      - ./examibur/jacoco/:/var/jacoco/:z
     environment:
       DB_HOST: "postgres"
       DB_USER: "examibur"
       DB_PASSWORD: "m4U6ctWpEZE801T"
       LOG_LEVEL: "debug"
       LOG_FILE: "/usr/local/tomcat/logs/examibur.log"
+    networks:
+      - examibur
+
+  selenium-hub:
+    image: selenium/hub:3.4.0
+    restart: always
+    environment:
+      GRID_TIMEOUT: "10"
+    networks:
+      - examibur
+
+  selenium-firefox:
+    image: selenium/node-firefox:3.4.0
+    restart: always
+    environment:
+      HUB_PORT_4444_TCP_ADDR: selenium-hub
+      HUB_PORT_4444_TCP_PORT: 4444
+    networks:
+      - examibur
+
   website:
     user: jekyll
     build:
@@ -37,3 +60,5 @@ services:
       - ./docs/:/src/:Z
     command: jekyll serve -d public
 
+networks:
+  examibur:
