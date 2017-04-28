@@ -35,7 +35,7 @@ title: Error-Handling Policy
 
 ## Assertion Policy
 * Es werden keine Asserts verwendet, damit keine Diskrepanz zwischen Entwicklung und Produktion entstehen kann.
-    * "It is absurd to make elaborate security checks on debugging runs, when no trust is put in the results, and then remove them in production runs, when an erroneous result could be expensive or disastrous. What would we think of a sailing enthusiast who wears his lifejacket when training on dry land, but takes it off as soon as he goes to sea?" - C.A.R. Hoar
+    * "It is absurd to make elaborate security checks on debugging runs, when no trust is put in the results, and then remove them in production runs, when an erroneous result could be expensive or disastrous. What would we think of a sailing enthusiast who wears his lifejacket when training on dry land, but takes it off as soon as he goes to sea?" - C.A.R. Hoare
 * Barrikaden werden mit [Guava Preconditions](https://github.com/google/guava/wiki/PreconditionsExplained) implementiert.
 
 ## Logging Policy
