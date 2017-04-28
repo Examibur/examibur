@@ -22,6 +22,9 @@ public class User {
   @Column(nullable = false)
   private String lastName;
 
+  @Column(nullable = false)
+  private String username;
+
   public long getId() {
     return id;
   }
@@ -44,6 +47,14 @@ public class User {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
   }
 
 }
