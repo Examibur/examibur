@@ -70,6 +70,16 @@ public final class RouteBuilder {
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     return url;
   }
+  
+  /**
+   * Returns the absolute url to all reports of the given exam. It is the responsibility of the
+   * caller to provide a valid id!
+   */
+  public static String toReports(long examId) {
+    String url = Route.REPORTS.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
+    return url;
+  }
 
   /**
    * Returns the absolute url to all exercise solutions of the given participation. It is the
