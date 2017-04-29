@@ -1,6 +1,6 @@
 package ch.examibur.service.model.report;
 
-public final class PassedParticipationComparisonReport {
+public final class PassedParticipationComparison {
   
   /**
    * It is perfectly fine to suppress the unused warning cause this object
@@ -10,7 +10,7 @@ public final class PassedParticipationComparisonReport {
   @SuppressWarnings("unused")
   private final double percentageOfUnsuccessfulParticipations;
   
-  public PassedParticipationComparisonReport(int numberOfSuccessfulParticipations, int totalParticipations) {
+  public PassedParticipationComparison(int numberOfSuccessfulParticipations, int totalParticipations) {
     percentageOfSuccessfulParticipations = (double) numberOfSuccessfulParticipations / totalParticipations * 100;
     percentageOfUnsuccessfulParticipations = 100 - percentageOfSuccessfulParticipations;
   }

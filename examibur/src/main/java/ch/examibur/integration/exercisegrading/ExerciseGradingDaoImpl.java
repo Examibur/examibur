@@ -73,4 +73,22 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
     }
   }
 
+  @Override
+  public double getAveragePointsOfExercise(long exerciseId) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
+          .createQuery(
+              "SELECT AVG(eg.points) FROM ExerciseGrading eg "
+                  + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
+                  + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
+                  + "WHERE eg.isFinalGrading = true AND es.exercise.id = :exerciseId",
+              Double.class);
+      return totalPointsOfExamGradingsQuery.setParameter("exerciseId", exerciseId)
+          .getSingleResult();
+    } finally {
+      entityManager.close();
+    }
+  }
+
 }

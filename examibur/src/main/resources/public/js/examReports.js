@@ -33,5 +33,63 @@ $(function() {
 		}, 'json').fail(function() {
 			$('#passedParticipationComparisonReport .no-export').show();
 		});
+		
+		function prepareExerciseAverageMaxPointsComparisonReportData(dataToMap) {
+            var keys = [];
+            var maxPoints = [];
+            var averagePoints = [];
+
+            for (var key in dataToMap) {
+                // skip loop if the property is from prototype
+                if (!dataToMap.hasOwnProperty(key)) {
+                	continue;
+                }
+
+                var obj = dataToMap[key];
+                keys.push(obj['title']);
+                maxPoints.push(obj['maxPoints']);
+                averagePoints.push(obj['averagePoints']);
+            }
+            return {
+                keys: keys,
+                maxPoints: maxPoints,
+                averagePoints: averagePoints
+            };
+        }
+        
+		jQuery.get('json/?report=exerciseaveragemaxpointscomparisonreport', function(data) {
+			var mappedData = prepareExerciseAverageMaxPointsComparisonReportData(data);
+			Highcharts.chart('exerciseAverageMaxPointsComparisonReport', {
+				chart: {
+			        type: 'column'
+			    },
+			    title: {
+			        text: 'Aufgaben im Vergleich'
+			    },
+			    tooltip: {
+			    	pointFormat: '{series.name}: {point.y:.1f}'
+			    },
+			    xAxis: {
+			        categories: mappedData['keys']
+			    },
+			    yAxis: {
+			        min: 0,
+			        title: {
+			            text: 'Punkte'
+			        }
+			    },
+			    series: [{
+			        name: 'Maximale Punktzahl',
+			        data: mappedData['maxPoints']
+			    }, {
+			        name: 'Durchschnittliche Punktzahl',
+			        data: mappedData['averagePoints']
+			    }]
+			});
+		}, 'json').fail(function() {
+			$('#exerciseAverageMaxPointsComparisonReport .no-export').show();
+		});
+		
+		
 	})();
 });

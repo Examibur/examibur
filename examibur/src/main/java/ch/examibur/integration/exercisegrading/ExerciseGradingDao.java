@@ -29,4 +29,11 @@ public interface ExerciseGradingDao {
    */
   public double getProgressOfExamGradings(long examParticipationId);
   
+  /**
+   * @param exerciseId
+   *          the id of the exercise to get all corresponding exercise gradings        
+   * @return the average points of all exercises gradings for one exercise.
+   */
+  public double getAveragePointsOfExercise(long exerciseId);
+  
 }

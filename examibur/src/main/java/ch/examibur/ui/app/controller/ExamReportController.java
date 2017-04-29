@@ -79,6 +79,9 @@ public final class ExamReportController implements Controller {
 
     if (reportType.equals(ReportType.PASSED_PARTICIPATION_COMPARISON_REPORT.type())) {
       return new Gson().toJson(examReportService.getPassedParticipationComparisonReport(examId));
+    } else if (reportType.equals(ReportType.EXERCISE_AVERAGE_MAX_POINTS_COMPARISON_REPORT.type())) {
+      return new Gson()
+          .toJson(examReportService.getExerciseAverageMaxPointsComparisonReport(examId));
     }
 
     throw new InvalidParameterException("report query parameter is unknown");

@@ -18,8 +18,13 @@
 
 	<div class="tab-body">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-6">
 				<div id="passedParticipationComparisonReport">
+				    <div class="alert alert-danger no-export">Keine Daten verfügbar!</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div id="exerciseAverageMaxPointsComparisonReport">
 				    <div class="alert alert-danger no-export">Keine Daten verfügbar!</div>
 				</div>
 			</div>
