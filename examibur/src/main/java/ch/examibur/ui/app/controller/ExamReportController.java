@@ -1,7 +1,7 @@
 package ch.examibur.ui.app.controller;
 
+import ch.examibur.service.ExamReportService;
 import ch.examibur.service.ExamService;
-import ch.examibur.service.ExerciseService;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;
@@ -11,17 +11,21 @@ import ch.examibur.ui.app.render.Renderer;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
+import ch.examibur.ui.app.util.ReportType;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
 
 public final class ExamReportController implements Controller {
-  
+
+  public static final String QUERY_PARAM_REPORT = "report";
+
   private final ExamService examService;
-  private final ExerciseService exerciseService;
+  private final ExamReportService examReportService;
   private final Renderer engine;
 
   /**
@@ -31,16 +35,17 @@ public final class ExamReportController implements Controller {
    *          the render engine to render the templates with
    * @param examService
    *          the service to access exams
-   * @param exerciseService
-   *          the service to access exercises
+   * @param examReportService
+   *          the service to access exam reports
    */
   @Inject
-  public ExamReportController(Renderer engine, ExamService examService, ExerciseService exerciseService) {
+  public ExamReportController(Renderer engine, ExamService examService,
+      ExamReportService examReportService) {
     this.engine = engine;
     this.examService = examService;
-    this.exerciseService = exerciseService;
+    this.examReportService = examReportService;
   }
-  
+
   /**
    * Returns a list of exercises.
    * 
@@ -63,7 +68,22 @@ public final class ExamReportController implements Controller {
 
     return engine.render(model, "examReportsTab.ftl");
   }
-  
+
+  public String getReportAsJSON(Request request, Response response) throws ExamiburException {
+    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+
+    String reportType = request.queryParams(QUERY_PARAM_REPORT);
+    if (reportType == null) {
+      throw new InvalidParameterException("report query parameter is missing");
+    }
+
+    if (reportType.equals(ReportType.PASSED_PARTICIPATION_COMPARISON_REPORT.type())) {
+      return new Gson().toJson(examReportService.getPassedParticipationComparisonReport(examId));
+    }
+
+    throw new InvalidParameterException("report query parameter is unknown");
+  }
+
   /**
    * Adds breadcrumb for `reports/`.
    * 

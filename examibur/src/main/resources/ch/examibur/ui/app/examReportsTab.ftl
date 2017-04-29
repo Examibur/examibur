@@ -19,7 +19,9 @@
 	<div class="tab-body">
 		<div class="row">
 			<div class="col-md-12">
-					
+				<div id="passedParticipationComparisonReport">
+				    <div class="alert alert-danger no-export">Keine Daten verfügbar!</div>
+				</div>
 			</div>
 		</div>					
 	</div>
@@ -27,6 +29,7 @@
 <#macro page_scripts>
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="/js/examReports.js"></script>
 </#macro>
 
 <@display_page/>

@@ -72,6 +72,7 @@ public final class Router {
 
     beforeAll(Route.REPORTS, examReportController::addBreadCrumb);
     get(Route.REPORTS, examReportController::displayReports);
+    get(Route.REPORTS_JSON, examReportController::getReportAsJSON);
     
     beforeAll(Route.PARTICIPANT, participationController::addSpecificBreadCrumb);
     get(Route.PARTICIPANT, participationController::displayExamParticipation);
