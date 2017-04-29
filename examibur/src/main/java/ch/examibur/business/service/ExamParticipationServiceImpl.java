@@ -1,8 +1,8 @@
 package ch.examibur.business.service;
 
 import ch.examibur.domain.ExamParticipation;
+import ch.examibur.integration.exam.ExamDao;
 import ch.examibur.integration.examparticipation.ExamParticipationDao;
-import ch.examibur.integration.exercise.ExerciseDao;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
 import ch.examibur.service.ExamParticipationService;
 import ch.examibur.service.model.ExamParticipantOverview;
@@ -14,7 +14,7 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
 
   private final ExamParticipationDao examParticipationDao;
   private final ExerciseGradingDao exerciseGradingDao;
-  private final ExerciseDao exerciseDao;
+  private final ExamDao examDao;
 
   /**
    * Constructor.
@@ -23,15 +23,15 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
    *          the data access object to access exam participations
    * @param exerciseGradingDao
    *          the data access object to access exercise gradings
-   * @param exerciseDao
-   *          the data access object to access exercises
+   * @param examDao
+   *          the data access object to access exams
    */
   @Inject
   public ExamParticipationServiceImpl(ExamParticipationDao examParticipation, 
-      ExerciseGradingDao exerciseGradingDao, ExerciseDao exerciseDao) {
+      ExerciseGradingDao exerciseGradingDao, ExamDao examDao) {
     this.examParticipationDao = examParticipation;
     this.exerciseGradingDao = exerciseGradingDao;
-    this.exerciseDao = exerciseDao;
+    this.examDao = examDao;
   }
   
   @Override
@@ -48,7 +48,7 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
       double totalPoints = exerciseGradingDao.getTotalPointsOfExamGradings(examParticipationId);
       examParticipantOverview.setTotalPoints(totalPoints);
       
-      double maxPoints = exerciseDao.getMaxPoints(examId);
+      double maxPoints = examDao.getMaxPoints(examId);
       examParticipantOverview.setGrading(calculateGrading(totalPoints, maxPoints));
       
       double progress = exerciseGradingDao.getProgressOfExamGradings(examParticipationId);

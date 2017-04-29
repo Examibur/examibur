@@ -80,5 +80,22 @@ public class ExamServiceImplTest {
   public void testGetExamWithNegativeExamId() throws ExamiburException {
     examService.getExam(-1L);
   }
+  
+  @Test
+  public void testGetMaxPoints() throws ExamiburException {
+    double maxPoints = examService.getMaxPoints(4);
+    Assert.assertEquals(6, maxPoints, 0.01);
+  }
+
+  @Test
+  public void testGetMaxPointsForExamWithoutExercises() throws ExamiburException {
+    double maxPoints = examService.getMaxPoints(1);
+    Assert.assertEquals(0, maxPoints, 0.01);
+  }
+
+  @Test(expected = NotFoundException.class)
+  public void testGetMaxPointsWithNonexistentExamId() throws ExamiburException {
+    examService.getMaxPoints(0);
+  }
 
 }
