@@ -1,5 +1,7 @@
 package ch.examibur.business.service;
 
+import ch.examibur.business.util.grading.GradingUtil;
+import ch.examibur.business.util.grading.strategy.BaseGradingStrategy;
 import ch.examibur.domain.ExamParticipation;
 import ch.examibur.integration.exam.ExamDao;
 import ch.examibur.integration.examparticipation.ExamParticipationDao;
@@ -27,42 +29,38 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
    *          the data access object to access exams
    */
   @Inject
-  public ExamParticipationServiceImpl(ExamParticipationDao examParticipation, 
+  public ExamParticipationServiceImpl(ExamParticipationDao examParticipation,
       ExerciseGradingDao exerciseGradingDao, ExamDao examDao) {
     this.examParticipationDao = examParticipation;
     this.exerciseGradingDao = exerciseGradingDao;
     this.examDao = examDao;
   }
-  
+
   @Override
   public List<ExamParticipantOverview> getExamParticipantsOverview(long examId) {
     List<ExamParticipation> examParticipations = examParticipationDao.getExamParticipations(examId);
-    
+
     List<ExamParticipantOverview> examParticipantsOverwiew = new ArrayList<>();
     for (ExamParticipation examParticipation : examParticipations) {
       ExamParticipantOverview examParticipantOverview = new ExamParticipantOverview();
-      
+
       examParticipantOverview.setExamParticipation(examParticipation);
-      
+
       long examParticipationId = examParticipation.getId();
       double totalPoints = exerciseGradingDao.getTotalPointsOfExamGradings(examParticipationId);
       examParticipantOverview.setTotalPoints(totalPoints);
-      
+
       double maxPoints = examDao.getMaxPoints(examId);
-      examParticipantOverview.setGrading(calculateGrading(totalPoints, maxPoints));
-      
+      examParticipantOverview.setGrading(
+          GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints, maxPoints));
+
       double progress = exerciseGradingDao.getProgressOfExamGradings(examParticipationId);
       examParticipantOverview.setProgress(progress);
-      
+
       examParticipantsOverwiew.add(examParticipantOverview);
     }
-    
+
     return examParticipantsOverwiew;
   }
-  
-  private double calculateGrading(double totalPoints, double maxPoints) {
-    double grading = (totalPoints / maxPoints) * 5 + 1;
-    return Math.round(grading * 100) / 100d;
-  }
-  
+
 }
