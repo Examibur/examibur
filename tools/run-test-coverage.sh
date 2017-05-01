@@ -26,6 +26,8 @@ docker-compose up -d --build
 
 export LOG_FILE="examibur.log"
 ./gradlew clean test
+
+docker build -t examibur/ui_tests -f ../docker/Dockerfile.integration ../docker/
 /bin/bash $REPO_BASE/tools/run-integration.sh
 
 docker-compose stop

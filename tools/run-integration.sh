@@ -1,7 +1,5 @@
 #!/bin/bash
 set -e
-# Build the latest integration image...
-docker build -t examibur/ui_tests -f ../docker/Dockerfile.integration ../docker/
 
 # Create named volumes (for performance)
 docker volume create --name examibur_int_userhome_gradle > /dev/null
