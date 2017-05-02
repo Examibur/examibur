@@ -2,14 +2,23 @@ package ch.examibur.integration.exercisegrading;
 
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
+import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.domain.User;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseGradingDao.class);
 
   private final Provider<EntityManager> entityManagerProvider;
 
@@ -68,6 +77,47 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
       long sumOfCompletedExamGradings = (long) result[0];
       long sumOfExamGradings = (long) result[1];
       return (double) sumOfCompletedExamGradings / sumOfExamGradings;
+    } finally {
+      entityManager.close();
+    }
+  }
+
+  @Override
+  public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points) {
+
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      ExerciseSolution exerciseSolution = entityManager.find(ExerciseSolution.class,
+          exerciseSolutionId);
+      if (exerciseSolution == null) {
+        throw new NoResultException();
+      }
+      User gradingAuthor = entityManager.find(User.class, 1L); // TODO remove when faked user is
+                                                               // passed to method
+      ExerciseGrading exerciseGrading = new ExerciseGrading(
+          new Date(Calendar.getInstance().getTime().getTime()), comment, reasoning, points,
+          exerciseSolution.getParticipation().getExam().getState(), true, gradingAuthor,
+          exerciseSolution);
+      try {
+        entityManager.getTransaction().begin();
+        TypedQuery<ExerciseGrading> exerciseGradingQuery = entityManager.createQuery(
+            "SELECT eg FROM ExerciseGrading eg WHERE eg.exerciseSolution.id = :exerciseSolutionId "
+                + "AND eg.isFinalGrading = true",
+            ExerciseGrading.class);
+        List<ExerciseGrading> resultList = exerciseGradingQuery
+            .setParameter("exerciseSolutionId", exerciseSolutionId).setMaxResults(1)
+            .getResultList();
+        if (!resultList.isEmpty()) {
+          resultList.get(0).setFinalGrading(false);
+        }
+        entityManager.persist(exerciseGrading);
+        entityManager.getTransaction().commit();
+      } catch (Exception ex) {
+        entityManager.getTransaction().rollback();
+        LOGGER.error("Error while adding new grading to exerciseSolution " + exerciseSolutionId,
+            ex);
+        throw ex;
+      }
     } finally {
       entityManager.close();
     }

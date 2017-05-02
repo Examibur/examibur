@@ -41,7 +41,7 @@ public final class RouteBuilder {
 
   /**
    * Returns the absolute url to the exercise with the given id of the given exam. It is the
-   * responsibility of the caller to provide a valid ids!
+   * responsibility of the caller to provide valid ids!
    */
   public static String toExercise(long examId, long exerciseId) {
     String url = Route.EXERCISE.url();
@@ -52,7 +52,7 @@ public final class RouteBuilder {
 
   /**
    * Returns the absolute url to all participants of the given exam. It is the responsibility of the
-   * caller to provide a valid ids!
+   * caller to provide a valid id!
    */
   public static String toExamParticipations(long examId) {
     String url = Route.PARTICIPANTS.url();
@@ -62,7 +62,7 @@ public final class RouteBuilder {
 
   /**
    * Returns the absolute url to the participants with the given id of the given exam. It is the
-   * responsibility of the caller to provide a valid ids!
+   * responsibility of the caller to provide valid ids!
    */
   public static String toExamParticipation(long examId, long participantId) {
     String url = Route.PARTICIPANT.url();
@@ -73,7 +73,7 @@ public final class RouteBuilder {
 
   /**
    * Returns the absolute url to all exercise solutions of the given participation. It is the
-   * responsibility of the caller to provide a valid ids!
+   * responsibility of the caller to provide valid ids!
    */
   public static String toExerciseSolutions(long examId, long participantId) {
     String url = Route.SOLUTIONS.url();
@@ -84,10 +84,22 @@ public final class RouteBuilder {
 
   /**
    * Returns the absolute url to the exercise soltion with the given id of the given participation.
-   * It is the responsibility of the caller to provide a valid ids!
+   * It is the responsibility of the caller to provide valid ids!
    */
   public static String toExerciseSolution(long examId, long participantId, long solutionId) {
     String url = Route.SOLUTION.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
+    url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
+    url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
+    return url;
+  }
+
+  /**
+   * Returns the absolute url to all exercise gradings of the given exercise solution. It is the
+   * responsibility of the caller to provide valid ids!
+   */
+  public static String toExerciseGradings(long examId, long participantId, long solutionId) {
+    String url = Route.GRADINGS.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
