@@ -70,9 +70,6 @@ Lösungen wie ActiveMQ könnten hier in Betracht gezogen werden.
 Beschreibt die Schnittstellendefinition des Business-Layers. Diese Auslagerung ermöglicht es, die Business- und die Darstellungslogik in Zukunft zu trennen.
 Alle Service-Methoden müssen Thread-Safe implementiert sein!
 
-#### model
-Enthält Modelle um das Aggregierte Informationen aus dem Services zu liefern. Grundsätzlich wird das Domain-Model wann möglich direkt verwendet.
-
 #### exception
 Definiert eigene Exceptions, welche alle von `ExamiburException` erben. Dies vereinfacht die Service-Schnittstellen und Fehlerbehandlung auf den Clients.
 
@@ -84,6 +81,9 @@ In dieser Schicht werden die einzelnen Datenbank-Patches gespeichert. Dies ermö
 
 ### domain
 Hier sind die Domain-Objekte enthalten, welche die Datenbanken abbilden. Auf den Domain-Objekten wird auch das objektrelationale Mapping durchgeführt. Für das Mapping wird EclipseLink verwendet.
+
+#### model
+Enthält aggregierte Informationen. Grundsätzlich wird das Domain-Model wann möglich direkt verwendet.
 
 ## Design-Entscheide
 
