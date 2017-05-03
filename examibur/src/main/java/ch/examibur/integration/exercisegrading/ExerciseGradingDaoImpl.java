@@ -83,8 +83,8 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   }
 
   @Override
-  public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points) {
-
+  public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
+      User gradingAuthor) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
       ExerciseSolution exerciseSolution = entityManager.find(ExerciseSolution.class,
@@ -92,25 +92,17 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
       if (exerciseSolution == null) {
         throw new NoResultException();
       }
-      User gradingAuthor = entityManager.find(User.class, 1L); // TODO remove when faked user is
-                                                               // passed to method
+
       ExerciseGrading exerciseGrading = new ExerciseGrading(
           new Date(Calendar.getInstance().getTime().getTime()), comment, reasoning, points,
           exerciseSolution.getParticipation().getExam().getState(), true, gradingAuthor,
           exerciseSolution);
       try {
         entityManager.getTransaction().begin();
-        TypedQuery<ExerciseGrading> exerciseGradingQuery = entityManager.createQuery(
-            "SELECT eg FROM ExerciseGrading eg WHERE eg.exerciseSolution.id = :exerciseSolutionId "
-                + "AND eg.isFinalGrading = true",
-            ExerciseGrading.class);
-        List<ExerciseGrading> resultList = exerciseGradingQuery
-            .setParameter("exerciseSolutionId", exerciseSolutionId).setMaxResults(1)
-            .getResultList();
-        if (!resultList.isEmpty()) {
-          resultList.get(0).setFinalGrading(false);
-        }
+
+        resetCurrentFinalGrading(entityManager, exerciseSolutionId);
         entityManager.persist(exerciseGrading);
+
         entityManager.getTransaction().commit();
       } catch (Exception ex) {
         entityManager.getTransaction().rollback();
@@ -120,6 +112,18 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
       }
     } finally {
       entityManager.close();
+    }
+  }
+
+  private void resetCurrentFinalGrading(EntityManager entityManager, long exerciseSolutionId) {
+    TypedQuery<ExerciseGrading> exerciseGradingQuery = entityManager.createQuery(
+        "SELECT eg FROM ExerciseGrading eg WHERE eg.exerciseSolution.id = :exerciseSolutionId "
+            + "AND eg.isFinalGrading = true",
+        ExerciseGrading.class);
+    List<ExerciseGrading> resultList = exerciseGradingQuery
+        .setParameter("exerciseSolutionId", exerciseSolutionId).setMaxResults(1).getResultList();
+    if (!resultList.isEmpty()) {
+      resultList.get(0).setFinalGrading(false);
     }
   }
 

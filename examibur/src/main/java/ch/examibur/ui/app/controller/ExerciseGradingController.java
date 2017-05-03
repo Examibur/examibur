@@ -38,7 +38,7 @@ public class ExerciseGradingController {
    *          the HTTP request
    * @param response
    *          the HTTP response
-   * @return nothing to return
+   * @return nothing to return --> redirect to ExerciseSolution
    */
   public String addExerciseGrading(Request request, Response response)
       throws NotFoundException, AuthorizationException, IOException {

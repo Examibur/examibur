@@ -5,6 +5,7 @@ import ch.examibur.business.exception.NotFoundException;
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
+import ch.examibur.domain.User;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
 import com.google.inject.Inject;
 import javax.persistence.NoResultException;
@@ -46,8 +47,13 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
     ValidationHelper.checkForNegativeId(exerciseSolutionId, LOGGER);
 
     // TODO load current user
+    User gradingAuthor = new User();
+    gradingAuthor.setId(1L);
+    gradingAuthor.setFirstName("Maximilian");
+    gradingAuthor.setLastName("Mueller");
+
     try {
-      exerciseGradingDao.addGrading(exerciseSolutionId, comment, reasoning, points);
+      exerciseGradingDao.addGrading(exerciseSolutionId, comment, reasoning, points, gradingAuthor);
     } catch (NoResultException ex) {
       NotFoundException notFoundException = new NotFoundException(
           "ExerciseSolution with id " + exerciseSolutionId + " does not exist", ex);

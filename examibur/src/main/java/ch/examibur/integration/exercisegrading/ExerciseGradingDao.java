@@ -3,6 +3,7 @@ package ch.examibur.integration.exercisegrading;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.domain.User;
 
 public interface ExerciseGradingDao {
 
@@ -42,6 +43,7 @@ public interface ExerciseGradingDao {
    * @param gradingAuthor
    *          the author of this grading
    */
-  public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points);
+  public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
+      User gradingAuthor);
 
 }

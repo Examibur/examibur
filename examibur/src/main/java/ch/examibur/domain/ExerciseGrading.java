@@ -52,7 +52,6 @@ public class ExerciseGrading {
   public ExerciseGrading(Date creationDate, String comment, String reasoning, double points,
       ExamState createdInState, boolean isFinalGrading, User gradingAuthor,
       ExerciseSolution exerciseSolution) {
-    super();
     this.creationDate = creationDate;
     this.comment = comment;
     this.reasoning = reasoning;
