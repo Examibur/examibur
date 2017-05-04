@@ -90,31 +90,40 @@ public class ExerciseGradingServiceImplTest {
   @Test
   public void testAddCorrection() throws ExamiburException {
     long exerciseSolutionId = 54L;
-    exerciseGradingService.addGrading(exerciseSolutionId, "random comment", "random reasoning", 1D);
+    String comment = "random comment";
+    String reasoning = "random reasoning";
+    Double points = 1D;
+
+    exerciseGradingService.addGrading(exerciseSolutionId, comment, reasoning, points);
     ExerciseGrading exerciseGrading = exerciseGradingService
         .getGradingForExerciseSolution(exerciseSolutionId);
-    Assert.assertEquals(exerciseGrading.isFinalGrading(), true);
+    Assert.assertEquals(exerciseGrading.getComment(), comment);
+    Assert.assertEquals(exerciseGrading.getReasoning(), reasoning);
+    Assert.assertEquals(exerciseGrading.getPoints(), points, 0.01);
   }
 
   @Test
   public void testAddReview() throws ExamiburException {
     long exerciseSolutionId = 35L;
-    exerciseGradingService.addGrading(exerciseSolutionId, "random comment", "random reasoning", 1D);
+    String comment = "random comment";
+    String reasoning = "random reasoning";
+    Double points = 1D;
+
+    exerciseGradingService.addGrading(exerciseSolutionId, comment, reasoning, points);
     ExerciseGrading exerciseReview = exerciseGradingService
         .getReviewForExerciseSolution(exerciseSolutionId);
-    ExerciseGrading exerciseGrading = exerciseGradingService
-        .getGradingForExerciseSolution(exerciseSolutionId);
-    Assert.assertEquals(exerciseReview.isFinalGrading(), true);
-    Assert.assertEquals(exerciseGrading.isFinalGrading(), false);
+    Assert.assertEquals(exerciseReview.getComment(), comment);
+    Assert.assertEquals(exerciseReview.getReasoning(), reasoning);
+    Assert.assertEquals(exerciseReview.getPoints(), points, 0.01);
   }
 
   @Test(expected = NotFoundException.class)
   public void testAddGradingWithNonexistentSolutionId() throws ExamiburException {
-    exerciseGradingService.addGrading(0L, "random comment", "random reasoning", 1);
+    exerciseGradingService.addGrading(0L, "random comment", "random reasoning", 1D);
   }
 
   @Test(expected = InvalidParameterException.class)
   public void testAddGradingWithNegativeSolutionId() throws ExamiburException {
-    exerciseGradingService.addGrading(-1L, "random comment", "random reasoning", 1);
+    exerciseGradingService.addGrading(-1L, "random comment", "random reasoning", 1D);
   }
 }
