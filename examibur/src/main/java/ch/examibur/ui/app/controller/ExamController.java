@@ -73,10 +73,16 @@ public class ExamController implements Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
+   * @throws ExamiburException
+   *           throws {@link CommunicationException} if an exception during the communication
+   *           occurs. throws {@link AuthorizationException} if the user is not authorized. throws
+   *           {@link InvalidParameterException} if userid < 0
    */
-  public String listExams(Request request, Response response) {
+  public String listExams(Request request, Response response) throws ExamiburException {
+    long userId = request.attribute("user");
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
-    return engine.render(model, "404.ftl");
+    model.put("exams", examService.getExamsForAuthor(userId));
+    return engine.render(model, "examsListView.ftl");
   }
 
   /**

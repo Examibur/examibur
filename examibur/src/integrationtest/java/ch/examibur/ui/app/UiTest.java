@@ -62,4 +62,11 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
+
+  @Test
+  public void testExamsList() throws IOException {
+    final String testUrl = TEST_URL + "/exams";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
 }
