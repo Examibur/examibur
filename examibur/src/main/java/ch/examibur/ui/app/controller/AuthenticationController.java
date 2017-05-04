@@ -4,6 +4,7 @@ import ch.examibur.service.AuthenticationService;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.model.AuthenticationInformation;
 import ch.examibur.ui.app.render.Renderer;
+import ch.examibur.ui.app.routing.QueryParameter;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.util.CookieHelpers;
 import ch.examibur.ui.app.util.RequestAttributes;
@@ -28,7 +29,6 @@ public class AuthenticationController implements Controller {
   }
 
   public String displayLoginForm(Request request, Response response) throws ExamiburException {
-    // TODO: redirect if the user is logged-in.
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     return engine.render(model, "login.ftl");
   }
@@ -37,7 +37,7 @@ public class AuthenticationController implements Controller {
    * Tries to log in the user with the credentials provided in the requests form-data. On Success,
    * the user is redirected to the Dashboard. Otherwise, he is redirected to the login page.
    */
-  public String performLogin(Request request, Response response) throws ExamiburException {
+  public String performLogin(Request request, Response response) {
     String username = request.raw().getParameter(USERNAME_PARAMETER);
     String password = request.raw().getParameter(PASSWORD_PARAMETER);
     try {
@@ -46,8 +46,8 @@ public class AuthenticationController implements Controller {
           CookieHelpers.USER_COOKIE_EXPIRATION, CookieHelpers.USER_COOKIE_SECURE);
 
       String ref = RouteBuilder.toDashboard();
-      if (request.queryParams("ref") != null) {
-        ref = request.queryParams("ref");
+      if (request.queryParams(QueryParameter.Ref.toString()) != null) {
+        ref = request.queryParams(QueryParameter.Ref.toString());
       }
 
       response.redirect(ref);

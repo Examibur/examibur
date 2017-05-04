@@ -5,6 +5,7 @@ import ch.examibur.domain.User;
 import ch.examibur.service.AuthenticationService;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.model.AuthenticationInformation;
+import ch.examibur.ui.app.routing.QueryParameter;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.util.BreadCrumbEntry;
 import ch.examibur.ui.app.util.CookieHelpers;
@@ -38,6 +39,7 @@ public class Filters {
   public void addTrailingSlashes(Request request, Response response) {
     if (!request.pathInfo().endsWith("/")) {
       response.redirect(request.pathInfo() + "/");
+      Spark.halt();
     }
   }
 
@@ -51,7 +53,7 @@ public class Filters {
    */
   public void addBaseModel(Request request, Response response) {
     Map<String, Object> baseModel = new HashMap<>();
-    baseModel.put(RequestAttributes.USER, "Max Muster");
+    baseModel.put(RequestAttributes.USER, request.attribute(RequestAttributes.USER));
     baseModel.put(RequestAttributes.TITLE, "Examibur");
     baseModel.put(RequestAttributes.BREADCRUMB, new LinkedList<BreadCrumbEntry>());
     baseModel.put(RequestAttributes.URL, request.uri());
@@ -67,27 +69,28 @@ public class Filters {
    *          The planned response.
    */
   public void handleAuthentication(Request request, Response response) {
-    User user = null;
+    // Unset the current user on the business layer
+    AuthenticationUtil.setCurrentUser(null);
+
     try {
       AuthenticationInformation info = authenticationService
           .login(request.cookie(CookieHelpers.USER_COOKIE));
-      user = info.getUser();
+      User user = info.getUser();
+      AuthenticationUtil.setCurrentUser(user);
+      request.attribute(RequestAttributes.USER, user);
+
+      if (request.uri().startsWith(RouteBuilder.toLogin())) {
+        response.redirect(RouteBuilder.toDashboard());
+        Spark.halt();
+      }
     } catch (ExamiburException e) {
       if (!request.uri().startsWith(RouteBuilder.toLogin())) {
-        // TODO: append ref id
-        // TODO: set user in map!
-        // TODO: logout in layout
-        // TODO: unset current user in the next thread?!
-        // TODO: extract ref parmeter into constant
-        // TODO: split this filters?
-        String redirectUrl = RouteBuilder.addQueryParameter(RouteBuilder.toLogin(), "ref",
-            request.uri());
+        String redirectUrl = RouteBuilder.addQueryParameter(RouteBuilder.toLogin(),
+            QueryParameter.Ref.toString(), request.uri());
         response.redirect(redirectUrl);
         Spark.halt();
       }
     }
-    AuthenticationUtil.setCurrentUser(user);
-    request.attribute(RequestAttributes.USER, user);
   }
 
   /**

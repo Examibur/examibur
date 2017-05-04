@@ -12,6 +12,40 @@
 	</ol>
 </#macro>
 
+<#macro header>
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">
+            Examibur
+          </a>
+        </div>
+
+	    <ul class="nav navbar-nav navbar-right">
+	        <#if user??>
+		    <li class="dropdown">
+		        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		            <span class="glyphicon glyphicon-user"></span> 
+		            <strong>${user.firstName} ${user.lastName}</strong>
+		            <span class="glyphicon glyphicon-chevron-down"></span>
+		        </a>
+		        <ul class="dropdown-menu">
+					<div class="navbar-login navbar-login-session">
+			            <form action="/logout" method="POST">
+							<input class="btn btn-block" type="submit" value="Logout">
+			            </form>
+					</div>
+
+		        </ul>
+		    </li>
+		    <#else>
+				<li><a href="/login/">login</a></li>
+			</#if>
+			</ul>
+      </div>
+    </nav>
+</#macro>
+
 <#macro body_main>
 	<p>nothing to display</p>
 </#macro>
@@ -21,6 +55,7 @@
 </#macro>
 
 <#macro page_body>
+	<@header/>
 	<div class="container">
 	<header>
     	<@body_header_navigation/>
