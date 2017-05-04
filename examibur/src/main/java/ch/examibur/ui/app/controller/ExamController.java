@@ -62,7 +62,7 @@ public class ExamController implements Controller {
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
     model.put("maxPoints", exerciseService.getMaxPoints(examId));
-    return engine.render(model, "examInformationTab.ftl");
+    return engine.render(model, "views/examInformationTab.ftl");
   }
 
   /**
@@ -82,7 +82,7 @@ public class ExamController implements Controller {
     long userId = request.attribute("user");
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exams", examService.getExamsForAuthor(userId));
-    return engine.render(model, "examsListView.ftl");
+    return engine.render(model, "views/examsView.ftl");
   }
 
   /**

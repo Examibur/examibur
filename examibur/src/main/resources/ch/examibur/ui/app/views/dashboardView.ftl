@@ -1,5 +1,5 @@
-<#include "bodyTemplate.ftl">
-<#include "examListComponent.ftl">
+<#include "../templates/bodyTemplate.ftl">
+<#include "../includes/examListComponent.ftl">
 
 <#macro body_main>
 	<header>

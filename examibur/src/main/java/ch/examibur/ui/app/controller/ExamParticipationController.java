@@ -53,7 +53,7 @@ public class ExamParticipationController implements Controller {
    */
   public String displayExamParticipation(Request request, Response response) {
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
-    return engine.render(model, "examParticipationTabExerciseView.ftl");
+    return engine.render(model, "views/examParticipationExerciseTab.ftl");
   }
 
   /**
@@ -77,7 +77,7 @@ public class ExamParticipationController implements Controller {
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
     model.put("participantsOverview", examParticipationService.getExamParticipantsOverview(examId));
-    return engine.render(model, "examParticipationsTab.ftl");
+    return engine.render(model, "views/examParticipationsTab.ftl");
   }
 
   /**

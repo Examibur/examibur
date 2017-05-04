@@ -48,7 +48,7 @@ public class DashboardController implements Controller {
     long userId = request.attribute("user");
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exams", examService.getExamsForAuthor(userId));
-    return engine.render(model, "dashboard.ftl");
+    return engine.render(model, "views/dashboardView.ftl");
   }
 
   /**
