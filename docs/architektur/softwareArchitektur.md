@@ -76,14 +76,14 @@ Definiert eigene Exceptions, welche alle von `ExamiburException` erben. Dies ver
 ### integration
 In dieser Schicht werden die Queries zur Datenbank abgesetzt, in die Domain-Objekte geladen und von den Objekten wieder zurück in die Datenbank geschrieben.
 
-#### migration 
+#### migration
 In dieser Schicht werden die einzelnen Datenbank-Patches gespeichert. Dies ermöglicht eine automatische Aktualisierung der Datenbank auf dem lokalen Entwicklungssystem und der Produktion während dem Build-Prozess.
 
 ### domain
 Hier sind die Domain-Objekte enthalten, welche die Datenbanken abbilden. Auf den Domain-Objekten wird auch das objektrelationale Mapping durchgeführt. Für das Mapping wird EclipseLink verwendet.
 
-#### model
-Enthält aggregierte Informationen. Grundsätzlich wird das Domain-Model wann möglich direkt verwendet.
+#### aggregation
+Enthält aggregierte Informationen. Grundsätzlich wird das Domain-Model wenn möglich direkt verwendet.
 
 ## Design-Entscheide
 

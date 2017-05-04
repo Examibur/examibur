@@ -10486,7 +10486,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "aggregations",
+											"text": "aggregation",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -11064,7 +11064,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFa7UZC0064AGw="
 							},
-							"name": "aggregations",
+							"name": "aggregation",
 							"visibility": "public"
 						}
 					],
