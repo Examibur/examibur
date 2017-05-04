@@ -110,11 +110,23 @@ public final class RouteBuilder {
     return url.replaceFirst(param.toUrl(), replacement == null ? "" : replacement.toString());
   }
 
+  /**
+   * Returns the given url appended by the new query parameter (url?key=value). If the url already
+   * contains parameters the new one will be appended at the end.
+   *
+   * @param url
+   *          the given url
+   * @param key
+   *          the key of the query parameter to append
+   * @param value
+   *          the value of the query parameter to append
+   * @return
+   */
   public static String addQueryParameter(String url, String key, String value) {
     char delimiter = '?';
     if (url.indexOf(delimiter) != -1) {
       delimiter = '&';
     }
-    return url + delimiter + key + "=" + value;
+    return url + delimiter + key + '=' + value;
   }
 }
