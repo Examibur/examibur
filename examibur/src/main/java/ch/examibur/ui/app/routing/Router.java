@@ -1,7 +1,7 @@
 package ch.examibur.ui.app.routing;
 
-import ch.examibur.business.exception.AuthorizationException;
-import ch.examibur.business.exception.NotFoundException;
+import ch.examibur.service.exception.AuthorizationException;
+import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.ui.app.controller.DashboardController;
 import ch.examibur.ui.app.controller.ExamController;
 import ch.examibur.ui.app.controller.ExamParticipationController;

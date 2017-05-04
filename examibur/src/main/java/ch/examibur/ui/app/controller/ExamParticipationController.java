@@ -1,17 +1,19 @@
 package ch.examibur.ui.app.controller;
 
-import ch.examibur.business.exam.ExamService;
-import ch.examibur.business.examparticipation.ExamParticipationService;
-import ch.examibur.business.exception.AuthorizationException;
-import ch.examibur.business.exception.NotFoundException;
+import ch.examibur.service.ExamParticipationService;
+import ch.examibur.service.ExamService;
+import ch.examibur.service.exception.AuthorizationException;
+import ch.examibur.service.exception.CommunicationException;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidParameterException;
+import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.ui.app.render.Renderer;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
-import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
-import java.io.IOException;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
@@ -62,15 +64,14 @@ public class ExamParticipationController implements Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
-   * @throws IOException
-   *           if an exception during the communication occurs
-   * @throws AuthorizationException
-   *           if the user is not authorized
-   * @throws NotFoundException
-   *           if the exam is not found
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if a parameter is invalid. throws
+   *           {@link CommunicationException} if an exception during the communication occurs.
+   *           throws {@link AuthorizationException} if the user is not authorized. throws
+   *           {@link NotFoundException} if the exam is not found.
    */
   public String listExamParticipations(Request request, Response response)
-      throws NotFoundException, AuthorizationException, IOException {
+      throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
@@ -81,18 +82,26 @@ public class ExamParticipationController implements Controller {
 
   /**
    * Adds breadcrumb for `exercises/`.
+   * 
+   * @throws InvalidParameterException
+   *           if the examid parameter is not set or < 0.
    */
-  public void addBreadCrumb(Request request, Response response) {
+  public void addBreadCrumb(Request request, Response response) throws InvalidParameterException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
     RequestHelper.pushBreadCrumb(request, "Teilnehmer", RouteBuilder.toExamParticipations(examId));
   }
 
   /**
    * Adds breadcrumb for `exercises/:exerciseId`.
+   * 
+   * @throws InvalidParameterException
+   *           if an id parameter is not set or < 0.
    */
-  public void addSpecificBreadCrumb(Request request, Response response) {
+  public void addSpecificBreadCrumb(Request request, Response response)
+      throws InvalidParameterException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
+        UrlParameter.PARTICIPANT_ID);
 
     RequestHelper.pushBreadCrumb(request, "Teilnehmer #" + participantId,
         RouteBuilder.toExamParticipation(examId, participantId));

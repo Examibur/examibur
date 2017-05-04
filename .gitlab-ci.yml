@@ -1,6 +1,9 @@
 stages:
   - build
+  - test_setup
   - test
+  - test_teardown
+  - report
   - docs
   - deploy
 
@@ -36,20 +39,65 @@ build:
     paths:
       - examibur/build/libs/
 
+before_test:
+  image: tmaier/docker-compose
+  stage: test_setup
+  variables:
+    DOCKER_DRIVER: overlay
+  services:
+    - docker:dind
+  script:
+    - docker-compose rm -f tomcat postgres
+    - docker-compose up -d --build tomcat postgres
+    - sleep 15
+
 test:
   image: java:8-jdk
   stage: test
+  variables:
+    UI_TEST_URL: http://tomcat:8080/
+    DB_HOST: postgres
+    DB_USER: examibur
+    DB_PASSWORD: "m4U6ctWpEZE801T"
+    LOG_LEVEL: INFO
+    LOG_FILE: examibur.log
   script:
-    - cd examibur/
-    - ./gradlew check
-    - ./gradlew jacocoTestReport
+    - cd examibur && ./gradlew clean test integrationTest
+  artifacts:
+    when: always
+    paths:
+      - examibur/screenshots/
+      - examibur/jacoco/jacoco*.exec
+
+after_test:
+  image: tmaier/docker-compose
+  stage: test_teardown
+  variables:
+    DOCKER_DRIVER: overlay
+  services:
+    - docker:dind
+  script:
+    - docker-compose stop tomcat postgres
+    - docker cp examibur_tomcat_1:/var/jacoco/jacocoTomcat.exec examibur/jacoco/jacocoTomcat.exec
+    - docker-compose kill tomcat postgres
+    - docker-compose rm -f tomcat postgres
+  when: always
   artifacts:
     paths:
-      - examibur/build/reports/
+      - examibur/jacoco/jacocoTomcat.exec
+
+jacoco:
+  image: java:8-jdk
+  stage: report
+  script:
+    - cd examibur && ls -la jacoco/ && ./gradlew jacocoTestReport
+  artifacts:
+    paths:
+      - examibur/build/reports/jacoco/
 
 report_sonar:
   image: java:8-jdk
-  stage: test
+  stage: report
   script:
     - cd examibur/
     - ./gradlew sonarqube -Dsonar.login=$SONARQUBE_TOKEN

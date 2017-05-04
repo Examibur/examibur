@@ -30,7 +30,7 @@
 			<@body_main/>
 		</main>
 		
-		<div class="navbar navbar-fixed-bottom">
+		<div class="navbar">
 			<div class="container">
 				<footer>
 					<@body_footer/>

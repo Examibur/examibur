@@ -1,18 +1,20 @@
 package ch.examibur.ui.app.controller;
 
-import ch.examibur.business.exception.AuthorizationException;
-import ch.examibur.business.exception.NotFoundException;
-import ch.examibur.business.exercisegrading.ExerciseGradingService;
-import ch.examibur.business.exercisesolution.ExerciseSolutionService;
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.service.ExerciseGradingService;
+import ch.examibur.service.ExerciseSolutionService;
+import ch.examibur.service.exception.AuthorizationException;
+import ch.examibur.service.exception.CommunicationException;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidParameterException;
+import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.ui.app.render.Renderer;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
-import ch.examibur.ui.app.util.Renderer;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
-import java.io.IOException;
 import java.util.Map;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
@@ -55,16 +57,16 @@ public class ExerciseSolutionController implements Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
-   * @throws NotFoundException
-   *           if the exerciseSolution is not found
-   * @throws AuthorizationException
-   *           if the user is not authorized to display this {@link ExerciseSolution}
-   * @throws IOException
-   *           if an exception during the communication occurs
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if a parameter is invalid. throws
+   *           {@link NotFoundException} if the exerciseSolution is not found. throws
+   *           {@link AuthorizationException} if the user is not authorized to display this
+   *           {@link ExerciseSolution}. throws {@link CommunicationException} if an exception
+   *           during the communication occurs.
    * 
    */
   public String displayExerciseSolution(Request request, Response response)
-      throws NotFoundException, AuthorizationException, IOException {
+      throws ExamiburException {
 
     if (request.queryParams(QUERY_PARAM_QUERY_NEXT) != null) {
       redirectToNextExerciseSolution(request, response);
@@ -86,7 +88,7 @@ public class ExerciseSolutionController implements Controller {
   }
 
   private void redirectToNextExerciseSolution(Request request, Response response)
-      throws NotFoundException, AuthorizationException, IOException {
+      throws ExamiburException {
     long exerciseSolutionId = RoutingHelpers.getUnsignedLongUrlParameter(request,
         UrlParameter.SOLUTION_ID);
     ExerciseSolution nextExerciseSolution = exerciseSolutionService
@@ -122,8 +124,11 @@ public class ExerciseSolutionController implements Controller {
 
   /**
    * Adds breadcrumb for `solutions/`.
+   * 
+   * @throws InvalidParameterException
+   *           if an id parameter is not set or < 0.
    */
-  public void addBreadCrumb(Request request, Response response) {
+  public void addBreadCrumb(Request request, Response response) throws InvalidParameterException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
     long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
         UrlParameter.PARTICIPANT_ID);
@@ -134,8 +139,12 @@ public class ExerciseSolutionController implements Controller {
 
   /**
    * Adds breadcrumb for `solutions/:solutionsId`.
+   * 
+   * @throws InvalidParameterException
+   *           if an id parameter is not set or < 0.
    */
-  public void addSpecificBreadCrumb(Request request, Response response) {
+  public void addSpecificBreadCrumb(Request request, Response response)
+      throws InvalidParameterException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
     long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
         UrlParameter.PARTICIPANT_ID);

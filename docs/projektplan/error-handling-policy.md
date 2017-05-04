@@ -24,17 +24,18 @@ title: Error-Handling Policy
 
 ### Implementierung
 * Alle Exceptions, die der Integration-Layer werfen kann, werden vom Business-Layer gefangen, geloggt und weiter geworfen
-* Der Business-Layer wirft nur vordefinierte Exceptions:
+* Der Business-Layer wirft nur Exceptions vom Typ `ExamiburException`
+* Als Subtypen von `ExamiburException` werden folgende Exceptions definiert:
     * `ValidationException` für ungültige Werte, die vom User in den Service kommen und die Integrität der Daten verletzen würde
-    * `IllegalArgumentException` für ungültige Funktions-Parameter, z.B. eine negative ID
+    * `InvalidParameter` für ungültige Funktions-Parameter, z.B. eine negative ID
     * `NotFoundException`, wenn eine angeforderte Ressource auf der Datenbank nicht gefunden wurde, aber zwingend ein Resultat benötigt wird
     * `AuthorizationException`, falls der User keine Berechtigung hat, diesen Service mit den spezifischen Argumenten aufzurufen
-    * `IOException`, wenn zwischen dem UI und dem Service ein Fehler in der Kommunikation auftritt
+    * `CommunicationException`, wenn zwischen dem UI und dem Service ein Fehler in der Kommunikation auftritt
 * Der UI-Layer (Spark) verwaltet die Exceptions vom Business-Layer und zeigt dem User entsprechende verständliche (nicht-technische) Fehlermeldungen an
 
 ## Assertion Policy
 * Es werden keine Asserts verwendet, damit keine Diskrepanz zwischen Entwicklung und Produktion entstehen kann.
-    * "It is absurd to make elaborate security checks on debugging runs, when no trust is put in the results, and then remove them in production runs, when an erroneous result could be expensive or disastrous. What would we think of a sailing enthusiast who wears his lifejacket when training on dry land, but takes it off as soon as he goes to sea?" - C.A.R. Hoar
+    * "It is absurd to make elaborate security checks on debugging runs, when no trust is put in the results, and then remove them in production runs, when an erroneous result could be expensive or disastrous. What would we think of a sailing enthusiast who wears his lifejacket when training on dry land, but takes it off as soon as he goes to sea?" - C.A.R. Hoare
 * Barrikaden werden mit [Guava Preconditions](https://github.com/google/guava/wiki/PreconditionsExplained) implementiert.
 
 ## Logging Policy

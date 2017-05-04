@@ -144,6 +144,8 @@ systemctl start examibur-backup.service # First Backup!
 ## Installation Gitlab Worker 
 
 * Installation gemäss [Dokumentation](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/release_process/README.md)
+* Dediziertes Docker-Netzwerk erstellen
+    * `docker network create examibur_examibur`
 * Eigene Konfiguration überschreiben (`/etc/gitlab-runner/config.toml`):
 
 ```
@@ -158,6 +160,7 @@ check_interval = 0
   [runners.docker]
     tls_verify = false
     image = "docker:1.13-dind"
+    network_mode = "examibur_examibur"
     privileged = true
     disable_cache = false
     volumes = ["/cache", "/root/.gradle/", "/var/run/docker.sock:/var/run/docker.sock"]

@@ -7,10 +7,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.imageio.ImageIO;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
@@ -26,11 +29,6 @@ public class ScreenshotUtil {
    * Singleton instance of the current WebDriver.
    */
   private static WebDriver instance;
-
-  /**
-   * All resolutions that shall be tested.
-   */
-  private static Dimension[] resolutions = { new Dimension(800, 600) };
 
   /**
    * This flag ensures that the screenshots directory is cleaned when a test runs the first time.
@@ -57,6 +55,7 @@ public class ScreenshotUtil {
       } else {
         destination.mkdirs();
       }
+      setUp = true;
     }
   }
 
@@ -91,32 +90,27 @@ public class ScreenshotUtil {
 
       WebDriver driver = getDriver();
 
-      for (Dimension resolution : resolutions) {
-        driver.manage().window().setSize(resolution);
+      Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(100))
+          .takeScreenshot(driver);
 
-        Screenshot screenshot = new AShot()
-            .shootingStrategy(ShootingStrategies.viewportPasting(100)).takeScreenshot(driver);
+      String screenshotName = format("{0}_{1, number,#}w.png", sceneName, 800);
 
-        String screenshotName = format("{0}_{1, number,#}x{2,number,#}.png", sceneName,
-            resolution.getWidth(), resolution.getHeight());
+      BufferedImage actual = screenshot.getImage();
+      ImageIO.write(actual, SCREENSHOT_FILE_FORMAT,
+          new File(SCREENSHOT_DESTINATION + screenshotName));
+      InputStream referenceStream = referenceScreenshotClass.getResourceAsStream(screenshotName);
+      if (referenceStream == null) {
+        throw new AssertionError("No Reference image found: " + screenshotName);
+      }
+      BufferedImage reference = ImageIO.read(referenceStream);
 
-        BufferedImage actual = screenshot.getImage();
-        ImageIO.write(actual, SCREENSHOT_FILE_FORMAT,
-            new File(SCREENSHOT_DESTINATION + screenshotName));
-        InputStream referenceStream = referenceScreenshotClass.getResourceAsStream(screenshotName);
-        if (referenceStream == null) {
-          throw new AssertionError("No Reference image found: " + screenshotName);
-        }
-        BufferedImage reference = ImageIO.read(referenceStream);
+      ImageDiff diff = new ImageDiffer().makeDiff(reference, actual);
+      if (diff.hasDiff()) {
+        String diffDestination = SCREENSHOT_DESTINATION + "diff_" + screenshotName;
+        ImageIO.write(diff.getMarkedImage(), SCREENSHOT_FILE_FORMAT, new File(diffDestination));
 
-        ImageDiff diff = new ImageDiffer().makeDiff(reference, actual);
-        if (diff.hasDiff()) {
-          String diffDestination = SCREENSHOT_DESTINATION + "diff_" + screenshotName;
-          ImageIO.write(diff.getMarkedImage(), SCREENSHOT_FILE_FORMAT, new File(diffDestination));
-
-          throw new AssertionError(
-              "Screenshots do not match! Checkout the diff for details at " + diffDestination);
-        }
+        throw new AssertionError(
+            "Screenshots do not match! Checkout the diff for details at " + diffDestination);
       }
 
     } catch (IOException e) {
@@ -133,7 +127,15 @@ public class ScreenshotUtil {
    */
   public static WebDriver getDriver() {
     if (instance == null) {
-      instance = new FirefoxDriver();
+      DesiredCapabilities capability = DesiredCapabilities.firefox();
+      try {
+        instance = new RemoteWebDriver(new URL("http://selenium-hub:4444/wd/hub"), capability);
+        if (instance.manage().window().getSize().width != 800) {
+          instance.manage().window().setSize(new Dimension(800, 600));
+        }
+      } catch (MalformedURLException e) {
+        // impossible...
+      }
       Runtime.getRuntime().addShutdownHook(new Thread(instance::quit));
     }
     return instance;

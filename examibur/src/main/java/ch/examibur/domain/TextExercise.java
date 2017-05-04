@@ -28,43 +28,4 @@ public class TextExercise extends Exercise {
   public void setTitle(String title) {
     this.title = title;
   }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = super.hashCode();
-    result = prime * result + ((taskDescription == null) ? 0 : taskDescription.hashCode());
-    result = prime * result + ((title == null) ? 0 : title.hashCode());
-    return result;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!super.equals(obj)) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    TextExercise other = (TextExercise) obj;
-    if (taskDescription == null) {
-      if (other.taskDescription != null) {
-        return false;
-      }
-    } else if (!taskDescription.equals(other.taskDescription)) {
-      return false;
-    }
-    if (title == null) {
-      if (other.title != null) {
-        return false;
-      }
-    } else if (!title.equals(other.title)) {
-      return false;
-    }
-    return true;
-  }
-
 }

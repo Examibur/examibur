@@ -1,13 +1,16 @@
 package ch.examibur.ui.app.controller;
 
-import ch.examibur.business.exception.AuthorizationException;
-import ch.examibur.business.exception.NotFoundException;
-import ch.examibur.business.exercisegrading.ExerciseGradingService;
+import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.service.ExerciseGradingService;
+import ch.examibur.service.exception.AuthorizationException;
+import ch.examibur.service.exception.CommunicationException;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidParameterException;
+import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
 import com.google.inject.Inject;
-import java.io.IOException;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
 import spark.Response;
@@ -39,9 +42,15 @@ public class ExerciseGradingController {
    * @param response
    *          the HTTP response
    * @return nothing to return --> redirect to ExerciseSolution
+   * @throws InvalidParameterException
+   *           if an id parameter is negative or < 0.
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if the id is < 0. throws
+   *           {@link NotFoundException} if the {@link ExerciseSolution} with the given id is not
+   *           found. throws {@link AuthorizationException} if the user is not authorized. throws
+   *           {@link CommunicationException} if an exception during the communication occurs.
    */
-  public String addExerciseGrading(Request request, Response response)
-      throws NotFoundException, AuthorizationException, IOException {
+  public String addExerciseGrading(Request request, Response response) throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
     long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
         UrlParameter.PARTICIPANT_ID);
@@ -57,5 +66,4 @@ public class ExerciseGradingController {
         HttpStatus.FOUND_302);
     return null;
   }
-
 }

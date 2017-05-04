@@ -1,5 +1,6 @@
 package ch.examibur.ui.app.routing;
 
+import ch.examibur.service.exception.InvalidParameterException;
 import spark.Request;
 
 public final class RoutingHelpers {
@@ -7,35 +8,39 @@ public final class RoutingHelpers {
   }
 
   /**
-   * Parses the long value of the given parameter. The returned long value must be > 0. Otherwise,
-   * an {@link IllegalArgumentException} is thrwon. If the given url parameter is not set, an
-   * {@link IllegalArgumentException} is thrown.
+   * Parses the long value of the given parameter. The returned long value must be > 0.
+   * 
+   * @throws InvalidParameterException
+   *           if the given url parameter is not set or < 0.
    */
-  public static long getUnsignedLongUrlParameter(Request request, UrlParameter urlParameter) {
+  public static long getUnsignedLongUrlParameter(Request request, UrlParameter urlParameter)
+      throws InvalidParameterException {
     String value = request.params(urlParameter.toString());
     if (value == null) {
-      throw new IllegalArgumentException("The given url parameter value is missing");
+      throw new InvalidParameterException("The given url parameter value is missing");
     }
     long parsed = Long.parseLong(value);
     if (parsed < 0) {
-      throw new IllegalArgumentException("The given url parameter value is < 0");
+      throw new InvalidParameterException("The given url parameter value is < 0");
     }
     return parsed;
   }
 
   /**
-   * Parses the long value of the given parameter. The returned long value must be > 0. Otherwise,
-   * an {@link IllegalArgumentException} is thrwon. If the given url parameter is not set, an
-   * {@link IllegalArgumentException} is thrown.
+   * Parses the double value of the given body parameter. The returned double value must be > 0.
+   * 
+   * @throws InvalidParameterException
+   *           if the given url parameter is not set or < 0.
    */
-  public static double getUnsignedDoubleBodyParameter(Request request, String bodyParameter) {
+  public static double getUnsignedDoubleBodyParameter(Request request, String bodyParameter)
+      throws InvalidParameterException {
     String value = request.queryParams(bodyParameter);
     if (value == null) {
-      throw new IllegalArgumentException("The given body parameter value is missing");
+      throw new InvalidParameterException("The given body parameter value is missing");
     }
     double parsed = Double.parseDouble(value);
     if (parsed < 0) {
-      throw new IllegalArgumentException("The given body parameter value is < 0");
+      throw new InvalidParameterException("The given body parameter value is < 0");
     }
     return parsed;
   }
