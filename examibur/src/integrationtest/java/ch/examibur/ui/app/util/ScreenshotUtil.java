@@ -48,7 +48,7 @@ public class ScreenshotUtil {
   private static void setUp() {
     if (!setUp) {
       File destination = new File(SCREENSHOT_DESTINATION);
-      if (destination.exists()) {
+      if (destination.exists() && destination.isDirectory()) {
         for (File screenshot : destination.listFiles()) {
           assertTrue(screenshot.delete());
         }
