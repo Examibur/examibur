@@ -23,7 +23,7 @@
 
 	    <ul class="nav navbar-nav navbar-right">
 	        <#if user??>
-		    <li class="dropdown">
+		    <li class="dropdown" id="user-details">
 		        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		            <span class="glyphicon glyphicon-user"></span> 
 		            <strong>${user.firstName} ${user.lastName}</strong>
@@ -32,7 +32,7 @@
 		        <ul class="dropdown-menu">
 					<div class="navbar-login navbar-login-session">
 			            <form action="/logout" method="POST">
-							<input class="btn btn-block" type="submit" value="Logout">
+							<input class="btn btn-block" type="submit" value="Logout" id="logout">
 			            </form>
 					</div>
 

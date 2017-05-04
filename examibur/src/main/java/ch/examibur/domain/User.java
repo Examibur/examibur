@@ -25,6 +25,22 @@ public class User {
   @Column(nullable = false)
   private String username;
 
+  /**
+   * Required for JPA.
+   */
+  public User() {
+  }
+
+  /**
+   * Constructor to intialize a user with all required fields.
+   */
+  public User(long id, String firstName, String lastName, String username) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.username = username;
+  }
+
   public long getId() {
     return id;
   }
