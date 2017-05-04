@@ -22,32 +22,74 @@ public class RoutingHelpersTest {
   }
 
   @Test(expected = InvalidParameterException.class)
-  public void getLongUrlParameterWhenWithNegativeValue() throws InvalidParameterException {
+  public void getLongUrlParameterWithNegativeValue() throws InvalidParameterException {
     Request request = getRequestSpy("examId", "-1");
     RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
   }
 
   @Test(expected = NumberFormatException.class)
-  public void getLongUrlParameterWhenWithOverflowValue() throws InvalidParameterException {
+  public void getLongUrlParameterWithOverflowValue() throws InvalidParameterException {
     Request request = getRequestSpy("examId", "10000000000000000000");
     RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
   }
 
   @Test(expected = NumberFormatException.class)
-  public void getLongUrlParameterWhenWithNonNumericValue() throws InvalidParameterException {
+  public void getLongUrlParameterWithNonNumericValue() throws InvalidParameterException {
     Request request = getRequestSpy("examId", "1l");
     RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
   }
 
   @Test(expected = NumberFormatException.class)
-  public void getLongUrlParameterWhenWithNonNumericValue2() throws InvalidParameterException {
+  public void getLongUrlParameterWithNonNumericValue2() throws InvalidParameterException {
     Request request = getRequestSpy("examId", "l1");
     RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+  }
+
+  @Test
+  public void getDoubleBodyParameter() throws InvalidParameterException {
+    String queryParamKey = "paramId";
+    Request request = getRequestSpyForQueryParam(queryParamKey, "123");
+    Assert.assertEquals(123D, RoutingHelpers.getUnsignedDoubleBodyParameter(request, queryParamKey),
+        0.01);
+  }
+
+  @Test(expected = InvalidParameterException.class)
+  public void getDoubleBodyParameterWhenNotSet() throws InvalidParameterException {
+    String queryParamKey = "paramId";
+    Request request = getRequestSpyForQueryParam(queryParamKey, null);
+    RoutingHelpers.getUnsignedDoubleBodyParameter(request, queryParamKey);
+  }
+
+  @Test(expected = InvalidParameterException.class)
+  public void getDoubleBodyParameterWithNegativeValue() throws InvalidParameterException {
+    String queryParamKey = "paramId";
+    Request request = getRequestSpyForQueryParam(queryParamKey, "-1");
+    RoutingHelpers.getUnsignedDoubleBodyParameter(request, queryParamKey);
+  }
+
+  @Test(expected = NumberFormatException.class)
+  public void getDoubleBodyParameterWithNonNumericValue() throws InvalidParameterException {
+    String queryParamKey = "paramId";
+    Request request = getRequestSpyForQueryParam(queryParamKey, "1l");
+    RoutingHelpers.getUnsignedDoubleBodyParameter(request, queryParamKey);
+  }
+
+  @Test(expected = NumberFormatException.class)
+  public void getDoubleBodyParameterWithNonNumericValue2() throws InvalidParameterException {
+    String queryParamKey = "paramId";
+    Request request = getRequestSpyForQueryParam(queryParamKey, "l1");
+    RoutingHelpers.getUnsignedDoubleBodyParameter(request, queryParamKey);
   }
 
   private Request getRequestSpy(String urlParameter, String value) {
     Request mock = Mockito.mock(Request.class);
     Mockito.when(mock.params(urlParameter)).thenReturn(value);
+    return mock;
+  }
+
+  private Request getRequestSpyForQueryParam(String key, String value) {
+    Request mock = Mockito.mock(Request.class);
+    Mockito.when(mock.queryParams(key)).thenReturn(value);
     return mock;
   }
 
