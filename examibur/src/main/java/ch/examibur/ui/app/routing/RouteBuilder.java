@@ -112,7 +112,8 @@ public final class RouteBuilder {
 
   /**
    * Returns the given url appended by the new query parameter (url?key=value). If the url already
-   * contains parameters the new one will be appended at the end.
+   * contains parameters the new one will be appended at the end. If the parameter already exists in
+   * the url it will be appended also (no replacement).
    *
    * @param url
    *          the given url

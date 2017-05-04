@@ -60,4 +60,23 @@ public class RouteBuilderTest {
         RouteBuilder.toExerciseSolution(-1, -2, -3));
   }
 
+  @Test
+  public void testExerciseGradingsRoute() {
+    Assert.assertEquals("/exams/1/participants/2/solutions/3/gradings/",
+        RouteBuilder.toExerciseGradings(1, 2, 3));
+  }
+
+  @Test
+  public void testAddQueryParameter() {
+    Assert.assertEquals("/exams/8/participants/18/solutions/54/?browse=participations", RouteBuilder
+        .addQueryParameter("/exams/8/participants/18/solutions/54/", "browse", "participations"));
+  }
+
+  @Test
+  public void testAddQueryParameterWithMultipleParameters() {
+    Assert.assertEquals("/exams/8/participants/18/solutions/54/?browse=participations&querynext=",
+        RouteBuilder.addQueryParameter(
+            "/exams/8/participants/18/solutions/54/?browse=participations", "querynext", ""));
+  }
+
 }
