@@ -4,7 +4,9 @@ import ch.examibur.business.DatabaseResource;
 import ch.examibur.business.IntegrationTestUtil;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
+import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.service.ExerciseGradingService;
+import ch.examibur.service.ExerciseSolutionService;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
@@ -24,6 +26,8 @@ public class ExerciseGradingServiceImplTest {
 
   private final ExerciseGradingService exerciseGradingService = IntegrationTestUtil.getInjector()
       .getInstance(ExerciseGradingService.class);
+  private final ExerciseSolutionService exerciseSolutionService = IntegrationTestUtil.getInjector()
+      .getInstance(ExerciseSolutionService.class);
 
   @Test
   public void testGetGradingForExerciseSolution() throws ParseException, ExamiburException {
@@ -98,9 +102,13 @@ public class ExerciseGradingServiceImplTest {
     exerciseGradingService.addGrading(exerciseSolutionId, comment, reasoning, points);
     ExerciseGrading exerciseGrading = exerciseGradingService
         .getGradingForExerciseSolution(exerciseSolutionId);
-    Assert.assertEquals(exerciseGrading.getComment(), comment);
-    Assert.assertEquals(exerciseGrading.getReasoning(), reasoning);
-    Assert.assertEquals(exerciseGrading.getPoints(), points, 0.01);
+    ExerciseSolution exerciseSolution = exerciseSolutionService
+        .getExerciseSolution(exerciseSolutionId);
+
+    Assert.assertEquals(comment, exerciseGrading.getComment());
+    Assert.assertEquals(reasoning, exerciseGrading.getReasoning());
+    Assert.assertEquals(points, exerciseGrading.getPoints(), 0.01);
+    Assert.assertEquals(true, exerciseSolution.isDone());
   }
 
   @Test
@@ -113,9 +121,13 @@ public class ExerciseGradingServiceImplTest {
     exerciseGradingService.addGrading(exerciseSolutionId, comment, reasoning, points);
     ExerciseGrading exerciseReview = exerciseGradingService
         .getReviewForExerciseSolution(exerciseSolutionId);
-    Assert.assertEquals(exerciseReview.getComment(), comment);
-    Assert.assertEquals(exerciseReview.getReasoning(), reasoning);
-    Assert.assertEquals(exerciseReview.getPoints(), points, 0.01);
+    ExerciseSolution exerciseSolution = exerciseSolutionService
+        .getExerciseSolution(exerciseSolutionId);
+
+    Assert.assertEquals(comment, exerciseReview.getComment());
+    Assert.assertEquals(reasoning, exerciseReview.getReasoning());
+    Assert.assertEquals(points, exerciseReview.getPoints(), 0.01);
+    Assert.assertEquals(true, exerciseSolution.isDone());
   }
 
   @Test(expected = NotFoundException.class)

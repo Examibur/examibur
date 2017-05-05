@@ -103,7 +103,8 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
             "Not possible to add a new grading in exam state " + examState.toString());
       }
 
-      checkIfSolutionAlreadyHasGrading(entityManager, exerciseSolutionId, examState);
+      checkIfGradingAlreadyIsDone(exerciseSolution, examState);
+      exerciseSolution.setDone(true);
 
       ExerciseGrading exerciseGrading = new ExerciseGrading(
           new Date(Calendar.getInstance().getTime().getTime()), comment, reasoning, points,
@@ -120,24 +121,14 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
     }
   }
 
-  private void checkIfSolutionAlreadyHasGrading(EntityManager entityManager,
-      long exerciseSolutionId, ExamState examState) throws IllegalOperationException {
-    TypedQuery<ExerciseGrading> exerciseGradingQuery = entityManager.createQuery(
-        "SELECT eg FROM ExerciseGrading eg WHERE eg.exerciseSolution.id = :exerciseSolutionId "
-            + "AND eg.createdInState = :examState",
-        ExerciseGrading.class);
-    List<ExerciseGrading> resultList = exerciseGradingQuery
-        .setParameter("exerciseSolutionId", exerciseSolutionId).setParameter("examState", examState)
-        .getResultList();
-    if (!resultList.isEmpty()) {
-      String element = "grading";
-      if (examState.equals(ExamState.CORRECTION)) {
-        element = "correction";
-      } else if (examState.equals(ExamState.REVIEW)) {
-        element = "review";
-      }
-      throw new IllegalOperationException(
-          "Not possible to add a second " + element + " to a single ExerciseSolution.");
+  private void checkIfGradingAlreadyIsDone(ExerciseSolution exerciseSolution, ExamState examState)
+      throws IllegalOperationException {
+    if (exerciseSolution.isDone()) {
+      IllegalOperationException illegalOperationException = new IllegalOperationException(
+          examState.toString() + " is done already for the exerciseSolution "
+              + exerciseSolution.getId());
+      LOGGER.error(illegalOperationException.getMessage(), illegalOperationException);
+      throw illegalOperationException;
     }
   }
 }

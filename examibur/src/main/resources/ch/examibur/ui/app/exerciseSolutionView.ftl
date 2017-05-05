@@ -184,7 +184,7 @@
     	</#if>
     </div>
 	
-	<#if ((examState == "CORRECTION" && !(grading??)) || (examState == "REVIEW" && !(review??))) && !exerciseSolution.isDone()>
+	<#if (examState == "CORRECTION" || examState == "REVIEW") && !exerciseSolution.isDone()>
 		<div class="row">
 			<div class="col-12">
 				<div class="panel panel-default">
