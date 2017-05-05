@@ -4,6 +4,8 @@ import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.domain.User;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidStateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.Date;
@@ -84,7 +86,7 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
 
   @Override
   public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
-      User gradingAuthor) {
+      User gradingAuthor) throws ExamiburException {
     EntityManager entityManager = entityManagerProvider.get();
     try {
       ExerciseSolution exerciseSolution = entityManager.find(ExerciseSolution.class,
@@ -93,10 +95,15 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
         throw new NoResultException();
       }
 
+      ExamState examState = exerciseSolution.getParticipation().getExam().getState();
+      if (examState != ExamState.CORRECTION && examState != ExamState.REVIEW) {
+        throw new InvalidStateException(
+            "Not possible to add a new grading in exam state " + examState.toString());
+      }
+
       ExerciseGrading exerciseGrading = new ExerciseGrading(
           new Date(Calendar.getInstance().getTime().getTime()), comment, reasoning, points,
-          exerciseSolution.getParticipation().getExam().getState(), true, gradingAuthor,
-          exerciseSolution);
+          examState, true, gradingAuthor, exerciseSolution);
       try {
         entityManager.getTransaction().begin();
         entityManager.persist(exerciseGrading);

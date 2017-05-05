@@ -7,6 +7,7 @@ import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.service.ExerciseGradingService;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
+import ch.examibur.service.exception.InvalidStateException;
 import ch.examibur.service.exception.NotFoundException;
 import java.sql.Date;
 import java.text.ParseException;
@@ -125,5 +126,10 @@ public class ExerciseGradingServiceImplTest {
   @Test(expected = InvalidParameterException.class)
   public void testAddGradingWithNegativeSolutionId() throws ExamiburException {
     exerciseGradingService.addGrading(-1L, "random comment", "random reasoning", 1D);
+  }
+
+  @Test(expected = InvalidStateException.class)
+  public void testAddGradingInInvalidExamState() throws ExamiburException {
+    exerciseGradingService.addGrading(18L, "random comment", "random reasoning", 1D);
   }
 }

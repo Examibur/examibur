@@ -4,6 +4,8 @@ import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.domain.User;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidStateException;
 
 public interface ExerciseGradingDao {
 
@@ -42,8 +44,10 @@ public interface ExerciseGradingDao {
    *          the number of points given for the solution
    * @param gradingAuthor
    *          the author of this grading
+   * @throws ExamiburException
+   *           throws {@link InvalidStateException} if the exam is not in CORRECTION nor in REVIEW.
    */
   public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
-      User gradingAuthor);
+      User gradingAuthor) throws ExamiburException;
 
 }
