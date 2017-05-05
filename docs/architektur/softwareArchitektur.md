@@ -173,7 +173,7 @@ Um eine möglichst lose Kopplung und hohe Kohäsion in Partitionen zu erreichen 
 
 ## Prozesse & Threads
 
-Die Architektur ist so designed, dass wir möglichst nie ein (globaler) Zustand herrscht (stateless). Die wohl einzige Ausnahme ist das Benutzer-Objekt (siehe nächster Absatz).
+Die Architektur ist so designed, dass möglichst nie ein (globaler) Zustand herrscht (stateless). Die wohl einzige Ausnahme ist das Benutzer-Objekt (siehe nächster Absatz).
 
 Für jeden [Request wird ein Thread aufgemacht](https://blog.krecan.net/2010/05/02/cool-tomcat-is-able-to-handle-more-than-13000-concurrent-connections/), welcher synchron blockierend durchläuft. Dies bedeutet, dass ein Thread bis zur Fertigstellung ("Run-to-completion") durchläuft. Derzeit sind keine asynchronen Operationen vorgesehen.
 
