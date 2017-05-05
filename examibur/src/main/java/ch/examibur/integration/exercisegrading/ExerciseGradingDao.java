@@ -5,7 +5,7 @@ import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.domain.User;
 import ch.examibur.service.exception.ExamiburException;
-import ch.examibur.service.exception.InvalidStateException;
+import ch.examibur.service.exception.IllegalOperationException;
 
 public interface ExerciseGradingDao {
 
@@ -45,7 +45,9 @@ public interface ExerciseGradingDao {
    * @param gradingAuthor
    *          the author of this grading
    * @throws ExamiburException
-   *           throws {@link InvalidStateException} if the exam is not in CORRECTION nor in REVIEW.
+   *           throws {@link IllegalOperationException} if the exam is not in CORRECTION nor in
+   *           REVIEW. throws {@link IllegalOperationException} if there is already a grading for
+   *           this {@link ExerciseSolution} in the same state.
    */
   public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
       User gradingAuthor) throws ExamiburException;

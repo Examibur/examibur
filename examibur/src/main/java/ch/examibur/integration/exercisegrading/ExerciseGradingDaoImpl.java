@@ -5,7 +5,7 @@ import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.domain.User;
 import ch.examibur.service.exception.ExamiburException;
-import ch.examibur.service.exception.InvalidStateException;
+import ch.examibur.service.exception.IllegalOperationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.Date;
@@ -88,34 +88,56 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
       User gradingAuthor) throws ExamiburException {
     EntityManager entityManager = entityManagerProvider.get();
+
     try {
+      entityManager.getTransaction().begin();
+
       ExerciseSolution exerciseSolution = entityManager.find(ExerciseSolution.class,
           exerciseSolutionId);
       if (exerciseSolution == null) {
         throw new NoResultException();
       }
-
       ExamState examState = exerciseSolution.getParticipation().getExam().getState();
-      if (examState != ExamState.CORRECTION && examState != ExamState.REVIEW) {
-        throw new InvalidStateException(
+      if (!examState.equals(ExamState.CORRECTION) && !examState.equals(ExamState.REVIEW)) {
+        throw new IllegalOperationException(
             "Not possible to add a new grading in exam state " + examState.toString());
       }
+
+      checkIfSolutionAlreadyHasGrading(entityManager, exerciseSolutionId, examState);
 
       ExerciseGrading exerciseGrading = new ExerciseGrading(
           new Date(Calendar.getInstance().getTime().getTime()), comment, reasoning, points,
           examState, true, gradingAuthor, exerciseSolution);
-      try {
-        entityManager.getTransaction().begin();
-        entityManager.persist(exerciseGrading);
-        entityManager.getTransaction().commit();
-      } catch (Exception ex) {
-        entityManager.getTransaction().rollback();
-        LOGGER.error("Error while adding new grading to exerciseSolution " + exerciseSolutionId,
-            ex);
-        throw ex;
-      }
+      entityManager.persist(exerciseGrading);
+
+      entityManager.getTransaction().commit();
+    } catch (Exception ex) {
+      entityManager.getTransaction().rollback();
+      LOGGER.error("Error while adding new grading to exerciseSolution " + exerciseSolutionId, ex);
+      throw ex;
     } finally {
       entityManager.close();
+    }
+  }
+
+  private void checkIfSolutionAlreadyHasGrading(EntityManager entityManager,
+      long exerciseSolutionId, ExamState examState) throws IllegalOperationException {
+    TypedQuery<ExerciseGrading> exerciseGradingQuery = entityManager.createQuery(
+        "SELECT eg FROM ExerciseGrading eg WHERE eg.exerciseSolution.id = :exerciseSolutionId "
+            + "AND eg.createdInState = :examState",
+        ExerciseGrading.class);
+    List<ExerciseGrading> resultList = exerciseGradingQuery
+        .setParameter("exerciseSolutionId", exerciseSolutionId).setParameter("examState", examState)
+        .getResultList();
+    if (!resultList.isEmpty()) {
+      String element = "grading";
+      if (examState.equals(ExamState.CORRECTION)) {
+        element = "correction";
+      } else if (examState.equals(ExamState.REVIEW)) {
+        element = "review";
+      }
+      throw new IllegalOperationException(
+          "Not possible to add a second " + element + " to a single ExerciseSolution.");
     }
   }
 }

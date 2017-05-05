@@ -6,8 +6,8 @@ import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.service.ExerciseGradingService;
 import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
-import ch.examibur.service.exception.InvalidStateException;
 import ch.examibur.service.exception.NotFoundException;
 import java.sql.Date;
 import java.text.ParseException;
@@ -128,8 +128,20 @@ public class ExerciseGradingServiceImplTest {
     exerciseGradingService.addGrading(-1L, "random comment", "random reasoning", 1D);
   }
 
-  @Test(expected = InvalidStateException.class)
+  @Test(expected = IllegalOperationException.class)
   public void testAddGradingInInvalidExamState() throws ExamiburException {
     exerciseGradingService.addGrading(18L, "random comment", "random reasoning", 1D);
+  }
+
+  @Test(expected = IllegalOperationException.class)
+  public void testAddSecondCorrection() throws ExamiburException {
+    exerciseGradingService.addGrading(54L, "random comment", "random reasoning", 1D);
+    exerciseGradingService.addGrading(54L, "second comment", "second reasoning", 2D);
+  }
+
+  @Test(expected = IllegalOperationException.class)
+  public void testAddSecondReview() throws ExamiburException {
+    exerciseGradingService.addGrading(35L, "random comment", "random reasoning", 1D);
+    exerciseGradingService.addGrading(35L, "second comment", "second reasoning", 2D);
   }
 }

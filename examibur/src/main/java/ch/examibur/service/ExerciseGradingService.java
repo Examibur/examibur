@@ -5,8 +5,8 @@ import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
-import ch.examibur.service.exception.InvalidStateException;
 import ch.examibur.service.exception.NotFoundException;
 
 public interface ExerciseGradingService {
@@ -49,7 +49,9 @@ public interface ExerciseGradingService {
    *           {@link NotFoundException} if the {@link ExerciseSolution} with the given id is not
    *           found. Throws {@link AuthorizationException} if the user is not authorized. Throws
    *           {@link CommunicationException} if an exception during the communication occurs.
-   *           Throws {@link InvalidStateException} if the exam is not in CORRECTION nor in REVIEW.
+   *           Throws {@link IllegalOperationException} if the exam is not in CORRECTION nor in
+   *           REVIEW. Throws {@link IllegalOperationException} if there is already a grading for
+   *           this {@link ExerciseSolution} in the same state.
    */
   void addGrading(long exerciseSolutionId, String comment, String reasoning, double points)
       throws ExamiburException;
