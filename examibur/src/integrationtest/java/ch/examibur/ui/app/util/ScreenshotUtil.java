@@ -48,8 +48,9 @@ public class ScreenshotUtil {
   private static void setUp() {
     if (!setUp) {
       File destination = new File(SCREENSHOT_DESTINATION);
-      if (destination.exists() && destination.isDirectory()) {
-        for (File screenshot : destination.listFiles()) {
+      File[] listFiles = destination.listFiles();
+      if (destination.exists() && listFiles != null) {
+        for (File screenshot : listFiles) {
           assertTrue(screenshot.delete());
         }
       } else {
@@ -125,7 +126,7 @@ public class ScreenshotUtil {
    * 
    * @return The (singleton) instance of a WebDriver.
    */
-  public static WebDriver getDriver() {
+  public static synchronized WebDriver getDriver() {
     if (instance == null) {
       DesiredCapabilities capability = DesiredCapabilities.firefox();
       try {
