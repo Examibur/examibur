@@ -1,4 +1,4 @@
-package ch.examibur.service.model.report;
+package ch.examibur.domain.aggregation;
 
 public final class ExerciseAverageMaxPointsComparison {
 
@@ -13,6 +13,16 @@ public final class ExerciseAverageMaxPointsComparison {
   @SuppressWarnings("unused")
   private final double averagePoints;
 
+  /**
+   * Constructor.
+   * 
+   * @param title
+   *          the exercise title
+   * @param maxPoints
+   *          the max points of the specific exercise
+   * @param averagePoints
+   *          the average achieved points
+   */
   public ExerciseAverageMaxPointsComparison(String title, double maxPoints, double averagePoints) {
     this.title = title;
     this.maxPoints = maxPoints;

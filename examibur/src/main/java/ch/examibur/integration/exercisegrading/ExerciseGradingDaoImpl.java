@@ -39,20 +39,31 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   public double getTotalPointsOfExamGradings(long examParticipationId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
-          .createQuery(
-              "SELECT SUM(eg.points) FROM ExerciseGrading eg "
-                  + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
-                  + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
-                  + "WHERE eg.isFinalGrading = true AND ep.id = :examParticipationId",
-              Double.class);
-      return totalPointsOfExamGradingsQuery.setParameter("examParticipationId", examParticipationId)
-          .getSingleResult();
+      return retrieveTotalPointsOfExamGradings(examParticipationId, entityManager);
     } finally {
       entityManager.close();
     }
   }
 
+  @Override
+  public double getTotalPointsOfExamGradings(long examParticipationId,
+      EntityManager entityManager) {
+    return retrieveTotalPointsOfExamGradings(examParticipationId, entityManager);
+  }
+  
+  private double retrieveTotalPointsOfExamGradings(long examParticipationId,
+      EntityManager entityManager) {
+    TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
+        .createQuery(
+            "SELECT SUM(eg.points) FROM ExerciseGrading eg "
+                + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
+                + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
+                + "WHERE eg.isFinalGrading = true AND ep.id = :examParticipationId",
+                Double.class);
+    return totalPointsOfExamGradingsQuery.setParameter("examParticipationId", examParticipationId)
+        .getSingleResult();
+  }
+  
   @Override
   public double getProgressOfExamGradings(long examParticipationId) {
     EntityManager entityManager = entityManagerProvider.get();
@@ -77,18 +88,28 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   public double getAveragePointsOfExercise(long exerciseId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
-          .createQuery(
-              "SELECT AVG(eg.points) FROM ExerciseGrading eg "
-                  + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
-                  + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
-                  + "WHERE eg.isFinalGrading = true AND es.exercise.id = :exerciseId",
-              Double.class);
-      return totalPointsOfExamGradingsQuery.setParameter("exerciseId", exerciseId)
-          .getSingleResult();
+      return retrieveAveragePointsOfExercise(exerciseId, entityManager);
     } finally {
       entityManager.close();
     }
   }
+
+  @Override
+  public double getAveragePointsOfExercise(long exerciseId, EntityManager entityManager) {
+    return retrieveAveragePointsOfExercise(exerciseId, entityManager);
+  }
+  
+  private double retrieveAveragePointsOfExercise(long exerciseId, EntityManager entityManager) {
+    TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
+        .createQuery(
+            "SELECT AVG(eg.points) FROM ExerciseGrading eg "
+                + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
+                + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
+                + "WHERE eg.isFinalGrading = true AND es.exercise.id = :exerciseId",
+                Double.class);
+    return totalPointsOfExamGradingsQuery.setParameter("exerciseId", exerciseId)
+        .getSingleResult();
+  }
+
 
 }

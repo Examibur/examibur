@@ -69,7 +69,22 @@ public final class ExamReportController implements Controller {
     return engine.render(model, "examReportsTab.ftl");
   }
 
-  public String getReportAsJSON(Request request, Response response) throws ExamiburException {
+  /**
+   * Returns a requested report ({@link ch.examibur.ui.app.util.ReportType} as a JSON object.
+   * 
+   * @param request
+   *          the HTTP request with the requested report type set as a query param
+   * @param response
+   *          the HTTP response
+   * @return the report as a JSON object
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if a parameter is invalid. throws
+   *           {@link AuthorizationException} if the user is not authorized to display the exam or
+   *           exercises. throws {@link NotFoundException} if the exam/exam participations/exercises
+   *           is/are not found. throws {@link CommunicationException} if an exception during the
+   *           communication occurs
+   */
+  public String getReportAsJson(Request request, Response response) throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
 
     String reportType = request.queryParams(QUERY_PARAM_REPORT);

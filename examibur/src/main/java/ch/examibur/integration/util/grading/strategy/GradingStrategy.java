@@ -1,4 +1,4 @@
-package ch.examibur.business.util.grading.strategy;
+package ch.examibur.integration.util.grading.strategy;
 
 @FunctionalInterface
 public interface GradingStrategy {

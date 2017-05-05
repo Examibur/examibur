@@ -1,12 +1,12 @@
 package ch.examibur.service;
 
 import ch.examibur.domain.Exam;
+import ch.examibur.domain.aggregation.ExerciseAverageMaxPointsComparison;
+import ch.examibur.domain.aggregation.PassedParticipationComparison;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.NotFoundException;
-import ch.examibur.service.model.report.ExerciseAverageMaxPointsComparison;
-import ch.examibur.service.model.report.PassedParticipationComparison;
 import java.util.List;
 
 public interface ExamReportService {

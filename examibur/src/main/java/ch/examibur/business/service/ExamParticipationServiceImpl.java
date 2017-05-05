@@ -1,11 +1,11 @@
 package ch.examibur.business.service;
 
-import ch.examibur.business.util.grading.GradingUtil;
-import ch.examibur.business.util.grading.strategy.BaseGradingStrategy;
 import ch.examibur.domain.ExamParticipation;
 import ch.examibur.integration.exam.ExamDao;
 import ch.examibur.integration.examparticipation.ExamParticipationDao;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
+import ch.examibur.integration.util.grading.GradingUtil;
+import ch.examibur.integration.util.grading.strategy.BaseGradingStrategy;
 import ch.examibur.service.ExamParticipationService;
 import ch.examibur.service.model.ExamParticipantOverview;
 import com.google.inject.Inject;
