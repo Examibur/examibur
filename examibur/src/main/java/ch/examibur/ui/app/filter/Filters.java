@@ -4,6 +4,7 @@ import ch.examibur.business.util.AuthenticationUtil;
 import ch.examibur.domain.User;
 import ch.examibur.service.AuthenticationService;
 import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.model.AuthenticationInformation;
 import ch.examibur.ui.app.routing.QueryParameter;
 import ch.examibur.ui.app.routing.RouteBuilder;
@@ -68,27 +69,29 @@ public class Filters {
    * @param response
    *          The planned response.
    */
-  public void handleAuthentication(Request request, Response response) {
+  public void handleAuthentication(Request request, Response response) throws ExamiburException {
     AuthenticationUtil.setCurrentUser(null);
 
     String token = request.cookie(CookieHelpers.USER_COOKIE);
-    if (token != null) {
-      try {
-        AuthenticationInformation info = authenticationService.login(token);
-        User user = info.getUser();
-        AuthenticationUtil.setCurrentUser(user);
-        request.attribute(RequestAttributes.USER, user);
-
-        if (request.uri().startsWith(RouteBuilder.toLogin())) {
-          response.redirect(RouteBuilder.toDashboard());
-          Spark.halt();
-        }
-        return;
-      } catch (ExamiburException e) {
-        // Login with the given token has failed
-      }
+    if (token == null) {
+      redirectToLoginPage(request, response);
     }
+    try {
+      AuthenticationInformation info = authenticationService.login(token);
+      User user = info.getUser();
+      AuthenticationUtil.setCurrentUser(user);
+      request.attribute(RequestAttributes.USER, user);
 
+      if (request.uri().startsWith(RouteBuilder.toLogin())) {
+        response.redirect(RouteBuilder.toDashboard());
+        Spark.halt();
+      }
+    } catch (InvalidParameterException e) {
+      redirectToLoginPage(request, response);
+    }
+  }
+
+  private void redirectToLoginPage(Request request, Response response) {
     if (!request.uri().startsWith(RouteBuilder.toLogin())) {
       String redirectUrl = RouteBuilder.addQueryParameter(RouteBuilder.toLogin(),
           QueryParameter.Ref.toString(), request.uri());

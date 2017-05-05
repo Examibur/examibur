@@ -11,7 +11,6 @@ import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
 import java.util.Map;
-import javax.servlet.http.Cookie;
 import spark.Request;
 import spark.Response;
 
@@ -44,12 +43,7 @@ public class AuthenticationController implements Controller {
     try {
       AuthenticationInformation login = authenticationService.login(username, password);
 
-      Cookie cookie = new Cookie(CookieHelpers.USER_COOKIE, login.getToken());
-      cookie.setPath(CookieHelpers.USER_COOKIE_PATH);
-      cookie.setHttpOnly(CookieHelpers.USER_COOKIE_HTTP_ONLY);
-      cookie.setMaxAge(CookieHelpers.USER_COOKIE_EXPIRATION);
-      cookie.setSecure(CookieHelpers.USER_COOKIE_SECURE);
-      response.raw().addCookie(cookie);
+      CookieHelpers.setUserCookie(response, login.getToken());
 
       String ref = RouteBuilder.toDashboard();
       if (request.queryParams(QueryParameter.Ref.toString()) != null) {
