@@ -2,7 +2,6 @@ package ch.examibur.ui.app.util;
 
 import java.util.List;
 import java.util.Map;
-
 import spark.Request;
 
 public final class RequestHelper {

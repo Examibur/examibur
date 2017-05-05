@@ -18,7 +18,7 @@ public class ExerciseGradingServiceImplTest {
   @ClassRule
   public static final DatabaseResource RES = new DatabaseResource();
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+  private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
   private final ExerciseGradingService exerciseGradingService = IntegrationTestUtil.getInjector()
       .getInstance(ExerciseGradingService.class);
@@ -34,7 +34,7 @@ public class ExerciseGradingServiceImplTest {
     Assert.assertEquals(1L, grading.getId());
     Assert.assertEquals("Sehr gut gelöst.", grading.getComment());
     Assert.assertEquals(ExamState.CORRECTION, grading.getCreatedInState());
-    Assert.assertEquals(new Date(DATE_FORMAT.parse("2016-08-22").getTime()),
+    Assert.assertEquals(new Date(dateFormat.parse("2016-08-22").getTime()),
         grading.getcreationDate());
     Assert.assertEquals(true, grading.isFinalGrading());
     Assert.assertEquals(5.0, grading.getPoints(), 0.01);

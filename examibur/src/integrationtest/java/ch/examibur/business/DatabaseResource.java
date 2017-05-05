@@ -32,15 +32,4 @@ public class DatabaseResource extends ExternalResource {
     }
   }
 
-  @Override
-  protected void after() {
-    try {
-      LOGGER.info("Clean database");
-      getDbMigrator().clean();
-    } catch (FlywayException ex) {
-      LOGGER.error("Clean and/or Initial Database Migration failed", ex);
-      throw new InitializationException(ex);
-    }
-  }
-
 }
