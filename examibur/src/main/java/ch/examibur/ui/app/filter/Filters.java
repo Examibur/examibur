@@ -69,27 +69,31 @@ public class Filters {
    *          The planned response.
    */
   public void handleAuthentication(Request request, Response response) {
-    // Unset the current user on the business layer
     AuthenticationUtil.setCurrentUser(null);
 
-    try {
-      AuthenticationInformation info = authenticationService
-          .login(request.cookie(CookieHelpers.USER_COOKIE));
-      User user = info.getUser();
-      AuthenticationUtil.setCurrentUser(user);
-      request.attribute(RequestAttributes.USER, user);
+    String token = request.cookie(CookieHelpers.USER_COOKIE);
+    if (token != null) {
+      try {
+        AuthenticationInformation info = authenticationService.login(token);
+        User user = info.getUser();
+        AuthenticationUtil.setCurrentUser(user);
+        request.attribute(RequestAttributes.USER, user);
 
-      if (request.uri().startsWith(RouteBuilder.toLogin())) {
-        response.redirect(RouteBuilder.toDashboard());
-        Spark.halt();
+        if (request.uri().startsWith(RouteBuilder.toLogin())) {
+          response.redirect(RouteBuilder.toDashboard());
+          Spark.halt();
+        }
+        return;
+      } catch (ExamiburException e) {
+        // Login with the given token has failed
       }
-    } catch (ExamiburException e) {
-      if (!request.uri().startsWith(RouteBuilder.toLogin())) {
-        String redirectUrl = RouteBuilder.addQueryParameter(RouteBuilder.toLogin(),
-            QueryParameter.Ref.toString(), request.uri());
-        response.redirect(redirectUrl);
-        Spark.halt();
-      }
+    }
+
+    if (!request.uri().startsWith(RouteBuilder.toLogin())) {
+      String redirectUrl = RouteBuilder.addQueryParameter(RouteBuilder.toLogin(),
+          QueryParameter.Ref.toString(), request.uri());
+      response.redirect(redirectUrl);
+      Spark.halt();
     }
   }
 
