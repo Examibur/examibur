@@ -13,6 +13,20 @@ public final class RouteBuilder {
   }
 
   /**
+   * Returns the absolute url to the login page.
+   */
+  public static String toLogin() {
+    return Route.LOGIN.url();
+  }
+
+  /**
+   * Returns the absolute url to the logout page.
+   */
+  public static String toLogout() {
+    return Route.LOGOUT.url();
+  }
+
+  /**
    * Returns the absolute url to the list of exams.
    */
   public static String toExams() {
@@ -130,4 +144,5 @@ public final class RouteBuilder {
     }
     return url + delimiter + key + '=' + value;
   }
+
 }

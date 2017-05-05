@@ -5,24 +5,69 @@ import static ch.examibur.ui.app.util.ScreenshotUtil.getDriver;
 
 import ch.examibur.business.DatabaseResource;
 import java.io.IOException;
+import org.junit.After;
+import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UiTest {
+
+  private static final String USER_JUERGEN_KOENIG = "juergen.koenig";
 
   @ClassRule
   public static final DatabaseResource RES = new DatabaseResource();
 
   private static final String TEST_URL = System.getenv("UI_TEST_URL");
 
+  /**
+   * Do logout if not yet done.
+   */
+  @After
+  public void ensureLogout() {
+    getDriver().manage().deleteAllCookies();
+  }
+
   @Test
   public void testDashboardUi() throws IOException {
+    login(USER_JUERGEN_KOENIG);
     getDriver().get(TEST_URL);
     assertScreenshots();
   }
 
   @Test
+  public void testLogin() throws IOException {
+    getDriver().get(TEST_URL);
+    assertScreenshots();
+  }
+
+  @Test
+  public void testLogout() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    getDriver().get(TEST_URL);
+    getDriver().findElement(By.id("user-details")).click();
+    assertScreenshots();
+    getDriver().findElement(By.id("logout")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().equals(TEST_URL + "login/");
+    });
+  }
+
+  @Test
+  public void testLoginRef() throws IOException {
+    getDriver().get(TEST_URL + "/exams/2/");
+    Assert.assertEquals(TEST_URL + "login/?ref=/exams/2/", getDriver().getCurrentUrl());
+    login(USER_JUERGEN_KOENIG, false);
+    Assert.assertEquals(TEST_URL + "exams/2/", getDriver().getCurrentUrl());
+  }
+
+  @Test
   public void testExamInformationTabUi() throws IOException {
+    login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams/1/";
     getDriver().get(testUrl);
     assertScreenshots();
@@ -30,6 +75,7 @@ public class UiTest {
 
   @Test
   public void testExerciseSolutionUiInApprovalWithApprovalPending() throws IOException {
+    login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams/4/participants/4/solutions/10";
     getDriver().get(testUrl);
     assertScreenshots();
@@ -37,6 +83,7 @@ public class UiTest {
 
   @Test
   public void testExerciseSolutionUiInReviewWithoutReview() throws IOException {
+    login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams/5/participants/7/solutions/19";
     getDriver().get(testUrl);
     assertScreenshots();
@@ -44,6 +91,7 @@ public class UiTest {
 
   @Test
   public void testExerciseSolutionUiInReviewWithReview() throws IOException {
+    login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams/5/participants/7/solutions/21";
     getDriver().get(testUrl);
     assertScreenshots();
@@ -51,6 +99,7 @@ public class UiTest {
 
   @Test
   public void testExerciseSolutionUiInCorrectionWithGrading() throws IOException {
+    login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams/7/participants/13/solutions/37";
     getDriver().get(testUrl);
     assertScreenshots();
@@ -58,8 +107,30 @@ public class UiTest {
 
   @Test
   public void testExerciseSolutionUiInCorrectionWithoutGrading() throws IOException {
+    login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/49";
     getDriver().get(testUrl);
     assertScreenshots();
   }
+
+  private void login(String username) {
+    login(username, true);
+  }
+
+  private void login(String username, boolean goExplicitToLoginPage) {
+    if (goExplicitToLoginPage) {
+      getDriver().get(TEST_URL + "/login/");
+    }
+    getDriver().findElement(By.id("username-login")).sendKeys(username);
+    getDriver().findElement(By.id("password-login")).sendKeys("***");
+    getDriver().findElement(By.id("submit-login")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    wait.until((x) -> {
+      Cookie cookie = x.manage().getCookieNamed("authentication-token");
+      return cookie != null && !getDriver().getCurrentUrl().contains("/login/");
+    });
+
+  }
+
 }
