@@ -1,4 +1,4 @@
-<#include "bodyTemplate.ftl">
+<#include "../templates/bodyTemplate.ftl">
 
 <#macro body_main>
 	<#local examState = exerciseSolution.exercise.exam.state>
