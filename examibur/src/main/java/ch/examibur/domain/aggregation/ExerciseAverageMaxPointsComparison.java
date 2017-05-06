@@ -2,15 +2,8 @@ package ch.examibur.domain.aggregation;
 
 public final class ExerciseAverageMaxPointsComparison {
 
-  /**
-   * It is perfectly fine to suppress the unused warning cause this object
-   * is only used for JSON serialization with GSON.
-   */
-  @SuppressWarnings("unused")
   private final String title;
-  @SuppressWarnings("unused")
   private final double maxPoints;
-  @SuppressWarnings("unused")
   private final double averagePoints;
 
   /**
@@ -27,6 +20,18 @@ public final class ExerciseAverageMaxPointsComparison {
     this.title = title;
     this.maxPoints = maxPoints;
     this.averagePoints = averagePoints;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public double getMaxPoints() {
+    return maxPoints;
+  }
+
+  public double getAveragePoints() {
+    return averagePoints;
   }
 
 }

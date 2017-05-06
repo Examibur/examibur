@@ -79,7 +79,7 @@ public class UiTest {
     final String testUrl = TEST_URL + "/exams/7/reports";
     getDriver().get(testUrl);
     
-    WebDriverWait wait = new WebDriverWait(getDriver(), 300);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
     wait.until((x) -> {
       return getDriver().findElement(By.className("highcharts-container")).isDisplayed();
     });

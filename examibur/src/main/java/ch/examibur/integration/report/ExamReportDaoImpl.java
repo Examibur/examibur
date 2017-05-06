@@ -17,6 +17,7 @@ import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 public class ExamReportDaoImpl implements ExamReportDao {
 
@@ -62,6 +63,10 @@ public class ExamReportDaoImpl implements ExamReportDao {
 
       List<ExamParticipation> examParticipations = examParticipationDao
           .getExamParticipations(examId, entityManager);
+      if (examParticipations.isEmpty()) {
+        throw new NoResultException(
+            "No exam participations for exam  " + examId + " could be retrieved");
+      }
       for (ExamParticipation examParticipation : examParticipations) {
         double totalPoints = exerciseGradingDao
             .getTotalPointsOfExamGradings(examParticipation.getId(), entityManager);
@@ -85,7 +90,11 @@ public class ExamReportDaoImpl implements ExamReportDao {
     EntityManager entityManager = entityManagerProvider.get();
     try {
       List<ExerciseAverageMaxPointsComparison> exerciseAverageMaxPointsComparisonList = new ArrayList<>();
-      for (Exercise exercise : exerciseDao.getExercises(examId, entityManager)) {
+      List<Exercise> exercises = exerciseDao.getExercises(examId, entityManager);
+      if (exercises.isEmpty()) {
+        throw new NoResultException("No exercises for exam  " + examId + " could be retrieved");
+      }
+      for (Exercise exercise : exercises) {
         // TODO remove this ugly cast as soon as issue 99 is resolved
         String title = ((TextExercise) exercise).getTitle();
         double averagePoints = exerciseGradingDao.getAveragePointsOfExercise(exercise.getId(),
@@ -109,6 +118,10 @@ public class ExamReportDaoImpl implements ExamReportDao {
 
       List<ExamParticipation> examParticipations = examParticipationDao
           .getExamParticipations(examId, entityManager);
+      if (examParticipations.isEmpty()) {
+        throw new NoResultException(
+            "No exam participations for exam  " + examId + " could be retrieved");
+      }
       for (ExamParticipation examParticipation : examParticipations) {
         double totalPoints = exerciseGradingDao
             .getTotalPointsOfExamGradings(examParticipation.getId(), entityManager);
@@ -124,7 +137,7 @@ public class ExamReportDaoImpl implements ExamReportDao {
       entityManager.close();
     }
   }
-  
+
   @Override
   public boolean isReportRetrievalPossible(long examId) {
     EntityManager entityManager = entityManagerProvider.get();
