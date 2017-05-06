@@ -21,7 +21,7 @@ public class ExamServiceImplTest {
   @ClassRule
   public static final DatabaseResource RES = new DatabaseResource();
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+  private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
   private final ExamService examService = IntegrationTestUtil.getInjector()
       .getInstance(ExamService.class);
@@ -60,14 +60,12 @@ public class ExamServiceImplTest {
     Assert.assertNotNull(exam);
     Assert.assertEquals(4L, exam.getId());
     Assert.assertEquals(60, exam.getAllowedTimeInMin());
-    Assert.assertEquals(new Date(DATE_FORMAT.parse("2017-01-16").getTime()), exam.getDueDate());
+    Assert.assertEquals(new Date(dateFormat.parse("2017-01-16").getTime()), exam.getDueDate());
     Assert.assertEquals(ExamState.APPROVAL, exam.getState());
     Assert.assertEquals(9, exam.getAuthor().getId());
     Assert.assertEquals(6, exam.getModule().getId());
-    Assert.assertEquals(new Date(DATE_FORMAT.parse("2017-01-20").getTime()),
-        exam.getLastModified());
-    Assert.assertEquals(new Date(DATE_FORMAT.parse("2017-01-03").getTime()),
-        exam.getCreationDate());
+    Assert.assertEquals(new Date(dateFormat.parse("2017-01-20").getTime()), exam.getLastModified());
+    Assert.assertEquals(new Date(dateFormat.parse("2017-01-03").getTime()), exam.getCreationDate());
 
   }
 

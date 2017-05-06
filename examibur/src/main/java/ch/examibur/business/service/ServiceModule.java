@@ -1,5 +1,6 @@
 package ch.examibur.business.service;
 
+import ch.examibur.service.AuthenticationService;
 import ch.examibur.service.ExamParticipationService;
 import ch.examibur.service.ExamReportService;
 import ch.examibur.service.ExamService;
@@ -18,6 +19,7 @@ public class ServiceModule extends AbstractModule {
     bind(ExerciseSolutionService.class).to(ExerciseSolutionServiceImpl.class);
     bind(ExamParticipationService.class).to(ExamParticipationServiceImpl.class);
     bind(ExamReportService.class).to(ExamReportServiceImpl.class);
+    bind(AuthenticationService.class).to(AuthenticationServiceImpl.class);
   }
 
 }

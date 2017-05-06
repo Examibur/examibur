@@ -12,23 +12,21 @@ import ch.examibur.integration.exercisesolution.ExerciseSolutionDao;
 import ch.examibur.integration.exercisesolution.ExerciseSolutionDaoImpl;
 import ch.examibur.integration.report.ExamReportDao;
 import ch.examibur.integration.report.ExamReportDaoImpl;
+import ch.examibur.integration.user.UserDao;
+import ch.examibur.integration.user.UserDaoImpl;
 import ch.examibur.integration.utils.InitializationException;
 import ch.examibur.integration.utils.JdbcCredentials;
 import ch.examibur.integration.utils.MigrationLocations;
 import ch.examibur.integration.utils.SleepBetweenTriesMs;
 import ch.examibur.integration.utils.WaitForDbTimeoutSec;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
 import org.flywaydb.core.Flyway;
 
 public class IntegrationModule extends AbstractModule {
@@ -41,6 +39,7 @@ public class IntegrationModule extends AbstractModule {
     bind(ExerciseSolutionDao.class).to(ExerciseSolutionDaoImpl.class);
     bind(ExamParticipationDao.class).to(ExamParticipationDaoImpl.class);
     bind(ExamReportDao.class).to(ExamReportDaoImpl.class);
+    bind(UserDao.class).to(UserDaoImpl.class);
 
     bindConstant().annotatedWith(WaitForDbTimeoutSec.class).to(3);
     bindConstant().annotatedWith(SleepBetweenTriesMs.class).to(500);

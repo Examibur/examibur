@@ -2,6 +2,7 @@ package ch.examibur.ui.app.routing;
 
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.ui.app.controller.AuthenticationController;
 import ch.examibur.ui.app.controller.DashboardController;
 import ch.examibur.ui.app.controller.ExamController;
 import ch.examibur.ui.app.controller.ExamParticipationController;
@@ -41,18 +42,29 @@ public final class Router {
   @Inject
   ExceptionController exceptionController;
 
+  @Inject
+  AuthenticationController authenticationController;
+
+  @Inject
+  Filters filters;
+
   /**
    * defines the HTTP routes for the application.
    */
   public void route() {
     Spark.staticFiles.location("/public");
 
-    Spark.before("*", Filters::addTrailingSlashes);
-    Spark.before("*", Filters::handleAuthentication);
-    Spark.before("*", Filters::addBaseModel);
+    Spark.before("*", filters::addTrailingSlashes);
+    Spark.before("*", filters::handleAuthentication);
+    Spark.before("*", filters::addBaseModel);
 
     beforeAll(Route.ROOT, dashboardController::addBreadCrumb);
     get(Route.ROOT, dashboardController::displayDashboard);
+
+    beforeAll(Route.LOGIN, authenticationController::addBreadCrumb);
+    get(Route.LOGIN, authenticationController::displayLoginForm);
+    post(Route.LOGIN, authenticationController::performLogin);
+    get(Route.LOGOUT, authenticationController::logout);
 
     beforeAll(Route.EXAMS, examController::addBreadCrumb);
     get(Route.EXAMS, examController::listExams);

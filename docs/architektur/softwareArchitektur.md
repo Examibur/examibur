@@ -170,3 +170,20 @@ Um eine möglichst lose Kopplung und hohe Kohäsion in Partitionen zu erreichen 
 
 #### Integration-Schicht
   * Interface: ExamDao
+
+## Prozesse & Threads
+
+Die Architektur ist so designed, dass möglichst nie ein (globaler) Zustand herrscht (stateless). Die wohl einzige Ausnahme ist das Benutzer-Objekt (siehe nächster Absatz).
+
+Für jeden [Request wird ein Thread aufgemacht](https://blog.krecan.net/2010/05/02/cool-tomcat-is-able-to-handle-more-than-13000-concurrent-connections/), welcher synchron blockierend durchläuft. Dies bedeutet, dass ein Thread bis zur Fertigstellung ("Run-to-completion") durchläuft. Derzeit sind keine asynchronen Operationen vorgesehen.
+
+Sowohl Controller als auch Services müssen Thread-Safe sein, denn sie werden gleichzeitig von mehreren Threads verwendet. Dies sollte meist kein Problem sein, da diese zustandslos sind. 
+
+## Authentisierung / Authorisierung
+
+Bei einem Request steht der aktuelle Benutzer (sofern er angemeldet ist) als `User`-Objekt den Controllern und dem Business-Layer zur Verfügung. Der Zugriff erfolgt aber unterschiedlich:
+
+In UI-Layer wird das Benutzer-Objekt als [Attribut auf dem aktuellen Request](http://sparkjava.com/documentation#request) gesetzt. Da im UI-Layer das Request-Objekt an vielen Orten gebraucht wird macht es Sinn auch gleich dort den Benutzer mitzuliefern.
+
+Im Business-Layer ist der aktuelle Benutzer (des aktuellen Threads) über die statische-Methode `AuthenticationUtil.getCurrentUser()` erreichbar. Die Alternative wäre, dass das Benutzer-Objekt bei jeder Service Methoden mitgegeben würde, was diese unleserlich und unnötig komplex machen würde.
+
