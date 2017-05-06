@@ -84,7 +84,7 @@ public class ExerciseSolutionController implements Controller {
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
     model.put("grading", exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId));
     model.put("review", exerciseGradingService.getReviewForExerciseSolution(exerciseSolutionId));
-    return engine.render(model, "exerciseSolutionView.ftl");
+    return engine.render(model, "views/exerciseSolutionView.ftl");
   }
 
   private void redirectToNextExerciseSolution(Request request, Response response)
@@ -119,7 +119,7 @@ public class ExerciseSolutionController implements Controller {
    */
   public String listExerciseSolutions(Request request, Response response) {
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
-    return engine.render(model, "404.ftl");
+    return engine.render(model, "errors/404.ftl");
   }
 
   /**

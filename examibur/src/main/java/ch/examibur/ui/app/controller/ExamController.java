@@ -1,5 +1,6 @@
 package ch.examibur.ui.app.controller;
 
+import ch.examibur.domain.User;
 import ch.examibur.service.ExamService;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
@@ -57,7 +58,7 @@ public class ExamController implements Controller {
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
     model.put("maxPoints", examService.getMaxPoints(examId));
-    return engine.render(model, "examInformationTab.ftl");
+    return engine.render(model, "views/examInformationTab.ftl");
   }
 
   /**
@@ -68,10 +69,16 @@ public class ExamController implements Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
+   * @throws ExamiburException
+   *           throws {@link CommunicationException} if an exception during the communication
+   *           occurs. throws {@link AuthorizationException} if the user is not authorized. throws
+   *           {@link InvalidParameterException} if userid < 0
    */
-  public String listExams(Request request, Response response) {
+  public String listExams(Request request, Response response) throws ExamiburException {
+    User user = request.attribute(RequestAttributes.USER);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
-    return engine.render(model, "404.ftl");
+    model.put("exams", examService.getExamsForAuthor(user.getId()));
+    return engine.render(model, "views/examsView.ftl");
   }
 
   /**

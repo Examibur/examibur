@@ -73,7 +73,7 @@ public final class ExamReportController implements Controller {
     } 
     model.put("reportRetrievalPossible", reportRetrievalPossible);
 
-    return engine.render(model, "examReportsTab.ftl");
+    return engine.render(model, "views/examReportsTab.ftl");
   }
 
   /**

@@ -125,7 +125,15 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
-  
+
+  @Test
+  public void testExamsList() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
+
   private void login(String username) {
     login(username, true);
   }
