@@ -6,7 +6,7 @@ $(function() {
                     type: 'pie'
                 },
 				title : {
-					text : 'Bestanden und Durchgefallen im Vergleich'
+					text : ''
 				},
 				tooltip: {
 			        pointFormat: '<b>{point.percentage:.1f}%</b>'
@@ -64,7 +64,7 @@ $(function() {
 			        type: 'column'
 			    },
 			    title: {
-			        text: 'Aufgaben im Vergleich'
+			        text: ''
 			    },
 			    tooltip: {
 			    	pointFormat: '{series.name}: {point.y:.1f}'

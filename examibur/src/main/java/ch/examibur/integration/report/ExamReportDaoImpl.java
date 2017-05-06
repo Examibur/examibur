@@ -3,6 +3,7 @@ package ch.examibur.integration.report;
 import ch.examibur.domain.ExamParticipation;
 import ch.examibur.domain.Exercise;
 import ch.examibur.domain.TextExercise;
+import ch.examibur.domain.aggregation.ExamPerformance;
 import ch.examibur.domain.aggregation.ExerciseAverageMaxPointsComparison;
 import ch.examibur.domain.aggregation.PassedParticipationComparison;
 import ch.examibur.integration.exam.ExamDao;
@@ -93,6 +94,32 @@ public class ExamReportDaoImpl implements ExamReportDao {
             new ExerciseAverageMaxPointsComparison(title, exercise.getMaxPoints(), averagePoints));
       }
       return exerciseAverageMaxPointsComparisonList;
+    } finally {
+      entityManager.close();
+    }
+  }
+
+  @Override
+  public ExamPerformance getExamPerformanceReport(long examId) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      double maxPoints = examDao.getMaxPoints(examId, entityManager);
+
+      List<Double> gradings = new ArrayList<>();
+
+      List<ExamParticipation> examParticipations = examParticipationDao
+          .getExamParticipations(examId, entityManager);
+      for (ExamParticipation examParticipation : examParticipations) {
+        double totalPoints = exerciseGradingDao
+            .getTotalPointsOfExamGradings(examParticipation.getId(), entityManager);
+
+        double grading = GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints,
+            maxPoints);
+        gradings.add(grading);
+      }
+      double averageGrade = GradingUtil.calculateAverageGrade(gradings);
+      double medianGrade = GradingUtil.calculateMedianGrade(gradings);
+      return new ExamPerformance(averageGrade, medianGrade);
     } finally {
       entityManager.close();
     }

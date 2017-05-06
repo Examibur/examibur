@@ -1,6 +1,7 @@
 package ch.examibur.service;
 
 import ch.examibur.domain.Exam;
+import ch.examibur.domain.aggregation.ExamPerformance;
 import ch.examibur.domain.aggregation.ExerciseAverageMaxPointsComparison;
 import ch.examibur.domain.aggregation.PassedParticipationComparison;
 import ch.examibur.service.exception.AuthorizationException;
@@ -22,7 +23,7 @@ public interface ExamReportService {
    *           the user is not authorized to access this data. throws {@link CommunicationException}
    *           if an exception during the communication occurs.
    */
-  public PassedParticipationComparison getPassedParticipationComparisonReport(long examId)
+  PassedParticipationComparison getPassedParticipationComparisonReport(long examId)
       throws ExamiburException;
 
   /**
@@ -36,7 +37,20 @@ public interface ExamReportService {
    *           this data. throws {@link CommunicationException} if an exception during the
    *           communication occurs.
    */
-  public List<ExerciseAverageMaxPointsComparison> getExerciseAverageMaxPointsComparisonReport(
-      long examId) throws ExamiburException;
+  List<ExerciseAverageMaxPointsComparison> getExerciseAverageMaxPointsComparisonReport(long examId)
+      throws ExamiburException;
+
+  /**
+   * @param examId
+   *          the id of the {@link Exam}.
+   * @return the report object to analyze the average grading and the median
+   * @throws ExamiburException
+   *           throws {@link NotFoundException} if the {@link Exam} or exam participations with the
+   *           given id was/were not found or it was not possible to retrieve the total points of
+   *           exam gradings for a specific participation. throws {@link AuthorizationException} if
+   *           the user is not authorized to access this data. throws {@link CommunicationException}
+   *           if an exception during the communication occurs.
+   */
+  ExamPerformance getExamPerformanceReport(long examId) throws ExamiburException;
 
 }

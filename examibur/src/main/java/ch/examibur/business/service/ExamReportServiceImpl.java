@@ -1,6 +1,7 @@
 package ch.examibur.business.service;
 
 import ch.examibur.business.util.ValidationHelper;
+import ch.examibur.domain.aggregation.ExamPerformance;
 import ch.examibur.domain.aggregation.ExerciseAverageMaxPointsComparison;
 import ch.examibur.domain.aggregation.PassedParticipationComparison;
 import ch.examibur.integration.report.ExamReportDao;
@@ -56,6 +57,20 @@ public class ExamReportServiceImpl implements ExamReportService {
       NotFoundException notFoundException = new NotFoundException(
           "ExerciseAverageMaxPointsComparisonReport could not be generated with examId " + examId,
           ex);
+      LOGGER.error(notFoundException.getMessage(), notFoundException);
+      throw notFoundException;
+    }
+  }
+
+  @Override
+  public ExamPerformance getExamPerformanceReport(long examId) throws ExamiburException {
+    ValidationHelper.checkForNegativeId(examId, LOGGER);
+
+    try {
+      return examReportDao.getExamPerformanceReport(examId);
+    } catch (NoResultException ex) {
+      NotFoundException notFoundException = new NotFoundException(
+          "ExamPerformanceReport could not be generated with examId " + examId, ex);
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
     }
