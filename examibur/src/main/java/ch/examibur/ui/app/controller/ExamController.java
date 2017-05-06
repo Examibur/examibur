@@ -1,5 +1,6 @@
 package ch.examibur.ui.app.controller;
 
+import ch.examibur.domain.User;
 import ch.examibur.service.ExamService;
 import ch.examibur.service.ExerciseService;
 import ch.examibur.service.exception.AuthorizationException;
@@ -79,9 +80,9 @@ public class ExamController implements Controller {
    *           {@link InvalidParameterException} if userid < 0
    */
   public String listExams(Request request, Response response) throws ExamiburException {
-    long userId = request.attribute("user");
+    User user = request.attribute(RequestAttributes.USER);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
-    model.put("exams", examService.getExamsForAuthor(userId));
+    model.put("exams", examService.getExamsForAuthor(user.getId()));
     return engine.render(model, "views/examsView.ftl");
   }
 

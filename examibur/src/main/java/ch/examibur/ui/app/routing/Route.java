@@ -2,6 +2,8 @@ package ch.examibur.ui.app.routing;
 
 public enum Route {
   ROOT("/"),
+  LOGIN(ROOT, "login/"),
+  LOGOUT(ROOT, "logout/"),
   EXAMS(ROOT, "exams/"),
   EXAM(EXAMS, UrlParameter.EXAM_ID),
   EXERCISES(EXAM, "exercises/"),
@@ -9,7 +11,7 @@ public enum Route {
   PARTICIPANTS(EXAM, "participants/"),
   PARTICIPANT(PARTICIPANTS, UrlParameter.PARTICIPANT_ID),
   SOLUTIONS(PARTICIPANT, "solutions/"),
-  SOLUTION(SOLUTIONS, UrlParameter.SOLUTION_ID),;
+  SOLUTION(SOLUTIONS, UrlParameter.SOLUTION_ID);
 
   private final String url;
 

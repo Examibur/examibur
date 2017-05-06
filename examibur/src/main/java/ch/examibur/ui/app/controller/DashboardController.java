@@ -1,5 +1,6 @@
 package ch.examibur.ui.app.controller;
 
+import ch.examibur.domain.User;
 import ch.examibur.service.ExamService;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
@@ -45,9 +46,9 @@ public class DashboardController implements Controller {
    *           occurs. throws {@link AuthorizationException} if the user is not authorized.
    */
   public String displayDashboard(Request request, Response response) throws ExamiburException {
-    long userId = request.attribute("user");
+    User user = request.attribute(RequestAttributes.USER);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
-    model.put("exams", examService.getExamsForAuthor(userId));
+    model.put("exams", examService.getExamsForAuthor(user.getId()));
     return engine.render(model, "views/dashboardView.ftl");
   }
 
