@@ -65,7 +65,13 @@ public final class ExamReportController implements Controller {
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
-    model.put("examperformance", examReportService.getExamPerformanceReport(examId));
+    
+    boolean reportRetrievalPossible = false;
+    if (examReportService.isReportRetrievalPossible(examId)) {
+      model.put("examperformance", examReportService.getExamPerformanceReport(examId));
+      reportRetrievalPossible = true;
+    } 
+    model.put("reportRetrievalPossible", reportRetrievalPossible);
 
     return engine.render(model, "examReportsTab.ftl");
   }

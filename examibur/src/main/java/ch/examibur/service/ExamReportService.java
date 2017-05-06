@@ -53,4 +53,16 @@ public interface ExamReportService {
    */
   ExamPerformance getExamPerformanceReport(long examId) throws ExamiburException;
 
+  /**
+   * @param examId
+   *          the id of the {@link Exam}.
+   * @return true, if it's possible to generate all of the reports with the current data
+   * @throws ExamiburException
+   *           throws {@link NotFoundException} if exam participations or exercises with the given
+   *           id were not found. throws {@link AuthorizationException} if the user is not
+   *           authorized to access this data. throws {@link CommunicationException} if an exception
+   *           during the communication occurs.
+   */
+  boolean isReportRetrievalPossible(long examId) throws ExamiburException;
+
 }

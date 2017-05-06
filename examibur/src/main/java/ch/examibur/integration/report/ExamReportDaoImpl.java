@@ -124,5 +124,23 @@ public class ExamReportDaoImpl implements ExamReportDao {
       entityManager.close();
     }
   }
-
+  
+  @Override
+  public boolean isReportRetrievalPossible(long examId) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      List<Exercise> exercises = exerciseDao.getExercises(examId, entityManager);
+      if (exercises.isEmpty()) {
+        return false;
+      }
+      List<ExamParticipation> examParticipations = examParticipationDao
+          .getExamParticipations(examId, entityManager);
+      if (examParticipations.isEmpty()) {
+        return false;
+      }
+      return true;
+    } finally {
+      entityManager.close();
+    }
+  }
 }

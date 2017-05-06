@@ -75,5 +75,19 @@ public class ExamReportServiceImpl implements ExamReportService {
       throw notFoundException;
     }
   }
+  
+  @Override
+  public boolean isReportRetrievalPossible(long examId) throws ExamiburException {
+    ValidationHelper.checkForNegativeId(examId, LOGGER);
+
+    try {
+      return examReportDao.isReportRetrievalPossible(examId);
+    } catch (NoResultException ex) {
+      NotFoundException notFoundException = new NotFoundException(
+          "isReportRetrievalPossible could not be executed with examId " + examId, ex);
+      LOGGER.error(notFoundException.getMessage(), notFoundException);
+      throw notFoundException;
+    }
+  }
 
 }

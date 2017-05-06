@@ -13,5 +13,7 @@ public interface ExamReportDao {
       long examId);
   
   ExamPerformance getExamPerformanceReport(long examId);
+  
+  boolean isReportRetrievalPossible(long examId);
 
 }
