@@ -49,7 +49,7 @@ public class DashboardController implements Controller {
     User user = request.attribute(RequestAttributes.USER);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exams", examService.getExamsForAuthor(user.getId()));
-    return engine.render(model, "dashboard.ftl");
+    return engine.render(model, "views/dashboardView.ftl");
   }
 
   /**

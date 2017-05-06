@@ -53,7 +53,7 @@ public class ExerciseController implements Controller {
    */
   public String displayExercise(Request request, Response response) {
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
-    return engine.render(model, "404.ftl");
+    return engine.render(model, "errors/404.ftl");
   }
 
   /**
@@ -76,7 +76,7 @@ public class ExerciseController implements Controller {
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
     model.put("exercises", exerciseService.getExercises(examId));
-    return engine.render(model, "examExercisesTab.ftl");
+    return engine.render(model, "views/examExercisesTab.ftl");
   }
 
   /**
