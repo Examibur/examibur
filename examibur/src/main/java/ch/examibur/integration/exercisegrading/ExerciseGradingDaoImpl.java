@@ -98,7 +98,7 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
         throw new NoResultException();
       }
       ExamState examState = exerciseSolution.getParticipation().getExam().getState();
-      if (!examState.equals(ExamState.CORRECTION) && !examState.equals(ExamState.REVIEW)) {
+      if (examState != ExamState.CORRECTION && examState != ExamState.REVIEW) {
         throw new IllegalOperationException(
             "Not possible to add a new grading in exam state " + examState.toString());
       }

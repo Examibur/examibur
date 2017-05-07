@@ -125,17 +125,15 @@ public final class RouteBuilder {
   }
 
   /**
-   * Returns the given url appended by the new query parameter (url?key=value). If the url already
-   * contains parameters the new one will be appended at the end. If the parameter already exists in
-   * the url it will be appended also (no replacement).
-   *
    * @param url
    *          the given url
    * @param key
    *          the key of the query parameter to append
    * @param value
    *          the value of the query parameter to append
-   * @return
+   * @return the given url appended by the new query parameter (url?key=value). If the url already
+   *         contains parameters the new one will be appended at the end. If the parameter already
+   *         exists in the url it will be appended also (no replacement).
    */
   public static String addQueryParameter(String url, String key, String value) {
     char delimiter = '?';
