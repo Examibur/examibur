@@ -16,7 +16,7 @@
 					<input type="hidden" name="querynext">
 					<button type="submit" class="btn btn-primary">Nächste Aufgabe</button>
 				<#else>
-					<input type="hidden" name="browse" value="participations">
+					<input type="hidden" name="browse" value="exercises">
 					<button type="submit" class="btn btn-default">Aufgabenweise korrigieren</button>
 				</#if>
 			</form>
