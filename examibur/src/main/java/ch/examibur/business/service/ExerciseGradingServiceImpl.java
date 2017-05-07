@@ -1,11 +1,13 @@
 package ch.examibur.business.service;
 
+import ch.examibur.business.util.AuthenticationUtil;
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.domain.User;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
 import ch.examibur.service.ExerciseGradingService;
+import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
@@ -52,11 +54,13 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
     LOGGER.info("Add Grading for ExerciseSolution {}", exerciseSolutionId);
     ValidationHelper.checkForNegativeId(exerciseSolutionId, LOGGER);
 
-    // TODO load current user
-    User gradingAuthor = new User();
-    gradingAuthor.setId(1L);
-    gradingAuthor.setFirstName("Maximilian");
-    gradingAuthor.setLastName("Mueller");
+    User gradingAuthor = AuthenticationUtil.getCurrentUser();
+    if (gradingAuthor == null) {
+      AuthorizationException authorizationException = new AuthorizationException(
+          "No user logged in to create the grading");
+      LOGGER.error(authorizationException.getMessage(), authorizationException);
+      throw authorizationException;
+    }
 
     try {
       exerciseGradingDao.addGrading(exerciseSolutionId, comment, reasoning, points, gradingAuthor);
