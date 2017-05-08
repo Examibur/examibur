@@ -74,10 +74,14 @@
 		</#if>			
 	</div>
 </#macro>
+
+<#if reportRetrievalPossible>
 <#macro page_scripts>
 	<script src="/js/highcharts.js"></script>
 	<script src="/js/exporting.js"></script>
     <script src="/js/examReports.js"></script>
 </#macro>
+
+</#if>	
 
 <@display_page/>
