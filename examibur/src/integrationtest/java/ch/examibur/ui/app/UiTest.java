@@ -11,6 +11,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UiTest {
@@ -118,6 +119,37 @@ public class UiTest {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams";
     getDriver().get(testUrl);
+    assertScreenshots();
+  }
+
+  @Test
+  public void testAddGradingToExerciseSolution() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/5/participants/17/solutions/51";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("points-addgrading")).sendKeys("1");
+    getDriver().findElement(By.id("comment-addgrading"))
+        .sendKeys("Diese Lösung ist nicht korrekt.");
+    getDriver().findElement(By.id("reasoning-addgrading")).sendKeys("1 Punkt für Argumentation");
+    getDriver().findElement(By.id("submit-addgrading")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("grading-panel")));
+    assertScreenshots();
+  }
+
+  @Test
+  public void testAddReviewToExerciseSolution() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/6/participants/12/solutions/35";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("points-addgrading")).sendKeys("0");
+    getDriver().findElement(By.id("comment-addgrading")).sendKeys("");
+    getDriver().findElement(By.id("reasoning-addgrading")).sendKeys("Die Antwort fehlt komplett");
+    getDriver().findElement(By.id("submit-addgrading")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("review-panel")));
     assertScreenshots();
   }
 

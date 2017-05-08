@@ -97,7 +97,7 @@
 	<div class="row">
 	    <#if grading??>
 			<div class="col-md-6">
-				<div class="panel panel-default">
+				<div class="panel panel-default" id="grading-panel">
 					<div class="panel-heading">
 						<strong>${grading.gradingAuthor.firstName} ${grading.gradingAuthor.lastName}</strong> bewertete am ${grading.creationDate}
 					</div>
@@ -134,7 +134,7 @@
 	
     	<#if review??>
     		<div class="col-md-6">
-    			<div class="panel panel-default">
+				<div class="panel panel-default" id="review-panel">
     				<div class="panel-heading">
     					<strong>${review.gradingAuthor.firstName} ${review.gradingAuthor.lastName}</strong> reviewte am ${review.creationDate}
     				</div>
@@ -202,7 +202,7 @@
 				    				<label for="points">Bewertete Punktzahl</label>
 				    			</div>
 				    			<div class="col-md-2">
-				    				<input class="form-control" name="points" type="number" min="0" max="${exerciseSolution.exercise.maxPoints}" required />
+									<input class="form-control" id="points-addgrading" name="points" type="number" min="0" max="${exerciseSolution.exercise.maxPoints}" required />
 				    			</div>
 				    		</div>	
 							<div class="row">
@@ -210,7 +210,7 @@
 				    				<label for="comment">Kommentar</label>
 				    			</div>
 				    			<div class="col-md-8">
-				    				<textarea class="form-control" name="comment" rows="3"></textarea>
+									<textarea class="form-control" id="comment-addgrading" name="comment" rows="3"></textarea>
 				    			</div>
 				    		</div>	
 				    		<div class="row">
@@ -218,7 +218,7 @@
 				    				<label for="reasoning">Begründung</label>
 				    			</div>
 				    			<div class="col-md-8">
-				    				<textarea class="form-control" name="reasoning" rows="3"></textarea>
+									<textarea class="form-control" id="reasoning-addgrading" name="reasoning" rows="3"></textarea>
 				    			</div>
 				    		</div>
 				    		<div class="row">
@@ -232,7 +232,7 @@
 									<#if browse??>
 										<input type="hidden" name="browse" value="${browse}">
 									</#if>
-				    				<input class="form-control" type="submit" value="Speichern" />
+									<input class="form-control" type="submit" id="submit-addgrading" value="Speichern" />
 				    			</div>
 				    		</div>
 				    	</form>
