@@ -14,10 +14,10 @@
 				<#if browse??>
 					<input type="hidden" name="browse" value="${browse}">
 					<input type="hidden" name="querynext">
-					<button type="submit" class="btn btn-primary">Nächste Aufgabe</button>
+					<button type="submit" class="btn btn-primary" id="querynext">Nächste Aufgabe</button>
 				<#else>
 					<input type="hidden" name="browse" value="exercise">
-					<button type="submit" class="btn btn-default">Aufgabenweise korrigieren</button>
+					<button type="submit" class="btn btn-default" id="browse-solutions">Aufgabenweise korrigieren</button>
 				</#if>
 			</form>
 		</div>

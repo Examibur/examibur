@@ -125,7 +125,7 @@ public class UiTest {
   @Test
   public void testAddGradingToExerciseSolution() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/5/participants/17/solutions/51";
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/51";
     getDriver().get(testUrl);
     getDriver().findElement(By.id("points-addgrading")).sendKeys("1");
     getDriver().findElement(By.id("comment-addgrading"))
@@ -150,6 +150,33 @@ public class UiTest {
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 100);
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("review-panel")));
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryExerciseSolutionByExercise() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/51";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("browse-solutions")).click();
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryExerciseSolutionByExerciseQueryNext() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/51/?browse=exercise";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("querynext")).click();
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryExerciseSolutionByExerciseQueryLast() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/18/solutions/54/?browse=exercise";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("querynext")).click();
     assertScreenshots();
   }
 
