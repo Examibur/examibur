@@ -1,13 +1,18 @@
 package ch.examibur.business.service;
 
+import ch.examibur.business.util.AuthenticationUtil;
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
+import ch.examibur.domain.User;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
 import ch.examibur.service.ExerciseGradingService;
+import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
+import ch.examibur.service.exception.NotFoundException;
 import com.google.inject.Inject;
+import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +28,7 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
   }
 
   @Override
+
   public ExerciseGrading getGradingForExerciseSolution(long exerciseSolutionId)
       throws ExamiburException {
     LOGGER.info("Get Grading vor ExerciseSolution {}", exerciseSolutionId);
@@ -40,6 +46,30 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
       throws InvalidParameterException {
     ValidationHelper.checkForNegativeId(exerciseSolutionId, LOGGER);
     return exerciseGradingDao.getGradingCreatedInState(exerciseSolutionId, state);
+  }
+
+  @Override
+  public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points)
+      throws ExamiburException {
+    LOGGER.info("Add Grading for ExerciseSolution {}", exerciseSolutionId);
+    ValidationHelper.checkForNegativeId(exerciseSolutionId, LOGGER);
+
+    User gradingAuthor = AuthenticationUtil.getCurrentUser();
+    if (gradingAuthor == null) {
+      AuthorizationException authorizationException = new AuthorizationException(
+          "No user logged in to create the grading");
+      LOGGER.error(authorizationException.getMessage(), authorizationException);
+      throw authorizationException;
+    }
+
+    try {
+      exerciseGradingDao.addGrading(exerciseSolutionId, comment, reasoning, points, gradingAuthor);
+    } catch (NoResultException ex) {
+      NotFoundException notFoundException = new NotFoundException(
+          "ExerciseSolution with id " + exerciseSolutionId + " does not exist", ex);
+      LOGGER.error(notFoundException.getMessage(), notFoundException);
+      throw notFoundException;
+    }
   }
 
 }

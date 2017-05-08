@@ -94,7 +94,8 @@ public final class Router {
 
     beforeAll(Route.SOLUTION, exerciseSolutionController::addSpecificBreadCrumb);
     get(Route.SOLUTION, exerciseSolutionController::displayExerciseSolution);
-    post(Route.SOLUTION, exerciseGradingController::addExerciseGrading);
+
+    post(Route.GRADINGS, exerciseGradingController::addExerciseGrading);
 
     Spark.get("*", exceptionController::handleNotFound);
     Spark.exception(NotFoundException.class, exceptionController::handleNotFoundException);

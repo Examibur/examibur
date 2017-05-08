@@ -196,13 +196,13 @@
 						</#if>
 					</div>
 					<div class="panel-body">
-						<form action="gradings" method="POST"> 
+						<form action="gradings/" method="POST"> 
 							<div class="row">
 								<div class="col-md-4">
 				    				<label for="points">Bewertete Punktzahl</label>
 				    			</div>
 				    			<div class="col-md-2">
-				    				<input class="form-control" id="points" type="number" min="0" max="${exerciseSolution.exercise.maxPoints}" required />
+				    				<input class="form-control" name="points" type="number" min="0" max="${exerciseSolution.exercise.maxPoints}" required />
 				    			</div>
 				    		</div>	
 							<div class="row">
@@ -210,7 +210,7 @@
 				    				<label for="comment">Kommentar</label>
 				    			</div>
 				    			<div class="col-md-8">
-				    				<textarea class="form-control" id="comment" rows="3"></textarea>
+				    				<textarea class="form-control" name="comment" rows="3"></textarea>
 				    			</div>
 				    		</div>	
 				    		<div class="row">
@@ -218,7 +218,7 @@
 				    				<label for="reasoning">Begründung</label>
 				    			</div>
 				    			<div class="col-md-8">
-				    				<textarea class="form-control" id="reasoning" rows="3"></textarea>
+				    				<textarea class="form-control" name="reasoning" rows="3"></textarea>
 				    			</div>
 				    		</div>
 				    		<div class="row">

@@ -31,6 +31,7 @@ title: Error-Handling Policy
     * `NotFoundException`, wenn eine angeforderte Ressource auf der Datenbank nicht gefunden wurde, aber zwingend ein Resultat benötigt wird
     * `AuthorizationException`, falls der User keine Berechtigung hat, diesen Service mit den spezifischen Argumenten aufzurufen
     * `CommunicationException`, wenn zwischen dem UI und dem Service ein Fehler in der Kommunikation auftritt
+    * `IllegalOperationException`, falls eine ungültige Operation ausgeführt wird oder sich die Applikation in einem nicht dafür vorgesehenen Status befindet
 * Der UI-Layer (Spark) verwaltet die Exceptions vom Business-Layer und zeigt dem User entsprechende verständliche (nicht-technische) Fehlermeldungen an
 
 ## Assertion Policy
