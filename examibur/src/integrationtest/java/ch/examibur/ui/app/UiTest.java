@@ -223,6 +223,15 @@ public class UiTest {
     assertScreenshots();
   }
 
+  @Test
+  public void testQueryExerciseSolutionWithWrongParameter() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL
+        + "/exams/8/participants/17/solutions/51/?wrong=exercise&querynext=";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
+
   private void login(String username) {
     login(username, true);
   }
