@@ -9,7 +9,7 @@ import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.ui.app.render.Renderer;
-import ch.examibur.ui.app.routing.BrowseSolutionsValues;
+import ch.examibur.ui.app.routing.BrowseSolutionsValue;
 import ch.examibur.ui.app.routing.QueryParameter;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
@@ -82,7 +82,7 @@ public class ExerciseSolutionController implements Controller {
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
 
-    if (BrowseSolutionsValues.forName(paramBrowse) != null) {
+    if (BrowseSolutionsValue.forName(paramBrowse) != null) {
       model.put(QueryParameter.BROWSE_SOLUTIONS.toString(), paramBrowse);
     }
 
@@ -94,9 +94,9 @@ public class ExerciseSolutionController implements Controller {
 
   private ExerciseSolution getNextExerciseSolution(long exerciseSolutionId, String paramBrowse)
       throws ExamiburException {
-    if (paramBrowse.equals(BrowseSolutionsValues.BY_EXERCISE.toString())) {
+    if (paramBrowse.equals(BrowseSolutionsValue.BY_EXERCISE.toString())) {
       return exerciseSolutionService.getExerciseSolutionFromNextParticipation(exerciseSolutionId);
-    } else if (paramBrowse.equals(BrowseSolutionsValues.BY_PARTICIPATION.toString())) {
+    } else if (paramBrowse.equals(BrowseSolutionsValue.BY_PARTICIPATION.toString())) {
       return exerciseSolutionService.getNextExerciseSolutionFromParticipation(exerciseSolutionId);
     } else {
       InvalidParameterException invalidParameterException = new InvalidParameterException(
@@ -114,10 +114,9 @@ public class ExerciseSolutionController implements Controller {
     if (nextExerciseSolution != null) {
       long participantId = nextExerciseSolution.getParticipation().getId();
       long nextExerciseSolutionId = nextExerciseSolution.getId();
-      target = RouteBuilder.addQueryParameter(
-          RouteBuilder.toExerciseSolution(examId, participantId, nextExerciseSolutionId),
-          QueryParameter.BROWSE_SOLUTIONS.toString(),
-          request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()));
+      target = RouteBuilder.toExerciseSolution(examId, participantId, nextExerciseSolutionId,
+          BrowseSolutionsValue
+              .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString())));
     } else {
       target = RouteBuilder.toExam(examId);
     }
@@ -167,7 +166,8 @@ public class ExerciseSolutionController implements Controller {
     long solutionId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
 
     RequestHelper.pushBreadCrumb(request, "Aufgabenlösung #" + solutionId,
-        RouteBuilder.toExerciseSolution(examId, participantId, solutionId));
+        RouteBuilder.toExerciseSolution(examId, participantId, solutionId, BrowseSolutionsValue
+            .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()))));
   }
 
 }
