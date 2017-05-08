@@ -75,8 +75,8 @@
 	</div>
 </#macro>
 <#macro page_scripts>
-	<script src="https://code.highcharts.com/highcharts.js"></script>
-	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="/js/highcharts.js"></script>
+	<script src="/js/exporting.js"></script>
     <script src="/js/examReports.js"></script>
 </#macro>
 
