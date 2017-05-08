@@ -1,5 +1,6 @@
 package ch.examibur.ui.app.controller;
 
+import ch.examibur.domain.ExamParticipation;
 import ch.examibur.service.ExamParticipationService;
 import ch.examibur.service.ExamService;
 import ch.examibur.service.exception.AuthorizationException;
@@ -50,10 +51,19 @@ public class ExamParticipationController implements Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if a parameter is invalid. throws
+   *           {@link CommunicationException} if an exception during the communication occurs.
+   *           throws {@link AuthorizationException} if the user is not authorized. throws
+   *           {@link NotFoundException} if the {@link ExamParticipation} is not found.
    */
-  public String displayExamParticipation(Request request, Response response) {
+  public String displayExamParticipation(Request request, Response response)
+      throws ExamiburException {
+    long examParticipationId = RoutingHelpers.getUnsignedLongUrlParameter(request,
+        UrlParameter.PARTICIPANT_ID);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
-    return engine.render(model, "views/examParticipationExerciseTab.ftl");
+    model.put("participation", examParticipationService.getExamParticipation(examParticipationId));
+    return engine.render(model, "views/examParticipationInfoTab.ftl");
   }
 
   /**
