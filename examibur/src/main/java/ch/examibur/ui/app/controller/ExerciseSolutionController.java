@@ -9,6 +9,8 @@ import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.ui.app.render.Renderer;
+import ch.examibur.ui.app.routing.BrowseSolutionsValues;
+import ch.examibur.ui.app.routing.QueryParameter;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
@@ -25,13 +27,6 @@ import spark.Response;
 public class ExerciseSolutionController implements Controller {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseSolutionController.class);
-
-  public static final String QUERY_PARAM_QUERY_NEXT = "querynext";
-  public static final String QUERY_PARAM_BROWSE = "browse";
-  public static final String BROWSE_EXERCISE = "exercise";
-  public static final String BROWSE_PARTICIPATION = "participation";
-  public static final String BROWSE_EXERCISES = "exercises";
-  public static final String BROWSE_PARTICIPATIONS = "participations";
 
   private final Renderer engine;
   private final ExerciseSolutionService exerciseSolutionService;
@@ -77,8 +72,8 @@ public class ExerciseSolutionController implements Controller {
     long exerciseSolutionId = RoutingHelpers.getUnsignedLongUrlParameter(request,
         UrlParameter.SOLUTION_ID);
 
-    String paramBrowse = request.queryParams(QUERY_PARAM_BROWSE);
-    if (request.queryParams(QUERY_PARAM_QUERY_NEXT) != null) {
+    String paramBrowse = request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString());
+    if (request.queryParams(QueryParameter.QUERY_NEXT_SOLUTION.toString()) != null) {
       ExerciseSolution nextExerciseSolution = getNextExerciseSolution(exerciseSolutionId,
           paramBrowse);
       redirectToNextExerciseSolution(request, response, nextExerciseSolution);
@@ -87,9 +82,8 @@ public class ExerciseSolutionController implements Controller {
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
 
-    if (paramBrowse != null
-        && (paramBrowse.equals(BROWSE_EXERCISE) || paramBrowse.equals(BROWSE_PARTICIPATION))) {
-      model.put(QUERY_PARAM_BROWSE, paramBrowse);
+    if (BrowseSolutionsValues.forName(paramBrowse) != null) {
+      model.put(QueryParameter.BROWSE_SOLUTIONS.toString(), paramBrowse);
     }
 
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
@@ -100,14 +94,14 @@ public class ExerciseSolutionController implements Controller {
 
   private ExerciseSolution getNextExerciseSolution(long exerciseSolutionId, String paramBrowse)
       throws ExamiburException {
-    if (paramBrowse.equals(BROWSE_EXERCISE)) {
+    if (paramBrowse.equals(BrowseSolutionsValues.BY_EXERCISE.toString())) {
       return exerciseSolutionService.getExerciseSolutionFromNextParticipation(exerciseSolutionId);
-    } else if (paramBrowse.equals(BROWSE_PARTICIPATION)) {
+    } else if (paramBrowse.equals(BrowseSolutionsValues.BY_PARTICIPATION.toString())) {
       return exerciseSolutionService.getNextExerciseSolutionFromParticipation(exerciseSolutionId);
     } else {
       InvalidParameterException invalidParameterException = new InvalidParameterException(
-          "Query parameter '" + QUERY_PARAM_BROWSE + "' with value '" + paramBrowse
-              + "' is not defined");
+          "Query parameter '" + QueryParameter.BROWSE_SOLUTIONS.toString() + "' with value '"
+              + paramBrowse + "' is not defined");
       LOGGER.error(invalidParameterException.getMessage(), invalidParameterException);
       throw invalidParameterException;
     }
@@ -122,7 +116,8 @@ public class ExerciseSolutionController implements Controller {
       long nextExerciseSolutionId = nextExerciseSolution.getId();
       target = RouteBuilder.addQueryParameter(
           RouteBuilder.toExerciseSolution(examId, participantId, nextExerciseSolutionId),
-          QUERY_PARAM_BROWSE, request.queryParams(QUERY_PARAM_BROWSE));
+          QueryParameter.BROWSE_SOLUTIONS.toString(),
+          request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()));
     } else {
       target = RouteBuilder.toExam(examId);
     }

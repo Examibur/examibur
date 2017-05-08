@@ -46,8 +46,8 @@ public class AuthenticationController implements Controller {
       CookieHelpers.setUserCookie(response, login.getToken());
 
       String ref = RouteBuilder.toDashboard();
-      if (request.queryParams(QueryParameter.Ref.toString()) != null) {
-        ref = request.queryParams(QueryParameter.Ref.toString());
+      if (request.queryParams(QueryParameter.REF.toString()) != null) {
+        ref = request.queryParams(QueryParameter.REF.toString());
       }
 
       response.redirect(ref);
