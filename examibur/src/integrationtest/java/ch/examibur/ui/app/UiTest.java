@@ -159,6 +159,11 @@ public class UiTest {
     final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/51";
     getDriver().get(testUrl);
     getDriver().findElement(By.id("browse-solutions")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/?browse=exercise");
+    });
     assertScreenshots();
   }
 
@@ -168,6 +173,11 @@ public class UiTest {
     final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/51/?browse=exercise";
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/solutions/54");
+    });
     assertScreenshots();
   }
 
@@ -177,6 +187,39 @@ public class UiTest {
     final String testUrl = TEST_URL + "/exams/8/participants/18/solutions/54/?browse=exercise";
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    wait.until((x) -> {
+      return !getDriver().getCurrentUrl().contains("/solutions");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryExerciseSolutionByParticipationQueryNext() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/49/?browse=participation";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("querynext")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/solutions/50");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryExerciseSolutionByParticipationQueryLast() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/51/?browse=participation";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("querynext")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    wait.until((x) -> {
+      return !getDriver().getCurrentUrl().contains("/solutions");
+    });
     assertScreenshots();
   }
 
