@@ -45,6 +45,26 @@ public class ExerciseGrading {
   @JoinColumn(name = "exercisegrading_exercisesolutionId", nullable = false)
   private ExerciseSolution exerciseSolution;
 
+  public ExerciseGrading() {
+    // empty constructor for JPA
+  }
+
+  /**
+   * Constructor to intialize an ExerciseGrading with all fields.
+   */
+  public ExerciseGrading(Date creationDate, String comment, String reasoning, double points,
+      ExamState createdInState, boolean isFinalGrading, User gradingAuthor,
+      ExerciseSolution exerciseSolution) {
+    this.creationDate = creationDate;
+    this.comment = comment;
+    this.reasoning = reasoning;
+    this.points = points;
+    this.createdInState = createdInState;
+    this.isFinalGrading = isFinalGrading;
+    this.gradingAuthor = gradingAuthor;
+    this.exerciseSolution = exerciseSolution;
+  }
+
   public long getId() {
     return id;
   }
