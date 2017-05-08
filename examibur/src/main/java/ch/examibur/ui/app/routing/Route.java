@@ -11,7 +11,8 @@ public enum Route {
   PARTICIPANTS(EXAM, "participants/"),
   PARTICIPANT(PARTICIPANTS, UrlParameter.PARTICIPANT_ID),
   SOLUTIONS(PARTICIPANT, "solutions/"),
-  SOLUTION(SOLUTIONS, UrlParameter.SOLUTION_ID);
+  SOLUTION(SOLUTIONS, UrlParameter.SOLUTION_ID),
+  GRADINGS(SOLUTION, "gradings/");
 
   private final String url;
 

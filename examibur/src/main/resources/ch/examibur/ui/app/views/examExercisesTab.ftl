@@ -1,4 +1,4 @@
-<#include "bodyTemplate.ftl">
+<#include "../templates/bodyTemplate.ftl">
 
 <#macro body_main>
 	<header>
@@ -11,7 +11,7 @@
 
 	<ul class="nav nav-tabs">
 		<li role="presentation"><a href="../">Informationen</a></li>
-		<li role="presentation"><a href="#">Teilnahmen</a></li>
+		<li role="presentation"><a href="../participants">Teilnahmen</a></li>
 		<li role="presentation" class="active"><a href="#">Aufgaben</a></li>
 		<li role="presentation"><a href="#">Auswertung</a></li>
 	</ul>	
