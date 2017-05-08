@@ -44,7 +44,7 @@ public final class ExamDaoImpl implements ExamDao {
   public double getMaxPoints(long examId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      return retrieveMaxPoints(examId, entityManager);
+      return getMaxPoints(examId, entityManager);
     } finally {
       entityManager.close();
     }
@@ -52,10 +52,6 @@ public final class ExamDaoImpl implements ExamDao {
 
   @Override
   public double getMaxPoints(long examId, EntityManager entityManager) {
-    return retrieveMaxPoints(examId, entityManager);
-  }
-  
-  private double retrieveMaxPoints(long examId, EntityManager entityManager) {
     // check if exam exists, throws an exception if it doesn't
     TypedQuery<Exam> examQuery = entityManager
         .createQuery("SELECT e.id FROM Exam e WHERE e.id = :examId", Exam.class);

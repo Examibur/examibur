@@ -20,7 +20,7 @@ public class ExerciseDaoImpl implements ExerciseDao {
   public List<Exercise> getExercises(long examId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      return retrieveExercises(examId, entityManager);
+      return getExercises(examId, entityManager);
     } finally {
       entityManager.close();
     }
@@ -28,10 +28,6 @@ public class ExerciseDaoImpl implements ExerciseDao {
 
   @Override
   public List<Exercise> getExercises(long examId, EntityManager entityManager) {
-    return retrieveExercises(examId, entityManager);
-  }
-
-  private List<Exercise> retrieveExercises(long examId, EntityManager entityManager) {
     TypedQuery<Exercise> exercisesQuery = entityManager
         .createQuery("SELECT e FROM Exercise e WHERE e.exam.id = :examId", Exercise.class);
     return exercisesQuery.setParameter("examId", examId).getResultList();

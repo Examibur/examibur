@@ -39,7 +39,7 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   public double getTotalPointsOfExamGradings(long examParticipationId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      return retrieveTotalPointsOfExamGradings(examParticipationId, entityManager);
+      return getTotalPointsOfExamGradings(examParticipationId, entityManager);
     } finally {
       entityManager.close();
     }
@@ -47,11 +47,6 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
 
   @Override
   public double getTotalPointsOfExamGradings(long examParticipationId,
-      EntityManager entityManager) {
-    return retrieveTotalPointsOfExamGradings(examParticipationId, entityManager);
-  }
-  
-  private double retrieveTotalPointsOfExamGradings(long examParticipationId,
       EntityManager entityManager) {
     TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
         .createQuery(
@@ -85,21 +80,7 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   }
 
   @Override
-  public double getAveragePointsOfExercise(long exerciseId) {
-    EntityManager entityManager = entityManagerProvider.get();
-    try {
-      return retrieveAveragePointsOfExercise(exerciseId, entityManager);
-    } finally {
-      entityManager.close();
-    }
-  }
-
-  @Override
   public double getAveragePointsOfExercise(long exerciseId, EntityManager entityManager) {
-    return retrieveAveragePointsOfExercise(exerciseId, entityManager);
-  }
-  
-  private double retrieveAveragePointsOfExercise(long exerciseId, EntityManager entityManager) {
     TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
         .createQuery(
             "SELECT AVG(eg.points) FROM ExerciseGrading eg "
@@ -110,6 +91,5 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
     return totalPointsOfExamGradingsQuery.setParameter("exerciseId", exerciseId)
         .getSingleResult();
   }
-
 
 }

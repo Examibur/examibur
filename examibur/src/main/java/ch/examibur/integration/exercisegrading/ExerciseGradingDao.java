@@ -40,14 +40,9 @@ public interface ExerciseGradingDao {
   /**
    * @param exerciseId
    *          the id of the exercise to get all corresponding exercise gradings
-   * @return the average points of all exercises gradings for one exercise.
-   */
-  public double getAveragePointsOfExercise(long exerciseId);
-
-  /**
-   * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao#getAveragePointsOfExercise(long)
    * @param entityManager
    *          this method is used in another dao and a global transaction will be used
+   * @return the average points of all exercises gradings for one exercise.
    */
   public double getAveragePointsOfExercise(long exerciseId, EntityManager entityManager);
 
