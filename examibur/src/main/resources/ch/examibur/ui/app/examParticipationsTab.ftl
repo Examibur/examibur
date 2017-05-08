@@ -8,6 +8,7 @@
 	<div class="top-navigation pull-right">
 		<form method="get">
 			<input type="hidden" name="browse" value="participations">
+			<input type="hidden" name="querynext">
 			<button type="submit" class="btn btn-default">Prüfungsweise korrigieren</button>
 		</form>
 	</div>

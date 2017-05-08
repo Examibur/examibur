@@ -16,7 +16,7 @@
 					<input type="hidden" name="querynext">
 					<button type="submit" class="btn btn-primary">Nächste Aufgabe</button>
 				<#else>
-					<input type="hidden" name="browse" value="exercises">
+					<input type="hidden" name="browse" value="exercise">
 					<button type="submit" class="btn btn-default">Aufgabenweise korrigieren</button>
 				</#if>
 			</form>
@@ -196,7 +196,7 @@
 						</#if>
 					</div>
 					<div class="panel-body">
-						<form action="gradings" method="POST"> 
+						<form action="gradings" method="POST">
 							<div class="row">
 								<div class="col-md-4">
 				    				<label for="points">Bewertete Punktzahl</label>
@@ -229,6 +229,9 @@
 				    				TODO
 				    			</div>
 				    			<div class="pull-right">
+									<#if browse??>
+										<input type="hidden" name="browse" value="${browse}">
+									</#if>
 				    				<input class="form-control" type="submit" value="Speichern" />
 				    			</div>
 				    		</div>
