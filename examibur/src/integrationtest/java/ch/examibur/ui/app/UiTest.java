@@ -13,6 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.yandex.qatools.ashot.AShot;
 
 public class UiTest {
 
@@ -125,7 +126,7 @@ public class UiTest {
   @Test
   public void testAddGradingToExerciseSolution() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/51";
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/50";
     getDriver().get(testUrl);
     getDriver().findElement(By.id("points-addgrading")).sendKeys("1");
     getDriver().findElement(By.id("comment-addgrading"))
@@ -133,9 +134,9 @@ public class UiTest {
     getDriver().findElement(By.id("reasoning-addgrading")).sendKeys("1 Punkt für Argumentation");
     getDriver().findElement(By.id("submit-addgrading")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 10);
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("grading-panel")));
-    assertScreenshots();
+    assertScreenshots(new AShot().addIgnoredElement(By.cssSelector("#grading-panel")));
   }
 
   @Test
@@ -148,9 +149,9 @@ public class UiTest {
     getDriver().findElement(By.id("reasoning-addgrading")).sendKeys("Die Antwort fehlt komplett");
     getDriver().findElement(By.id("submit-addgrading")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 10);
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("review-panel")));
-    assertScreenshots();
+    assertScreenshots(new AShot().addIgnoredElement(By.cssSelector("#review-panel")));
   }
 
   @Test
@@ -160,7 +161,7 @@ public class UiTest {
     getDriver().get(testUrl);
     getDriver().findElement(By.id("browse-solutions")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 10);
     wait.until((x) -> {
       return getDriver().getCurrentUrl().contains("/?browse=exercise");
     });
@@ -174,7 +175,7 @@ public class UiTest {
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 10);
     wait.until((x) -> {
       return getDriver().getCurrentUrl().contains("/solutions/54");
     });
@@ -188,7 +189,7 @@ public class UiTest {
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 10);
     wait.until((x) -> {
       return !getDriver().getCurrentUrl().contains("/solutions");
     });
@@ -198,13 +199,13 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByParticipationQueryNext() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/49/?browse=participation";
+    final String testUrl = TEST_URL + "/exams/8/participants/18/solutions/53/?browse=participation";
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 10);
     wait.until((x) -> {
-      return getDriver().getCurrentUrl().contains("/solutions/50");
+      return getDriver().getCurrentUrl().contains("/solutions/54");
     });
     assertScreenshots();
   }
@@ -212,11 +213,11 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByParticipationQueryLast() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/51/?browse=participation";
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/54/?browse=participation";
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 10);
     wait.until((x) -> {
       return !getDriver().getCurrentUrl().contains("/solutions");
     });

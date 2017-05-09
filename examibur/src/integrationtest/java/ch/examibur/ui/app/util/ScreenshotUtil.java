@@ -9,15 +9,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import javax.imageio.ImageIO;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
 import ru.yandex.qatools.ashot.comparison.ImageDiffer;
+import ru.yandex.qatools.ashot.coordinates.Coords;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
 public class ScreenshotUtil {
@@ -64,8 +71,23 @@ public class ScreenshotUtil {
    * Simplest way to verify screenshots. Will use the calling methods Name as sceneName.
    */
   public static void assertScreenshots() {
-    String callingMethod = new Exception().getStackTrace()[1].getMethodName();
-    String referenceClassName = new Exception().getStackTrace()[1].getClassName();
+    assertScreenshots(new AShot(), 2);
+  }
+
+  /**
+   * Advanced way to verify screenshots with configurable {@link AShot} object parameter. Will use
+   * the calling methods Name as sceneName.
+   *
+   * @param aShot
+   *          A predefined {@link AShot} instance to configure the screenshot.
+   */
+  public static void assertScreenshots(AShot aShot) {
+    assertScreenshots(aShot, 2);
+  }
+
+  private static void assertScreenshots(AShot aShot, int stackTraceId) {
+    String callingMethod = new Exception().getStackTrace()[stackTraceId].getMethodName();
+    String referenceClassName = new Exception().getStackTrace()[stackTraceId].getClassName();
     Class<?> referenceClass;
     try {
       referenceClass = Thread.currentThread().getContextClassLoader().loadClass(referenceClassName);
@@ -73,7 +95,7 @@ public class ScreenshotUtil {
       throw new AssertionError(e);
     }
 
-    assertScreenshots(callingMethod, referenceClass);
+    assertScreenshots(callingMethod, referenceClass, aShot);
   }
 
   /**
@@ -84,28 +106,32 @@ public class ScreenshotUtil {
    *          The name of the "scene" (current screen) which is captured.
    * @param referenceScreenshotClass
    *          The class used to load the reference screenshots using `getResourceAsStream`.
+   * @param aShot
+   *          A predefined {@link AShot} instance to configure the screenshot.
    */
-  public static void assertScreenshots(String sceneName, Class<?> referenceScreenshotClass) {
+  public static void assertScreenshots(String sceneName, Class<?> referenceScreenshotClass,
+      AShot aShot) {
     setUp();
     try {
 
       WebDriver driver = getDriver();
-
-      Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(100))
+      Set<Coords> ignoredCoords = getCoords(aShot.getIgnoredLocators());
+      Screenshot actualScreenshot = aShot.shootingStrategy(ShootingStrategies.viewportPasting(100))
           .takeScreenshot(driver);
 
       String screenshotName = format("{0}_{1, number,#}w.png", sceneName, 800);
 
-      BufferedImage actual = screenshot.getImage();
+      BufferedImage actual = actualScreenshot.getImage();
       ImageIO.write(actual, SCREENSHOT_FILE_FORMAT,
           new File(SCREENSHOT_DESTINATION + screenshotName));
       InputStream referenceStream = referenceScreenshotClass.getResourceAsStream(screenshotName);
       if (referenceStream == null) {
         throw new AssertionError("No Reference image found: " + screenshotName);
       }
-      BufferedImage reference = ImageIO.read(referenceStream);
+      Screenshot referenceScreenshot = new Screenshot(ImageIO.read(referenceStream));
+      referenceScreenshot.setIgnoredAreas(ignoredCoords);
 
-      ImageDiff diff = new ImageDiffer().makeDiff(reference, actual);
+      ImageDiff diff = new ImageDiffer().makeDiff(referenceScreenshot, actualScreenshot);
       if (diff.hasDiff()) {
         String diffDestination = SCREENSHOT_DESTINATION + "diff_" + screenshotName;
         ImageIO.write(diff.getMarkedImage(), SCREENSHOT_FILE_FORMAT, new File(diffDestination));
@@ -118,6 +144,21 @@ public class ScreenshotUtil {
       throw new AssertionError(e);
     }
 
+  }
+
+  private static Set<Coords> getCoords(Set<By> ignoredLocators) {
+    WebDriver driver = getDriver();
+    Set<Coords> ignoredCoords = new HashSet<>();
+    for (By ignoredLocator : ignoredLocators) {
+      List<WebElement> ignoredElements = driver.findElements(ignoredLocator);
+      for (WebElement ignoredElement : ignoredElements) {
+        Point point = ignoredElement.getLocation();
+        Dimension dimension = ignoredElement.getSize();
+        ignoredCoords.add(
+            new Coords(point.getX(), point.getY(), dimension.getWidth(), dimension.getHeight()));
+      }
+    }
+    return ignoredCoords;
   }
 
   /**
