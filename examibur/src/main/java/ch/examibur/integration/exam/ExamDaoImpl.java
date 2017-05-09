@@ -39,5 +39,28 @@ public final class ExamDaoImpl implements ExamDao {
       entityManager.close();
     }
   }
+  
+  @Override
+  public double getMaxPoints(long examId) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      return getMaxPoints(examId, entityManager);
+    } finally {
+      entityManager.close();
+    }
+  }
+
+  @Override
+  public double getMaxPoints(long examId, EntityManager entityManager) {
+    // check if exam exists, throws an exception if it doesn't
+    TypedQuery<Exam> examQuery = entityManager
+        .createQuery("SELECT e.id FROM Exam e WHERE e.id = :examId", Exam.class);
+    examQuery.setParameter("examId", examId).getSingleResult();
+    
+    TypedQuery<Double> maxPointsQuery = entityManager.createQuery(
+        "SELECT COALESCE(SUM(e.maxPoints), 0) FROM Exercise e WHERE e.exam.id = :examId",
+        Double.class);
+    return maxPointsQuery.setParameter("examId", examId).getSingleResult();
+  }
 
 }

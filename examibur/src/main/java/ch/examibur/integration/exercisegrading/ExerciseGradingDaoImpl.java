@@ -50,18 +50,22 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   public double getTotalPointsOfExamGradings(long examParticipationId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
-          .createQuery(
-              "SELECT SUM(eg.points) FROM ExerciseGrading eg "
-                  + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
-                  + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
-                  + "WHERE eg.isFinalGrading = true AND ep.id = :examParticipationId",
-              Double.class);
-      return totalPointsOfExamGradingsQuery.setParameter("examParticipationId", examParticipationId)
-          .getSingleResult();
+      return getTotalPointsOfExamGradings(examParticipationId, entityManager);
     } finally {
       entityManager.close();
     }
+  }
+
+  @Override
+  public double getTotalPointsOfExamGradings(long examParticipationId,
+      EntityManager entityManager) {
+    TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
+        .createQuery("SELECT SUM(eg.points) FROM ExerciseGrading eg "
+            + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
+            + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
+            + "WHERE eg.isFinalGrading = true AND ep.id = :examParticipationId", Double.class);
+    return totalPointsOfExamGradingsQuery.setParameter("examParticipationId", examParticipationId)
+        .getSingleResult();
   }
 
   @Override
@@ -85,6 +89,15 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   }
 
   @Override
+  public double getAveragePointsOfExercise(long exerciseId, EntityManager entityManager) {
+    TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
+        .createQuery("SELECT AVG(eg.points) FROM ExerciseGrading eg "
+            + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
+            + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
+            + "WHERE eg.isFinalGrading = true AND es.exercise.id = :exerciseId", Double.class);
+    return totalPointsOfExamGradingsQuery.setParameter("exerciseId", exerciseId).getSingleResult();
+  }
+
   public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
       User gradingAuthor) throws ExamiburException {
     EntityManager entityManager = entityManagerProvider.get();
@@ -131,4 +144,5 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
       throw illegalOperationException;
     }
   }
+
 }

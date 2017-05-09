@@ -2,7 +2,6 @@ package ch.examibur.ui.app.controller;
 
 import ch.examibur.domain.User;
 import ch.examibur.service.ExamService;
-import ch.examibur.service.ExerciseService;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;
@@ -22,7 +21,6 @@ import spark.Response;
 public class ExamController implements Controller {
 
   private final ExamService examService;
-  private final ExerciseService exerciseService;
   private final Renderer engine;
 
   /**
@@ -32,14 +30,11 @@ public class ExamController implements Controller {
    *          the render engine to render the templates with
    * @param examService
    *          the service to access exams
-   * @param exerciseService
-   *          the service to access exercises
    */
   @Inject
-  public ExamController(Renderer engine, ExamService examService, ExerciseService exerciseService) {
+  public ExamController(Renderer engine, ExamService examService) {
     this.engine = engine;
     this.examService = examService;
-    this.exerciseService = exerciseService;
   }
 
   /**
@@ -62,7 +57,7 @@ public class ExamController implements Controller {
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
-    model.put("maxPoints", exerciseService.getMaxPoints(examId));
+    model.put("maxPoints", examService.getMaxPoints(examId));
     return engine.render(model, "views/examInformationTab.ftl");
   }
 
