@@ -60,7 +60,7 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   public double getTotalPointsOfExamGradings(long examParticipationId,
       EntityManager entityManager) {
     TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
-        .createQuery("SELECT SUM(eg.points) FROM ExerciseGrading eg "
+        .createQuery("SELECT COALESCE(SUM(eg.points), 0) FROM ExerciseGrading eg "
             + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
             + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
             + "WHERE eg.isFinalGrading = true AND ep.id = :examParticipationId", Double.class);
