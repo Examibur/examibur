@@ -33,7 +33,7 @@
 						<tbody>
 							<#items as participantOverview>
 							<tr>
-								<td><a href="/exams/${exam.id}/participants/${participantOverview.examParticipation.participant.id}">${participantOverview.examParticipation.pseudonym}</a></td>
+								<td><a href="/exams/${exam.id}/participants/${participantOverview.examParticipation.id}">${participantOverview.examParticipation.pseudonym}</a></td>
 								<td>${participantOverview.totalPoints}</td>
 								<td>${participantOverview.grading}</td>
 								<td>
