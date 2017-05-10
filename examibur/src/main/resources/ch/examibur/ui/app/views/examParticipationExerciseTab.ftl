@@ -16,7 +16,7 @@
 	</ul>	
 
 	<div class="tab-body">
-	<#list exerciseSolutions>			
+	<#list exerciseSolutionOverviews>			
 		<table class="table table-striped table-bordered table-hover">
 			<thead>
 				<tr>						
@@ -29,15 +29,21 @@
 				</tr>
 			</thead>
 			<tbody>
-				<#items as es>
+				<#items as overview>
 				<tr>
-					<th scope="row"><a href="${es.id}">${es.exercise.orderInExam}</th>
-					<td><a href="#"><a href="${es.id}">${es.exercise.title}</a></td>
-					<td>${es.exercise.maxPoints}</td>
-					<td>8</td>
-					<td>${es.participation.exam.state}</td>
+					<th scope="row"><a href="${overview.exerciseSolution.id}">${overview.exerciseSolution.exercise.orderInExam}</th>
+					<td><a href="#"><a href="${overview.exerciseSolution.id}">${overview.exerciseSolution.exercise.title}</a></td>
+					<td>${overview.exerciseSolution.exercise.maxPoints}</td>
 					<td>
-						<#if es.isDone()>
+						<#if overview.points.isPresent()>
+							${overview.points.get()}
+						<#else>
+							-
+						</#if>
+					</td>
+					<td>${overview.exerciseSolution.participation.exam.state}</td>
+					<td>
+						<#if overview.exerciseSolution.isDone()>
 							Ja
 						<#else>
 							Nein

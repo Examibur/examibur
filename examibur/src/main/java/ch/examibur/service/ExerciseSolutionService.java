@@ -7,6 +7,7 @@ import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.service.model.ExerciseSolutionOverview;
 import java.util.List;
 
 public interface ExerciseSolutionService {
@@ -26,8 +27,9 @@ public interface ExerciseSolutionService {
   /**
    * @param examParticipationId
    *          the id of the {@link ExamParticipation}.
-   * @return a list of {@link ExerciseSolution} that correspond to the {@link ExamParticipation}
-   *         with the given id. If there are none found, an empty list is returned.
+   * @return a list of {@link ExerciseSolutionOverview} with an {@link ExerciseSolution} and the
+   *         current graded points that correspond to the {@link ExamParticipation} with the given
+   *         id. If there are none found, an empty list is returned.
    * @throws ExamiburException
    *           throws {@link InvalidParameterException} if the given examParticipationId < 0. throws
    *           {@link NotFoundException} if the {@link ExamParticipation} with the given id is not
@@ -35,7 +37,7 @@ public interface ExerciseSolutionService {
    *           this {@link ExerciseSolution}. throws {@link CommunicationException} if an exception
    *           during the communication occurs.
    */
-  List<ExerciseSolution> getExerciseSolutionsForExamParticipation(long examParticipationId)
+  List<ExerciseSolutionOverview> getExerciseSolutionsForExamParticipation(long examParticipationId)
       throws ExamiburException;
 
   /**

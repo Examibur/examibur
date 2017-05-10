@@ -11,6 +11,7 @@ import com.google.inject.Provider;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -57,8 +58,25 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   }
 
   @Override
+  public Optional<Double> getPointsOfExerciseSolution(long exerciseSolutionId) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      TypedQuery<Double> totalPointsOfExerciseSolutionQuery = entityManager
+          .createQuery("SELECT eg.points FROM ExerciseGrading eg "
+              + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = :exerciseSolutionId "
+              + "WHERE eg.isFinalGrading = true", Double.class);
+      List<Double> resultList = totalPointsOfExerciseSolutionQuery
+          .setParameter("exerciseSolutionId", exerciseSolutionId).getResultList();
+      return !resultList.isEmpty() ? Optional.of(resultList.get(0)) : Optional.empty();
+    } finally {
+      entityManager.close();
+    }
+  }
+
+  @Override
   public double getTotalPointsOfExamGradings(long examParticipationId,
       EntityManager entityManager) {
+
     TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
         .createQuery("SELECT COALESCE(SUM(eg.points), 0) FROM ExerciseGrading eg "
             + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
@@ -66,6 +84,7 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
             + "WHERE eg.isFinalGrading = true AND ep.id = :examParticipationId", Double.class);
     return totalPointsOfExamGradingsQuery.setParameter("examParticipationId", examParticipationId)
         .getSingleResult();
+
   }
 
   @Override

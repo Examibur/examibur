@@ -2,11 +2,12 @@ package ch.examibur.integration.exercisegrading;
 
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
-import javax.persistence.EntityManager;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.domain.User;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.IllegalOperationException;
+import java.util.Optional;
+import javax.persistence.EntityManager;
 
 public interface ExerciseGradingDao {
 
@@ -19,6 +20,15 @@ public interface ExerciseGradingDao {
    * @return the ExerciseGrading if it was found, null otherwise.
    */
   public ExerciseGrading getGradingCreatedInState(long exerciseSolutionId, ExamState state);
+
+  /**
+   * @param exerciseSolutionId
+   *          the id of the {@link ExerciseSolution}.
+   * @return The currently graded points for an {@link ExerciseSolution} as an {@link Optional} of
+   *         type Double. It has its value present if there is a at least one grading for the
+   *         {@link ExerciseSolution}, otherwise the value is not present.
+   */
+  public Optional<Double> getPointsOfExerciseSolution(long exerciseSolutionId);
 
   /**
    * @param examParticipationId

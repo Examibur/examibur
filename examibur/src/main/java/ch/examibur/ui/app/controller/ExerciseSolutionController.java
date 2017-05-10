@@ -128,7 +128,7 @@ public class ExerciseSolutionController implements Controller {
         UrlParameter.PARTICIPANT_ID);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("participation", examParticipationService.getExamParticipation(examParticipationId));
-    model.put("exerciseSolutions",
+    model.put("exerciseSolutionOverviews",
         exerciseSolutionService.getExerciseSolutionsForExamParticipation(examParticipationId));
     return engine.render(model, "views/examParticipationExerciseTab.ftl");
   }
