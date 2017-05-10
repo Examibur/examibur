@@ -7,6 +7,8 @@ import ch.examibur.service.ExerciseSolutionService;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.service.model.ExerciseSolutionOverview;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -83,5 +85,37 @@ public class ExerciseSolutionServiceImplTest {
   public void testGetNextExerciseSolutionFromParticipationWithNonexistentId()
       throws ExamiburException {
     exerciseSolutionService.getNextExerciseSolutionFromParticipation(0);
+  }
+
+  @Test
+  public void testGetExerciseSolutionsForExamParticipation() throws ExamiburException {
+    List<ExerciseSolutionOverview> overviews = exerciseSolutionService
+        .getExerciseSolutionsForExamParticipation(13L);
+
+    Assert.assertNotNull(overviews);
+    Assert.assertEquals(3, overviews.size());
+
+    for (ExerciseSolutionOverview overview : overviews) {
+      Assert.assertNotNull(overview.getExerciseSolution());
+      if (overview.getExerciseSolution().getId() == 37L) {
+        Assert.assertEquals(3.0, overview.getPoints().get(), 0.01);
+      } else if (overview.getExerciseSolution().getId() == 38L) {
+        Assert.assertEquals(5.0, overview.getPoints().get(), 0.01);
+      } else if (overview.getExerciseSolution().getId() == 39L) {
+        Assert.assertEquals(0.0, overview.getPoints().get(), 0.01);
+      }
+    }
+  }
+
+  @Test(expected = InvalidParameterException.class)
+  public void testGetExerciseSolutionsForExamParticipationWithNegativeId()
+      throws ExamiburException {
+    exerciseSolutionService.getExerciseSolutionsForExamParticipation(-1L);
+  }
+
+  @Test(expected = NotFoundException.class)
+  public void testGetExerciseSolutionsForExamParticipationForNonexistentId()
+      throws ExamiburException {
+    exerciseSolutionService.getExerciseSolutionsForExamParticipation(2000L);
   }
 }

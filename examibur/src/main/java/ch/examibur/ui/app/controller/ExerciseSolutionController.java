@@ -1,6 +1,7 @@
 package ch.examibur.ui.app.controller;
 
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.service.ExamParticipationService;
 import ch.examibur.service.ExerciseGradingService;
 import ch.examibur.service.ExerciseSolutionService;
 import ch.examibur.service.exception.AuthorizationException;
@@ -31,6 +32,7 @@ public class ExerciseSolutionController implements Controller {
   private final Renderer engine;
   private final ExerciseSolutionService exerciseSolutionService;
   private final ExerciseGradingService exerciseGradingService;
+  private final ExamParticipationService examParticipationService;
 
   /**
    * Constructor.
@@ -41,14 +43,18 @@ public class ExerciseSolutionController implements Controller {
    *          the service to access exerciseSolutions
    * @param exerciseGradingService
    *          the service to access exerciseGradings
+   * @param examParticipationService
+   *          the service to access examParticipations
    */
   @Inject
   public ExerciseSolutionController(Renderer engine,
       ExerciseSolutionService exerciseSolutionService,
-      ExerciseGradingService exerciseGradingService) {
+      ExerciseGradingService exerciseGradingService,
+      ExamParticipationService examParticipationService) {
     this.engine = engine;
     this.exerciseSolutionService = exerciseSolutionService;
     this.exerciseGradingService = exerciseGradingService;
+    this.examParticipationService = examParticipationService;
   }
 
   /**
@@ -132,9 +138,14 @@ public class ExerciseSolutionController implements Controller {
    *          the HTTP response
    * @return the rendered page content
    */
-  public String listExerciseSolutions(Request request, Response response) {
+  public String listExerciseSolutions(Request request, Response response) throws ExamiburException {
+    long examParticipationId = RoutingHelpers.getUnsignedLongUrlParameter(request,
+        UrlParameter.PARTICIPANT_ID);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
-    return engine.render(model, "errors/404.ftl");
+    model.put("participation", examParticipationService.getExamParticipation(examParticipationId));
+    model.put("exerciseSolutionOverviews",
+        exerciseSolutionService.getExerciseSolutionsForExamParticipation(examParticipationId));
+    return engine.render(model, "views/examParticipationExerciseTab.ftl");
   }
 
   /**

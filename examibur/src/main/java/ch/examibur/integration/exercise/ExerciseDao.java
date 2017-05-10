@@ -1,19 +1,23 @@
 package ch.examibur.integration.exercise;
 
-import ch.examibur.domain.Exam;
 import ch.examibur.domain.Exercise;
-
 import java.util.List;
+import javax.persistence.EntityManager;
 
 public interface ExerciseDao {
 
   /**
    * @param examId
-   *          the id of the exam. If the exam is not
-   * @return the total sum of maxPoints for all exercises in the {@link Exam} with the given id.
+   *          the id of exam
+   * @return all exercises for the specified exam.
    */
-  public double getMaxPoints(long examId);
-
   public List<Exercise> getExercises(long examId);
+  
+  /**
+   * @see ch.examibur.integration.exercise.ExerciseDao#getExercises(long)
+   * @param entityManager
+   *          this method is used in another dao and a global transaction will be used
+   */
+  public List<Exercise> getExercises(long examId, EntityManager entityManager);
 
 }

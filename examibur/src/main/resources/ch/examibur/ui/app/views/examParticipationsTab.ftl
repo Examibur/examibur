@@ -17,7 +17,7 @@
 		<li role="presentation"><a href="../">Informationen</a></li>
 		<li role="presentation" class="active"><a href="#">Teilnahmen</a></li>
 		<li role="presentation"><a href="../exercises">Aufgaben</a></li>
-		<li role="presentation"><a href="#">Auswertung</a></li>
+		<li role="presentation"><a href="../reports">Auswertung</a></li>
 	</ul>	
 
 	<div class="tab-body">
@@ -37,7 +37,7 @@
 						<tbody>
 							<#items as participantOverview>
 							<tr>
-								<td><a href="/exams/${exam.id}/participants/${participantOverview.examParticipation.participant.id}">${participantOverview.examParticipation.pseudonym}</a></td>
+								<td><a href="/exams/${exam.id}/participants/${participantOverview.examParticipation.id}">${participantOverview.examParticipation.pseudonym}</a></td>
 								<td>${participantOverview.totalPoints}</td>
 								<td>${participantOverview.grading}</td>
 								<td>

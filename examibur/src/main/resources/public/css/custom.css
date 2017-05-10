@@ -30,3 +30,7 @@ td.td-ellipsis {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.no-export {
+	display: none;
+}

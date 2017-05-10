@@ -4,8 +4,6 @@ import ch.examibur.business.DatabaseResource;
 import ch.examibur.business.IntegrationTestUtil;
 import ch.examibur.domain.Exercise;
 import ch.examibur.service.ExerciseService;
-import ch.examibur.service.exception.ExamiburException;
-import ch.examibur.service.exception.NotFoundException;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -17,23 +15,6 @@ public class ExerciseServiceImplTest {
   public static final DatabaseResource RES = new DatabaseResource();
   private final ExerciseService exerciseService = IntegrationTestUtil.getInjector()
       .getInstance(ExerciseService.class);
-
-  @Test
-  public void testGetMaxPoints() throws ExamiburException {
-    double maxPoints = exerciseService.getMaxPoints(4);
-    Assert.assertEquals(6, maxPoints, 0.01);
-  }
-
-  @Test
-  public void testGetMaxPointsForExamWithoutExercises() throws ExamiburException {
-    double maxPoints = exerciseService.getMaxPoints(1);
-    Assert.assertEquals(0, maxPoints, 0.01);
-  }
-
-  @Test(expected = NotFoundException.class)
-  public void testGetMaxPointsWithNonexistentExamId() throws ExamiburException {
-    exerciseService.getMaxPoints(0);
-  }
 
   @Test
   public void testGetExercises() {

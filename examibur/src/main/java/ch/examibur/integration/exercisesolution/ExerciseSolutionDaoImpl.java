@@ -1,5 +1,6 @@
 package ch.examibur.integration.exercisesolution;
 
+import ch.examibur.domain.ExamParticipation;
 import ch.examibur.domain.ExerciseSolution;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -25,6 +26,27 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
           ExerciseSolution.class);
       return exerciseSolutionQuery.setParameter("exerciseSolutionId", exerciseSolutionId)
           .getSingleResult();
+    } finally {
+      entityManager.close();
+    }
+  }
+
+  @Override
+  public List<ExerciseSolution> getExerciseSolutionsForExamParticipation(long examParticipationId) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      // check if examParticipation exists, throw an exception if it doesn't
+      TypedQuery<ExamParticipation> examParticipationQuery = entityManager.createQuery(
+          "SELECT e.id FROM ExamParticipation e WHERE e.id = :examParticipationId",
+          ExamParticipation.class);
+      examParticipationQuery.setParameter("examParticipationId", examParticipationId)
+          .getSingleResult();
+
+      TypedQuery<ExerciseSolution> exerciseSolutionQuery = entityManager.createQuery(
+          "SELECT es FROM ExerciseSolution es WHERE es.participation.id = :examParticipationId",
+          ExerciseSolution.class);
+      return exerciseSolutionQuery.setParameter("examParticipationId", examParticipationId)
+          .getResultList();
     } finally {
       entityManager.close();
     }
@@ -67,4 +89,5 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
       entityManager.close();
     }
   }
+
 }

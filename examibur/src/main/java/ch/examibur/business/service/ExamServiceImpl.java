@@ -42,5 +42,19 @@ public final class ExamServiceImpl implements ExamService {
       throw notFoundException;
     }
   }
+  
+  @Override
+  public double getMaxPoints(long examId) throws ExamiburException {
+    ValidationHelper.checkForNegativeId(examId, LOGGER);
+
+    try {
+      return examDao.getMaxPoints(examId);
+    } catch (NoResultException ex) {
+      NotFoundException notFoundException = new NotFoundException(
+          "Exam with id " + examId + " does not exist", ex);
+      LOGGER.error(notFoundException.getMessage(), notFoundException);
+      throw notFoundException;
+    }
+  }
 
 }

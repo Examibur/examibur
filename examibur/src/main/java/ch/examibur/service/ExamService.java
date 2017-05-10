@@ -32,5 +32,17 @@ public interface ExamService {
    *           occurs.
    */
   public Exam getExam(long examId) throws ExamiburException;
+  
+  /**
+   * @param examId
+   *          the id of the exam.
+   * @return the total sum of maxPoints for all exercises in the {@link Exam} with the given id.
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if examid < 0. throws
+   *           {@link NotFoundException} if the {@link Exam} with the given id doesn't exist. throws
+   *           {@link AuthorizationException} if the user is not authorized. throws
+   *           {@link CommunicationException} if an exception during the communication occurs.
+   */
+  public double getMaxPoints(long examId) throws ExamiburException;
 
 }
