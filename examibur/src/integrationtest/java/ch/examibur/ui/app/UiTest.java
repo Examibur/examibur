@@ -16,6 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class UiTest {
 
   private static final String USER_JUERGEN_KOENIG = "juergen.koenig";
+  private static final String USER_STEFAN_BOEHM = "stefan.boehm";
 
   @ClassRule
   public static final DatabaseResource RES = new DatabaseResource();
@@ -138,6 +139,22 @@ public class UiTest {
   public void testExamsList() throws IOException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
+
+  @Test
+  public void testExamParticipationExercisesUi() {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/5/participants/7/solutions/";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
+
+  @Test
+  public void testExamParticipationExercisesUiInCorrection() {
+    login(USER_STEFAN_BOEHM);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/";
     getDriver().get(testUrl);
     assertScreenshots();
   }
