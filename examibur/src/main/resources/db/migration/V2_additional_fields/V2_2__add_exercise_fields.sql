@@ -5,7 +5,7 @@ ALTER TABLE exercise_t
 -- update demo data
 UPDATE exercise_t SET title = 'AES-CBC Disk Encryption' WHERE exerciseid = 1;
 UPDATE exercise_t SET title = 'XTS-AES Speicherplatz Ausnutzung' WHERE exerciseid = 2;
-UPDATE exercise_t SET title = '' WHERE exerciseid = 3;
+UPDATE exercise_t SET title = 'XTS-AES Verschiebung' WHERE exerciseid = 3;
 UPDATE exercise_t SET title = 'Verordnung gegen Verfassung' WHERE exerciseid = 4;
 UPDATE exercise_t SET title = 'Datenbearbeitung' WHERE exerciseid = 5;
 UPDATE exercise_t SET title = 'Aufsichtsbehörde Datenschutz' WHERE exerciseid = 6;
@@ -20,7 +20,7 @@ UPDATE exercise_t SET title = 'Wichtige Funktionen DBMS' WHERE exerciseid = 14;
 UPDATE exercise_t SET title = 'COALESCE-Funktion' WHERE exerciseid = 15;
 UPDATE exercise_t SET title = 'AES-CBC Disk Encryption  ' WHERE exerciseid = 16;
 UPDATE exercise_t SET title = 'XTS-AES Speicherplatz Ausnutzung' WHERE exerciseid = 17;
-UPDATE exercise_t SET title = '' WHERE exerciseid = 18;
+UPDATE exercise_t SET title = 'XTS-AES Verschiebung' WHERE exerciseid = 18;
 
 UPDATE exercise_t SET orderinexam = 1 WHERE exerciseid = 1;
 UPDATE exercise_t SET orderinexam = 2 WHERE exerciseid = 2;
