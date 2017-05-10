@@ -10,6 +10,8 @@ import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDaoImpl;
 import ch.examibur.integration.exercisesolution.ExerciseSolutionDao;
 import ch.examibur.integration.exercisesolution.ExerciseSolutionDaoImpl;
+import ch.examibur.integration.report.ExamReportDao;
+import ch.examibur.integration.report.ExamReportDaoImpl;
 import ch.examibur.integration.user.UserDao;
 import ch.examibur.integration.user.UserDaoImpl;
 import ch.examibur.integration.utils.InitializationException;
@@ -36,6 +38,7 @@ public class IntegrationModule extends AbstractModule {
     bind(ExerciseGradingDao.class).to(ExerciseGradingDaoImpl.class);
     bind(ExerciseSolutionDao.class).to(ExerciseSolutionDaoImpl.class);
     bind(ExamParticipationDao.class).to(ExamParticipationDaoImpl.class);
+    bind(ExamReportDao.class).to(ExamReportDaoImpl.class);
     bind(UserDao.class).to(UserDaoImpl.class);
 
     bindConstant().annotatedWith(WaitForDbTimeoutSec.class).to(3);

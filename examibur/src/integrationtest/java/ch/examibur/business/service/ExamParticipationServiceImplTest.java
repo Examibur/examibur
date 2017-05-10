@@ -27,11 +27,11 @@ public class ExamParticipationServiceImplTest {
     for (ExamParticipantOverview examParticipantOverview : examParticipantOverviewList) {
       if (examParticipantOverview.getExamParticipation().getPseudonym()
           .equals("Anonymes Einhorn")) { // ParticipantionId: 1
-        testExamParticipantOverview(examParticipantOverview, 5, 5.17, 3d, SUM_EXAM_GRADINGS_EXAM_4,
+        testExamParticipantOverview(examParticipantOverview, 4, 4.33, 3d, SUM_EXAM_GRADINGS_EXAM_4,
             "100.00%");
       } else if (examParticipantOverview.getExamParticipation().getPseudonym()
           .equals("Anonyme Gazelle")) { // ParticipantionId: 2
-        testExamParticipantOverview(examParticipantOverview, 4, 4.33, 2d, SUM_EXAM_GRADINGS_EXAM_4,
+        testExamParticipantOverview(examParticipantOverview, 3, 3.5, 2d, SUM_EXAM_GRADINGS_EXAM_4,
             "66.67%");
       } else if (examParticipantOverview.getExamParticipation().getPseudonym()
           .equals("Anonymes Zebra")) { // ParticipantionId: 3

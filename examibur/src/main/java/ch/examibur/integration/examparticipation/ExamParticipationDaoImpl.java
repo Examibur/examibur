@@ -25,10 +25,7 @@ public class ExamParticipationDaoImpl implements ExamParticipationDao {
   public List<ExamParticipation> getExamParticipations(long examId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<ExamParticipation> examParticipationsQuery = entityManager.createQuery(
-          "SELECT ep FROM ExamParticipation ep WHERE ep.exam.id = :examId",
-          ExamParticipation.class);
-      return examParticipationsQuery.setParameter("examId", examId).getResultList();
+      return getExamParticipations(examId, entityManager);
     } catch (Exception e) {
       LOGGER.error("Error occured during getExamParticipations call", e);
       throw e;
@@ -50,6 +47,13 @@ public class ExamParticipationDaoImpl implements ExamParticipationDao {
     } finally {
       entityManager.close();
     }
+  }
+
+  @Override
+  public List<ExamParticipation> getExamParticipations(long examId, EntityManager entityManager) {
+    TypedQuery<ExamParticipation> examParticipationsQuery = entityManager.createQuery(
+        "SELECT ep FROM ExamParticipation ep WHERE ep.exam.id = :examId", ExamParticipation.class);
+    return examParticipationsQuery.setParameter("examId", examId).getResultList();
   }
 
 }

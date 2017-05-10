@@ -13,7 +13,7 @@
 		<li role="presentation"><a href="../">Informationen</a></li>
 		<li role="presentation"><a href="../participants">Teilnahmen</a></li>
 		<li role="presentation" class="active"><a href="#">Aufgaben</a></li>
-		<li role="presentation"><a href="#">Auswertung</a></li>
+		<li role="presentation"><a href="../reports">Auswertung</a></li>
 	</ul>	
 
 	<div class="tab-body">

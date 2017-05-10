@@ -6,6 +6,7 @@ import ch.examibur.ui.app.controller.AuthenticationController;
 import ch.examibur.ui.app.controller.DashboardController;
 import ch.examibur.ui.app.controller.ExamController;
 import ch.examibur.ui.app.controller.ExamParticipationController;
+import ch.examibur.ui.app.controller.ExamReportController;
 import ch.examibur.ui.app.controller.ExceptionController;
 import ch.examibur.ui.app.controller.ExerciseController;
 import ch.examibur.ui.app.controller.ExerciseGradingController;
@@ -28,6 +29,9 @@ public final class Router {
 
   @Inject
   ExamParticipationController participationController;
+  
+  @Inject
+  ExamReportController examReportController;
 
   @Inject
   ExerciseSolutionController exerciseSolutionController;
@@ -78,9 +82,13 @@ public final class Router {
     beforeAll(Route.PARTICIPANTS, participationController::addBreadCrumb);
     get(Route.PARTICIPANTS, participationController::listExamParticipations);
 
+    beforeAll(Route.REPORTS, examReportController::addBreadCrumb);
+    get(Route.REPORTS, examReportController::displayReports);
+    get(Route.REPORTS_JSON, examReportController::getReportAsJson);
+    
     beforeAll(Route.PARTICIPANT, participationController::addSpecificBreadCrumb);
     get(Route.PARTICIPANT, participationController::displayExamParticipation);
-
+    
     beforeAll(Route.SOLUTIONS, exerciseSolutionController::addBreadCrumb);
     get(Route.SOLUTIONS, exerciseSolutionController::listExerciseSolutions);
 

@@ -2,6 +2,7 @@ package ch.examibur.integration.exercisegrading;
 
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
+import javax.persistence.EntityManager;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.domain.User;
 import ch.examibur.service.exception.ExamiburException;
@@ -27,11 +28,27 @@ public interface ExerciseGradingDao {
   public double getTotalPointsOfExamGradings(long examParticipationId);
 
   /**
+   * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao#getTotalPointsOfExamGradings(long)
+   * @param entityManager
+   *          this method is used in another dao and a global transaction will be used
+   */
+  public double getTotalPointsOfExamGradings(long examParticipationId, EntityManager entityManager);
+
+  /**
    * @param examParticipationId
    *          the id of the participation to get the progress for a specific participant
    * @return the progress of a all exam gradings for a specific participant.
    */
   public double getProgressOfExamGradings(long examParticipationId);
+
+  /**
+   * @param exerciseId
+   *          the id of the exercise to get all corresponding exercise gradings
+   * @param entityManager
+   *          this method is used in another dao and a global transaction will be used
+   * @return the average points of all exercises gradings for one exercise.
+   */
+  public double getAveragePointsOfExercise(long exerciseId, EntityManager entityManager);
 
   /**
    * @param exerciseSolutionId

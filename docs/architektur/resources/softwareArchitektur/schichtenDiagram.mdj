@@ -685,9 +685,6 @@
 							"containedViews": [
 								{
 									"$ref": "AAAAAAFa7UGPS00cR7I="
-								},
-								{
-									"$ref": "AAAAAAFbqnx6XdlosQ0="
 								}
 							],
 							"visible": true,
@@ -2137,6 +2134,9 @@
 							"containedViews": [
 								{
 									"$ref": "AAAAAAFa7Ub+oU7blFY="
+								},
+								{
+									"$ref": "AAAAAAFbqnx6XdlosQ0="
 								}
 							],
 							"visible": true,
@@ -3238,7 +3238,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": -528,
-									"top": 552,
+									"top": 608,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -3262,7 +3262,7 @@
 									"containerChangeable": false,
 									"containerExtending": false,
 									"left": -528,
-									"top": 552,
+									"top": 608,
 									"width": 10,
 									"height": 10,
 									"autoResize": false
@@ -10455,8 +10455,8 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 336,
-											"top": 1008,
+											"left": -792,
+											"top": 2640,
 											"width": 0,
 											"height": 13,
 											"autoResize": false,
@@ -10480,13 +10480,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 533,
-											"top": 926,
+											"left": 157,
+											"top": 1526,
 											"width": 111,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "model",
+											"text": "aggregation",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -10506,13 +10506,13 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 336,
-											"top": 1008,
+											"left": -792,
+											"top": 2640,
 											"width": 150,
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "(from Service)",
+											"text": "(from domain)",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -10532,8 +10532,8 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 336,
-											"top": 1008,
+											"left": -792,
+											"top": 2640,
 											"width": 0,
 											"height": 13,
 											"autoResize": false,
@@ -10552,8 +10552,8 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 528,
-									"top": 919,
+									"left": 152,
+									"top": 1519,
 									"width": 121,
 									"height": 25,
 									"autoResize": false,
@@ -10572,7 +10572,7 @@
 								}
 							],
 							"containerView": {
-								"$ref": "AAAAAAFbqZXJnO+K7C8="
+								"$ref": "AAAAAAFa7UZC0066c/s="
 							},
 							"visible": true,
 							"enabled": true,
@@ -10583,10 +10583,10 @@
 							"showShadow": true,
 							"containerChangeable": true,
 							"containerExtending": false,
-							"left": 528,
-							"top": 904,
+							"left": 152,
+							"top": 1504,
 							"width": 121,
-							"height": 105,
+							"height": 49,
 							"autoResize": false,
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
@@ -11057,6 +11057,15 @@
 							},
 							"name": "Exceptions",
 							"visibility": "public"
+						},
+						{
+							"_type": "UMLPackage",
+							"_id": "AAAAAAFbqnx6W9lmH/I=",
+							"_parent": {
+								"$ref": "AAAAAAFa7UZC0064AGw="
+							},
+							"name": "aggregation",
+							"visibility": "public"
 						}
 					],
 					"visibility": "public"
@@ -11224,15 +11233,6 @@
 							"target": {
 								"$ref": "AAAAAAFa7UZC0064AGw="
 							},
-							"visibility": "public"
-						},
-						{
-							"_type": "UMLPackage",
-							"_id": "AAAAAAFbqnx6W9lmH/I=",
-							"_parent": {
-								"$ref": "AAAAAAFbqZXJm++IbuI="
-							},
-							"name": "model",
 							"visibility": "public"
 						}
 					],

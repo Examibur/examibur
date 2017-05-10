@@ -72,6 +72,27 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
+  
+  @Test
+  public void testExamReportTabUi() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/7/reports";
+    getDriver().get(testUrl);
+    
+    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    wait.until((x) -> {
+      return getDriver().findElement(By.className("highcharts-container")).isDisplayed();
+    });
+    assertScreenshots();
+  }
+  
+  @Test
+  public void testExamReportTabUiReportRetrievalNotPossible() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/2/reports";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
 
   @Test
   public void testExerciseSolutionUiInApprovalWithApprovalPending() throws IOException {
