@@ -257,6 +257,28 @@ public class UiTest {
   }
 
   @Test
+  public void testQueryFirstExerciseSolutionByParticipation() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("querynext")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+    wait.until((x) -> {
+      return !getDriver().getCurrentUrl().contains("/solutions/49");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryFirstExerciseSolutionWithWrongParameter() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/?browse=wrong&querynext=";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
+
+  @Test
   public void testExamParticipationExercisesUi() {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams/5/participants/7/solutions/";

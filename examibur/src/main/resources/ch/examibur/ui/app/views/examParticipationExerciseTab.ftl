@@ -9,7 +9,7 @@
 		<form method="get">
 			<input type="hidden" name="browse" value="participation">
 			<input type="hidden" name="querynext">
-			<button class="btn btn-default" type="submit">Teilnahme korrigieren</button>
+			<button class="btn btn-default" type="submit" id="querynext">Teilnahme korrigieren</button>
 		</form>
 	</div>
 

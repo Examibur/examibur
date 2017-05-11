@@ -118,4 +118,33 @@ public class ExerciseSolutionServiceImplTest {
       throws ExamiburException {
     exerciseSolutionService.getExerciseSolutionsForExamParticipation(2000L);
   }
+
+  @Test
+  public void testGetFirstExerciseSolutionFromParticipation() throws ExamiburException {
+    ExerciseSolution nextExerciseSolution = exerciseSolutionService
+        .getFirstExerciseSolutionFromParticipation(17L);
+    Assert.assertEquals(nextExerciseSolution.getId(), 49L);
+  }
+
+  @Test
+  public void testGetFirstExerciseSolutionFromParticipationWithNonexistentId()
+      throws ExamiburException {
+    ExerciseSolution nextExerciseSolution = exerciseSolutionService
+        .getFirstExerciseSolutionFromParticipation(0);
+    Assert.assertNull(nextExerciseSolution);
+  }
+
+  @Test
+  public void testGetFirstExerciseSolutionFromExercise() throws ExamiburException {
+    ExerciseSolution nextExerciseSolution = exerciseSolutionService
+        .getFirstExerciseSolutionFromExercise(17L);
+    Assert.assertEquals(nextExerciseSolution.getId(), 50L);
+  }
+
+  @Test
+  public void testGetFirstExerciseSolutionFromExerciseWithNonexistentId() throws ExamiburException {
+    ExerciseSolution nextExerciseSolution = exerciseSolutionService
+        .getFirstExerciseSolutionFromExercise(0);
+    Assert.assertNull(nextExerciseSolution);
+  }
 }
