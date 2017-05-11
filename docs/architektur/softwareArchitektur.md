@@ -193,5 +193,4 @@ Im Business-Layer ist der aktuelle Benutzer (des aktuellen Threads) über die st
 
 Korrekturen und Reviews können direkt bei der jeweiligen Aufgabenlösung (ExerciseSolution) erstellt werden. Um den Korrekturvorgang zu erleichtern, gibt es zwei verschiedene Modi, um durch die Aufgabenlösungen zu gehen: Aufgabenweise (erste Zeile in der Abbildung) und Prüfungsweise (zweite Zeile in der Abbildung). Weiter wird unterschieden, ob die Korrektur nach einem Durchgang abbricht oder mit dem nächsthöheren Element fortgesetzt wird (Spalte 2 und 3 der Abbildung).
 
-
 Während des Korrekturvorgangs wird der URL ein Query-Parameter `browse` angefügt. Der Wert des Parameters bestimmt den Modus: `exercise` (oben Mitte), `exercises` (oben rechts), `participation` (unten Mitte), `participations` (unten rechts).
