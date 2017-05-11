@@ -12,6 +12,7 @@ import ch.examibur.ui.app.util.BreadCrumbEntry;
 import ch.examibur.ui.app.util.CookieHelpers;
 import ch.examibur.ui.app.util.RequestAttributes;
 import com.google.inject.Inject;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -42,6 +43,11 @@ public class Filters {
       response.redirect(request.pathInfo() + "/");
       Spark.halt();
     }
+  }
+
+  public void utf8Encoding(Request request, Response response) throws UnsupportedEncodingException {
+    request.raw().setCharacterEncoding("UTF-8");
+    response.raw().setCharacterEncoding("UTF-8");
   }
 
   /**
