@@ -113,6 +113,21 @@ public class ExerciseSolutionController implements Controller {
     }
   }
 
+  private ExerciseSolution getFirstExerciseSolution(long resourceId, String paramBrowse)
+      throws ExamiburException {
+    if (paramBrowse.equals(BrowseSolutionsValue.BY_EXERCISE.toString())) {
+      return exerciseSolutionService.getFirstExerciseSolutionFromExercise(resourceId);
+    } else if (paramBrowse.equals(BrowseSolutionsValue.BY_PARTICIPATION.toString())) {
+      return exerciseSolutionService.getFirstExerciseSolutionFromParticipation(resourceId);
+    } else {
+      InvalidParameterException invalidParameterException = new InvalidParameterException(
+          "Query parameter '" + QueryParameter.BROWSE_SOLUTIONS.toString() + "' with value '"
+              + paramBrowse + "' is not defined");
+      LOGGER.error(invalidParameterException.getMessage(), invalidParameterException);
+      throw invalidParameterException;
+    }
+  }
+
   private void redirectToNextExerciseSolution(Request request, Response response,
       ExerciseSolution nextExerciseSolution) throws ExamiburException {
     String target;
@@ -141,6 +156,15 @@ public class ExerciseSolutionController implements Controller {
   public String listExerciseSolutions(Request request, Response response) throws ExamiburException {
     long examParticipationId = RoutingHelpers.getUnsignedLongUrlParameter(request,
         UrlParameter.PARTICIPANT_ID);
+
+    String paramBrowse = request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString());
+    if (request.queryParams(QueryParameter.QUERY_NEXT_SOLUTION.toString()) != null) {
+      ExerciseSolution firstExerciseSolution = getFirstExerciseSolution(examParticipationId,
+          paramBrowse);
+      redirectToNextExerciseSolution(request, response, firstExerciseSolution);
+      return null;
+    }
+
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("participation", examParticipationService.getExamParticipation(examParticipationId));
     model.put("exerciseSolutionOverviews",

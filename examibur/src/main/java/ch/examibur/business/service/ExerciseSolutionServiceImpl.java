@@ -73,6 +73,26 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
   }
 
   @Override
+  public ExerciseSolution getFirstExerciseSolutionFromParticipation(long participationId)
+      throws ExamiburException {
+    String logInfo = "Get the first ExerciseSolution of a Participation " + "(ParticipationId "
+        + participationId + ")";
+
+    return getNextExerciseSolution(participationId, logInfo,
+        exerciseSolutionDao::getFirstExerciseSolutionFromParticipation);
+  }
+
+  @Override
+  public ExerciseSolution getFirstExerciseSolutionFromExercise(long exerciseId)
+      throws ExamiburException {
+    String logInfo = "Get the first ExerciseSolution of an Exercise " + "(ExerciseId " + exerciseId
+        + ")";
+
+    return getNextExerciseSolution(exerciseId, logInfo,
+        exerciseSolutionDao::getFirstExerciseSolutionFromExercise);
+  }
+
+  @Override
   public ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId)
       throws ExamiburException {
     String logInfo = "Get ExerciseSolution of the same Exercise from the next Participation "
@@ -92,15 +112,15 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
         exerciseSolutionDao::getNextExerciseSolutionFromParticipation);
   }
 
-  private ExerciseSolution getNextExerciseSolution(long currentExerciseSolutionId, String logInfo,
+  private ExerciseSolution getNextExerciseSolution(long resourceId, String logInfo,
       Function<Long, ExerciseSolution> queryFunction) throws ExamiburException {
-    ValidationHelper.checkForNegativeId(currentExerciseSolutionId, LOGGER);
+    ValidationHelper.checkForNegativeId(resourceId, LOGGER);
     LOGGER.info(logInfo);
     try {
-      return queryFunction.apply(currentExerciseSolutionId);
+      return queryFunction.apply(resourceId);
     } catch (NoResultException ex) {
       NotFoundException notFoundException = new NotFoundException(
-          "ExerciseSolution with id " + currentExerciseSolutionId + " not found", ex);
+          "ExerciseSolution with id " + resourceId + " not found", ex);
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
     }
