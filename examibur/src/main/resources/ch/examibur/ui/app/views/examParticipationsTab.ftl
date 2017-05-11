@@ -6,7 +6,11 @@
 	</header>
 
 	<div class="top-navigation pull-right">
-		<button class="btn btn-default" type="submit">Prüfung korrigieren</button>
+		<form method="get">
+			<input type="hidden" name="browse" value="participations">
+			<input type="hidden" name="querynext">
+			<button type="submit" class="btn btn-default">Prüfungsweise korrigieren</button>
+		</form>
 	</div>
 
 	<ul class="nav nav-tabs">

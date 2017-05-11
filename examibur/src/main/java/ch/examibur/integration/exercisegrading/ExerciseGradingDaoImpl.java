@@ -6,6 +6,7 @@ import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.domain.User;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.IllegalOperationException;
+import ch.examibur.service.exception.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.Date;
@@ -129,6 +130,8 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
       if (exerciseSolution == null) {
         throw new NoResultException();
       }
+      checkIfPointsInRange(exerciseSolution, points);
+
       ExamState examState = exerciseSolution.getParticipation().getExam().getState();
       if (examState != ExamState.CORRECTION && examState != ExamState.REVIEW) {
         throw new IllegalOperationException(
@@ -150,6 +153,17 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
       throw ex;
     } finally {
       entityManager.close();
+    }
+  }
+
+  private void checkIfPointsInRange(ExerciseSolution exerciseSolution, double points)
+      throws ExamiburException {
+    if (points > exerciseSolution.getExercise().getMaxPoints() || points < 0) {
+      ValidationException validationException = new ValidationException(
+          points + " points are not allowed for this ExerciseSolution (id = "
+              + exerciseSolution.getId() + ")");
+      LOGGER.error(validationException.getMessage(), validationException);
+      throw validationException;
     }
   }
 
