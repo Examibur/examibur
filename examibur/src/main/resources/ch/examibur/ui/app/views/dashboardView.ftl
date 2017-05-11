@@ -7,8 +7,8 @@
 		<h1>Dashboard</h1>
 	</header>
 
-	<@exam_quicklink "Korrekturen" corrections/>
-	<@exam_quicklink "Reviews" reviews/>
+	<@exam_quicklink "Korrekturen" "korrigieren" corrections/>
+	<@exam_quicklink "Reviews" "reviewen" reviews/>
 	
 			
 	<h2>Meine Prüfungen</h2>
