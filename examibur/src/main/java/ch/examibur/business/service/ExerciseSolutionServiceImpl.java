@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,18 +73,54 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
   }
 
   @Override
+  public ExerciseSolution getFirstExerciseSolutionFromParticipation(long participationId)
+      throws ExamiburException {
+    String logInfo = "Get the first ExerciseSolution of a Participation " + "(ParticipationId "
+        + participationId + ")";
+
+    return getNextExerciseSolution(participationId, logInfo,
+        exerciseSolutionDao::getFirstExerciseSolutionFromParticipation);
+  }
+
+  @Override
+  public ExerciseSolution getFirstExerciseSolutionFromExercise(long exerciseId)
+      throws ExamiburException {
+    String logInfo = "Get the first ExerciseSolution of an Exercise " + "(ExerciseId " + exerciseId
+        + ")";
+
+    return getNextExerciseSolution(exerciseId, logInfo,
+        exerciseSolutionDao::getFirstExerciseSolutionFromExercise);
+  }
+
+  @Override
   public ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId)
       throws ExamiburException {
-    ValidationHelper.checkForNegativeId(currentExerciseSolutionId, LOGGER);
+    String logInfo = "Get ExerciseSolution of the same Exercise from the next Participation "
+        + "(current ExerciseSolutionId " + currentExerciseSolutionId + ")";
 
-    LOGGER.info("Get ExerciseSolution from next Participation (current id {})",
-        currentExerciseSolutionId);
+    return getNextExerciseSolution(currentExerciseSolutionId, logInfo,
+        exerciseSolutionDao::getExerciseSolutionFromNextParticipation);
+  }
+
+  @Override
+  public ExerciseSolution getNextExerciseSolutionFromParticipation(long currentExerciseSolutionId)
+      throws ExamiburException {
+    String logInfo = "Get ExerciseSolution of the next Exercise from the same Participation "
+        + "(current ExerciseSolutionId " + currentExerciseSolutionId + ")";
+
+    return getNextExerciseSolution(currentExerciseSolutionId, logInfo,
+        exerciseSolutionDao::getNextExerciseSolutionFromParticipation);
+  }
+
+  private ExerciseSolution getNextExerciseSolution(long resourceId, String logInfo,
+      Function<Long, ExerciseSolution> queryFunction) throws ExamiburException {
+    ValidationHelper.checkForNegativeId(resourceId, LOGGER);
+    LOGGER.info(logInfo);
     try {
-      return exerciseSolutionDao
-          .getExerciseSolutionFromNextParticipation(currentExerciseSolutionId);
+      return queryFunction.apply(resourceId);
     } catch (NoResultException ex) {
       NotFoundException notFoundException = new NotFoundException(
-          "ExerciseSolution with id " + currentExerciseSolutionId + " not found", ex);
+          "ExerciseSolution with id " + resourceId + " not found", ex);
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
     }

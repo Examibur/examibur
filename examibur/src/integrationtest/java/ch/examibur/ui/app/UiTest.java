@@ -11,12 +11,15 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.yandex.qatools.ashot.AShot;
 
 public class UiTest {
 
   private static final String USER_JUERGEN_KOENIG = "juergen.koenig";
   private static final String USER_STEFAN_BOEHM = "stefan.boehm";
+  private static final String USER_CHRISTINA_THEISS = "christina.theiss";
 
   @ClassRule
   public static final DatabaseResource RES = new DatabaseResource();
@@ -39,6 +42,13 @@ public class UiTest {
   }
 
   @Test
+  public void testDashboardUiWithoutExams() throws IOException {
+    login(USER_CHRISTINA_THEISS);
+    getDriver().get(TEST_URL);
+    assertScreenshots();
+  }
+
+  @Test
   public void testLogin() throws IOException {
     getDriver().get(TEST_URL);
     assertScreenshots();
@@ -52,7 +62,7 @@ public class UiTest {
     assertScreenshots();
     getDriver().findElement(By.id("logout")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       return getDriver().getCurrentUrl().equals(TEST_URL + "login/");
     });
@@ -75,15 +85,16 @@ public class UiTest {
   }
 
   @Test
-  public void testExamReportTabUi() throws IOException {
+  public void testExamReportTabUi() throws IOException, InterruptedException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams/7/reports";
     getDriver().get(testUrl);
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       return getDriver().findElement(By.className("highcharts-container")).isDisplayed();
     });
+    Thread.sleep(1000);
     assertScreenshots();
   }
 
@@ -94,17 +105,18 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
-  
+
   @Test
-  public void testExamReportTabUiMissingGradings() throws IOException {
+  public void testExamReportTabUiMissingGradings() throws IOException, InterruptedException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams/8/reports";
     getDriver().get(testUrl);
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       return getDriver().findElement(By.className("highcharts-container")).isDisplayed();
     });
+    Thread.sleep(1000);
     assertScreenshots();
   }
 
@@ -115,7 +127,7 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
-  
+
   @Test
   public void testExamParticipationsTabMissingGradings() {
     login(USER_JUERGEN_KOENIG);
@@ -173,6 +185,140 @@ public class UiTest {
   }
 
   @Test
+  public void testAddGradingToExerciseSolution() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/50";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("points-addgrading")).sendKeys("1");
+    getDriver().findElement(By.id("comment-addgrading"))
+        .sendKeys("Diese Lösung ist nicht korrekt.");
+    getDriver().findElement(By.id("reasoning-addgrading")).sendKeys("1 Punkt für Argumentation");
+    getDriver().findElement(By.id("submit-addgrading")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("grading-panel")));
+    assertScreenshots(
+        new AShot().addIgnoredElement(By.cssSelector("#grading-panel > .panel-heading")));
+  }
+
+  @Test
+  public void testAddReviewToExerciseSolution() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/6/participants/12/solutions/35";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("points-addgrading")).sendKeys("0");
+    getDriver().findElement(By.id("comment-addgrading")).sendKeys("");
+    getDriver().findElement(By.id("reasoning-addgrading")).sendKeys("Die Antwort fehlt komplett");
+    getDriver().findElement(By.id("submit-addgrading")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("review-panel")));
+    assertScreenshots(
+        new AShot().addIgnoredElement(By.cssSelector("#review-panel  > .panel-heading")));
+  }
+
+  @Test
+  public void testQueryExerciseSolutionByExercise() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/51";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("browse-solutions")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/?browse=exercise");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryExerciseSolutionByExerciseQueryNext() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/51/?browse=exercise";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("querynext")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/solutions/54");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryExerciseSolutionByExerciseQueryLast() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/18/solutions/54/?browse=exercise";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("querynext")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return !getDriver().getCurrentUrl().contains("/solutions");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryExerciseSolutionByParticipationQueryNext() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/18/solutions/53/?browse=participation";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("querynext")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/solutions/54");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryExerciseSolutionByParticipationQueryLast() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/54/?browse=participation";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("querynext")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return !getDriver().getCurrentUrl().contains("/solutions");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryExerciseSolutionWithWrongParameter() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL
+        + "/exams/8/participants/17/solutions/51/?browse=wrong&querynext=";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryFirstExerciseSolutionByParticipation() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions";
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("querynext")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return !getDriver().getCurrentUrl().contains("/solutions/49");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryFirstExerciseSolutionWithWrongParameter() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/?browse=wrong&querynext=";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
+
+  @Test
   public void testExamParticipationExercisesUi() {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams/5/participants/7/solutions/";
@@ -200,7 +346,7 @@ public class UiTest {
     getDriver().findElement(By.id("password-login")).sendKeys("***");
     getDriver().findElement(By.id("submit-login")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 100);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       Cookie cookie = x.manage().getCookieNamed("authentication-token");
       return cookie != null && !getDriver().getCurrentUrl().contains("/login/");

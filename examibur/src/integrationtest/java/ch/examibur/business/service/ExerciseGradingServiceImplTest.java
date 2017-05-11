@@ -14,6 +14,7 @@ import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.service.exception.ValidationException;
 import ch.examibur.service.model.AuthenticationInformation;
 import java.sql.Date;
 import java.text.ParseException;
@@ -175,6 +176,18 @@ public class ExerciseGradingServiceImplTest {
   @Test(expected = AuthorizationException.class)
   public void testAddGradingWithoutAuthorLoggedIn() throws ExamiburException {
     exerciseGradingService.addGrading(54L, "random comment", "random reasoning", 1D);
+  }
+
+  @Test(expected = ValidationException.class)
+  public void testAddGradingWithMoreThanMaxPoints() throws ExamiburException {
+    fakeLogin(USER_MAXIMILIAN_MUELLER);
+    exerciseGradingService.addGrading(51L, "random comment", "random reasoning", 10D);
+  }
+
+  @Test(expected = ValidationException.class)
+  public void testAddGradingWithLessThanZeroPoints() throws ExamiburException {
+    fakeLogin(USER_MAXIMILIAN_MUELLER);
+    exerciseGradingService.addGrading(51L, "random comment", "random reasoning", -1D);
   }
 
   private void fakeLogin(String username) throws ExamiburException {

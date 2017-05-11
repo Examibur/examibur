@@ -2,6 +2,7 @@ package ch.examibur.business.service;
 
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.Exam;
+import ch.examibur.domain.ExamState;
 import ch.examibur.integration.exam.ExamDao;
 import ch.examibur.integration.exam.ExamDaoImpl;
 import ch.examibur.service.ExamService;
@@ -31,6 +32,12 @@ public final class ExamServiceImpl implements ExamService {
   }
 
   @Override
+  public List<Exam> getExamsForAuthor(long authorId, ExamState state) throws ExamiburException {
+    ValidationHelper.checkForNegativeId(authorId, LOGGER);
+    return examDao.getExamsForAuthor(authorId, state);
+  }
+
+  @Override
   public Exam getExam(long examId) throws ExamiburException {
     ValidationHelper.checkForNegativeId(examId, LOGGER);
     try {
@@ -42,7 +49,7 @@ public final class ExamServiceImpl implements ExamService {
       throw notFoundException;
     }
   }
-  
+
   @Override
   public double getMaxPoints(long examId) throws ExamiburException {
     ValidationHelper.checkForNegativeId(examId, LOGGER);

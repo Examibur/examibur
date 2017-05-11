@@ -2,17 +2,21 @@
 
 <#macro body_main>
 	<header>
-	<h1>${participation.pseudonym}</h1>
+		<h1>${participation.pseudonym}</h1>
 	</header>
 
 	<div class="top-navigation pull-right">
-	<button class="btn btn-default" type="submit">Teilnahme korrigieren</button>
+		<form method="get">
+			<input type="hidden" name="browse" value="participation">
+			<input type="hidden" name="querynext">
+			<button class="btn btn-default" type="submit" id="querynext">Teilnahme korrigieren</button>
+		</form>
 	</div>
 
 	<ul class="nav nav-tabs">
-	<li role="presentation"><a href="..">Informationen</a></li>
-	<li role="presentation" class="active"><a href="#">Aufgaben</a></li>
-	<li role="presentation"><a href="#">Auswertung</a></li>
+		<li role="presentation"><a href="..">Informationen</a></li>
+		<li role="presentation" class="active"><a href="#">Aufgaben</a></li>
+		<li role="presentation"><a href="#">Auswertung</a></li>
 	</ul>	
 
 	<div class="tab-body">

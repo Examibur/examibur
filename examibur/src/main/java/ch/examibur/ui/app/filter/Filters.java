@@ -12,6 +12,7 @@ import ch.examibur.ui.app.util.BreadCrumbEntry;
 import ch.examibur.ui.app.util.CookieHelpers;
 import ch.examibur.ui.app.util.RequestAttributes;
 import com.google.inject.Inject;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -42,6 +43,11 @@ public class Filters {
       response.redirect(request.pathInfo() + "/");
       Spark.halt();
     }
+  }
+
+  public void utf8Encoding(Request request, Response response) throws UnsupportedEncodingException {
+    request.raw().setCharacterEncoding("UTF-8");
+    response.raw().setCharacterEncoding("UTF-8");
   }
 
   /**
@@ -94,7 +100,7 @@ public class Filters {
   private void redirectToLoginPage(Request request, Response response) {
     if (!request.uri().startsWith(RouteBuilder.toLogin())) {
       String redirectUrl = RouteBuilder.addQueryParameter(RouteBuilder.toLogin(),
-          QueryParameter.Ref.toString(), request.uri());
+          QueryParameter.REF.toString(), request.uri());
       response.redirect(redirectUrl);
       Spark.halt();
     }
