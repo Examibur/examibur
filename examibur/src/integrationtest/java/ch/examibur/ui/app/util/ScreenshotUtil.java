@@ -78,14 +78,14 @@ public class ScreenshotUtil {
    * Advanced way to verify screenshots with configurable {@link AShot} object parameter. Will use
    * the calling methods Name as sceneName.
    *
-   * @param aShot
+   * @param ashot
    *          A predefined {@link AShot} instance to configure the screenshot.
    */
-  public static void assertScreenshots(AShot aShot) {
-    assertScreenshots(aShot, 2);
+  public static void assertScreenshots(AShot ashot) {
+    assertScreenshots(ashot, 2);
   }
 
-  private static void assertScreenshots(AShot aShot, int stackTraceId) {
+  private static void assertScreenshots(AShot ashot, int stackTraceId) {
     String callingMethod = new Exception().getStackTrace()[stackTraceId].getMethodName();
     String referenceClassName = new Exception().getStackTrace()[stackTraceId].getClassName();
     Class<?> referenceClass;
@@ -95,7 +95,7 @@ public class ScreenshotUtil {
       throw new AssertionError(e);
     }
 
-    assertScreenshots(callingMethod, referenceClass, aShot);
+    assertScreenshots(callingMethod, referenceClass, ashot);
   }
 
   /**
@@ -106,17 +106,17 @@ public class ScreenshotUtil {
    *          The name of the "scene" (current screen) which is captured.
    * @param referenceScreenshotClass
    *          The class used to load the reference screenshots using `getResourceAsStream`.
-   * @param aShot
+   * @param ashot
    *          A predefined {@link AShot} instance to configure the screenshot.
    */
   public static void assertScreenshots(String sceneName, Class<?> referenceScreenshotClass,
-      AShot aShot) {
+      AShot ashot) {
     setUp();
     try {
 
       WebDriver driver = getDriver();
-      Set<Coords> ignoredCoords = getCoords(aShot.getIgnoredLocators());
-      Screenshot actualScreenshot = aShot.shootingStrategy(ShootingStrategies.viewportPasting(100))
+      Set<Coords> ignoredCoords = getCoords(ashot.getIgnoredLocators());
+      Screenshot actualScreenshot = ashot.shootingStrategy(ShootingStrategies.viewportPasting(100))
           .takeScreenshot(driver);
 
       String screenshotName = format("{0}_{1, number,#}w.png", sceneName, 800);
