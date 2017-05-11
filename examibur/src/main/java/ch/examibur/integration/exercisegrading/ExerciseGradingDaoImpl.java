@@ -117,6 +117,33 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
     return totalPointsOfExamGradingsQuery.setParameter("exerciseId", exerciseId).getSingleResult();
   }
 
+  @Override
+  public boolean checkIfAllExercisesAreGraded(long examId, long participationId) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      return checkIfAllExercisesAreGraded(examId, participationId, entityManager);
+    } finally {
+      entityManager.close();
+    }
+  }
+
+  public boolean checkIfAllExercisesAreGraded(long examId, long participationId,
+      EntityManager entityManager) {
+    TypedQuery<Double> getExerciseIdsOfGradingsQuery = entityManager
+        .createQuery("SELECT DISTINCT es.exercise.id FROM ExerciseGrading eg "
+            + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
+            + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
+            + "WHERE ep.id = :participationId", Double.class);
+    List<Double> exerciseIdsOfGradings = getExerciseIdsOfGradingsQuery
+        .setParameter("participationId", participationId).getResultList();
+
+    TypedQuery<Double> getExerciseIdsQuery = entityManager
+        .createQuery("SELECT ex.id from Exercise ex where ex.exam.id = :examId", Double.class);
+    List<Double> exerciseIds = getExerciseIdsQuery.setParameter("examId", examId).getResultList();
+
+    return exerciseIdsOfGradings.equals(exerciseIds);
+  }
+
   public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
       User gradingAuthor) throws ExamiburException {
     EntityManager entityManager = entityManagerProvider.get();

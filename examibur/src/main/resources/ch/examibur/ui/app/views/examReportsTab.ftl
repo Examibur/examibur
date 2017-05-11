@@ -39,6 +39,15 @@
 					    			${examperformance.medianGrade}
 					    		</div>
 							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<#if examperformance.includedParticipations == 1 >
+										Für den Report wurde ${examperformance.includedParticipations} Teilnahme von ${examperformance.totalParticipations} berücksichtigt.
+									<#else>
+										Für den Report wurden ${examperformance.includedParticipations} Teilnahmen von ${examperformance.totalParticipations} berücksichtigt.
+									</#if>
+					    		</div>
+							</div>
 					  	</div>
 					</div>
 				</div>

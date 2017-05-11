@@ -61,6 +61,23 @@ public interface ExerciseGradingDao {
   public double getAveragePointsOfExercise(long exerciseId, EntityManager entityManager);
 
   /**
+   * @param examId
+   *          the id of the exam
+   * @param participationId
+   *          the id of the participation to check if all exercises are graded
+   * @return true, if all exercises for a specific participant are graded.
+   */
+  public boolean checkIfAllExercisesAreGraded(long examId, long participationId);
+
+  /**
+   * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao#checkIfAllExercisesAreGraded(long, long)
+   * @param entityManager
+   *          this method is used in another dao and a global transaction will be used
+   */
+  public boolean checkIfAllExercisesAreGraded(long examId, long participationId,
+      EntityManager entityManager);
+
+  /**
    * @param exerciseSolutionId
    *          the id of the {@link ExerciseSolution} which is graded
    * @param comment

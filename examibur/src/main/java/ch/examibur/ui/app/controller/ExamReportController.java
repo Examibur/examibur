@@ -65,12 +65,12 @@ public final class ExamReportController implements Controller {
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
-    
+
     boolean reportRetrievalPossible = false;
     if (examReportService.isReportRetrievalPossible(examId)) {
       model.put("examperformance", examReportService.getExamPerformanceReport(examId));
       reportRetrievalPossible = true;
-    } 
+    }
     model.put("reportRetrievalPossible", reportRetrievalPossible);
 
     return engine.render(model, "views/examReportsTab.ftl");
@@ -104,7 +104,7 @@ public final class ExamReportController implements Controller {
     } else if (reportType.equals(ReportType.EXERCISE_AVERAGE_MAX_POINTS_COMPARISON_REPORT.type())) {
       return new Gson()
           .toJson(examReportService.getExerciseAverageMaxPointsComparisonReport(examId));
-    } 
+    }
     throw new InvalidParameterException("report query parameter is unknown");
   }
 
