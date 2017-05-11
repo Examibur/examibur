@@ -77,7 +77,7 @@ public class UiTest {
   }
 
   @Test
-  public void testExamReportTabUi() throws IOException {
+  public void testExamReportTabUi() throws IOException, InterruptedException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams/7/reports";
     getDriver().get(testUrl);
@@ -86,6 +86,7 @@ public class UiTest {
     wait.until((x) -> {
       return getDriver().findElement(By.className("highcharts-container")).isDisplayed();
     });
+    Thread.sleep(1000);
     assertScreenshots();
   }
 
