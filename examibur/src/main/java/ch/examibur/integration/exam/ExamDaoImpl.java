@@ -1,6 +1,7 @@
 package ch.examibur.integration.exam;
 
 import ch.examibur.domain.Exam;
+import ch.examibur.domain.ExamState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
@@ -29,6 +30,21 @@ public final class ExamDaoImpl implements ExamDao {
   }
 
   @Override
+  public List<Exam> getExamsForAuthor(long authorId, ExamState state) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      TypedQuery<Exam> examsForAuthorQuery = entityManager.createQuery(
+          "SELECT e FROM Exam e WHERE e.author.id = :authorId AND e.state = :examState",
+          Exam.class);
+      examsForAuthorQuery.setParameter("authorId", authorId);
+      examsForAuthorQuery.setParameter("examState", state);
+      return examsForAuthorQuery.getResultList();
+    } finally {
+      entityManager.close();
+    }
+  }
+
+  @Override
   public Exam getExam(long examId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
@@ -39,7 +55,7 @@ public final class ExamDaoImpl implements ExamDao {
       entityManager.close();
     }
   }
-  
+
   @Override
   public double getMaxPoints(long examId) {
     EntityManager entityManager = entityManagerProvider.get();
@@ -56,7 +72,7 @@ public final class ExamDaoImpl implements ExamDao {
     TypedQuery<Exam> examQuery = entityManager
         .createQuery("SELECT e.id FROM Exam e WHERE e.id = :examId", Exam.class);
     examQuery.setParameter("examId", examId).getSingleResult();
-    
+
     TypedQuery<Double> maxPointsQuery = entityManager.createQuery(
         "SELECT COALESCE(SUM(e.maxPoints), 0) FROM Exercise e WHERE e.exam.id = :examId",
         Double.class);

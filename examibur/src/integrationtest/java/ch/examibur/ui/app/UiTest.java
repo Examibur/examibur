@@ -17,6 +17,7 @@ public class UiTest {
 
   private static final String USER_JUERGEN_KOENIG = "juergen.koenig";
   private static final String USER_STEFAN_BOEHM = "stefan.boehm";
+  private static final String USER_CHRISTINA_THEISS = "christina.theiss";
 
   @ClassRule
   public static final DatabaseResource RES = new DatabaseResource();
@@ -34,6 +35,13 @@ public class UiTest {
   @Test
   public void testDashboardUi() throws IOException {
     login(USER_JUERGEN_KOENIG);
+    getDriver().get(TEST_URL);
+    assertScreenshots();
+  }
+
+  @Test
+  public void testDashboardUiWithoutExams() throws IOException {
+    login(USER_CHRISTINA_THEISS);
     getDriver().get(TEST_URL);
     assertScreenshots();
   }
@@ -73,20 +81,20 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
-  
+
   @Test
   public void testExamReportTabUi() throws IOException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams/7/reports";
     getDriver().get(testUrl);
-    
+
     WebDriverWait wait = new WebDriverWait(getDriver(), 500);
     wait.until((x) -> {
       return getDriver().findElement(By.className("highcharts-container")).isDisplayed();
     });
     assertScreenshots();
   }
-  
+
   @Test
   public void testExamReportTabUiReportRetrievalNotPossible() throws IOException {
     login(USER_JUERGEN_KOENIG);
