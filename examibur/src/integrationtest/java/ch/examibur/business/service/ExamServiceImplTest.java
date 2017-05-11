@@ -50,6 +50,29 @@ public class ExamServiceImplTest {
   }
 
   @Test
+  public void testGetExamsForAuthorInState() throws ExamiburException {
+    List<Exam> exams = examService.getExamsForAuthor(4, ExamState.CORRECTION);
+    Assert.assertEquals(1, exams.size());
+  }
+
+  @Test
+  public void testGetExamsForAuthorInStateWithoutExams() throws ExamiburException {
+    List<Exam> exams = examService.getExamsForAuthor(1, ExamState.CORRECTION);
+    Assert.assertEquals(0, exams.size());
+  }
+
+  @Test
+  public void testGetExamsForAuthorInStateWithNonexistentAuthorId() throws ExamiburException {
+    List<Exam> exams = examService.getExamsForAuthor(0L, ExamState.CORRECTION);
+    Assert.assertTrue(exams.isEmpty());
+  }
+
+  @Test(expected = InvalidParameterException.class)
+  public void testGetExamsForNegativeAuthorIdInState() throws ExamiburException {
+    examService.getExamsForAuthor(-1L, ExamState.CORRECTION);
+  }
+
+  @Test
   public void testGetExam() throws ExamiburException, ParseException {
     Exam exam = examService.getExam(4L);
 
@@ -78,7 +101,7 @@ public class ExamServiceImplTest {
   public void testGetExamWithNegativeExamId() throws ExamiburException {
     examService.getExam(-1L);
   }
-  
+
   @Test
   public void testGetMaxPoints() throws ExamiburException {
     double maxPoints = examService.getMaxPoints(4);

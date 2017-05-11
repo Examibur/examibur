@@ -1,5 +1,6 @@
 package ch.examibur.ui.app.controller;
 
+import ch.examibur.domain.ExamState;
 import ch.examibur.domain.User;
 import ch.examibur.service.ExamService;
 import ch.examibur.service.exception.AuthorizationException;
@@ -49,6 +50,8 @@ public class DashboardController implements Controller {
     User user = request.attribute(RequestAttributes.USER);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exams", examService.getExamsForAuthor(user.getId()));
+    model.put("reviews", examService.getExamsForAuthor(user.getId(), ExamState.REVIEW));
+    model.put("corrections", examService.getExamsForAuthor(user.getId(), ExamState.CORRECTION));
     return engine.render(model, "views/dashboardView.ftl");
   }
 
