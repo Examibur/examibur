@@ -29,7 +29,7 @@ public final class Router {
 
   @Inject
   ExamParticipationController participationController;
-  
+
   @Inject
   ExamReportController examReportController;
 
@@ -55,6 +55,7 @@ public final class Router {
     Spark.staticFiles.location("/public");
 
     Spark.before("*", filters::addTrailingSlashes);
+    Spark.before("*", filters::utf8Encoding);
     Spark.before("*", filters::handleAuthentication);
     Spark.before("*", filters::addBaseModel);
 
@@ -85,10 +86,10 @@ public final class Router {
     beforeAll(Route.REPORTS, examReportController::addBreadCrumb);
     get(Route.REPORTS, examReportController::displayReports);
     get(Route.REPORTS_JSON, examReportController::getReportAsJson);
-    
+
     beforeAll(Route.PARTICIPANT, participationController::addSpecificBreadCrumb);
     get(Route.PARTICIPANT, participationController::displayExamParticipation);
-    
+
     beforeAll(Route.SOLUTIONS, exerciseSolutionController::addBreadCrumb);
     get(Route.SOLUTIONS, exerciseSolutionController::listExerciseSolutions);
 
