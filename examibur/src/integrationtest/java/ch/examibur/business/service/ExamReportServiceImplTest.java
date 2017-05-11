@@ -39,6 +39,17 @@ public class ExamReportServiceImplTest {
     ExamPerformance examPerformance = examReportService.getExamPerformanceReport(6L);
     Assert.assertEquals(4.33D, examPerformance.getAverageGrade(), DOUBLE_DELTA);
     Assert.assertEquals(4.33D, examPerformance.getMedianGrade(), DOUBLE_DELTA);
+    Assert.assertEquals(3, examPerformance.getIncludedParticipations());
+    Assert.assertEquals(3, examPerformance.getTotalParticipations());
+  }
+
+  @Test
+  public void testGetExamPerformanceReportMissingGradings() throws ExamiburException {
+    ExamPerformance examPerformance = examReportService.getExamPerformanceReport(8L);
+    Assert.assertEquals(2.67D, examPerformance.getAverageGrade(), DOUBLE_DELTA);
+    Assert.assertEquals(2.67D, examPerformance.getMedianGrade(), DOUBLE_DELTA);
+    Assert.assertEquals(1, examPerformance.getIncludedParticipations());
+    Assert.assertEquals(3, examPerformance.getTotalParticipations());
   }
 
   @Test(expected = NotFoundException.class)
@@ -64,6 +75,16 @@ public class ExamReportServiceImplTest {
         passedParticipationComparison.getPercentageOfSuccessfulParticipations(), DOUBLE_DELTA); // 66.66...
     Assert.assertEquals(1 / 3D * 100,
         passedParticipationComparison.getPercentageOfUnsuccessfulParticipations(), DOUBLE_DELTA); // 33.33...
+  }
+
+  @Test
+  public void testGetPassedParticipationComparisonReportMissingGradings() throws ExamiburException {
+    PassedParticipationComparison passedParticipationComparison = examReportService
+        .getPassedParticipationComparisonReport(8L);
+    Assert.assertEquals(0, passedParticipationComparison.getPercentageOfSuccessfulParticipations(),
+        DOUBLE_DELTA);
+    Assert.assertEquals(100,
+        passedParticipationComparison.getPercentageOfUnsuccessfulParticipations(), DOUBLE_DELTA);
   }
 
   @Test(expected = NotFoundException.class)
@@ -98,7 +119,26 @@ public class ExamReportServiceImplTest {
           .equals("Zuständige Aufsichtsbehörde")) {
         testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 2D, 5 / 3D); // 1.77...
       } else {
-        Assert.fail("unknown ExerciseAverageMaxPointsComparison in list");
+        Assert.fail("unknown ExerciseAverageMaxPointsComparison in list: " + exerciseAverageMaxPointsComparison.getTitle());
+      }
+    }
+  }
+  
+  @Test
+  public void testGetExerciseAverageMaxPointsComparisonReportMissingGradings() throws ExamiburException {
+    List<ExerciseAverageMaxPointsComparison> exerciseAverageMaxPointsComparisonList = examReportService
+        .getExerciseAverageMaxPointsComparisonReport(8L);
+    Assert.assertEquals(3, exerciseAverageMaxPointsComparisonList.size());
+    for (ExerciseAverageMaxPointsComparison exerciseAverageMaxPointsComparison : exerciseAverageMaxPointsComparisonList) {
+      if (exerciseAverageMaxPointsComparison.getTitle().equals("AES-CBC Disk Encryption")) {
+        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 0D);
+      } else if (exerciseAverageMaxPointsComparison.getTitle().equals("XTS-AES Speicherplatz Ausnutzung")) {
+        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 5D);
+      } else if (exerciseAverageMaxPointsComparison.getTitle()
+          .equals("XTS-AES Verschiebung")) {
+        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 0D);
+      } else {
+        Assert.fail("unknown ExerciseAverageMaxPointsComparison in list: " + exerciseAverageMaxPointsComparison.getTitle());
       }
     }
   }
