@@ -62,7 +62,7 @@ public class UiTest {
     assertScreenshots();
     getDriver().findElement(By.id("logout")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       return getDriver().getCurrentUrl().equals(TEST_URL + "login/");
     });
@@ -90,7 +90,7 @@ public class UiTest {
     final String testUrl = TEST_URL + "/exams/7/reports";
     getDriver().get(testUrl);
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       return getDriver().findElement(By.className("highcharts-container")).isDisplayed();
     });
@@ -165,9 +165,10 @@ public class UiTest {
     getDriver().findElement(By.id("reasoning-addgrading")).sendKeys("1 Punkt für Argumentation");
     getDriver().findElement(By.id("submit-addgrading")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("grading-panel")));
-    assertScreenshots(new AShot().addIgnoredElement(By.cssSelector("#grading-panel")));
+    assertScreenshots(
+        new AShot().addIgnoredElement(By.cssSelector("#grading-panel > .panel-heading")));
   }
 
   @Test
@@ -180,9 +181,10 @@ public class UiTest {
     getDriver().findElement(By.id("reasoning-addgrading")).sendKeys("Die Antwort fehlt komplett");
     getDriver().findElement(By.id("submit-addgrading")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("review-panel")));
-    assertScreenshots(new AShot().addIgnoredElement(By.cssSelector("#review-panel")));
+    assertScreenshots(
+        new AShot().addIgnoredElement(By.cssSelector("#review-panel  > .panel-heading")));
   }
 
   @Test
@@ -192,7 +194,7 @@ public class UiTest {
     getDriver().get(testUrl);
     getDriver().findElement(By.id("browse-solutions")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       return getDriver().getCurrentUrl().contains("/?browse=exercise");
     });
@@ -206,7 +208,7 @@ public class UiTest {
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       return getDriver().getCurrentUrl().contains("/solutions/54");
     });
@@ -220,7 +222,7 @@ public class UiTest {
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       return !getDriver().getCurrentUrl().contains("/solutions");
     });
@@ -234,7 +236,7 @@ public class UiTest {
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       return getDriver().getCurrentUrl().contains("/solutions/54");
     });
@@ -248,7 +250,7 @@ public class UiTest {
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       return !getDriver().getCurrentUrl().contains("/solutions");
     });
@@ -271,7 +273,7 @@ public class UiTest {
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       return !getDriver().getCurrentUrl().contains("/solutions/49");
     });
@@ -314,7 +316,7 @@ public class UiTest {
     getDriver().findElement(By.id("password-login")).sendKeys("***");
     getDriver().findElement(By.id("submit-login")).click();
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), 500);
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       Cookie cookie = x.manage().getCookieNamed("authentication-token");
       return cookie != null && !getDriver().getCurrentUrl().contains("/login/");
