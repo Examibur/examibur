@@ -51,11 +51,7 @@
 									<td>-</td>
 								</#if>	
 								<td>
-									<#if participantOverview.progress.isPresent()>
-										${participantOverview.formattedProgress}
-									<#else>
-										-
-									</#if>								
+									${participantOverview.formattedProgress}								
 								</td>
 							</tr>
 							</#items>

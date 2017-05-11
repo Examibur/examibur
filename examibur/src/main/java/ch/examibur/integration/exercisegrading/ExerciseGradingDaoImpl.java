@@ -109,12 +109,12 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
 
   @Override
   public double getAveragePointsOfExercise(long exerciseId, EntityManager entityManager) {
-    TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
+    TypedQuery<Double> avgPointsOfExerciseQuery = entityManager
         .createQuery("SELECT AVG(eg.points) FROM ExerciseGrading eg "
             + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
             + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
             + "WHERE eg.isFinalGrading = true AND es.exercise.id = :exerciseId", Double.class);
-    return totalPointsOfExamGradingsQuery.setParameter("exerciseId", exerciseId).getSingleResult();
+    return avgPointsOfExerciseQuery.setParameter("exerciseId", exerciseId).getSingleResult();
   }
 
   @Override
@@ -127,23 +127,25 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
     }
   }
 
+  @Override
   public boolean checkIfAllExercisesAreGraded(long examId, long participationId,
       EntityManager entityManager) {
-    TypedQuery<Double> getExerciseIdsOfGradingsQuery = entityManager
+    TypedQuery<Long> getExerciseIdsOfGradingsQuery = entityManager
         .createQuery("SELECT DISTINCT es.exercise.id FROM ExerciseGrading eg "
             + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
             + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
-            + "WHERE ep.id = :participationId", Double.class);
-    List<Double> exerciseIdsOfGradings = getExerciseIdsOfGradingsQuery
+            + "WHERE ep.id = :participationId", Long.class);
+    List<Long> exerciseIdsOfGradings = getExerciseIdsOfGradingsQuery
         .setParameter("participationId", participationId).getResultList();
 
-    TypedQuery<Double> getExerciseIdsQuery = entityManager
-        .createQuery("SELECT ex.id from Exercise ex where ex.exam.id = :examId", Double.class);
-    List<Double> exerciseIds = getExerciseIdsQuery.setParameter("examId", examId).getResultList();
+    TypedQuery<Long> getExerciseIdsQuery = entityManager
+        .createQuery("SELECT ex.id from Exercise ex where ex.exam.id = :examId", Long.class);
+    List<Long> exerciseIds = getExerciseIdsQuery.setParameter("examId", examId).getResultList();
 
     return exerciseIdsOfGradings.equals(exerciseIds);
   }
 
+  @Override
   public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
       User gradingAuthor) throws ExamiburException {
     EntityManager entityManager = entityManagerProvider.get();

@@ -49,7 +49,7 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
   public List<ExamParticipantOverview> getExamParticipantsOverview(long examId) {
     List<ExamParticipation> examParticipations = examParticipationDao.getExamParticipations(examId);
 
-    List<ExamParticipantOverview> examParticipantsOverwiew = new ArrayList<>();
+    List<ExamParticipantOverview> examParticipantsOverview = new ArrayList<>();
     for (ExamParticipation examParticipation : examParticipations) {
       ExamParticipantOverview examParticipantOverview = new ExamParticipantOverview();
 
@@ -76,10 +76,10 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
         examParticipantOverview.setProgress(Optional.empty());
       }
 
-      examParticipantsOverwiew.add(examParticipantOverview);
+      examParticipantsOverview.add(examParticipantOverview);
     }
 
-    return examParticipantsOverwiew;
+    return examParticipantsOverview;
   }
 
   @Override
