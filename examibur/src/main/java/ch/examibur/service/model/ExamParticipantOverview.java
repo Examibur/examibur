@@ -9,7 +9,7 @@ public final class ExamParticipantOverview {
   private ExamParticipation examParticipation;
   private double totalPoints;
   private Optional<Double> grading;
-  private Optional<Double> progress;
+  private double progress;
 
   public ExamParticipation getExamParticipation() {
     return examParticipation;
@@ -35,19 +35,16 @@ public final class ExamParticipantOverview {
     this.grading = grading;
   }
 
-  public Optional<Double> getProgress() {
+  public double getProgress() {
     return progress;
   }
 
-  public void setProgress(Optional<Double> progress) {
+  public void setProgress(double progress) {
     this.progress = progress;
   }
   
   public String getFormattedProgress() {
-    if (progress.isPresent()) {
-      return new DecimalFormat("#0.00%").format(progress.get());
-    }
-    return "-";
+    return new DecimalFormat("#0.00%").format(progress);
   }
 
 }

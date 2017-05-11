@@ -70,6 +70,7 @@
 							<div id="exerciseAverageMaxPointsComparisonReport">
 							    <div class="alert alert-danger no-export">Keine Daten verfügbar!</div>
 							</div>
+							<p>Für diesen Report werden alle vorhandenen Korrekturen berücksichtigt (auch von Prüfungen, welche noch nicht vollständig korrigiert sind).</p>
 		    			</div>
 					</div>
 				</div>

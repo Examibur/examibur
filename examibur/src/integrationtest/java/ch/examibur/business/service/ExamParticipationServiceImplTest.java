@@ -96,7 +96,7 @@ public class ExamParticipationServiceImplTest {
         DOUBLE_DELTA);
     Assert.assertEquals(expectedGrading, examParticipantOverview.getGrading().get(), DOUBLE_DELTA);
     Assert.assertEquals(completedExamGradings / totalExamGradings,
-        examParticipantOverview.getProgress().get(), DOUBLE_DELTA);
+        examParticipantOverview.getProgress(), DOUBLE_DELTA);
     Assert.assertEquals(expectedFormattedProgress, examParticipantOverview.getFormattedProgress());
   }
 

@@ -119,26 +119,29 @@ public class ExamReportServiceImplTest {
           .equals("Zuständige Aufsichtsbehörde")) {
         testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 2D, 5 / 3D); // 1.77...
       } else {
-        Assert.fail("unknown ExerciseAverageMaxPointsComparison in list: " + exerciseAverageMaxPointsComparison.getTitle());
+        Assert.fail("unknown ExerciseAverageMaxPointsComparison in list: "
+            + exerciseAverageMaxPointsComparison.getTitle());
       }
     }
   }
-  
+
   @Test
-  public void testGetExerciseAverageMaxPointsComparisonReportMissingGradings() throws ExamiburException {
+  public void testGetExerciseAverageMaxPointsComparisonReportMissingGradings()
+      throws ExamiburException {
     List<ExerciseAverageMaxPointsComparison> exerciseAverageMaxPointsComparisonList = examReportService
         .getExerciseAverageMaxPointsComparisonReport(8L);
     Assert.assertEquals(3, exerciseAverageMaxPointsComparisonList.size());
     for (ExerciseAverageMaxPointsComparison exerciseAverageMaxPointsComparison : exerciseAverageMaxPointsComparisonList) {
       if (exerciseAverageMaxPointsComparison.getTitle().equals("AES-CBC Disk Encryption")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 0D);
-      } else if (exerciseAverageMaxPointsComparison.getTitle().equals("XTS-AES Speicherplatz Ausnutzung")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 5D);
+        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 1D);
       } else if (exerciseAverageMaxPointsComparison.getTitle()
-          .equals("XTS-AES Verschiebung")) {
+          .equals("XTS-AES Speicherplatz Ausnutzung")) {
+        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 5D);
+      } else if (exerciseAverageMaxPointsComparison.getTitle().equals("XTS-AES Verschiebung")) {
         testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 0D);
       } else {
-        Assert.fail("unknown ExerciseAverageMaxPointsComparison in list: " + exerciseAverageMaxPointsComparison.getTitle());
+        Assert.fail("unknown ExerciseAverageMaxPointsComparison in list: "
+            + exerciseAverageMaxPointsComparison.getTitle());
       }
     }
   }
@@ -164,10 +167,10 @@ public class ExamReportServiceImplTest {
   private void testExerciseAverageMaxPointsComparison(
       ExerciseAverageMaxPointsComparison exerciseAverageMaxPointsComparison,
       double expectedMaxPoints, double expectedAveragePoints) {
-    Assert.assertEquals(exerciseAverageMaxPointsComparison.getMaxPoints(), expectedMaxPoints,
+    Assert.assertEquals(expectedMaxPoints, exerciseAverageMaxPointsComparison.getMaxPoints(),
         DOUBLE_DELTA);
-    Assert.assertEquals(exerciseAverageMaxPointsComparison.getAveragePoints(),
-        expectedAveragePoints, DOUBLE_DELTA);
+    Assert.assertEquals(expectedAveragePoints,
+        exerciseAverageMaxPointsComparison.getAveragePoints(), DOUBLE_DELTA);
   }
 
 }

@@ -68,13 +68,11 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
         double grading = GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints,
             maxPoints);
         examParticipantOverview.setGrading(Optional.of(grading));
-
-        double progress = exerciseGradingDao.getProgressOfExamGradings(examParticipationId);
-        examParticipantOverview.setProgress(Optional.of(progress));
       } else {
         examParticipantOverview.setGrading(Optional.empty());
-        examParticipantOverview.setProgress(Optional.empty());
       }
+      double progress = exerciseGradingDao.getProgressOfExamGradings(examId, examParticipationId);
+      examParticipantOverview.setProgress(progress);
 
       examParticipantsOverview.add(examParticipantOverview);
     }

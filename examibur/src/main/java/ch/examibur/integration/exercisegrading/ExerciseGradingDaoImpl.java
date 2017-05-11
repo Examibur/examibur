@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,20 +88,23 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   }
 
   @Override
-  public double getProgressOfExamGradings(long examParticipationId) {
+  public double getProgressOfExamGradings(long examId, long participationId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      Query progressOfExamGradingsQuery = entityManager
-          .createQuery("SELECT COUNT(NULLIF(es.isDone, false)), "
-              + "COUNT(es.isDone) FROM ExerciseGrading eg "
+      TypedQuery<Long> getCountOfGradingsQuery = entityManager
+          .createQuery("SELECT COUNT(DISTINCT es.exercise.id) FROM ExerciseGrading eg "
               + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
               + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
-              + "WHERE eg.isFinalGrading = true AND ep.id = :examParticipationId")
-          .setParameter("examParticipationId", examParticipationId);
-      Object[] result = (Object[]) progressOfExamGradingsQuery.getSingleResult();
-      long sumOfCompletedExamGradings = (long) result[0];
-      long sumOfExamGradings = (long) result[1];
-      return (double) sumOfCompletedExamGradings / sumOfExamGradings;
+              + "WHERE es.isDone = true AND ep.id = :participationId", Long.class);
+
+      TypedQuery<Long> getCountOfExercisesQuery = entityManager.createQuery(
+          "SELECT COUNT(ex.id) from Exercise ex where ex.exam.id = :examId", Long.class);
+
+      long countOfGradings = getCountOfGradingsQuery.setParameter("participationId", participationId)
+          .getSingleResult();
+      long countOfExercises = getCountOfExercisesQuery.setParameter("examId", examId)
+          .getSingleResult();
+      return (double) countOfGradings / countOfExercises;
     } finally {
       entityManager.close();
     }

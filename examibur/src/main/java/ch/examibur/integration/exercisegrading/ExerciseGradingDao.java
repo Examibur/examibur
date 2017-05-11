@@ -45,11 +45,13 @@ public interface ExerciseGradingDao {
   public double getTotalPointsOfExamGradings(long examParticipationId, EntityManager entityManager);
 
   /**
+   * @param examId
+   *          the id of the exam
    * @param examParticipationId
    *          the id of the participation to get the progress for a specific participant
    * @return the progress of a all exam gradings for a specific participant.
    */
-  public double getProgressOfExamGradings(long examParticipationId);
+  public double getProgressOfExamGradings(long examId, long participationId);
 
   /**
    * @param exerciseId
