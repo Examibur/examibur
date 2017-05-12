@@ -19,6 +19,7 @@
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
       <property name="eclipselink.target-database" value="PostgreSQL" />
       <property name="eclipselink.logging.level" value="FINE" />
+      <property name="eclipselink.cache.shared.default" value="false"/>
     </properties>
   </persistence-unit>
 </persistence>

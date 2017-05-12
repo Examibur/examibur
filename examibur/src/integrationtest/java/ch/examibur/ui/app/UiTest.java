@@ -4,17 +4,20 @@ import static ch.examibur.ui.app.util.ScreenshotUtil.assertScreenshots;
 import static ch.examibur.ui.app.util.ScreenshotUtil.getDriver;
 
 import ch.examibur.business.DatabaseResource;
+import ch.examibur.ui.app.util.RandomBlockJUnit4ClassRunner;
 import java.io.IOException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.ashot.AShot;
 
+@RunWith(RandomBlockJUnit4ClassRunner.class)
 public class UiTest {
 
   private static final String USER_JUERGEN_KOENIG = "juergen.koenig";
@@ -305,7 +308,7 @@ public class UiTest {
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
-      return !getDriver().getCurrentUrl().contains("/solutions/49");
+      return getDriver().getCurrentUrl().contains("/solutions/49");
     });
     assertScreenshots();
   }
