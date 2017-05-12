@@ -8,6 +8,8 @@ import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.service.model.ExerciseSolutionOverview;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -117,6 +119,17 @@ public class ExerciseSolutionServiceImplTest {
   public void testGetExerciseSolutionsForExamParticipationForNonexistentId()
       throws ExamiburException {
     exerciseSolutionService.getExerciseSolutionsForExamParticipation(2000L);
+  }
+
+  @Test
+  public void testGetExerciseSolutionsForExamParticipationOrderedInExam() throws ExamiburException {
+    List<ExerciseSolutionOverview> overviews = exerciseSolutionService
+        .getExerciseSolutionsForExamParticipation(17L);
+    List<ExerciseSolutionOverview> expectedList = new ArrayList<>(overviews);
+    Collections.sort(expectedList,
+        (ov1, ov2) -> ov1.getExerciseSolution().getExercise().getOrderInExam()
+            - ov2.getExerciseSolution().getExercise().getOrderInExam());
+    Assert.assertEquals(expectedList, overviews);
   }
 
   @Test

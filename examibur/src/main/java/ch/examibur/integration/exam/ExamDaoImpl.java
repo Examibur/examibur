@@ -21,8 +21,8 @@ public final class ExamDaoImpl implements ExamDao {
   public List<Exam> getExamsForAuthor(long authorId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<Exam> examsForAuthorQuery = entityManager
-          .createQuery("SELECT e FROM Exam e WHERE e.author.id = :authorId", Exam.class);
+      TypedQuery<Exam> examsForAuthorQuery = entityManager.createQuery(
+          "SELECT e FROM Exam e WHERE e.author.id = :authorId ORDER BY e.id", Exam.class);
       return examsForAuthorQuery.setParameter("authorId", authorId).getResultList();
     } finally {
       entityManager.close();
@@ -34,7 +34,7 @@ public final class ExamDaoImpl implements ExamDao {
     EntityManager entityManager = entityManagerProvider.get();
     try {
       TypedQuery<Exam> examsForAuthorQuery = entityManager.createQuery(
-          "SELECT e FROM Exam e WHERE e.author.id = :authorId AND e.state = :examState",
+          "SELECT e FROM Exam e WHERE e.author.id = :authorId AND e.state = :examState ORDER BY e.id",
           Exam.class);
       examsForAuthorQuery.setParameter("authorId", authorId);
       examsForAuthorQuery.setParameter("examState", state);
