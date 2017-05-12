@@ -2,7 +2,6 @@ package ch.examibur.integration.report;
 
 import ch.examibur.domain.ExamParticipation;
 import ch.examibur.domain.Exercise;
-import ch.examibur.domain.TextExercise;
 import ch.examibur.domain.aggregation.ExamPerformance;
 import ch.examibur.domain.aggregation.ExerciseAverageMaxPointsComparison;
 import ch.examibur.domain.aggregation.PassedParticipationComparison;
@@ -100,8 +99,7 @@ public class ExamReportDaoImpl implements ExamReportDao {
         throw new NoResultException("No exercises for exam  " + examId + " could be retrieved");
       }
       for (Exercise exercise : exercises) {
-        // TODO remove this ugly cast as soon as issue 99 is resolved
-        String title = ((TextExercise) exercise).getTitle();
+        String title = exercise.getTitle();
         double averagePoints = exerciseGradingDao.getAveragePointsOfExercise(exercise.getId(),
             entityManager);
         exerciseAverageMaxPointsComparisonList.add(
