@@ -11,13 +11,13 @@ public interface ExerciseDao {
    *          the id of exam
    * @return all exercises for the specified exam.
    */
-  public List<Exercise> getExercises(long examId);
-  
+  List<Exercise> getExercises(long examId);
+
   /**
    * @see ch.examibur.integration.exercise.ExerciseDao#getExercises(long)
    * @param entityManager
    *          this method is used in another dao and a global transaction will be used
    */
-  public List<Exercise> getExercises(long examId, EntityManager entityManager);
+  List<Exercise> getExercises(long examId, EntityManager entityManager);
 
 }

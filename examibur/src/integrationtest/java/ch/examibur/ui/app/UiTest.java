@@ -22,7 +22,7 @@ public class UiTest {
   private static final String USER_CHRISTINA_THEISS = "christina.theiss";
 
   @Rule
-  public final DatabaseResource RES = new DatabaseResource();
+  public final DatabaseResource res = new DatabaseResource();
 
   private static final String TEST_URL = System.getenv("UI_TEST_URL");
 
