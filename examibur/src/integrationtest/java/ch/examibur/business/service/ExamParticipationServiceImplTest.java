@@ -13,7 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.junit.Assert;
-import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class ExamParticipationServiceImplTest {
@@ -23,8 +23,8 @@ public class ExamParticipationServiceImplTest {
 
   private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-  @ClassRule
-  public static final DatabaseResource RES = new DatabaseResource();
+  @Rule
+  public final DatabaseResource res = new DatabaseResource();
   private final ExamParticipationService examParticipationService = IntegrationTestUtil
       .getInjector().getInstance(ExamParticipationService.class);
 

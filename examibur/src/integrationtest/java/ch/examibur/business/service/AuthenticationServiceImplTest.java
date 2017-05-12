@@ -8,13 +8,13 @@ import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.model.AuthenticationInformation;
 import org.junit.Assert;
-import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class AuthenticationServiceImplTest {
 
-  @ClassRule
-  public static final DatabaseResource RES = new DatabaseResource();
+  @Rule
+  public final DatabaseResource res = new DatabaseResource();
 
   private final AuthenticationService authenticationService = IntegrationTestUtil.getInjector()
       .getInstance(AuthenticationService.class);
