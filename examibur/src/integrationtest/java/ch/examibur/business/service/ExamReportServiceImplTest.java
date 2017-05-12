@@ -11,15 +11,15 @@ import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import java.util.List;
 import org.junit.Assert;
-import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class ExamReportServiceImplTest {
 
   private static final double DOUBLE_DELTA = 0.0001;
 
-  @ClassRule
-  public static final DatabaseResource RES = new DatabaseResource();
+  @Rule
+  public final DatabaseResource res = new DatabaseResource();
 
   private final ExamReportService examReportService = IntegrationTestUtil.getInjector()
       .getInstance(ExamReportService.class);

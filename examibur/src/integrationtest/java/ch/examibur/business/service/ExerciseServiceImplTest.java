@@ -6,13 +6,13 @@ import ch.examibur.domain.Exercise;
 import ch.examibur.service.ExerciseService;
 import java.util.List;
 import org.junit.Assert;
-import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class ExerciseServiceImplTest {
 
-  @ClassRule
-  public static final DatabaseResource RES = new DatabaseResource();
+  @Rule
+  public final DatabaseResource res = new DatabaseResource();
   private final ExerciseService exerciseService = IntegrationTestUtil.getInjector()
       .getInstance(ExerciseService.class);
 

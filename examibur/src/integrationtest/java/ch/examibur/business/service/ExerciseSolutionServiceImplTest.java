@@ -10,13 +10,13 @@ import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.service.model.ExerciseSolutionOverview;
 import java.util.List;
 import org.junit.Assert;
-import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class ExerciseSolutionServiceImplTest {
 
-  @ClassRule
-  public static final DatabaseResource RES = new DatabaseResource();
+  @Rule
+  public final DatabaseResource res = new DatabaseResource();
   private final ExerciseSolutionService exerciseSolutionService = IntegrationTestUtil.getInjector()
       .getInstance(ExerciseSolutionService.class);
 
