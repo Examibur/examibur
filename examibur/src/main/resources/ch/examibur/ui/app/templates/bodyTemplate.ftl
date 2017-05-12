@@ -17,6 +17,7 @@
       <div class="container">
         <div class="navbar-header">
           <a class="navbar-brand" href="/">
+			<img src="/images/logo-white-transparent-rotated.png">
             Examibur
           </a>
         </div>
