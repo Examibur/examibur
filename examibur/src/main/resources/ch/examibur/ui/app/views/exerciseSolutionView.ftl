@@ -226,7 +226,7 @@
 				    				<label>Korrektor</label>
 				    			</div>
 				    			<div class="col-md-4">
-				    				TODO
+				    				${user.username}
 				    			</div>
 				    			<div class="pull-right">
 									<#if browse??>
