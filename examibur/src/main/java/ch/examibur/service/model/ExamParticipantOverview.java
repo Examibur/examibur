@@ -2,12 +2,13 @@ package ch.examibur.service.model;
 
 import ch.examibur.domain.ExamParticipation;
 import java.text.DecimalFormat;
+import java.util.Optional;
 
 public final class ExamParticipantOverview {
 
   private ExamParticipation examParticipation;
   private double totalPoints;
-  private double grading;
+  private Optional<Double> grading;
   private double progress;
 
   public ExamParticipation getExamParticipation() {
@@ -26,11 +27,11 @@ public final class ExamParticipantOverview {
     this.totalPoints = totalPoints;
   }
 
-  public double getGrading() {
+  public Optional<Double> getGrading() {
     return grading;
   }
 
-  public void setGrading(double grading) {
+  public void setGrading(Optional<Double> grading) {
     this.grading = grading;
   }
 

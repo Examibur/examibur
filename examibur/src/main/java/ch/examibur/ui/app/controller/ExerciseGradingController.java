@@ -7,6 +7,8 @@ import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.ui.app.routing.BrowseSolutionsValue;
+import ch.examibur.ui.app.routing.QueryParameter;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
@@ -62,7 +64,10 @@ public class ExerciseGradingController {
 
     exerciseGradingService.addGrading(solutionId, comment, reasoning, points);
 
-    response.redirect(RouteBuilder.toExerciseSolution(examId, participantId, solutionId),
+    response.redirect(
+        RouteBuilder.toExerciseSolution(examId, participantId, solutionId,
+            BrowseSolutionsValue
+                .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()))),
         HttpStatus.FOUND_302);
     return null;
   }

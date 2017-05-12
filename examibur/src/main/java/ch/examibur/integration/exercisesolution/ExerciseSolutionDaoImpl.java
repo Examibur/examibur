@@ -53,27 +53,61 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
   }
 
   @Override
-  public ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId) {
-    // check if ExerciseSolution exists, throws a NoResultException if it doesn't.
-    ExerciseSolution currentExerciseSolution = getExerciseSolution(currentExerciseSolutionId);
+  public ExerciseSolution getFirstExerciseSolutionFromParticipation(long participationId) {
+    return getNextExerciseSolutionFromParticipation(participationId, 0);
+  }
 
+  @Override
+  public ExerciseSolution getFirstExerciseSolutionFromExercise(long exerciseId) {
+    return getExerciseSolutionFromNextParticipation(0, exerciseId);
+  }
+
+  @Override
+  public ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId) {
+    ExerciseSolution currentExerciseSolution = getExerciseSolution(currentExerciseSolutionId);
+    return getExerciseSolutionFromNextParticipation(
+        currentExerciseSolution.getParticipation().getId(),
+        currentExerciseSolution.getExercise().getId());
+  }
+
+  @Override
+  public ExerciseSolution getNextExerciseSolutionFromParticipation(long currentExerciseSolutionId) {
+    ExerciseSolution currentExerciseSolution = getExerciseSolution(currentExerciseSolutionId);
+    return getNextExerciseSolutionFromParticipation(
+        currentExerciseSolution.getParticipation().getId(),
+        currentExerciseSolution.getExercise().getId());
+  }
+
+  private ExerciseSolution getExerciseSolutionFromNextParticipation(long participationId,
+      long exerciseId) {
+    String query = "SELECT e FROM ExerciseSolution e WHERE e.isDone = false "
+        + "AND e.exercise.id = :exerciseId "
+        + "AND e.participation.id > :participationId ORDER BY e.participation.id";
+    return getNextExerciseSolution(participationId, exerciseId, query);
+  }
+
+  private ExerciseSolution getNextExerciseSolutionFromParticipation(long participationId,
+      long exerciseId) {
+    String query = "SELECT e FROM ExerciseSolution e WHERE e.isDone = false "
+        + "AND e.participation.id = :participationId "
+        + "AND e.exercise.id > :exerciseId ORDER BY e.exercise.id";
+    return getNextExerciseSolution(participationId, exerciseId, query);
+  }
+
+  private ExerciseSolution getNextExerciseSolution(long participationId, long exerciseId,
+      String query) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<ExerciseSolution> nextExerciseSolutionQuery = entityManager
-          .createQuery(
-              "SELECT e FROM ExerciseSolution e WHERE e.isDone = false "
-                  + "AND e.exercise.id = :exerciseId "
-                  + "AND e.participation.id > :participationId ORDER BY e.id",
-              ExerciseSolution.class);
+      TypedQuery<ExerciseSolution> nextExerciseSolutionQuery = entityManager.createQuery(query,
+          ExerciseSolution.class);
       // can't use getSingleResult() because null should also be possible
       List<ExerciseSolution> resultList = nextExerciseSolutionQuery
-          .setParameter("exerciseId", currentExerciseSolution.getExercise().getId())
-          .setParameter("participationId", currentExerciseSolution.getParticipation().getId())
+          .setParameter("exerciseId", exerciseId).setParameter("participationId", participationId)
           .setMaxResults(1).getResultList();
-      if (!resultList.isEmpty()) {
-        return resultList.get(0);
+      if (resultList.isEmpty()) {
+        return null;
       }
-      return null;
+      return resultList.get(0);
     } finally {
       entityManager.close();
     }

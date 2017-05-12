@@ -1,6 +1,7 @@
 package ch.examibur.service;
 
 import ch.examibur.domain.ExamParticipation;
+import ch.examibur.domain.Exercise;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
@@ -41,9 +42,36 @@ public interface ExerciseSolutionService {
       throws ExamiburException;
 
   /**
+   * @param participationId
+   *          the id of the {@link ExamParticipation}.
+   * @return the first {@link ExerciseSolution} of the given {@link ExamParticipation} ordered by
+   *         exerciseId.
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if the id is < 0. throws
+   *           {@link AuthorizationException} if the user is not authorized to access this
+   *           {@link ExerciseSolution}. throws {@link CommunicationException} if an exception
+   *           during the communication occurs.
+   */
+  ExerciseSolution getFirstExerciseSolutionFromParticipation(long participationId)
+      throws ExamiburException;
+
+  /**
+   * @param exerciseId
+   *          the id of the {@link Exercise}.
+   * @return the first {@link ExerciseSolution} of the given {@link Exercise} ordered by
+   *         participationId.
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if the id is < 0. throws
+   *           {@link AuthorizationException} if the user is not authorized to access this
+   *           {@link ExerciseSolution}. throws {@link CommunicationException} if an exception
+   *           during the communication occurs.
+   */
+  ExerciseSolution getFirstExerciseSolutionFromExercise(long exerciseId) throws ExamiburException;
+
+  /**
    * @param currentExerciseSolutionId
    *          the id of the current exercisesolution.
-   * @return the exerciseSolution from the same exercise of the next participation ordered by the
+   * @return the exerciseSolution of the same exercise from the next participation ordered by the
    *         id. If the last exerciseSolution is reached, null will be returned.
    * @throws ExamiburException
    *           throws {@link InvalidParameterException} if the id is < 0. throws
@@ -53,5 +81,20 @@ public interface ExerciseSolutionService {
    *           during the communication occurs.
    */
   ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId)
+      throws ExamiburException;
+
+  /**
+   * @param currentExerciseSolutionId
+   *          the id of the current exercisesolution.
+   * @return the exerciseSolution of the next exercise within the same participation ordered by the
+   *         id. If the last exerciseSolution is reached, null will be returned.
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if the id is < 0. throws
+   *           {@link NotFoundException} if the {@link ExerciseSolution} with the given id is not
+   *           found. throws {@link AuthorizationException} if the user is not authorized to access
+   *           this {@link ExerciseSolution}. throws {@link CommunicationException} if an exception
+   *           during the communication occurs.
+   */
+  ExerciseSolution getNextExerciseSolutionFromParticipation(long currentExerciseSolutionId)
       throws ExamiburException;
 }

@@ -49,7 +49,7 @@ public class RouteBuilderTest {
   @Test
   public void testExerciseSolutionRoute() {
     Assert.assertEquals("/exams/1/participants/2/solutions/3/",
-        RouteBuilder.toExerciseSolution(1, 2, 3));
+        RouteBuilder.toExerciseSolution(1, 2, 3, null));
   }
 
   @Test
@@ -57,7 +57,13 @@ public class RouteBuilderTest {
     // negative values are not checked! It's the responisibility of the caller
     // call the RouteBuilder with valid ids.
     Assert.assertEquals("/exams/-1/participants/-2/solutions/-3/",
-        RouteBuilder.toExerciseSolution(-1, -2, -3));
+        RouteBuilder.toExerciseSolution(-1, -2, -3, null));
+  }
+
+  @Test
+  public void testExerciseSolutionRouteWithQueryParameterBrowseSolutions() {
+    Assert.assertEquals("/exams/1/participants/2/solutions/3/?browse=exercise",
+        RouteBuilder.toExerciseSolution(1, 2, 3, BrowseSolutionsValue.BY_EXERCISE));
   }
 
   @Test

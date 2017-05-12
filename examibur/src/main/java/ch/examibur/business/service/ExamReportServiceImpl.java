@@ -75,7 +75,7 @@ public class ExamReportServiceImpl implements ExamReportService {
       throw notFoundException;
     }
   }
-  
+
   @Override
   public boolean isReportRetrievalPossible(long examId) throws ExamiburException {
     ValidationHelper.checkForNegativeId(examId, LOGGER);

@@ -100,7 +100,7 @@ public class Filters {
   private void redirectToLoginPage(Request request, Response response) {
     if (!request.uri().startsWith(RouteBuilder.toLogin())) {
       String redirectUrl = RouteBuilder.addQueryParameter(RouteBuilder.toLogin(),
-          QueryParameter.Ref.toString(), request.uri());
+          QueryParameter.REF.toString(), request.uri());
       response.redirect(redirectUrl);
       Spark.halt();
     }

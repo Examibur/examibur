@@ -6,7 +6,11 @@
 	</header>
 
 	<div class="top-navigation pull-right">
-		<button class="btn btn-default" type="submit">Prüfung korrigieren</button>
+		<form method="get">
+			<input type="hidden" name="browse" value="participations">
+			<input type="hidden" name="querynext">
+			<button type="submit" class="btn btn-default">Prüfungsweise korrigieren</button>
+		</form>
 	</div>
 
 	<ul class="nav nav-tabs">
@@ -35,15 +39,24 @@
 							<tr>
 								<td><a href="/exams/${exam.id}/participants/${participantOverview.examParticipation.id}">${participantOverview.examParticipation.pseudonym}</a></td>
 								<td>${participantOverview.totalPoints}</td>
-								<td>${participantOverview.grading}</td>
-								<td>
-								<#if participantOverview.grading gte 3.75 >
-								  Ja
+								<#if participantOverview.grading.isPresent()>
+									<td>
+										${participantOverview.grading.get()}
+									</td>
+									<td>
+										<#if participantOverview.grading.get() gte 3.75 >
+										  Ja
+										<#else>
+										  Nein
+										</#if>
+									</td>
 								<#else>
-								  Nein
-								</#if>
+									<td>-</td>
+									<td>-</td>
+								</#if>	
+								<td>
+									${participantOverview.formattedProgress}								
 								</td>
-								<td>${participantOverview.formattedProgress}</td>
 							</tr>
 							</#items>
 						</tbody>

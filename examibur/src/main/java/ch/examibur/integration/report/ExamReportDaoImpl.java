@@ -68,14 +68,19 @@ public class ExamReportDaoImpl implements ExamReportDao {
             "No exam participations for exam  " + examId + " could be retrieved");
       }
       for (ExamParticipation examParticipation : examParticipations) {
-        double totalPoints = exerciseGradingDao
-            .getTotalPointsOfExamGradings(examParticipation.getId(), entityManager);
+        boolean areAllExercisesAreGraded = exerciseGradingDao.checkIfAllExercisesAreGraded(examId,
+            examParticipation.getId());
 
-        double grading = GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints,
-            maxPoints);
+        if (areAllExercisesAreGraded) {
+          double totalPoints = exerciseGradingDao
+              .getTotalPointsOfExamGradings(examParticipation.getId(), entityManager);
 
-        if (grading >= MIN_GRADING) {
-          passedParticipations++;
+          double grading = GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints,
+              maxPoints);
+
+          if (grading >= MIN_GRADING) {
+            passedParticipations++;
+          }
         }
       }
       return new PassedParticipationComparison(passedParticipations, examParticipations.size());
@@ -122,17 +127,26 @@ public class ExamReportDaoImpl implements ExamReportDao {
         throw new NoResultException(
             "No exam participations for exam  " + examId + " could be retrieved");
       }
-      for (ExamParticipation examParticipation : examParticipations) {
-        double totalPoints = exerciseGradingDao
-            .getTotalPointsOfExamGradings(examParticipation.getId(), entityManager);
 
-        double grading = GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints,
-            maxPoints);
-        gradings.add(grading);
+      int includedParticipations = 0;
+      for (ExamParticipation examParticipation : examParticipations) {
+        boolean areAllExercisesAreGraded = exerciseGradingDao.checkIfAllExercisesAreGraded(examId,
+            examParticipation.getId());
+
+        if (areAllExercisesAreGraded) {
+          double totalPoints = exerciseGradingDao
+              .getTotalPointsOfExamGradings(examParticipation.getId(), entityManager);
+
+          double grading = GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints,
+              maxPoints);
+          gradings.add(grading);
+          includedParticipations++;
+        }
       }
       double averageGrade = GradingUtil.calculateAverageGrade(gradings);
       double medianGrade = GradingUtil.calculateMedianGrade(gradings);
-      return new ExamPerformance(averageGrade, medianGrade);
+      return new ExamPerformance(averageGrade, medianGrade, examParticipations.size(),
+          includedParticipations);
     } finally {
       entityManager.close();
     }

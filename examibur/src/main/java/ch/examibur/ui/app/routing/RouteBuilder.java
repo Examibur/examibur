@@ -108,13 +108,19 @@ public final class RouteBuilder {
 
   /**
    * Returns the absolute url to the exercise soltion with the given id of the given participation.
-   * It is the responsibility of the caller to provide valid ids!
+   * It is the responsibility of the caller to provide valid ids! It also adds the
+   * {@link QueryParameter} "BROWSE_SOLUTIONS" if it's not null.
    */
-  public static String toExerciseSolution(long examId, long participantId, long solutionId) {
+  public static String toExerciseSolution(long examId, long participantId, long solutionId,
+      BrowseSolutionsValue browseSolutionsValue) {
     String url = Route.SOLUTION.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
+    if (browseSolutionsValue != null) {
+      url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
+          browseSolutionsValue.toString());
+    }
     return url;
   }
 
