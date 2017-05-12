@@ -19,7 +19,7 @@ public interface ExerciseGradingDao {
    *          the ExamState the ExerciseSolution was created in, e.g. REVIEW or CORRECTION
    * @return the ExerciseGrading if it was found, null otherwise.
    */
-  public ExerciseGrading getGradingCreatedInState(long exerciseSolutionId, ExamState state);
+  ExerciseGrading getGradingCreatedInState(long exerciseSolutionId, ExamState state);
 
   /**
    * @param exerciseSolutionId
@@ -28,30 +28,30 @@ public interface ExerciseGradingDao {
    *         type Double. It has its value present if there is a at least one grading for the
    *         {@link ExerciseSolution}, otherwise the value is not present.
    */
-  public Optional<Double> getPointsOfExerciseSolution(long exerciseSolutionId);
+  Optional<Double> getPointsOfExerciseSolution(long exerciseSolutionId);
 
   /**
    * @param examParticipationId
    *          the id of the participation to get the total points for a specific participant
    * @return the total points of a all exam gradings for a specific participant.
    */
-  public double getTotalPointsOfExamGradings(long examParticipationId);
+  double getTotalPointsOfExamGradings(long examParticipationId);
 
   /**
    * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao#getTotalPointsOfExamGradings(long)
    * @param entityManager
    *          this method is used in another dao and a global transaction will be used
    */
-  public double getTotalPointsOfExamGradings(long examParticipationId, EntityManager entityManager);
+  double getTotalPointsOfExamGradings(long examParticipationId, EntityManager entityManager);
 
   /**
    * @param examId
    *          the id of the exam
-   * @param examParticipationId
+   * @param participationId
    *          the id of the participation to get the progress for a specific participant
    * @return the progress of a all exam gradings for a specific participant.
    */
-  public double getProgressOfExamGradings(long examId, long participationId);
+  double getProgressOfExamGradings(long examId, long participationId);
 
   /**
    * @param exerciseId
@@ -60,7 +60,7 @@ public interface ExerciseGradingDao {
    *          this method is used in another dao and a global transaction will be used
    * @return the average points of all exercises gradings for one exercise.
    */
-  public double getAveragePointsOfExercise(long exerciseId, EntityManager entityManager);
+  double getAveragePointsOfExercise(long exerciseId, EntityManager entityManager);
 
   /**
    * @param examId
@@ -69,14 +69,15 @@ public interface ExerciseGradingDao {
    *          the id of the participation to check if all exercises are graded
    * @return true, if all exercises for a specific participant are graded.
    */
-  public boolean checkIfAllExercisesAreGraded(long examId, long participationId);
+  boolean checkIfAllExercisesAreGraded(long examId, long participationId);
 
   /**
-   * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao#checkIfAllExercisesAreGraded(long, long)
+   * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao#checkIfAllExercisesAreGraded(long,
+   *      long)
    * @param entityManager
    *          this method is used in another dao and a global transaction will be used
    */
-  public boolean checkIfAllExercisesAreGraded(long examId, long participationId,
+  boolean checkIfAllExercisesAreGraded(long examId, long participationId,
       EntityManager entityManager);
 
   /**
@@ -95,7 +96,7 @@ public interface ExerciseGradingDao {
    *           REVIEW. throws {@link IllegalOperationException} if there is already a grading for
    *           this {@link ExerciseSolution} in the same state.
    */
-  public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
+  void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
       User gradingAuthor) throws ExamiburException;
 
 }
