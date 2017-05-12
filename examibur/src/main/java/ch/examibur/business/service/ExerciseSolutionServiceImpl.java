@@ -75,47 +75,45 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
   @Override
   public ExerciseSolution getFirstExerciseSolutionFromParticipation(long participationId)
       throws ExamiburException {
-    String logInfo = "Get the first ExerciseSolution of a Participation " + "(ParticipationId "
-        + participationId + ")";
+    LOGGER.info("Get the first ExerciseSolution of a Participation (ParticipationId {})",
+        participationId);
 
-    return getNextExerciseSolution(participationId, logInfo,
+    return getNextExerciseSolution(participationId,
         exerciseSolutionDao::getFirstExerciseSolutionFromParticipation);
   }
 
   @Override
   public ExerciseSolution getFirstExerciseSolutionFromExercise(long exerciseId)
       throws ExamiburException {
-    String logInfo = "Get the first ExerciseSolution of an Exercise " + "(ExerciseId " + exerciseId
-        + ")";
+    LOGGER.info("Get the first ExerciseSolution of an Exercise (ExerciseId {})", exerciseId);
 
-    return getNextExerciseSolution(exerciseId, logInfo,
+    return getNextExerciseSolution(exerciseId,
         exerciseSolutionDao::getFirstExerciseSolutionFromExercise);
   }
 
   @Override
   public ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId)
       throws ExamiburException {
-    String logInfo = "Get ExerciseSolution of the same Exercise from the next Participation "
-        + "(current ExerciseSolutionId " + currentExerciseSolutionId + ")";
+    LOGGER.info("Get ExerciseSolution of the same Exercise from the next Participation "
+        + "(current ExerciseSolutionId {})", currentExerciseSolutionId);
 
-    return getNextExerciseSolution(currentExerciseSolutionId, logInfo,
+    return getNextExerciseSolution(currentExerciseSolutionId,
         exerciseSolutionDao::getExerciseSolutionFromNextParticipation);
   }
 
   @Override
   public ExerciseSolution getNextExerciseSolutionFromParticipation(long currentExerciseSolutionId)
       throws ExamiburException {
-    String logInfo = "Get ExerciseSolution of the next Exercise from the same Participation "
-        + "(current ExerciseSolutionId " + currentExerciseSolutionId + ")";
+    LOGGER.info("Get ExerciseSolution of the next Exercise from the same Participation "
+        + "(current ExerciseSolutionId {})", currentExerciseSolutionId);
 
-    return getNextExerciseSolution(currentExerciseSolutionId, logInfo,
+    return getNextExerciseSolution(currentExerciseSolutionId,
         exerciseSolutionDao::getNextExerciseSolutionFromParticipation);
   }
 
-  private ExerciseSolution getNextExerciseSolution(long resourceId, String logInfo,
+  private ExerciseSolution getNextExerciseSolution(long resourceId,
       Function<Long, ExerciseSolution> queryFunction) throws ExamiburException {
     ValidationHelper.checkForNegativeId(resourceId, LOGGER);
-    LOGGER.info(logInfo);
     try {
       return queryFunction.apply(resourceId);
     } catch (NoResultException ex) {
