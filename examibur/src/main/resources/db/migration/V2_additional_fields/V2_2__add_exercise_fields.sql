@@ -18,7 +18,7 @@ UPDATE exercise_t SET title = 'Zuständige Aufsichtsbehörde' WHERE exerciseid =
 UPDATE exercise_t SET title = 'Vorteile Datenbank-Systeme' WHERE exerciseid = 13;
 UPDATE exercise_t SET title = 'Wichtige Funktionen DBMS' WHERE exerciseid = 14;
 UPDATE exercise_t SET title = 'COALESCE-Funktion' WHERE exerciseid = 15;
-UPDATE exercise_t SET title = 'AES-CBC Disk Encryption  ' WHERE exerciseid = 16;
+UPDATE exercise_t SET title = 'AES-CBC Disk Encryption' WHERE exerciseid = 16;
 UPDATE exercise_t SET title = 'XTS-AES Speicherplatz Ausnutzung' WHERE exerciseid = 17;
 UPDATE exercise_t SET title = 'XTS-AES Verschiebung' WHERE exerciseid = 18;
 

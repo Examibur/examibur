@@ -39,15 +39,24 @@
 							<tr>
 								<td><a href="/exams/${exam.id}/participants/${participantOverview.examParticipation.id}">${participantOverview.examParticipation.pseudonym}</a></td>
 								<td>${participantOverview.totalPoints}</td>
-								<td>${participantOverview.grading}</td>
-								<td>
-								<#if participantOverview.grading gte 3.75 >
-								  Ja
+								<#if participantOverview.grading.isPresent()>
+									<td>
+										${participantOverview.grading.get()}
+									</td>
+									<td>
+										<#if participantOverview.grading.get() gte 3.75 >
+										  Ja
+										<#else>
+										  Nein
+										</#if>
+									</td>
 								<#else>
-								  Nein
-								</#if>
+									<td>-</td>
+									<td>-</td>
+								</#if>	
+								<td>
+									${participantOverview.formattedProgress}								
 								</td>
-								<td>${participantOverview.formattedProgress}</td>
 							</tr>
 							</#items>
 						</tbody>

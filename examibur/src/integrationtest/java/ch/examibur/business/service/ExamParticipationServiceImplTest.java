@@ -94,7 +94,7 @@ public class ExamParticipationServiceImplTest {
       double totalExamGradings, String expectedFormattedProgress) {
     Assert.assertEquals(expectedTotalPoints, examParticipantOverview.getTotalPoints(),
         DOUBLE_DELTA);
-    Assert.assertEquals(expectedGrading, examParticipantOverview.getGrading(), DOUBLE_DELTA);
+    Assert.assertEquals(expectedGrading, examParticipantOverview.getGrading().get(), DOUBLE_DELTA);
     Assert.assertEquals(completedExamGradings / totalExamGradings,
         examParticipantOverview.getProgress(), DOUBLE_DELTA);
     Assert.assertEquals(expectedFormattedProgress, examParticipantOverview.getFormattedProgress());

@@ -7,7 +7,7 @@ import ch.examibur.business.DatabaseResource;
 import java.io.IOException;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
@@ -21,8 +21,8 @@ public class UiTest {
   private static final String USER_STEFAN_BOEHM = "stefan.boehm";
   private static final String USER_CHRISTINA_THEISS = "christina.theiss";
 
-  @ClassRule
-  public static final DatabaseResource RES = new DatabaseResource();
+  @Rule
+  public final DatabaseResource RES = new DatabaseResource();
 
   private static final String TEST_URL = System.getenv("UI_TEST_URL");
 
@@ -102,6 +102,36 @@ public class UiTest {
   public void testExamReportTabUiReportRetrievalNotPossible() throws IOException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + "/exams/2/reports";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
+
+  @Test
+  public void testExamReportTabUiMissingGradings() throws IOException, InterruptedException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/reports";
+    getDriver().get(testUrl);
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().findElement(By.className("highcharts-container")).isDisplayed();
+    });
+    Thread.sleep(1000);
+    assertScreenshots();
+  }
+
+  @Test
+  public void testExamParticipationsTab() {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/7/participants";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
+
+  @Test
+  public void testExamParticipationsTabMissingGradings() {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants";
     getDriver().get(testUrl);
     assertScreenshots();
   }

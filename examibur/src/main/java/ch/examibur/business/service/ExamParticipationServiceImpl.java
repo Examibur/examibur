@@ -14,6 +14,7 @@ import ch.examibur.service.model.ExamParticipantOverview;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,27 +49,35 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
   public List<ExamParticipantOverview> getExamParticipantsOverview(long examId) {
     List<ExamParticipation> examParticipations = examParticipationDao.getExamParticipations(examId);
 
-    List<ExamParticipantOverview> examParticipantsOverwiew = new ArrayList<>();
+    List<ExamParticipantOverview> examParticipantsOverview = new ArrayList<>();
     for (ExamParticipation examParticipation : examParticipations) {
       ExamParticipantOverview examParticipantOverview = new ExamParticipantOverview();
 
       examParticipantOverview.setExamParticipation(examParticipation);
 
       long examParticipationId = examParticipation.getId();
+      boolean areAllExercisesAreGraded = exerciseGradingDao.checkIfAllExercisesAreGraded(examId,
+          examParticipationId);
+
       double totalPoints = exerciseGradingDao.getTotalPointsOfExamGradings(examParticipationId);
       examParticipantOverview.setTotalPoints(totalPoints);
 
-      double maxPoints = examDao.getMaxPoints(examId);
-      examParticipantOverview.setGrading(
-          GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints, maxPoints));
+      if (areAllExercisesAreGraded) {
+        double maxPoints = examDao.getMaxPoints(examId);
 
-      double progress = exerciseGradingDao.getProgressOfExamGradings(examParticipationId);
+        double grading = GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints,
+            maxPoints);
+        examParticipantOverview.setGrading(Optional.of(grading));
+      } else {
+        examParticipantOverview.setGrading(Optional.empty());
+      }
+      double progress = exerciseGradingDao.getProgressOfExamGradings(examId, examParticipationId);
       examParticipantOverview.setProgress(progress);
 
-      examParticipantsOverwiew.add(examParticipantOverview);
+      examParticipantsOverview.add(examParticipantOverview);
     }
 
-    return examParticipantsOverwiew;
+    return examParticipantsOverview;
   }
 
   @Override
