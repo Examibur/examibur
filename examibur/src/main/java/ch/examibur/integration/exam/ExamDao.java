@@ -7,24 +7,24 @@ import javax.persistence.EntityManager;
 
 public interface ExamDao {
 
-  public List<Exam> getExamsForAuthor(long authorId);
+  List<Exam> getExamsForAuthor(long authorId);
 
-  public List<Exam> getExamsForAuthor(long authorId, ExamState state);
+  List<Exam> getExamsForAuthor(long authorId, ExamState state);
 
-  public Exam getExam(long examId);
+  Exam getExam(long examId);
 
   /**
    * @param examId
    *          the id of the exam
    * @return the total sum of maxPoints for all exercises in the {@link Exam} with the given id.
    */
-  public double getMaxPoints(long examId);
+  double getMaxPoints(long examId);
 
   /**
    * @see ch.examibur.integration.exam.ExamDao#getMaxPoints(long)
    * @param entityManager
    *          this method is used in another dao and a global transaction will be used
    */
-  public double getMaxPoints(long examId, EntityManager entityManager);
+  double getMaxPoints(long examId, EntityManager entityManager);
 
 }

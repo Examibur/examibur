@@ -20,7 +20,7 @@ public interface ExamService {
    *           throws an {@link CommunicationException} if an exception during the communication
    *           occurs. throws {@link InvalidParameterException} if authorId < 0.
    */
-  public List<Exam> getExamsForAuthor(long authorId) throws ExamiburException;
+  List<Exam> getExamsForAuthor(long authorId) throws ExamiburException;
 
   /**
    * Gets the exams for the given author in the given state.
@@ -35,7 +35,7 @@ public interface ExamService {
    *           throws an {@link CommunicationException} if an exception during the communication
    *           occurs. throws {@link InvalidParameterException} if authorId < 0.
    */
-  public List<Exam> getExamsForAuthor(long authorId, ExamState state) throws ExamiburException;
+  List<Exam> getExamsForAuthor(long authorId, ExamState state) throws ExamiburException;
 
   /**
    * @param examId
@@ -47,7 +47,7 @@ public interface ExamService {
    *           exam. throws {@link CommunicationException} if an exception during the communication
    *           occurs.
    */
-  public Exam getExam(long examId) throws ExamiburException;
+  Exam getExam(long examId) throws ExamiburException;
 
   /**
    * @param examId
@@ -59,6 +59,6 @@ public interface ExamService {
    *           {@link AuthorizationException} if the user is not authorized. throws
    *           {@link CommunicationException} if an exception during the communication occurs.
    */
-  public double getMaxPoints(long examId) throws ExamiburException;
+  double getMaxPoints(long examId) throws ExamiburException;
 
 }
