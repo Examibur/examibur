@@ -1,3 +1,12 @@
+.navbar-brand {
+	padding-top: 3px;
+}
+
+.navbar-brand > img {
+	display: inline-block;
+	width: 45px;
+}
+
 .tab-body {
 	padding: 15px;
 }
