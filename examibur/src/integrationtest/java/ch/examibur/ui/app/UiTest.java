@@ -7,7 +7,7 @@ import ch.examibur.business.DatabaseResource;
 import java.io.IOException;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
@@ -21,8 +21,8 @@ public class UiTest {
   private static final String USER_STEFAN_BOEHM = "stefan.boehm";
   private static final String USER_CHRISTINA_THEISS = "christina.theiss";
 
-  @ClassRule
-  public static final DatabaseResource RES = new DatabaseResource();
+  @Rule
+  public final DatabaseResource RES = new DatabaseResource();
 
   private static final String TEST_URL = System.getenv("UI_TEST_URL");
 
