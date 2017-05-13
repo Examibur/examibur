@@ -28,8 +28,9 @@ public class ExerciseDaoImpl implements ExerciseDao {
 
   @Override
   public List<Exercise> getExercises(long examId, EntityManager entityManager) {
-    TypedQuery<Exercise> exercisesQuery = entityManager
-        .createQuery("SELECT e FROM Exercise e WHERE e.exam.id = :examId", Exercise.class);
+    TypedQuery<Exercise> exercisesQuery = entityManager.createQuery(
+        "SELECT e FROM Exercise e WHERE e.exam.id = :examId ORDER BY e.orderInExam",
+        Exercise.class);
     return exercisesQuery.setParameter("examId", examId).getResultList();
   }
 

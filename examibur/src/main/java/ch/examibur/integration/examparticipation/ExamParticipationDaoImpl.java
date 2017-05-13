@@ -52,7 +52,8 @@ public class ExamParticipationDaoImpl implements ExamParticipationDao {
   @Override
   public List<ExamParticipation> getExamParticipations(long examId, EntityManager entityManager) {
     TypedQuery<ExamParticipation> examParticipationsQuery = entityManager.createQuery(
-        "SELECT ep FROM ExamParticipation ep WHERE ep.exam.id = :examId", ExamParticipation.class);
+        "SELECT ep FROM ExamParticipation ep WHERE ep.exam.id = :examId ORDER BY ep.id",
+        ExamParticipation.class);
     return examParticipationsQuery.setParameter("examId", examId).getResultList();
   }
 

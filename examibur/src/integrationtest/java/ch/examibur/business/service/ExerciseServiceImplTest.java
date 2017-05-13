@@ -4,6 +4,8 @@ import ch.examibur.business.DatabaseResource;
 import ch.examibur.business.IntegrationTestUtil;
 import ch.examibur.domain.Exercise;
 import ch.examibur.service.ExerciseService;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -44,6 +46,14 @@ public class ExerciseServiceImplTest {
     List<Exercise> exList = exerciseService.getExercises(-42L);
     Assert.assertNotNull(exList);
     Assert.assertEquals(0, exList.size());
+  }
+
+  @Test
+  public void testGetExercisesOrder() {
+    List<Exercise> exList = exerciseService.getExercises(8L);
+    List<Exercise> expectedList = new ArrayList<>(exList);
+    Collections.sort(expectedList, (ex1, ex2) -> ex1.getOrderInExam() - ex2.getOrderInExam());
+    Assert.assertEquals(expectedList, exList);
   }
 
 }

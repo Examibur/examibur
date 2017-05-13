@@ -43,7 +43,7 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
           .getSingleResult();
 
       TypedQuery<ExerciseSolution> exerciseSolutionQuery = entityManager.createQuery(
-          "SELECT es FROM ExerciseSolution es WHERE es.participation.id = :examParticipationId",
+          "SELECT es FROM ExerciseSolution es WHERE es.participation.id = :examParticipationId ORDER BY es.exercise.orderInExam",
           ExerciseSolution.class);
       return exerciseSolutionQuery.setParameter("examParticipationId", examParticipationId)
           .getResultList();
