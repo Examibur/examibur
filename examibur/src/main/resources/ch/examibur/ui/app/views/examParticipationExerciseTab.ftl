@@ -6,11 +6,7 @@
 	</header>
 
 	<div class="top-navigation pull-right">
-		<form method="get">
-			<input type="hidden" name="browse" value="participation">
-			<input type="hidden" name="querynext">
-			<button class="btn btn-default" type="submit" id="querynext">Teilnahme korrigieren</button>
-		</form>
+		<a class="btn btn-default" href="?browse=participation&querynext=" role="button" id="querynext">Teilnahme korrigieren</a>
 	</div>
 
 	<ul class="nav nav-tabs">
