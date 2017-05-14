@@ -20,4 +20,11 @@ public interface ExerciseDao {
    */
   List<Exercise> getExercises(long examId, EntityManager entityManager);
 
+  /**
+   * @param exerciseId
+   *          the id of the exercise
+   * @return the exercise for the specified exercise id.
+   */
+  Exercise getExercise(long exerciseId);
+
 }

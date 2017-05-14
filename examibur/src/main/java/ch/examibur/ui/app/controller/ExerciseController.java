@@ -50,10 +50,20 @@ public class ExerciseController implements Controller {
    * @param response
    *          the HTTP response
    * @return the rendered page content
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if a parameter is invalid. throws
+   *           {@link AuthorizationException} if the user is not authorized to display the exam or
+   *           exercise. throws {@link NotFoundException} if the exam/exercise is not found.
+   *           throws {@link CommunicationException} if an exception during the communication occurs
    */
-  public String displayExercise(Request request, Response response) {
+  public String displayExercise(Request request, Response response) throws ExamiburException {
+    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long exerciseId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXERCISE_ID);
+    
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
-    return engine.render(model, "errors/404.ftl");
+    model.put("exam", examService.getExam(examId));
+    model.put("exercise", exerciseService.getExercise(exerciseId));
+    return engine.render(model, "views/exerciseOverviewTab.ftl");
   }
 
   /**

@@ -20,4 +20,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     return exerciseDao.getExercises(examId);
   }
 
+  @Override
+  public Exercise getExercise(long exerciseId) {
+    return exerciseDao.getExercise(exerciseId);
+  }
+
 }
