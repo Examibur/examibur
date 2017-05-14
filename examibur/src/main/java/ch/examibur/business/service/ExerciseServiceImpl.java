@@ -5,7 +5,6 @@ import ch.examibur.domain.Exercise;
 import ch.examibur.integration.exercise.ExerciseDao;
 import ch.examibur.service.ExerciseService;
 import ch.examibur.service.exception.ExamiburException;
-import ch.examibur.service.exception.InvalidParameterException;
 import com.google.inject.Inject;
 import java.util.List;
 import org.slf4j.Logger;
