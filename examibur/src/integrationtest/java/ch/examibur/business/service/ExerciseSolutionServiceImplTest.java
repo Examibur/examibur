@@ -7,15 +7,19 @@ import ch.examibur.service.ExerciseSolutionService;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.service.model.ExerciseParticipantOverview;
 import ch.examibur.service.model.ExerciseSolutionOverview;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 
 public class ExerciseSolutionServiceImplTest {
+
+  private static final double DOUBLE_DELTA = 0.0001;
 
   @Rule
   public final DatabaseResource res = new DatabaseResource();
@@ -159,5 +163,59 @@ public class ExerciseSolutionServiceImplTest {
     ExerciseSolution nextExerciseSolution = exerciseSolutionService
         .getFirstExerciseSolutionFromExercise(0);
     Assert.assertNull(nextExerciseSolution);
+  }
+
+  @Test
+  public void testGetExerciseParticipantsOverview() throws ExamiburException {
+    List<ExerciseParticipantOverview> exerciseParticipantsOverview = exerciseSolutionService
+        .getExerciseParticipantsOverview(8);
+    Assert.assertEquals(3, exerciseParticipantsOverview.size());
+    for (ExerciseParticipantOverview exerciseParticipantOverview : exerciseParticipantsOverview) {
+      String pseudonym = exerciseParticipantOverview.getExerciseSolution().getParticipation()
+          .getPseudonym();
+      if (pseudonym.equals("Anonymer Löwe")) {
+        testExerciseParticipantOverview(exerciseParticipantOverview, 9D, Optional.of(5.5D), false);
+      } else if (pseudonym.equals("Anonymes Lama")) {
+        testExerciseParticipantOverview(exerciseParticipantOverview, 6D, Optional.of(4D), false);
+      } else if (pseudonym.equals("Anonymes Pony")) {
+        testExerciseParticipantOverview(exerciseParticipantOverview, 8D, Optional.of(5D), false);
+      } else {
+        Assert.fail("unknown ExerciseParticipantOverview in list: " + pseudonym);
+      }
+    }
+  }
+
+  @Test
+  public void testGetExerciseParticipantsOverviewMissingGradings() throws ExamiburException {
+    List<ExerciseParticipantOverview> exerciseParticipantsOverview = exerciseSolutionService
+        .getExerciseParticipantsOverview(17);
+    Assert.assertEquals(3, exerciseParticipantsOverview.size());
+    for (ExerciseParticipantOverview exerciseParticipantOverview : exerciseParticipantsOverview) {
+      String pseudonym = exerciseParticipantOverview.getExerciseSolution().getParticipation()
+          .getPseudonym();
+      if (pseudonym.equals("Anonymer Panda")) {
+        testExerciseParticipantOverview(exerciseParticipantOverview, 5D, Optional.of(2.67D), true);
+      } else if (pseudonym.equals("Anonymer Elefant")) {
+        testExerciseParticipantOverview(exerciseParticipantOverview, 0D, Optional.empty(), false);
+      } else if (pseudonym.equals("Anonymer Flamingo")) {
+        testExerciseParticipantOverview(exerciseParticipantOverview, 2D, Optional.empty(), false);
+      } else {
+        Assert.fail("unknown ExerciseParticipantOverview in list: " + pseudonym);
+      }
+    }
+  }
+
+  private void testExerciseParticipantOverview(
+      ExerciseParticipantOverview exerciseParticipantOverview, double expectedTotalPoints,
+      Optional<Double> expectedGrading, boolean expectedIsDone) {
+    Assert.assertEquals(expectedTotalPoints, exerciseParticipantOverview.getTotalPoints(),
+        DOUBLE_DELTA);
+    if (expectedGrading.isPresent()) {
+      Assert.assertEquals(expectedGrading.get(), exerciseParticipantOverview.getGrading().get(),
+          DOUBLE_DELTA);
+    } else {
+      Assert.assertEquals(expectedGrading, exerciseParticipantOverview.getGrading());
+    }
+    Assert.assertEquals(expectedIsDone, exerciseParticipantOverview.getExerciseSolution().isDone());
   }
 }
