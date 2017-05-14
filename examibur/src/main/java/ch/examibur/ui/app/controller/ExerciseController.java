@@ -53,13 +53,13 @@ public class ExerciseController implements Controller {
    * @throws ExamiburException
    *           throws {@link InvalidParameterException} if a parameter is invalid. throws
    *           {@link AuthorizationException} if the user is not authorized to display the exam or
-   *           exercise. throws {@link NotFoundException} if the exam/exercise is not found.
-   *           throws {@link CommunicationException} if an exception during the communication occurs
+   *           exercise. throws {@link NotFoundException} if the exam/exercise is not found. throws
+   *           {@link CommunicationException} if an exception during the communication occurs
    */
   public String displayExercise(Request request, Response response) throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
     long exerciseId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXERCISE_ID);
-    
+
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
     model.put("exercise", exerciseService.getExercise(exerciseId));
@@ -90,7 +90,7 @@ public class ExerciseController implements Controller {
   }
 
   /**
-   * Adds breadcurmb for `exercises/`.
+   * Adds breadcrumb for `exercises/`.
    * 
    * @throws InvalidParameterException
    *           if the examid parameter is not set or < 0.

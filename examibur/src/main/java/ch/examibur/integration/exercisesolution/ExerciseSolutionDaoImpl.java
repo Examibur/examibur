@@ -51,6 +51,21 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
       entityManager.close();
     }
   }
+  
+
+  @Override
+  public List<ExerciseSolution> getExerciseSolutionsForExercise(long exerciseId) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      TypedQuery<ExerciseSolution> exerciseSolutionQuery = entityManager.createQuery(
+          "SELECT es FROM ExerciseSolution es WHERE es.exercise.id = :exerciseId ORDER BY es.id",
+          ExerciseSolution.class);
+      return exerciseSolutionQuery.setParameter("exerciseId", exerciseId)
+          .getResultList();
+    } finally {
+      entityManager.close();
+    }
+  }
 
   @Override
   public ExerciseSolution getFirstExerciseSolutionFromParticipation(long participationId) {

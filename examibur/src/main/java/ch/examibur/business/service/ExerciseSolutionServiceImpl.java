@@ -2,11 +2,15 @@ package ch.examibur.business.service;
 
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.integration.exam.ExamDao;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
 import ch.examibur.integration.exercisesolution.ExerciseSolutionDao;
+import ch.examibur.integration.util.grading.GradingUtil;
+import ch.examibur.integration.util.grading.strategy.BaseGradingStrategy;
 import ch.examibur.service.ExerciseSolutionService;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.service.model.ExerciseParticipantOverview;
 import ch.examibur.service.model.ExerciseSolutionOverview;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -23,12 +27,14 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
 
   private final ExerciseSolutionDao exerciseSolutionDao;
   private final ExerciseGradingDao exerciseGradingDao;
+  private final ExamDao examDao;
 
   @Inject
   public ExerciseSolutionServiceImpl(ExerciseSolutionDao exerciseSolutionDao,
-      ExerciseGradingDao exerciseGradingDao) {
+      ExerciseGradingDao exerciseGradingDao, ExamDao examDao) {
     this.exerciseSolutionDao = exerciseSolutionDao;
     this.exerciseGradingDao = exerciseGradingDao;
+    this.examDao = examDao;
   }
 
   @Override
@@ -122,5 +128,42 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
     }
+  }
+
+  @Override
+  public List<ExerciseParticipantOverview> getExerciseParticipantsOverview(long exerciseId)
+      throws ExamiburException {
+    ValidationHelper.checkForNegativeId(exerciseId, LOGGER);
+
+    List<ExerciseSolution> exerciseSolutions = exerciseSolutionDao
+        .getExerciseSolutionsForExercise(exerciseId);
+    List<ExerciseParticipantOverview> exerciseParticipantsOverview = new ArrayList<>();
+
+    for (ExerciseSolution exerciseSolution : exerciseSolutions) {
+      ExerciseParticipantOverview exerciseParticipantOverview = new ExerciseParticipantOverview();
+
+      exerciseParticipantOverview.setExerciseSolution(exerciseSolution);
+
+      long examId = exerciseSolution.getExercise().getExam().getId();
+      long examParticipationId = exerciseSolution.getParticipation().getId();
+      boolean areAllExercisesAreGraded = exerciseGradingDao.checkIfAllExercisesAreGraded(examId,
+          examParticipationId);
+
+      double totalPoints = exerciseGradingDao.getTotalPointsOfExamGradings(examParticipationId);
+      exerciseParticipantOverview.setTotalPoints(totalPoints);
+
+      if (areAllExercisesAreGraded) {
+        double maxPoints = examDao.getMaxPoints(examId);
+
+        double grading = GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints,
+            maxPoints);
+        exerciseParticipantOverview.setGrading(Optional.of(grading));
+      } else {
+        exerciseParticipantOverview.setGrading(Optional.empty());
+      }
+
+      exerciseParticipantsOverview.add(exerciseParticipantOverview);
+    }
+    return exerciseParticipantsOverview;
   }
 }

@@ -8,6 +8,7 @@ import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.service.model.ExerciseParticipantOverview;
 import ch.examibur.service.model.ExerciseSolutionOverview;
 import java.util.List;
 
@@ -96,5 +97,20 @@ public interface ExerciseSolutionService {
    *           during the communication occurs.
    */
   ExerciseSolution getNextExerciseSolutionFromParticipation(long currentExerciseSolutionId)
+      throws ExamiburException;
+
+  /**
+   * @param exerciseId
+   *          the id of the {@link Exercise}.
+   * @return a list of {@link ExerciseParticipantOverview}. If there are none found, an empty list
+   *         is returned.
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if a parameter is invalid. throws
+   *           {@link AuthorizationException} if the user is not authorized to display the exam or
+   *           exercise participations. throws {@link NotFoundException} if the exam/exercise
+   *           participations is/are not found. throws {@link CommunicationException} if an
+   *           exception during the communication occurs
+   */
+  List<ExerciseParticipantOverview> getExerciseParticipantsOverview(long exerciseId)
       throws ExamiburException;
 }
