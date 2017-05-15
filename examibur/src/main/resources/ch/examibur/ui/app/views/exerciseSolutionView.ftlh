@@ -1,5 +1,5 @@
-<#include "../templates/bodyTemplate.ftl">
-<#include "../includes/exerciseGradingComponent.ftl">
+<#include "../templates/bodyTemplate.ftlh">
+<#include "../includes/exerciseGradingComponent.ftlh">
 
 <#macro body_main>
 	<#local examState = exerciseSolution.exercise.exam.state>
