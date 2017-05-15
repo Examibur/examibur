@@ -16,7 +16,7 @@ public class RenderingModule extends AbstractModule {
   @Provides
   @Singleton
   Configuration provideConfiguration() {
-    Configuration configuration = new Configuration(new Version(2, 3, 24));
+    Configuration configuration = new Configuration(new Version(2, 3, 26));
     configuration.setClassForTemplateLoading(getClass(), "/ch/examibur/ui/app");
     return configuration;
   }
