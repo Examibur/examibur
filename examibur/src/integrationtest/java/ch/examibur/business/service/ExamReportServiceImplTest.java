@@ -9,6 +9,7 @@ import ch.examibur.service.ExamReportService;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -110,19 +111,13 @@ public class ExamReportServiceImplTest {
     List<ExerciseAverageMaxPointsComparison> exerciseAverageMaxPointsComparisonList = examReportService
         .getExerciseAverageMaxPointsComparisonReport(6L);
     Assert.assertEquals(3, exerciseAverageMaxPointsComparisonList.size());
-    for (ExerciseAverageMaxPointsComparison exerciseAverageMaxPointsComparison : exerciseAverageMaxPointsComparisonList) {
-      if (exerciseAverageMaxPointsComparison.getTitle().equals("Verordnung gegen Verfassung")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 2D, 4 / 3D); // 1.33...
-      } else if (exerciseAverageMaxPointsComparison.getTitle().equals("Datenbearbeitung")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 2D, 1D);
-      } else if (exerciseAverageMaxPointsComparison.getTitle()
-          .equals("Zuständige Aufsichtsbehörde")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 2D, 5 / 3D); // 1.77...
-      } else {
-        Assert.fail("unknown ExerciseAverageMaxPointsComparison in list: "
-            + exerciseAverageMaxPointsComparison.getTitle());
-      }
-    }
+
+    Collections.sort(exerciseAverageMaxPointsComparisonList);
+    testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparisonList.get(0), 2D, 1D); // Datenbearbeitung
+    testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparisonList.get(1), 2D,
+        4 / 3D); // Verordnung gegen Verfassung
+    testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparisonList.get(2), 2D,
+        5 / 3D); // Zuständige Aufsichtsbehörde
   }
 
   @Test
@@ -131,19 +126,14 @@ public class ExamReportServiceImplTest {
     List<ExerciseAverageMaxPointsComparison> exerciseAverageMaxPointsComparisonList = examReportService
         .getExerciseAverageMaxPointsComparisonReport(8L);
     Assert.assertEquals(3, exerciseAverageMaxPointsComparisonList.size());
-    for (ExerciseAverageMaxPointsComparison exerciseAverageMaxPointsComparison : exerciseAverageMaxPointsComparisonList) {
-      if (exerciseAverageMaxPointsComparison.getTitle().equals("AES-CBC Disk Encryption")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 1D);
-      } else if (exerciseAverageMaxPointsComparison.getTitle()
-          .equals("XTS-AES Speicherplatz Ausnutzung")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 5D);
-      } else if (exerciseAverageMaxPointsComparison.getTitle().equals("XTS-AES Verschiebung")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 0D);
-      } else {
-        Assert.fail("unknown ExerciseAverageMaxPointsComparison in list: "
-            + exerciseAverageMaxPointsComparison.getTitle());
-      }
-    }
+
+    Collections.sort(exerciseAverageMaxPointsComparisonList);
+    // AES-CBC Disk Encryption
+    testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparisonList.get(0), 5D, 1D);
+    // XTS-AES Speicherplatz Ausnutzung
+    testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparisonList.get(1), 5D, 5D);
+    // XTS-AES Verschiebung
+    testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparisonList.get(2), 5D, 0D);
   }
 
   @Test(expected = NotFoundException.class)

@@ -66,7 +66,7 @@ public final class ExerciseParticipationController implements Controller {
     model.put("exam", examService.getExam(examId));
     model.put("exerciseParticipantsOverview",
         exerciseSolutionService.getExerciseParticipantsOverview(exerciseId));
-    return engine.render(model, "views/exerciseParticipationsTab.ftl");
+    return engine.render(model, "views/exerciseParticipationsTab.ftlh");
   }
 
   /**

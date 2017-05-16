@@ -11,6 +11,7 @@ import ch.examibur.service.model.ExamParticipantOverview;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -56,23 +57,15 @@ public class ExamParticipationServiceImplTest {
     List<ExamParticipantOverview> examParticipantOverviewList = examParticipationService
         .getExamParticipantsOverview(4);
     Assert.assertEquals(3, examParticipantOverviewList.size());
-    for (ExamParticipantOverview examParticipantOverview : examParticipantOverviewList) {
-      if (examParticipantOverview.getExamParticipation().getPseudonym()
-          .equals("Anonymes Einhorn")) { // ParticipantionId: 1
-        testExamParticipantOverview(examParticipantOverview, 4, 4.33, 3d, SUM_EXAM_GRADINGS_EXAM_4,
-            "100.00%");
-      } else if (examParticipantOverview.getExamParticipation().getPseudonym()
-          .equals("Anonyme Gazelle")) { // ParticipantionId: 2
-        testExamParticipantOverview(examParticipantOverview, 3, 3.5, 2d, SUM_EXAM_GRADINGS_EXAM_4,
-            "66.67%");
-      } else if (examParticipantOverview.getExamParticipation().getPseudonym()
-          .equals("Anonymes Zebra")) { // ParticipantionId: 3
-        testExamParticipantOverview(examParticipantOverview, 5, 5.17, 1d, SUM_EXAM_GRADINGS_EXAM_4,
-            "33.33%");
-      } else {
-        Assert.fail("unknown participant in exam participation list");
-      }
-    }
+
+    Collections.sort(examParticipantOverviewList, (ep1, ep2) -> Long
+        .compare(ep2.getExamParticipation().getId(), ep1.getExamParticipation().getId()));
+    testExamParticipantOverview(examParticipantOverviewList.get(0), 4, 4.33, 3d,
+        SUM_EXAM_GRADINGS_EXAM_4, "100.00%"); // ParticipantionId: 1 (Anonymes Einhorn)
+    testExamParticipantOverview(examParticipantOverviewList.get(1), 3, 3.5, 2d,
+        SUM_EXAM_GRADINGS_EXAM_4, "66.67%"); // ParticipantionId: 2 (Anonyme Gazelle)
+    testExamParticipantOverview(examParticipantOverviewList.get(2), 5, 5.17, 1d,
+        SUM_EXAM_GRADINGS_EXAM_4, "33.33%"); // ParticipantionId: 3 (Anonymes Zebra)
   }
 
   @Test

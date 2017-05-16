@@ -101,16 +101,9 @@ public class ExerciseSolutionServiceImplTest {
     Assert.assertNotNull(overviews);
     Assert.assertEquals(3, overviews.size());
 
-    for (ExerciseSolutionOverview overview : overviews) {
-      Assert.assertNotNull(overview.getExerciseSolution());
-      if (overview.getExerciseSolution().getId() == 37L) {
-        Assert.assertEquals(3.0, overview.getPoints().get(), 0.01);
-      } else if (overview.getExerciseSolution().getId() == 38L) {
-        Assert.assertEquals(5.0, overview.getPoints().get(), 0.01);
-      } else if (overview.getExerciseSolution().getId() == 39L) {
-        Assert.assertEquals(0.0, overview.getPoints().get(), 0.01);
-      }
-    }
+    Assert.assertEquals(3.0, overviews.get(0).getPoints().get(), 0.01); // ExerciseSolutionId: 37
+    Assert.assertEquals(5.0, overviews.get(1).getPoints().get(), 0.01); // ExerciseSolutionId: 38
+    Assert.assertEquals(0.0, overviews.get(2).getPoints().get(), 0.01); // ExerciseSolutionId: 39
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -170,19 +163,13 @@ public class ExerciseSolutionServiceImplTest {
     List<ExerciseParticipantOverview> exerciseParticipantsOverview = exerciseSolutionService
         .getExerciseParticipantsOverview(8);
     Assert.assertEquals(3, exerciseParticipantsOverview.size());
-    for (ExerciseParticipantOverview exerciseParticipantOverview : exerciseParticipantsOverview) {
-      String pseudonym = exerciseParticipantOverview.getExerciseSolution().getParticipation()
-          .getPseudonym();
-      if (pseudonym.equals("Anonymer Löwe")) {
-        testExerciseParticipantOverview(exerciseParticipantOverview, 9D, Optional.of(5.5D), false);
-      } else if (pseudonym.equals("Anonymes Lama")) {
-        testExerciseParticipantOverview(exerciseParticipantOverview, 6D, Optional.of(4D), false);
-      } else if (pseudonym.equals("Anonymes Pony")) {
-        testExerciseParticipantOverview(exerciseParticipantOverview, 8D, Optional.of(5D), false);
-      } else {
-        Assert.fail("unknown ExerciseParticipantOverview in list: " + pseudonym);
-      }
-    }
+
+    testExerciseParticipantOverview(exerciseParticipantsOverview.get(0), 9D, Optional.of(5.5D),
+        false); // Anonymer Löwe
+    testExerciseParticipantOverview(exerciseParticipantsOverview.get(1), 6D, Optional.of(4D),
+        false); // Anonymes Lama
+    testExerciseParticipantOverview(exerciseParticipantsOverview.get(2), 8D, Optional.of(5D),
+        false); // Anonymes Pony
   }
 
   @Test
@@ -190,19 +177,13 @@ public class ExerciseSolutionServiceImplTest {
     List<ExerciseParticipantOverview> exerciseParticipantsOverview = exerciseSolutionService
         .getExerciseParticipantsOverview(17);
     Assert.assertEquals(3, exerciseParticipantsOverview.size());
-    for (ExerciseParticipantOverview exerciseParticipantOverview : exerciseParticipantsOverview) {
-      String pseudonym = exerciseParticipantOverview.getExerciseSolution().getParticipation()
-          .getPseudonym();
-      if (pseudonym.equals("Anonymer Panda")) {
-        testExerciseParticipantOverview(exerciseParticipantOverview, 5D, Optional.of(2.67D), true);
-      } else if (pseudonym.equals("Anonymer Elefant")) {
-        testExerciseParticipantOverview(exerciseParticipantOverview, 0D, Optional.empty(), false);
-      } else if (pseudonym.equals("Anonymer Flamingo")) {
-        testExerciseParticipantOverview(exerciseParticipantOverview, 2D, Optional.empty(), false);
-      } else {
-        Assert.fail("unknown ExerciseParticipantOverview in list: " + pseudonym);
-      }
-    }
+
+    testExerciseParticipantOverview(exerciseParticipantsOverview.get(0), 5D, Optional.of(2.67D),
+        true); // Anonymer Panda
+    testExerciseParticipantOverview(exerciseParticipantsOverview.get(1), 0D, Optional.empty(),
+        false); // Anonymer Elefant
+    testExerciseParticipantOverview(exerciseParticipantsOverview.get(2), 2D, Optional.empty(),
+        false); // Anonymer Flamingo
   }
 
   private void testExerciseParticipantOverview(
