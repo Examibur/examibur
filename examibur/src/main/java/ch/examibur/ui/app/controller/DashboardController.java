@@ -52,7 +52,7 @@ public class DashboardController implements Controller {
     model.put("exams", examService.getExamsForAuthor(user.getId()));
     model.put("reviews", examService.getExamsForAuthor(user.getId(), ExamState.REVIEW));
     model.put("corrections", examService.getExamsForAuthor(user.getId(), ExamState.CORRECTION));
-    return engine.render(model, "views/dashboardView.ftl");
+    return engine.render(model, "views/dashboardView.ftlh");
   }
 
   /**

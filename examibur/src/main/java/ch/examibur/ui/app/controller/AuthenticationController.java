@@ -30,7 +30,7 @@ public class AuthenticationController implements Controller {
 
   public String displayLoginForm(Request request, Response response) throws ExamiburException {
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
-    return engine.render(model, "views/loginView.ftl");
+    return engine.render(model, "views/loginView.ftlh");
   }
 
   /**
