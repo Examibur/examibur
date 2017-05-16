@@ -1,4 +1,4 @@
-<#include "../templates/bodyTemplate.ftl">
+<#include "../templates/bodyTemplate.ftlh">
 
 <#macro body_main>
 	<header>

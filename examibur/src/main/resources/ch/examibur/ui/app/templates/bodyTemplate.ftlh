@@ -1,4 +1,4 @@
-<#include "baseTemplate.ftl">
+<#include "baseTemplate.ftlh">
 
 <#macro body_header_navigation>
 	<ol class="breadcrumb">

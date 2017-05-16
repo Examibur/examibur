@@ -361,6 +361,27 @@ public class UiTest {
     assertScreenshots();
   }
 
+  @Test
+  public void testXssVulnerability() {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/50";
+    getDriver().get(testUrl);
+
+    String xssDivId = "xss-test";
+    String xssTest = "<script>var div = document.createElement('div'); div.id = '" + xssDivId
+        + "'; document.body.appendChild(div);</script>";
+
+    getDriver().findElement(By.id("points-addgrading")).sendKeys("1");
+    getDriver().findElement(By.id("comment-addgrading")).sendKeys(xssTest);
+    getDriver().findElement(By.id("reasoning-addgrading")).sendKeys(xssTest);
+    getDriver().findElement(By.id("submit-addgrading")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("grading-panel")));
+
+    Assert.assertTrue("XSS possible!", getDriver().findElements(By.id(xssDivId)).isEmpty());
+  }
+
   private void login(String username) {
     login(username, true);
   }

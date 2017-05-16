@@ -1,6 +1,6 @@
-<#include "../templates/bodyTemplate.ftl">
-<#include "../includes/examListComponent.ftl">
-<#include "../includes/examQuickLinkComponent.ftl">
+<#include "../templates/bodyTemplate.ftlh">
+<#include "../includes/examListComponent.ftlh">
+<#include "../includes/examQuickLinkComponent.ftlh">
 
 <#macro body_main>
 	<header>

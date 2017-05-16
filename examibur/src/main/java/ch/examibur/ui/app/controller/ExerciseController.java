@@ -63,7 +63,7 @@ public class ExerciseController implements Controller {
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
     model.put("exercise", exerciseService.getExercise(exerciseId));
-    return engine.render(model, "views/exerciseOverviewTab.ftl");
+    return engine.render(model, "views/exerciseOverviewTab.ftlh");
   }
 
   /**
@@ -86,7 +86,7 @@ public class ExerciseController implements Controller {
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
     model.put("exercises", exerciseService.getExercises(examId));
-    return engine.render(model, "views/examExercisesTab.ftl");
+    return engine.render(model, "views/examExercisesTab.ftlh");
   }
 
   /**
