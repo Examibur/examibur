@@ -10,7 +10,7 @@ docker run --rm -i \
     -v "${REPO_BASE}/examibur":/src/:z \
     -v examibur_int_userhome_gradle:/home/examibur/.gradle/ \
     --user examibur \
-    -e UI_TEST_URL=http://tomcat:8080/ \
+    -e UI_TEST_URL=http://tomcat:8080 \
     -e DB_HOST=postgres \
     -e DB_USER=examibur \
     -e DB_PASSWORD=m4U6ctWpEZE801T \

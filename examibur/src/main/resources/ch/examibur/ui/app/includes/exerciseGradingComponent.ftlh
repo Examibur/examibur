@@ -1,6 +1,6 @@
 <#macro exercise_grading grading exerciseSolution examState isReview>
 	<div class="col-md-6">
-		<div class="panel panel-default" id="grading-panel">
+		<div class="panel panel-default" id="<#if isReview == true>review<#else>grading</#if>-panel">
 			<div class="panel-heading">
 				<strong>${grading.gradingAuthor.firstName} ${grading.gradingAuthor.lastName}</strong>
 				<#if isReview == true>reviewte<#else>bewertete</#if> am ${grading.creationDate}

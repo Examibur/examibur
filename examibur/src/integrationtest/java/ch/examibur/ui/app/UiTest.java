@@ -4,6 +4,8 @@ import static ch.examibur.ui.app.util.ScreenshotUtil.assertScreenshots;
 import static ch.examibur.ui.app.util.ScreenshotUtil.getDriver;
 
 import ch.examibur.business.DatabaseResource;
+import ch.examibur.ui.app.routing.BrowseSolutionsValue;
+import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.util.RandomBlockJUnit4ClassRunner;
 import java.io.IOException;
 import org.junit.After;
@@ -67,22 +69,22 @@ public class UiTest {
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
-      return getDriver().getCurrentUrl().equals(TEST_URL + "login/");
+      return getDriver().getCurrentUrl().equals(TEST_URL + RouteBuilder.toLogin());
     });
   }
 
   @Test
   public void testLoginRef() throws IOException {
-    getDriver().get(TEST_URL + "/exams/2/");
-    Assert.assertEquals(TEST_URL + "login/?ref=/exams/2/", getDriver().getCurrentUrl());
+    getDriver().get(TEST_URL + RouteBuilder.toExam(2));
+    Assert.assertEquals(TEST_URL + "/login/?ref=/exams/2/", getDriver().getCurrentUrl());
     login(USER_JUERGEN_KOENIG, false);
-    Assert.assertEquals(TEST_URL + "exams/2/", getDriver().getCurrentUrl());
+    Assert.assertEquals(TEST_URL + RouteBuilder.toExam(2), getDriver().getCurrentUrl());
   }
 
   @Test
   public void testExamInformationTabUi() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/1/";
+    final String testUrl = TEST_URL + RouteBuilder.toExam(1);
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -90,7 +92,7 @@ public class UiTest {
   @Test
   public void testExamReportTabUi() throws IOException, InterruptedException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/7/reports";
+    final String testUrl = TEST_URL + RouteBuilder.toReports(7);
     getDriver().get(testUrl);
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
@@ -104,7 +106,7 @@ public class UiTest {
   @Test
   public void testExamReportTabUiReportRetrievalNotPossible() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/2/reports";
+    final String testUrl = TEST_URL + RouteBuilder.toReports(2);
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -112,7 +114,7 @@ public class UiTest {
   @Test
   public void testExamReportTabUiMissingGradings() throws IOException, InterruptedException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/reports";
+    final String testUrl = TEST_URL + RouteBuilder.toReports(8);
     getDriver().get(testUrl);
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
@@ -126,7 +128,7 @@ public class UiTest {
   @Test
   public void testExamParticipationsTab() {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/7/participants";
+    final String testUrl = TEST_URL + RouteBuilder.toExamParticipations(7);
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -134,7 +136,7 @@ public class UiTest {
   @Test
   public void testExamParticipationsTabMissingGradings() {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/participants";
+    final String testUrl = TEST_URL + RouteBuilder.toExamParticipations(8);
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -142,7 +144,7 @@ public class UiTest {
   @Test
   public void testExerciseSolutionUiInApprovalWithApprovalPending() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/4/participants/4/solutions/10";
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(4, 4, 10, null);
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -150,7 +152,7 @@ public class UiTest {
   @Test
   public void testExerciseSolutionUiInReviewWithoutReview() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/5/participants/7/solutions/19";
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(5, 7, 19, null);
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -158,7 +160,7 @@ public class UiTest {
   @Test
   public void testExerciseSolutionUiInReviewWithReview() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/5/participants/7/solutions/21";
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(5, 7, 21, null);
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -166,7 +168,7 @@ public class UiTest {
   @Test
   public void testExerciseSolutionUiInCorrectionWithGrading() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/7/participants/13/solutions/37";
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(7, 13, 37, null);
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -174,7 +176,7 @@ public class UiTest {
   @Test
   public void testExerciseSolutionUiInCorrectionWithoutGrading() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/49";
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 49, null);
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -182,7 +184,7 @@ public class UiTest {
   @Test
   public void testExamsList() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams";
+    final String testUrl = TEST_URL + RouteBuilder.toExams();
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -190,7 +192,7 @@ public class UiTest {
   @Test
   public void testAddGradingToExerciseSolution() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/50";
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 50, null);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("points-addgrading")).sendKeys("1");
     getDriver().findElement(By.id("comment-addgrading"))
@@ -207,7 +209,7 @@ public class UiTest {
   @Test
   public void testAddReviewToExerciseSolution() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/6/participants/12/solutions/35";
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(6, 12, 35, null);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("points-addgrading")).sendKeys("0");
     getDriver().findElement(By.id("comment-addgrading")).sendKeys("");
@@ -223,7 +225,7 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByExercise() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/51";
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, null);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("browse-solutions")).click();
 
@@ -237,7 +239,8 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByExerciseQueryNext() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/51/?browse=exercise";
+    final String testUrl = TEST_URL
+        + RouteBuilder.toExerciseSolution(8, 17, 51, BrowseSolutionsValue.BY_EXERCISE);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
@@ -251,7 +254,8 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByExerciseQueryLast() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/participants/18/solutions/54/?browse=exercise";
+    final String testUrl = TEST_URL
+        + RouteBuilder.toExerciseSolution(8, 18, 54, BrowseSolutionsValue.BY_EXERCISE);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
@@ -265,7 +269,8 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByParticipationQueryNext() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/participants/18/solutions/53/?browse=participation";
+    final String testUrl = TEST_URL
+        + RouteBuilder.toExerciseSolution(8, 18, 53, BrowseSolutionsValue.BY_PARTICIPATION);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
@@ -279,7 +284,8 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByParticipationQueryLast() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/54/?browse=participation";
+    final String testUrl = TEST_URL
+        + RouteBuilder.toExerciseSolution(8, 17, 54, BrowseSolutionsValue.BY_PARTICIPATION);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
@@ -293,8 +299,8 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionWithWrongParameter() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL
-        + "/exams/8/participants/17/solutions/51/?browse=wrong&querynext=";
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, null)
+        + "?browse=wrong&querynext=";
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -302,7 +308,7 @@ public class UiTest {
   @Test
   public void testQueryFirstExerciseSolutionByParticipation() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions";
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolutions(8, 17);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
@@ -316,7 +322,8 @@ public class UiTest {
   @Test
   public void testQueryFirstExerciseSolutionWithWrongParameter() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/?browse=wrong&querynext=";
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolutions(8, 17)
+        + "?browse=wrong&querynext=";
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -324,7 +331,7 @@ public class UiTest {
   @Test
   public void testExamParticipationExercisesUi() {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + "/exams/5/participants/7/solutions/";
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolutions(5, 7);
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -332,7 +339,7 @@ public class UiTest {
   @Test
   public void testExamParticipationExercisesUiInCorrection() {
     login(USER_STEFAN_BOEHM);
-    final String testUrl = TEST_URL + "/exams/8/participants/17/solutions/";
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolutions(8, 17);
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -364,7 +371,7 @@ public class UiTest {
 
   private void login(String username, boolean goExplicitToLoginPage) {
     if (goExplicitToLoginPage) {
-      getDriver().get(TEST_URL + "/login/");
+      getDriver().get(TEST_URL + RouteBuilder.toLogin());
     }
     getDriver().findElement(By.id("username-login")).sendKeys(username);
     getDriver().findElement(By.id("password-login")).sendKeys("***");
@@ -373,7 +380,7 @@ public class UiTest {
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
       Cookie cookie = x.manage().getCookieNamed("authentication-token");
-      return cookie != null && !getDriver().getCurrentUrl().contains("/login/");
+      return cookie != null && !getDriver().getCurrentUrl().contains(RouteBuilder.toLogin());
     });
 
   }
