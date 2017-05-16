@@ -1,14 +1,21 @@
 package ch.examibur.integration.exercisesolution;
 
 import ch.examibur.domain.ExamParticipation;
+import ch.examibur.domain.Exercise;
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidParameterException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseSolutionDaoImpl.class);
 
   private final Provider<EntityManager> entityManagerProvider;
 
@@ -53,57 +60,89 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
   }
 
   @Override
-  public ExerciseSolution getFirstExerciseSolutionFromParticipation(long participationId) {
-    return getNextExerciseSolutionFromParticipation(participationId, 0);
+  public ExerciseSolution getFirstExerciseSolution(BrowseSolutionsMode mode, long resourceId)
+      throws ExamiburException {
+    switch (mode) {
+      case BY_EXERCISE:
+        return getNextExerciseSolutionByExercise(0, resourceId);
+      case BY_EXERCISES:
+        Exercise exercise = getExerciseById(resourceId);
+        return getNextExerciseSolutionByExercises(exercise.getExam().getId(), resourceId);
+      case BY_PARTICIPATION:
+        return getNextExerciseSolutionByParticipation(resourceId, 0);
+      case BY_PARTICIPATIONS:
+        ExamParticipation participation = getExamParticipationById(resourceId);
+        return getNextExerciseSolutionByParticipations(participation.getExam().getId(), resourceId);
+      default:
+        InvalidParameterException invalidParameterException = new InvalidParameterException(
+            "BrowseSolutionsMode with value '" + mode.toString() + "' is not defined");
+        LOGGER.error(invalidParameterException.getMessage(), invalidParameterException);
+        throw invalidParameterException;
+    }
+  }
+
+  private ExamParticipation getExamParticipationById(long participationId) {
+    // TODO auslagern (siehe ExamReportDaoImpl)
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      TypedQuery<ExamParticipation> participationQuery = entityManager.createQuery(
+          "SELECT p FROM ExamParticipation p WHERE p.id = :participationId",
+          ExamParticipation.class);
+      return participationQuery.setParameter("participationId", participationId).getSingleResult();
+    } finally {
+      entityManager.close();
+    }
+  }
+
+  private Exercise getExerciseById(long exerciseId) {
+    // TODO auslagern (siehe ExamReportDaoImpl)
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      TypedQuery<Exercise> exerciseQuery = entityManager
+          .createQuery("SELECT e FROM Exercise e WHERE e.id = :exerciseId", Exercise.class);
+      return exerciseQuery.setParameter("exerciseId", exerciseId).getSingleResult();
+    } finally {
+      entityManager.close();
+    }
   }
 
   @Override
-  public ExerciseSolution getFirstExerciseSolutionFromExercise(long exerciseId) {
-    return getExerciseSolutionFromNextParticipation(0, exerciseId);
-  }
-
-  @Override
-  public ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId) {
+  public ExerciseSolution getNextExerciseSolution(BrowseSolutionsMode mode,
+      long currentExerciseSolutionId) throws ExamiburException {
     ExerciseSolution currentExerciseSolution = getExerciseSolution(currentExerciseSolutionId);
-    return getExerciseSolutionFromNextParticipation(
-        currentExerciseSolution.getParticipation().getId(),
-        currentExerciseSolution.getExercise().getId());
+    switch (mode) {
+      case BY_EXERCISE:
+        return getNextExerciseSolutionByExercise(currentExerciseSolution.getParticipation().getId(),
+            currentExerciseSolution.getExercise().getId());
+      case BY_EXERCISES:
+        return getNextExerciseSolutionByExercises(
+            currentExerciseSolution.getParticipation().getExam().getId(),
+            currentExerciseSolution.getExercise().getId());
+      case BY_PARTICIPATION:
+        return getNextExerciseSolutionByParticipation(
+            currentExerciseSolution.getParticipation().getId(),
+            currentExerciseSolution.getExercise().getId());
+      case BY_PARTICIPATIONS:
+        return getNextExerciseSolutionByParticipations(
+            currentExerciseSolution.getParticipation().getExam().getId(),
+            currentExerciseSolution.getParticipation().getId());
+      default:
+        InvalidParameterException invalidParameterException = new InvalidParameterException(
+            "BrowseSolutionsMode with value '" + mode.toString() + "' is not defined");
+        LOGGER.error(invalidParameterException.getMessage(), invalidParameterException);
+        throw invalidParameterException;
+    }
   }
 
-  @Override
-  public ExerciseSolution getNextExerciseSolutionFromParticipation(long currentExerciseSolutionId) {
-    ExerciseSolution currentExerciseSolution = getExerciseSolution(currentExerciseSolutionId);
-    return getNextExerciseSolutionFromParticipation(
-        currentExerciseSolution.getParticipation().getId(),
-        currentExerciseSolution.getExercise().getId());
-  }
-
-  private ExerciseSolution getExerciseSolutionFromNextParticipation(long participationId,
-      long exerciseId) {
-    String query = "SELECT e FROM ExerciseSolution e WHERE e.isDone = false "
-        + "AND e.exercise.id = :exerciseId "
-        + "AND e.participation.id > :participationId ORDER BY e.participation.id";
-    return getNextExerciseSolution(participationId, exerciseId, query);
-  }
-
-  private ExerciseSolution getNextExerciseSolutionFromParticipation(long participationId,
-      long exerciseId) {
-    String query = "SELECT e FROM ExerciseSolution e WHERE e.isDone = false "
-        + "AND e.participation.id = :participationId "
-        + "AND e.exercise.id > :exerciseId ORDER BY e.exercise.id";
-    return getNextExerciseSolution(participationId, exerciseId, query);
-  }
-
-  private ExerciseSolution getNextExerciseSolution(long participationId, long exerciseId,
-      String query) {
+  private ExerciseSolution getNextExerciseSolution(long searchId, long filterId, String query) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
       TypedQuery<ExerciseSolution> nextExerciseSolutionQuery = entityManager.createQuery(query,
           ExerciseSolution.class);
       // can't use getSingleResult() because null should also be possible
       List<ExerciseSolution> resultList = nextExerciseSolutionQuery
-          .setParameter("exerciseId", exerciseId).setParameter("participationId", participationId)
-          .setMaxResults(1).getResultList();
+          .setParameter("searchId", searchId).setParameter("filterId", filterId).setMaxResults(1)
+          .getResultList();
       if (resultList.isEmpty()) {
         return null;
       }
@@ -113,4 +152,34 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
     }
   }
 
+  private ExerciseSolution getNextExerciseSolutionByExercise(long participationId,
+      long exerciseId) {
+    String query = "SELECT e FROM ExerciseSolution e WHERE e.isDone = false "
+        + "AND e.exercise.id = :searchId "
+        + "AND e.participation.id > :filterId ORDER BY e.participation.id";
+    return getNextExerciseSolution(exerciseId, participationId, query);
+  }
+
+  private ExerciseSolution getNextExerciseSolutionByExercises(long examId, long exerciseId) {
+    String query = "SELECT e FROM ExerciseSolution e WHERE e.isDone = false "
+        + "AND e.participation.exam.id = :searchId AND e.exercise.id >= :filterId "
+        + "ORDER BY e.exercise.id, e.participation.id";
+    return getNextExerciseSolution(examId, exerciseId, query);
+  }
+
+  private ExerciseSolution getNextExerciseSolutionByParticipation(long participationId,
+      long exerciseId) {
+    String query = "SELECT e FROM ExerciseSolution e WHERE e.isDone = false "
+        + "AND e.participation.id = :searchId "
+        + "AND e.exercise.id > :filterId ORDER BY e.exercise.id";
+    return getNextExerciseSolution(participationId, exerciseId, query);
+  }
+
+  private ExerciseSolution getNextExerciseSolutionByParticipations(long examId,
+      long participationId) {
+    String query = "SELECT e FROM ExerciseSolution e WHERE e.isDone = false "
+        + "AND e.participation.exam.id = :searchId AND e.participation.id >= :filterId "
+        + "ORDER BY e.participation.id, e.exercise.id";
+    return getNextExerciseSolution(examId, participationId, query);
+  }
 }

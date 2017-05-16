@@ -1,6 +1,7 @@
 package ch.examibur.ui.app.controller;
 
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
 import ch.examibur.service.ExamParticipationService;
 import ch.examibur.service.ExerciseGradingService;
 import ch.examibur.service.ExerciseSolutionService;
@@ -100,10 +101,9 @@ public class ExerciseSolutionController implements Controller {
 
   private ExerciseSolution getNextExerciseSolution(long exerciseSolutionId, String paramBrowse)
       throws ExamiburException {
-    if (paramBrowse.equals(BrowseSolutionsValue.BY_EXERCISE.toString())) {
-      return exerciseSolutionService.getExerciseSolutionFromNextParticipation(exerciseSolutionId);
-    } else if (paramBrowse.equals(BrowseSolutionsValue.BY_PARTICIPATION.toString())) {
-      return exerciseSolutionService.getNextExerciseSolutionFromParticipation(exerciseSolutionId);
+    BrowseSolutionsMode browseMode = BrowseSolutionsMode.forName(paramBrowse);
+    if (browseMode != null) {
+      return exerciseSolutionService.getNextExerciseSolution(browseMode, exerciseSolutionId);
     } else {
       InvalidParameterException invalidParameterException = new InvalidParameterException(
           "Query parameter '" + QueryParameter.BROWSE_SOLUTIONS.toString() + "' with value '"
@@ -115,10 +115,9 @@ public class ExerciseSolutionController implements Controller {
 
   private ExerciseSolution getFirstExerciseSolution(long resourceId, String paramBrowse)
       throws ExamiburException {
-    if (paramBrowse.equals(BrowseSolutionsValue.BY_EXERCISE.toString())) {
-      return exerciseSolutionService.getFirstExerciseSolutionFromExercise(resourceId);
-    } else if (paramBrowse.equals(BrowseSolutionsValue.BY_PARTICIPATION.toString())) {
-      return exerciseSolutionService.getFirstExerciseSolutionFromParticipation(resourceId);
+    BrowseSolutionsMode browseMode = BrowseSolutionsMode.forName(paramBrowse);
+    if (browseMode != null) {
+      return exerciseSolutionService.getFirstExerciseSolution(browseMode, resourceId);
     } else {
       InvalidParameterException invalidParameterException = new InvalidParameterException(
           "Query parameter '" + QueryParameter.BROWSE_SOLUTIONS.toString() + "' with value '"

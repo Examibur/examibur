@@ -3,6 +3,7 @@ package ch.examibur.business.service;
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
+import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
 import ch.examibur.integration.exercisesolution.ExerciseSolutionDao;
 import ch.examibur.service.ExerciseSolutionService;
 import ch.examibur.service.exception.ExamiburException;
@@ -12,7 +13,6 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,52 +73,33 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
   }
 
   @Override
-  public ExerciseSolution getFirstExerciseSolutionFromParticipation(long participationId)
+  public ExerciseSolution getFirstExerciseSolution(BrowseSolutionsMode mode, long resourceId)
       throws ExamiburException {
-    LOGGER.info("Get the first ExerciseSolution of a Participation (ParticipationId {})",
-        participationId);
-
-    return getNextExerciseSolution(participationId,
-        exerciseSolutionDao::getFirstExerciseSolutionFromParticipation);
-  }
-
-  @Override
-  public ExerciseSolution getFirstExerciseSolutionFromExercise(long exerciseId)
-      throws ExamiburException {
-    LOGGER.info("Get the first ExerciseSolution of an Exercise (ExerciseId {})", exerciseId);
-
-    return getNextExerciseSolution(exerciseId,
-        exerciseSolutionDao::getFirstExerciseSolutionFromExercise);
-  }
-
-  @Override
-  public ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId)
-      throws ExamiburException {
-    LOGGER.info("Get ExerciseSolution of the same Exercise from the next Participation "
-        + "(current ExerciseSolutionId {})", currentExerciseSolutionId);
-
-    return getNextExerciseSolution(currentExerciseSolutionId,
-        exerciseSolutionDao::getExerciseSolutionFromNextParticipation);
-  }
-
-  @Override
-  public ExerciseSolution getNextExerciseSolutionFromParticipation(long currentExerciseSolutionId)
-      throws ExamiburException {
-    LOGGER.info("Get ExerciseSolution of the next Exercise from the same Participation "
-        + "(current ExerciseSolutionId {})", currentExerciseSolutionId);
-
-    return getNextExerciseSolution(currentExerciseSolutionId,
-        exerciseSolutionDao::getNextExerciseSolutionFromParticipation);
-  }
-
-  private ExerciseSolution getNextExerciseSolution(long resourceId,
-      Function<Long, ExerciseSolution> queryFunction) throws ExamiburException {
     ValidationHelper.checkForNegativeId(resourceId, LOGGER);
+    ValidationHelper.checkForNullValue(mode, LOGGER);
+    LOGGER.info("Get the first ExerciseSolution by {} (Id = {})", mode.toString(), resourceId);
     try {
-      return queryFunction.apply(resourceId);
+      return exerciseSolutionDao.getFirstExerciseSolution(mode, resourceId);
     } catch (NoResultException ex) {
       NotFoundException notFoundException = new NotFoundException(
           "ExerciseSolution with id " + resourceId + " not found", ex);
+      LOGGER.error(notFoundException.getMessage(), notFoundException);
+      throw notFoundException;
+    }
+  }
+
+  @Override
+  public ExerciseSolution getNextExerciseSolution(BrowseSolutionsMode mode,
+      long currentExerciseSolutionId) throws ExamiburException {
+    ValidationHelper.checkForNegativeId(currentExerciseSolutionId, LOGGER);
+    ValidationHelper.checkForNullValue(mode, LOGGER);
+    LOGGER.info("Get the next ExerciseSolution by {} (current ExerciseSolutionId = {})",
+        mode.toString(), currentExerciseSolutionId);
+    try {
+      return exerciseSolutionDao.getNextExerciseSolution(mode, currentExerciseSolutionId);
+    } catch (NoResultException ex) {
+      NotFoundException notFoundException = new NotFoundException(
+          "ExerciseSolution with id " + currentExerciseSolutionId + " not found", ex);
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
     }

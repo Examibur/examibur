@@ -1,8 +1,8 @@
 package ch.examibur.integration.exercisesolution;
 
 import ch.examibur.domain.ExamParticipation;
-import ch.examibur.domain.Exercise;
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.service.exception.ExamiburException;
 import java.util.List;
 import javax.persistence.NoResultException;
 
@@ -25,38 +25,30 @@ public interface ExerciseSolutionDao {
   List<ExerciseSolution> getExerciseSolutionsForExamParticipation(long examParticipationId);
 
   /**
-   * @param participationId
-   *          the id of the {@link ExamParticipation}.
-   * @return the first {@link ExerciseSolution} of the given {@link ExamParticipation} ordered by
-   *         exerciseId.
+   * @param mode
+   *          the {@link BrowseSolutionsMode} in which the new {@link ExerciseSolution} should be
+   *          queried.
+   * @param resourceId
+   *          the id of the current resource (BY_EXERCISE(S) => exerciseId, BY_PARTICIPATION(S) =>
+   *          participationId). If the record is not found, a {@link NoResultException} is thrown.
+   * @return the first unprocessed {@link ExerciseSolution} according to the given
+   *         {@link BrowseSolutionsMode}. If the last exerciseSolution is reached, null will be
+   *         returned.
    */
-  ExerciseSolution getFirstExerciseSolutionFromParticipation(long participationId);
+  ExerciseSolution getFirstExerciseSolution(BrowseSolutionsMode mode, long resourceId)
+      throws ExamiburException;
 
   /**
-   * @param exerciseId
-   *          the id of the {@link Exercise}.
-   * @return the first {@link ExerciseSolution} of the given {@link Exercise} ordered by
-   *         participationId.
-   */
-  ExerciseSolution getFirstExerciseSolutionFromExercise(long exerciseId);
-
-  /**
+   * @param mode
+   *          the {@link BrowseSolutionsMode} in which the new {@link ExerciseSolution} should be
+   *          queried.
    * @param currentExerciseSolutionId
    *          the id of the current {@link ExerciseSolution}. If the record is not found, a
    *          {@link NoResultException} is thrown.
-   * @return the {@link ExerciseSolution} of the same {@link Exercise} from the next
-   *         {@link ExamParticipation} ordered by participationId. If the last exerciseSolution is
-   *         reached, null will be returned.
+   * @return the next unprocessed {@link ExerciseSolution} according to the given
+   *         {@link BrowseSolutionsMode}. If the last exerciseSolution is reached, null will be
+   *         returned.
    */
-  ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId);
-
-  /**
-   * @param currentExerciseSolutionId
-   *          the id of the current {@link ExerciseSolution}. If the record is not found, a
-   *          {@link NoResultException} is thrown.
-   * @return the {@link ExerciseSolution} of the next {@link Exercise} within the same
-   *         {@link ExamParticipation} ordered by exerciseId. If the last exerciseSolution is
-   *         reached, null will be returned.
-   */
-  ExerciseSolution getNextExerciseSolutionFromParticipation(long currentExerciseSolutionId);
+  ExerciseSolution getNextExerciseSolution(BrowseSolutionsMode mode, long currentExerciseSolutionId)
+      throws ExamiburException;
 }
