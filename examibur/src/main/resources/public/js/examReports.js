@@ -1,6 +1,7 @@
-$(function() {
-	(function() {
-		jQuery.get('json/?report=passedparticipationcomparisonreport', function(data) {
+/*jslint browser: true*/
+window.jQuery(function() {
+	(function($, Highcharts) {
+		$.get('json/?report=passedparticipationcomparisonreport', function(data) {
 			Highcharts.chart('passedParticipationComparisonReport', {
 				chart: {
                     type: 'pie'
@@ -23,10 +24,10 @@ $(function() {
 					name : 'Bestanden und Durchgefallen im Vergleich',
 					data: [{
 			            name: 'bestanden',
-			            y: data['percentageOfSuccessfulParticipations']
+			            y: data.percentageOfSuccessfulParticipations
 			        }, {
 			            name: 'nicht bestanden',
-			            y: data['percentageOfUnsuccessfulParticipations']
+			            y: data.percentageOfUnsuccessfulParticipations
 			        }]
 				}]
 			});
@@ -46,9 +47,9 @@ $(function() {
                 }
 
                 var obj = dataToMap[key];
-                keys.push(obj['title']);
-                maxPoints.push(obj['maxPoints']);
-                averagePoints.push(obj['averagePoints']);
+                keys.push(obj.title);
+                maxPoints.push(obj.maxPoints);
+                averagePoints.push(obj.averagePoints);
             }
             return {
                 keys: keys,
@@ -57,7 +58,7 @@ $(function() {
             };
         }
         
-		jQuery.get('json/?report=exerciseaveragemaxpointscomparisonreport', function(data) {
+		$.get('json/?report=exerciseaveragemaxpointscomparisonreport', function(data) {
 			var mappedData = prepareExerciseAverageMaxPointsComparisonReportData(data);
 			Highcharts.chart('exerciseAverageMaxPointsComparisonReport', {
 				chart: {
@@ -70,7 +71,7 @@ $(function() {
 			    	pointFormat: '{series.name}: {point.y:.1f}'
 			    },
 			    xAxis: {
-			        categories: mappedData['keys']
+			        categories: mappedData.keys
 			    },
 			    yAxis: {
 			        min: 0,
@@ -80,10 +81,10 @@ $(function() {
 			    },
 			    series: [{
 			        name: 'Maximale Punktzahl',
-			        data: mappedData['maxPoints']
+			        data: mappedData.maxPoints
 			    }, {
 			        name: 'Durchschnittliche Punktzahl',
-			        data: mappedData['averagePoints']
+			        data: mappedData.averagePoints
 			    }]
 			});
 		}, 'json').fail(function() {
@@ -91,5 +92,5 @@ $(function() {
 		});
 		
 		
-	})();
+	})(window.jQuery, window.Highcharts);
 });

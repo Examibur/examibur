@@ -25,6 +25,11 @@ title: Projektverlauf
 # Sprint 5
 [Scrum Board](https://gitlab.com/engineering-projekt/examibur/milestones/17)
 
+[Rekapitulation](https://gitlab.com/engineering-projekt/examibur/issues/28)
+
+# Sprint 6
+[Scrum Board](https://gitlab.com/engineering-projekt/examibur/milestones/18)
+
 # Velocity
 <div id="velocityChart">
     <div class="alert alert-danger no-export">Keine Daten verfügbar!</div>
