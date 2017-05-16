@@ -35,7 +35,7 @@ public class ExceptionController implements Controller {
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     response.status(HttpStatus.INTERNAL_SERVER_ERROR_500);
-    response.body(engine.render(model, "errors/500.ftl"));
+    response.body(engine.render(model, "errors/500.ftlh"));
 
   }
 
@@ -50,7 +50,7 @@ public class ExceptionController implements Controller {
   public String handleNotFound(Request request, Response response) {
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     response.status(HttpStatus.NOT_FOUND_404);
-    return engine.render(model, "errors/404.ftl");
+    return engine.render(model, "errors/404.ftlh");
   }
 
   /**
@@ -67,7 +67,7 @@ public class ExceptionController implements Controller {
     LOGGER.debug("Returning 404 not found");
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     response.status(HttpStatus.NOT_FOUND_404);
-    response.body(engine.render(model, "errors/404.ftl"));
+    response.body(engine.render(model, "errors/404.ftlh"));
   }
 
   /**
@@ -84,7 +84,7 @@ public class ExceptionController implements Controller {
     LOGGER.debug("Returning 403 forbidden");
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     response.status(HttpStatus.FORBIDDEN_403);
-    response.body(engine.render(model, "errors/403.ftl"));
+    response.body(engine.render(model, "errors/403.ftlh"));
   }
 
 }

@@ -95,7 +95,7 @@ public class ExerciseSolutionController implements Controller {
     model.put("exerciseSolution", exerciseSolutionService.getExerciseSolution(exerciseSolutionId));
     model.put("grading", exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId));
     model.put("review", exerciseGradingService.getReviewForExerciseSolution(exerciseSolutionId));
-    return engine.render(model, "views/exerciseSolutionView.ftl");
+    return engine.render(model, "views/exerciseSolutionView.ftlh");
   }
 
   private ExerciseSolution getNextExerciseSolution(long exerciseSolutionId, String paramBrowse)
@@ -169,7 +169,7 @@ public class ExerciseSolutionController implements Controller {
     model.put("participation", examParticipationService.getExamParticipation(examParticipationId));
     model.put("exerciseSolutionOverviews",
         exerciseSolutionService.getExerciseSolutionsForExamParticipation(examParticipationId));
-    return engine.render(model, "views/examParticipationExerciseTab.ftl");
+    return engine.render(model, "views/examParticipationExerciseTab.ftlh");
   }
 
   /**
