@@ -11,16 +11,11 @@
 	
 	<div class="row">
 		<div class="pull-right">
-			<form method="get">
-				<#if browse??>
-					<input type="hidden" name="browse" value="${browse}">
-					<input type="hidden" name="querynext">
-					<button type="submit" class="btn btn-primary" id="querynext">Nächste Aufgabe</button>
-				<#else>
-					<input type="hidden" name="browse" value="exercise">
-					<button type="submit" class="btn btn-default" id="browse-solutions">Aufgabenweise korrigieren</button>
-				</#if>
-			</form>
+			<#if browse??>
+				<a class="btn btn-primary" href="?browse=${browse}&querynext=" role="button" id="querynext">Nächste Aufgabe</a>
+			<#else>
+				<a class="btn btn-default" href="?browse=exercise" role="button" id="browse-solutions">Aufgabenweise korrigieren</a>
+			</#if>
 		</div>
 	</div>
 	

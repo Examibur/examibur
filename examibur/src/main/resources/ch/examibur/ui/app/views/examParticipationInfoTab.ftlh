@@ -6,7 +6,7 @@
 	</header>
 
 	<div class="top-navigation pull-right">
-		<button class="btn btn-default" type="submit">Teilnahme korrigieren</button>
+		<a class="btn btn-default" href="solutions/?browse=participation&querynext=" role="button" id="querynext">Teilnahme korrigieren</a>
 	</div>
 
 	<ul class="nav nav-tabs">
