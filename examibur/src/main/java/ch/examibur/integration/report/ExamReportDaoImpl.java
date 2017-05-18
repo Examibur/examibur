@@ -13,6 +13,7 @@ import ch.examibur.integration.util.grading.GradingUtil;
 import ch.examibur.integration.util.grading.strategy.BaseGradingStrategy;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -27,6 +28,8 @@ public class ExamReportDaoImpl implements ExamReportDao {
   private final ExamParticipationDao examParticipationDao;
   private final ExerciseDao exerciseDao;
   private final ExerciseGradingDao exerciseGradingDao;
+  private static final String NO_RESULT_MSG =
+      "No exam participations for exam {0} could be retrieved";
 
   /**
    * Constructor.
@@ -60,26 +63,26 @@ public class ExamReportDaoImpl implements ExamReportDao {
       double maxPoints = examDao.getMaxPoints(examId, entityManager);
       int passedParticipations = 0;
 
-      List<ExamParticipation> examParticipations = examParticipationDao
-          .getExamParticipations(examId, entityManager);
+      List<ExamParticipation> examParticipations =
+          examParticipationDao.getExamParticipations(examId, entityManager);
       if (examParticipations.isEmpty()) {
-        throw new NoResultException(
-            "No exam participations for exam  " + examId + " could be retrieved");
+        throw new NoResultException(MessageFormat.format(NO_RESULT_MSG, Long.toString(examId)));
       }
       for (ExamParticipation examParticipation : examParticipations) {
-        boolean areAllExercisesAreGraded = exerciseGradingDao.checkIfAllExercisesAreGraded(examId,
-            examParticipation.getId());
+        boolean areAllExercisesGraded =
+            exerciseGradingDao.checkIfAllExercisesAreGraded(examId, examParticipation.getId());
 
-        if (areAllExercisesAreGraded) {
-          double totalPoints = exerciseGradingDao
-              .getTotalPointsOfExamGradings(examParticipation.getId(), entityManager);
+        if (!areAllExercisesGraded) {
+          continue;
+        }
+        double totalPoints = exerciseGradingDao
+            .getTotalPointsOfExamGradings(examParticipation.getId(), entityManager);
 
-          double grading = GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints,
-              maxPoints);
+        double grading =
+            GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints, maxPoints);
 
-          if (grading >= MIN_GRADING) {
-            passedParticipations++;
-          }
+        if (grading >= MIN_GRADING) {
+          passedParticipations++;
         }
       }
       return new PassedParticipationComparison(passedParticipations, examParticipations.size());
@@ -93,19 +96,19 @@ public class ExamReportDaoImpl implements ExamReportDao {
       long examId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      List<ExerciseAverageMaxPointsComparison> exerciseAverageMaxPointsComparisonList = new ArrayList<>();
+      List<ExerciseAverageMaxPointsComparison> comparisonList = new ArrayList<>();
       List<Exercise> exercises = exerciseDao.getExercises(examId, entityManager);
       if (exercises.isEmpty()) {
-        throw new NoResultException("No exercises for exam  " + examId + " could be retrieved");
+        throw new NoResultException(MessageFormat.format(NO_RESULT_MSG, Long.toString(examId)));
       }
       for (Exercise exercise : exercises) {
         String title = exercise.getTitle();
-        double averagePoints = exerciseGradingDao.getAveragePointsOfExercise(exercise.getId(),
-            entityManager);
-        exerciseAverageMaxPointsComparisonList.add(
+        double averagePoints =
+            exerciseGradingDao.getAveragePointsOfExercise(exercise.getId(), entityManager);
+        comparisonList.add(
             new ExerciseAverageMaxPointsComparison(title, exercise.getMaxPoints(), averagePoints));
       }
-      return exerciseAverageMaxPointsComparisonList;
+      return comparisonList;
     } finally {
       entityManager.close();
     }
@@ -119,24 +122,23 @@ public class ExamReportDaoImpl implements ExamReportDao {
 
       List<Double> gradings = new ArrayList<>();
 
-      List<ExamParticipation> examParticipations = examParticipationDao
-          .getExamParticipations(examId, entityManager);
+      List<ExamParticipation> examParticipations =
+          examParticipationDao.getExamParticipations(examId, entityManager);
       if (examParticipations.isEmpty()) {
-        throw new NoResultException(
-            "No exam participations for exam  " + examId + " could be retrieved");
+        throw new NoResultException(MessageFormat.format(NO_RESULT_MSG, Long.toString(examId)));
       }
 
       int includedParticipations = 0;
       for (ExamParticipation examParticipation : examParticipations) {
-        boolean areAllExercisesAreGraded = exerciseGradingDao.checkIfAllExercisesAreGraded(examId,
-            examParticipation.getId());
+        boolean areAllExercisesAreGraded =
+            exerciseGradingDao.checkIfAllExercisesAreGraded(examId, examParticipation.getId());
 
         if (areAllExercisesAreGraded) {
           double totalPoints = exerciseGradingDao
               .getTotalPointsOfExamGradings(examParticipation.getId(), entityManager);
 
-          double grading = GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints,
-              maxPoints);
+          double grading =
+              GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints, maxPoints);
           gradings.add(grading);
           includedParticipations++;
         }
@@ -158,8 +160,8 @@ public class ExamReportDaoImpl implements ExamReportDao {
       if (exercises.isEmpty()) {
         return false;
       }
-      List<ExamParticipation> examParticipations = examParticipationDao
-          .getExamParticipations(examId, entityManager);
+      List<ExamParticipation> examParticipations =
+          examParticipationDao.getExamParticipations(examId, entityManager);
       if (examParticipations.isEmpty()) {
         return false;
       }

@@ -58,6 +58,20 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   }
 
   @Override
+  public double getTotalPointsOfExamGradings(long examParticipationId,
+      EntityManager entityManager) {
+
+    TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
+        .createQuery("SELECT COALESCE(SUM(eg.points), 0) FROM ExerciseGrading eg "
+            + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
+            + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
+            + "WHERE eg.isFinalGrading = true AND ep.id = :examParticipationId", Double.class);
+    return totalPointsOfExamGradingsQuery.setParameter("examParticipationId", examParticipationId)
+        .getSingleResult();
+
+  }
+
+  @Override
   public Optional<Double> getPointsOfExerciseSolution(long exerciseSolutionId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
@@ -74,20 +88,6 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   }
 
   @Override
-  public double getTotalPointsOfExamGradings(long examParticipationId,
-      EntityManager entityManager) {
-
-    TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
-        .createQuery("SELECT COALESCE(SUM(eg.points), 0) FROM ExerciseGrading eg "
-            + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
-            + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
-            + "WHERE eg.isFinalGrading = true AND ep.id = :examParticipationId", Double.class);
-    return totalPointsOfExamGradingsQuery.setParameter("examParticipationId", examParticipationId)
-        .getSingleResult();
-
-  }
-
-  @Override
   public double getProgressOfExamGradings(long examId, long participationId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
@@ -100,8 +100,8 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
       TypedQuery<Long> getCountOfExercisesQuery = entityManager.createQuery(
           "SELECT COUNT(ex.id) from Exercise ex where ex.exam.id = :examId", Long.class);
 
-      long countOfGradings = getCountOfGradingsQuery.setParameter("participationId", participationId)
-          .getSingleResult();
+      long countOfGradings = getCountOfGradingsQuery
+          .setParameter("participationId", participationId).getSingleResult();
       long countOfExercises = getCountOfExercisesQuery.setParameter("examId", examId)
           .getSingleResult();
       return (double) countOfGradings / countOfExercises;
