@@ -4,11 +4,6 @@ set -e
 
 REPO_BASE=$( cd "$( dirname "$0" )/.." && pwd )
 
-WEBAPP_DIR=$REPO_BASE/examibur/webapps/ROOT
-if [ -d "$WEBAPP_DIR" ]; then
-    rm -rf $WEBAPP_DIR
-fi
-
 JACOCO_TOMCAT=$REPO_BASE/examibur/jacoco/jacocoTomcat.exec
 if [ -f "$JACOCO_TOMCAT" ]; then
     rm -f $JACOCO_TOMCAT
