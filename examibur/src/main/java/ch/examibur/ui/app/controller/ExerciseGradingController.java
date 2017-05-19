@@ -23,6 +23,10 @@ public class ExerciseGradingController {
   public static final String BODY_PARAM_REASONING = "reasoning";
   public static final String BODY_PARAM_COMMENT = "comment";
 
+  public static final String BODY_PARAM_APPROVAL = "approve-review";
+  public static final String REVIEW_ACCEPT = "accept";
+  public static final String REVIEW_REJECT = "reject";
+
   private final ExerciseGradingService exerciseGradingService;
 
   /**
@@ -63,6 +67,37 @@ public class ExerciseGradingController {
     Double points = RoutingHelpers.getUnsignedDoubleBodyParameter(request, BODY_PARAM_POINTS);
 
     exerciseGradingService.addGrading(solutionId, comment, reasoning, points);
+
+    response.redirect(
+        RouteBuilder.toExerciseSolution(examId, participantId, solutionId,
+            BrowseSolutionsValue
+                .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()))),
+        HttpStatus.FOUND_302);
+    return null;
+  }
+
+  /**
+   * @return
+   * @throws ExamiburException
+   */
+  public String processApproval(Request request, Response response) throws ExamiburException {
+    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId =
+        RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long solutionId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+    long gradingId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.GRADING_ID);
+
+    String acceptParam = request.queryParams(BODY_PARAM_APPROVAL);
+    boolean isApproved;
+    if (acceptParam.equals(REVIEW_ACCEPT)) {
+      isApproved = true;
+    } else if (acceptParam.equals(REVIEW_REJECT)) {
+      isApproved = false;
+    } else {
+      throw new InvalidParameterException(
+          "Approval must be either " + REVIEW_ACCEPT + " or " + REVIEW_REJECT);
+    }
+    exerciseGradingService.approveReview(solutionId, gradingId, isApproved);
 
     response.redirect(
         RouteBuilder.toExerciseSolution(examId, participantId, solutionId,

@@ -3,6 +3,7 @@ package ch.examibur.integration.exercisesolution;
 import ch.examibur.domain.ExamParticipation;
 import ch.examibur.domain.Exercise;
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.service.exception.NotFoundException;
 import java.util.List;
 import javax.persistence.NoResultException;
 
@@ -31,6 +32,12 @@ public interface ExerciseSolutionDao {
    *         id.
    */
   List<ExerciseSolution> getExerciseSolutionsForExercise(long exerciseId);
+
+  /**
+   * @throws NotFoundException
+   *           if the {@link ExerciseSolution} for the given id does not exist.
+   */
+  void setIsDone(long exerciseSolutionId, boolean isDone) throws NotFoundException;
 
   /**
    * @param participationId

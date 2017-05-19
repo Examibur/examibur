@@ -33,17 +33,17 @@
 				<#if isReview == true>
 					<#if examState == "APPROVAL" && !exerciseSolution.isDone()>
 						<div class="row">
-							<div class="col-md-3">
-	    						<form action="gradings" method="POST">
-	    							<input type="hidden" id="accept-review" value="true" />
-	    							<input type="submit" class="form-control" value="Akzeptieren" />
-	    						</form>
-							</div>
-							<div class="col-md-3">
-	    						<form action="#reject-review" method="POST">
-	    							<input type="submit" class="form-control" value="Ablehnen" />
-	    						</form>	
-							</div>
+							<form action="gradings/${grading.id}/" method="POST">
+								<#if browse??>
+									<input type="hidden" name="browse" value="${browse}">
+								</#if>
+								<div class="col-md-3">
+									<button class="form-control" type="submit" name="approve-review" value="accept">Akzeptieren</button>
+								</div>
+								<div class="col-md-3">
+									<button class="form-control" type="submit" name="approve-review" value="reject">Ablehnen</button>
+								</div>
+    						</form>	
 						</div>
 					</#if>
 				</#if>

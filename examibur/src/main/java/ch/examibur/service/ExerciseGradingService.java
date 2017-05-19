@@ -55,4 +55,8 @@ public interface ExerciseGradingService {
    */
   void addGrading(long exerciseSolutionId, String comment, String reasoning, double points)
       throws ExamiburException;
+
+  void approveReview(long exerciseSolutionId, long exerciseGradingId, boolean isApproved)
+      throws ExamiburException;
+
 }

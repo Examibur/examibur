@@ -6,6 +6,7 @@ import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.domain.User;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.IllegalOperationException;
+import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.service.exception.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -181,6 +182,28 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
     } catch (Exception ex) {
       entityManager.getTransaction().rollback();
       LOGGER.error("Error while adding new grading to exerciseSolution " + exerciseSolutionId, ex);
+      throw ex;
+    } finally {
+      entityManager.close();
+    }
+  }
+
+  @Override
+  public void setFinalGrading(long exerciseGradingId, boolean isFinal) throws NotFoundException {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      entityManager.getTransaction().begin();
+      ExerciseGrading grading = entityManager.find(ExerciseGrading.class, exerciseGradingId);
+      if (grading == null) {
+        NotFoundException ex = new NotFoundException(
+            "exerciseGrading with id " + exerciseGradingId + " does not exist");
+        LOGGER.error(ex.getMessage(), ex);
+        throw ex;
+      }
+      grading.setFinalGrading(isFinal);
+      entityManager.getTransaction().commit();
+    } catch (Exception ex) {
+      entityManager.getTransaction().rollback();
       throw ex;
     } finally {
       entityManager.close();

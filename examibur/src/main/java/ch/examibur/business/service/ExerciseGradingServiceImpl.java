@@ -6,9 +6,11 @@ import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.domain.User;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
+import ch.examibur.integration.exercisesolution.ExerciseSolutionDao;
 import ch.examibur.service.ExerciseGradingService;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import com.google.inject.Inject;
@@ -21,10 +23,17 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
   private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseGradingServiceImpl.class);
 
   private final ExerciseGradingDao exerciseGradingDao;
+  private final ExerciseSolutionDao exerciseSolutionDao;
 
+  /**
+   * Constructor for ExerciseGradingServiceImpl.
+   */
   @Inject
-  public ExerciseGradingServiceImpl(ExerciseGradingDao exerciseGradingDao) {
+  public ExerciseGradingServiceImpl(ExerciseGradingDao exerciseGradingDao,
+      ExerciseSolutionDao exerciseSolutionDao) {
     this.exerciseGradingDao = exerciseGradingDao;
+    this.exerciseSolutionDao = exerciseSolutionDao;
+
   }
 
   @Override
@@ -70,6 +79,31 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
     }
+  }
+
+  @Override
+  public void approveReview(long exerciseSolutionId, long exerciseGradingId, boolean isApproved)
+      throws ExamiburException {
+    ExerciseGrading reviewForSolution =
+        exerciseGradingDao.getGradingCreatedInState(exerciseSolutionId, ExamState.REVIEW);
+    ExerciseGrading gradingForSolution =
+        exerciseGradingDao.getGradingCreatedInState(exerciseSolutionId, ExamState.CORRECTION);
+
+    if (reviewForSolution == null || gradingForSolution == null) {
+      throw new IllegalOperationException(
+          "Review or grading missing for ExerciseSolution with id " + exerciseSolutionId);
+    }
+    if (reviewForSolution.getExerciseSolution().getId() != exerciseSolutionId) {
+      throw new IllegalOperationException("Review " + exerciseGradingId
+          + " does not belong to ExerciseSolution " + exerciseSolutionId);
+    }
+
+    LOGGER.info("Approve Review for solution {}: {}", exerciseSolutionId, isApproved);
+    if (isApproved) {
+      exerciseGradingDao.setFinalGrading(reviewForSolution.getId(), true);
+      exerciseGradingDao.setFinalGrading(gradingForSolution.getId(), false);
+    }
+    exerciseSolutionDao.setIsDone(exerciseSolutionId, true);
   }
 
 }
