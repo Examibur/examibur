@@ -20,8 +20,8 @@ public class ExerciseSolutionServiceImplTest {
 
   @Rule
   public final DatabaseResource res = new DatabaseResource();
-  private final ExerciseSolutionService exerciseSolutionService = IntegrationTestUtil.getInjector()
-      .getInstance(ExerciseSolutionService.class);
+  private final ExerciseSolutionService exerciseSolutionService =
+      IntegrationTestUtil.getInjector().getInstance(ExerciseSolutionService.class);
 
   @Test
   public void testGetExerciseSolution() throws ExamiburException {
@@ -65,14 +65,15 @@ public class ExerciseSolutionServiceImplTest {
 
   @Test(expected = NotFoundException.class)
   public void testGetNextExerciseSolutionByExerciseWithNonexistentId() throws ExamiburException {
-    exerciseSolutionService.getNextExerciseSolution(BrowseSolutionsMode.BY_EXERCISE, 8L, 16L, 0);
+    exerciseSolutionService.getNextExerciseSolution(BrowseSolutionsMode.BY_EXERCISE, 8L, 16L,
+        2000L);
   }
 
   @Test
   public void testGetNextExerciseSolutionByExercises() throws ExamiburException {
     ExerciseSolution nextExerciseSolution = exerciseSolutionService
         .getNextExerciseSolution(BrowseSolutionsMode.BY_EXERCISES, 8L, 18L, 52L);
-    Assert.assertEquals(49L, nextExerciseSolution.getId());
+    Assert.assertEquals(50L, nextExerciseSolution.getId());
   }
 
   @Test
@@ -93,7 +94,7 @@ public class ExerciseSolutionServiceImplTest {
   public void testGetNextExerciseSolutionByParticipationWithNonexistentId()
       throws ExamiburException {
     exerciseSolutionService.getNextExerciseSolution(BrowseSolutionsMode.BY_PARTICIPATION, 8L, 17L,
-        0);
+        2000L);
   }
 
   @Test
@@ -110,8 +111,8 @@ public class ExerciseSolutionServiceImplTest {
 
   @Test
   public void testGetExerciseSolutionsForExamParticipation() throws ExamiburException {
-    List<ExerciseSolutionOverview> overviews = exerciseSolutionService
-        .getExerciseSolutionsForExamParticipation(13L);
+    List<ExerciseSolutionOverview> overviews =
+        exerciseSolutionService.getExerciseSolutionsForExamParticipation(13L);
 
     Assert.assertNotNull(overviews);
     Assert.assertEquals(3, overviews.size());
@@ -142,8 +143,8 @@ public class ExerciseSolutionServiceImplTest {
 
   @Test
   public void testGetExerciseSolutionsForExamParticipationOrderedInExam() throws ExamiburException {
-    List<ExerciseSolutionOverview> overviews = exerciseSolutionService
-        .getExerciseSolutionsForExamParticipation(17L);
+    List<ExerciseSolutionOverview> overviews =
+        exerciseSolutionService.getExerciseSolutionsForExamParticipation(17L);
     List<ExerciseSolutionOverview> expectedList = new ArrayList<>(overviews);
     Collections.sort(expectedList,
         (ov1, ov2) -> ov1.getExerciseSolution().getExercise().getOrderInExam()
@@ -190,8 +191,8 @@ public class ExerciseSolutionServiceImplTest {
 
   @Test
   public void testGetFirstExerciseSolutionByExerciseWithNonexistentId() throws ExamiburException {
-    ExerciseSolution nextExerciseSolution = exerciseSolutionService
-        .getNextExerciseSolution(BrowseSolutionsMode.BY_EXERCISE, 0, 0, 0);
+    ExerciseSolution nextExerciseSolution =
+        exerciseSolutionService.getNextExerciseSolution(BrowseSolutionsMode.BY_EXERCISE, 0, 0, 0);
     Assert.assertNull(nextExerciseSolution);
   }
 
@@ -199,6 +200,6 @@ public class ExerciseSolutionServiceImplTest {
   public void testGetFirstExerciseSolutionByExercises() throws ExamiburException {
     ExerciseSolution nextExerciseSolution = exerciseSolutionService
         .getNextExerciseSolution(BrowseSolutionsMode.BY_EXERCISES, 8L, 17L, 0);
-    Assert.assertEquals(50L, nextExerciseSolution.getId());
+    Assert.assertEquals(49L, nextExerciseSolution.getId());
   }
 }

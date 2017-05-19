@@ -61,8 +61,8 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
   @Override
   public ExerciseSolution getNextExerciseSolution(BrowseSolutionsMode browseMode, long examId,
       long queryResourceId, long exerciseSolutionId) throws ExamiburException {
-    long participantId = browseMode.equals(BrowseSolutionsMode.BY_PARTICIPATION) ? queryResourceId
-        : 0;
+    long participantId =
+        browseMode.equals(BrowseSolutionsMode.BY_PARTICIPATION) ? queryResourceId : 0;
     long exerciseId = browseMode.equals(BrowseSolutionsMode.BY_EXERCISE) ? queryResourceId : 0;
     if (exerciseSolutionId > 0) {
       ExerciseSolution currentExerciseSolution = getExerciseSolution(exerciseSolutionId);
@@ -70,47 +70,61 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
       exerciseId = currentExerciseSolution.getExercise().getId();
     }
 
-    String query = "SELECT e FROM ExerciseSolution e WHERE e.isDone = false ";
-    switch (browseMode) {
-      case BY_EXERCISE:
-        query += "AND e.exercise.id = :searchId "
-            + "AND e.participation.id > :filterId ORDER BY e.participation.id";
-        return getNextExerciseSolution(exerciseId, participantId, query);
-      case BY_EXERCISES:
-        query += "AND e.participation.exam.id = :searchId AND e.exercise.id >= :filterId "
-            + "ORDER BY e.exercise.id, e.participation.id";
-        return getNextExerciseSolution(examId, exerciseId, query);
-      case BY_PARTICIPATION:
-        query += "AND e.participation.id = :searchId "
-            + "AND e.exercise.id > :filterId ORDER BY e.exercise.id";
-        return getNextExerciseSolution(participantId, exerciseId, query);
-      case BY_PARTICIPATIONS:
-        query += "AND e.participation.exam.id = :searchId AND e.participation.id >= :filterId "
-            + "ORDER BY e.participation.id, e.exercise.id";
-        return getNextExerciseSolution(examId, participantId, query);
-      default:
-        InvalidParameterException invalidParameterException = new InvalidParameterException(
-            "BrowseSolutionsMode with value '" + browseMode.toString() + "' is not defined");
-        LOGGER.error(invalidParameterException.getMessage(), invalidParameterException);
-        throw invalidParameterException;
-    }
-  }
-
-  private ExerciseSolution getNextExerciseSolution(long searchId, long filterId, String query) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<ExerciseSolution> nextExerciseSolutionQuery = entityManager.createQuery(query,
-          ExerciseSolution.class);
+      TypedQuery<ExerciseSolution> nextExerciseSolutionQuery =
+          buildQuery(entityManager, browseMode, examId, participantId, exerciseId);
       // can't use getSingleResult() because null should also be possible
-      List<ExerciseSolution> resultList = nextExerciseSolutionQuery
-          .setParameter("searchId", searchId).setParameter("filterId", filterId).setMaxResults(1)
-          .getResultList();
+      List<ExerciseSolution> resultList =
+          nextExerciseSolutionQuery.setMaxResults(1).getResultList();
       if (resultList.isEmpty()) {
         return null;
       }
       return resultList.get(0);
     } finally {
       entityManager.close();
+    }
+  }
+
+  private TypedQuery<ExerciseSolution> buildQuery(EntityManager entityManager,
+      BrowseSolutionsMode browseMode, long examId, long participantId, long exerciseId)
+      throws ExamiburException {
+    TypedQuery<ExerciseSolution> nextExerciseSolutionQuery;
+    String query = getQueryString(browseMode);
+    nextExerciseSolutionQuery = entityManager.createQuery(query, ExerciseSolution.class);
+    nextExerciseSolutionQuery.setParameter("exerciseId", exerciseId).setParameter("participantId",
+        participantId);
+    if (browseMode.equals(BrowseSolutionsMode.BY_EXERCISES)
+        || browseMode.equals(BrowseSolutionsMode.BY_PARTICIPATIONS)) {
+      nextExerciseSolutionQuery.setParameter("examId", examId);
+    }
+    return nextExerciseSolutionQuery;
+  }
+
+  private String getQueryString(BrowseSolutionsMode browseMode) throws ExamiburException {
+    String baseCondition = "SELECT e FROM ExerciseSolution e WHERE e.isDone = false AND ";
+    String exerciseCondition =
+        "e.exercise.id = :exerciseId AND e.participation.id > :participantId";
+    String participantCondition =
+        "e.participation.id = :participantId AND e.exercise.id > :exerciseId";
+    switch (browseMode) {
+      case BY_EXERCISE:
+        return baseCondition + exerciseCondition + " ORDER BY e.participation.id";
+      case BY_EXERCISES:
+        return baseCondition + "((" + exerciseCondition + ") "
+            + "OR (e.participation.exam.id = :examId AND e.exercise.id > :exerciseId)) "
+            + "ORDER BY e.exercise.id, e.participation.id";
+      case BY_PARTICIPATION:
+        return baseCondition + participantCondition + " ORDER BY e.exercise.id";
+      case BY_PARTICIPATIONS:
+        return baseCondition + "((" + participantCondition + ") "
+            + "OR (e.participation.exam.id = :examId AND e.participation.id > :participantId)) "
+            + "ORDER BY e.participation.id, e.exercise.id";
+      default:
+        InvalidParameterException invalidParameterException = new InvalidParameterException(
+            "BrowseSolutionsMode with value '" + browseMode.toString() + "' is not defined");
+        LOGGER.error(invalidParameterException.getMessage(), invalidParameterException);
+        throw invalidParameterException;
     }
   }
 }
