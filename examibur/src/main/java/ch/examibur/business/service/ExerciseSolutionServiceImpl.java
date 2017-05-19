@@ -54,8 +54,8 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
     LOGGER.info("Get ExerciseSolutions for ExamParticipation with id {}", examParticipationId);
     List<ExerciseSolution> exerciseSolutions;
     try {
-      exerciseSolutions = exerciseSolutionDao
-          .getExerciseSolutionsForExamParticipation(examParticipationId);
+      exerciseSolutions =
+          exerciseSolutionDao.getExerciseSolutionsForExamParticipation(examParticipationId);
     } catch (NoResultException ex) {
       NotFoundException notFoundException = new NotFoundException(
           "ExamParticipation with id " + examParticipationId + " does not exist", ex);
@@ -65,8 +65,8 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
 
     List<ExerciseSolutionOverview> overviewList = new ArrayList<>();
     for (ExerciseSolution exerciseSolution : exerciseSolutions) {
-      Optional<Double> points = exerciseGradingDao
-          .getPointsOfExerciseSolution(exerciseSolution.getId());
+      Optional<Double> points =
+          exerciseGradingDao.getPointsOfExerciseSolution(exerciseSolution.getId());
       overviewList.add(new ExerciseSolutionOverview(exerciseSolution, points));
     }
     return overviewList;
@@ -75,9 +75,13 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
   @Override
   public ExerciseSolution getNextExerciseSolution(BrowseSolutionsMode browseMode, long examId,
       long queryResourceId, long exerciseSolutionId) throws ExamiburException {
+    ValidationHelper.checkForNegativeId(examId, LOGGER);
+    ValidationHelper.checkForNegativeId(queryResourceId, LOGGER);
+    ValidationHelper.checkForNegativeId(exerciseSolutionId, LOGGER);
     ValidationHelper.checkForNullValue(browseMode, LOGGER);
     LOGGER.info(
-        "Get the next ExerciseSolution by {} (ExamId: {}, queryResourceId: {}, ExerciseSolutionId: {})",
+        "Get the next ExerciseSolution by {} "
+            + "(ExamId: {}, queryResourceId: {}, ExerciseSolutionId: {})",
         browseMode.toString(), examId, queryResourceId, exerciseSolutionId);
     try {
       return exerciseSolutionDao.getNextExerciseSolution(browseMode, examId, queryResourceId,
