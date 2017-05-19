@@ -8,6 +8,7 @@ import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.service.exception.ValidationException;
 
 public interface ExerciseGradingService {
   /**
@@ -56,7 +57,18 @@ public interface ExerciseGradingService {
   void addGrading(long exerciseSolutionId, String comment, String reasoning, double points)
       throws ExamiburException;
 
-  void approveReview(long exerciseSolutionId, long exerciseGradingId, boolean isApproved)
+  /**
+   * @param approvalResult
+   *          an invalidated result of the approval.
+   * @throws ExamiburException
+   *           throws {@link NotFoundException} if the {@link ExerciseSolution} does not exist.
+   *           Throws {@link IllegalOperationException} if the grading is not a review. Throws
+   *           {@link InvalidParameterException} if an id is negative. Throws
+   *           {@link ValidationException} if the approval result is invalid. Throws
+   *           {@link AuthorizationException} if the user is not authorized to approve. Throws
+   *           {@link CommunicationException} if an error during the communication occurs.
+   */
+  void approveReview(long exerciseSolutionId, long exerciseGradingId, String approvalResult)
       throws ExamiburException;
 
 }

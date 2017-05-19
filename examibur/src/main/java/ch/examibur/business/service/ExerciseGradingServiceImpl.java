@@ -13,6 +13,7 @@ import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.service.model.ApprovalResult;
 import com.google.inject.Inject;
 import javax.persistence.NoResultException;
 import org.slf4j.Logger;
@@ -82,8 +83,11 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
   }
 
   @Override
-  public void approveReview(long exerciseSolutionId, long exerciseGradingId, boolean isApproved)
+  public void approveReview(long exerciseSolutionId, long exerciseGradingId, String approvalResult)
       throws ExamiburException {
+    ValidationHelper.checkForNegativeId(exerciseSolutionId, LOGGER);
+    ValidationHelper.checkForNegativeId(exerciseGradingId, LOGGER);
+
     ExerciseGrading reviewForSolution =
         exerciseGradingDao.getGradingCreatedInState(exerciseSolutionId, ExamState.REVIEW);
     ExerciseGrading gradingForSolution =
@@ -97,13 +101,15 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
       throw new IllegalOperationException("Review " + exerciseGradingId
           + " does not belong to ExerciseSolution " + exerciseSolutionId);
     }
+    ApprovalResult approval = ValidationHelper.getValidatedApprovalResult(approvalResult, LOGGER);
 
-    LOGGER.info("Approve Review for solution {}: {}", exerciseSolutionId, isApproved);
-    if (isApproved) {
+    LOGGER.info("Approve Review for solution {}: {}", exerciseSolutionId, approval);
+    if (approval == ApprovalResult.ACCEPT) {
       exerciseGradingDao.setFinalGrading(reviewForSolution.getId(), true);
       exerciseGradingDao.setFinalGrading(gradingForSolution.getId(), false);
     }
     exerciseSolutionDao.setIsDone(exerciseSolutionId, true);
+
   }
 
 }

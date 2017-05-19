@@ -5,8 +5,10 @@ import ch.examibur.service.ExerciseGradingService;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.service.exception.ValidationException;
 import ch.examibur.ui.app.routing.BrowseSolutionsValue;
 import ch.examibur.ui.app.routing.QueryParameter;
 import ch.examibur.ui.app.routing.RouteBuilder;
@@ -77,8 +79,15 @@ public class ExerciseGradingController {
   }
 
   /**
-   * @return
+   * Either accept or reject a review during the approval phase.
+   * 
    * @throws ExamiburException
+   *           throws {@link NotFoundException} if the {@link ExerciseSolution} does not exist.
+   *           Throws {@link IllegalOperationException} if the grading is not a review. Throws
+   *           {@link InvalidParameterException} if an id is negative. Throws
+   *           {@link ValidationException} if the approval result is invalid. Throws
+   *           {@link AuthorizationException} if the user is not authorized to approve. Throws
+   *           {@link CommunicationException} if an error during the communication occurs.
    */
   public String processApproval(Request request, Response response) throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
@@ -88,16 +97,8 @@ public class ExerciseGradingController {
     long gradingId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.GRADING_ID);
 
     String acceptParam = request.queryParams(BODY_PARAM_APPROVAL);
-    boolean isApproved;
-    if (acceptParam.equals(REVIEW_ACCEPT)) {
-      isApproved = true;
-    } else if (acceptParam.equals(REVIEW_REJECT)) {
-      isApproved = false;
-    } else {
-      throw new InvalidParameterException(
-          "Approval must be either " + REVIEW_ACCEPT + " or " + REVIEW_REJECT);
-    }
-    exerciseGradingService.approveReview(solutionId, gradingId, isApproved);
+
+    exerciseGradingService.approveReview(solutionId, gradingId, acceptParam);
 
     response.redirect(
         RouteBuilder.toExerciseSolution(examId, participantId, solutionId,
