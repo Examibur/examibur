@@ -1,4 +1,5 @@
 <#include "../templates/bodyTemplate.ftlh">
+<#include "../includes/startGradingDropDown.ftlh">
 
 <#macro body_main>
 	<header>
@@ -6,7 +7,7 @@
 	</header>
 
 	<div class="top-navigation pull-right">
-		<a class="btn btn-default" href="query-first-solution/" role="button" id="querynext">Aufgabenweise korrigieren</a>
+		<@start_grading_dropdown examState=exam.state relativePath="../"/>
 	</div>
 
 	<ul class="nav nav-tabs">

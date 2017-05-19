@@ -8,13 +8,14 @@
 		<h2>Prüfung ${exerciseSolution.exercise.exam.id} - Aufgabe ${exerciseSolution.exercise.orderInExam}</h2>
 	</header>
 	
-	
 	<div class="row">
 		<div class="pull-right">
 			<#if browse??>
-				<a class="btn btn-primary" href="query-next-solution/?browse=${browse}" role="button" id="querynext">Nächste Aufgabe</a>
-			<#else>
-				<a class="btn btn-default" href="?browse=exercise" role="button" id="browse-solutions">Aufgabenweise korrigieren</a>
+				<a class="btn btn-primary" href="query-next/?browse=${browse}" role="button" id="query-next">Nächste Aufgabe</a>
+			<#elseif examState == "CORRECTION">
+				<a class="btn btn-default" href="query-next/?browse=exercise" role="button" id="query-next">Aufgabenweise korrigieren</a>
+			<#elseif examState == "REVIEW" || exam.state == "APPROVAL">
+				<a class="btn btn-default" href="query-next/?browse=exercise" role="button" id="query-next">Aufgabenweise reviewen</a>
 			</#if>
 		</div>
 	</div>
