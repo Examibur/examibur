@@ -9,7 +9,7 @@
 	</header>
 	
 	<div class="row">
-		<div class="pull-right">
+		<div class="top-navigation pull-right">
 			<#if browse??>
 				<a class="btn btn-primary" href="query-next/?browse=${browse}" role="button" id="query-next">Nächste Aufgabe</a>
 			<#elseif examState == "CORRECTION">
