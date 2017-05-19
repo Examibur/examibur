@@ -9,7 +9,7 @@ import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
 import com.google.inject.Inject;
-import org.eclipse.jetty.http.HttpStatus;
+import spark.Redirect;
 import spark.Request;
 import spark.Response;
 
@@ -89,7 +89,7 @@ public class BrowseSolutionController implements Controller {
     } else {
       target = RouteBuilder.toExam(examId);
     }
-    response.redirect(target, HttpStatus.FOUND_302);
+    response.redirect(target, Redirect.Status.FOUND.intValue());
     return null;
   }
 }

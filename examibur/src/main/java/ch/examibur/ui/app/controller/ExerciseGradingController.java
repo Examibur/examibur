@@ -13,7 +13,7 @@ import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
 import com.google.inject.Inject;
-import org.eclipse.jetty.http.HttpStatus;
+import spark.Redirect;
 import spark.Request;
 import spark.Response;
 
@@ -54,8 +54,8 @@ public class ExerciseGradingController {
    */
   public String addExerciseGrading(Request request, Response response) throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
-        UrlParameter.PARTICIPANT_ID);
+    long participantId =
+        RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
     long solutionId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
 
     String comment = request.queryParams(BODY_PARAM_COMMENT);
@@ -68,7 +68,7 @@ public class ExerciseGradingController {
         RouteBuilder.toExerciseSolution(examId, participantId, solutionId,
             BrowseSolutionsMode
                 .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()))),
-        HttpStatus.FOUND_302);
+        Redirect.Status.FOUND.intValue());
     return null;
   }
 }
