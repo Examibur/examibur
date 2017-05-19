@@ -106,6 +106,14 @@ task deployToTomcat(type: Copy) {
     into 'webapps/ROOT/'
 }
 
+task deleteWebapp(type: Delete) {
+	delete 'webapps/ROOT'
+}
+
 assemble.doLast {
     deployToTomcat.execute()
+}
+
+clean.doLast {
+	deleteWebapp.execute()
 }
