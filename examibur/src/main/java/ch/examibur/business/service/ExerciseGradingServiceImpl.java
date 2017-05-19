@@ -107,6 +107,9 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
     if (approval == ApprovalResult.ACCEPT) {
       exerciseGradingDao.setFinalGrading(reviewForSolution.getId(), true);
       exerciseGradingDao.setFinalGrading(gradingForSolution.getId(), false);
+    } else if (approval == ApprovalResult.REJECT) {
+      exerciseGradingDao.setFinalGrading(reviewForSolution.getId(), false);
+      exerciseGradingDao.setFinalGrading(gradingForSolution.getId(), true);
     }
     exerciseSolutionDao.setIsDone(exerciseSolutionId, true);
 

@@ -4,6 +4,15 @@
 			<div class="panel-heading">
 				<strong>${grading.gradingAuthor.firstName} ${grading.gradingAuthor.lastName}</strong>
 				<#if isReview == true>reviewte<#else>bewertete</#if> am ${grading.creationDate}
+				<#if isReview && examState != "REVIEW" && exerciseSolution.isDone()>
+					<div id="review-result" class="pull-right">
+						<#if grading.isFinalGrading()>
+							<span class="label label-success">akzeptiert</span>
+						<#else>
+							<span class="label label-danger">abgelehnt</span>
+						</#if>
+					</div>
+				</#if>
 			</div>
 			<div class="panel-body">
 				<div class="row">
@@ -38,10 +47,10 @@
 									<input type="hidden" name="browse" value="${browse}">
 								</#if>
 								<div class="col-md-3">
-									<button class="form-control" type="submit" name="approve-review" value="accept">Akzeptieren</button>
+									<button class="form-control btn-success" type="submit" name="approve-review" value="accept">Akzeptieren</button>
 								</div>
 								<div class="col-md-3">
-									<button class="form-control" type="submit" name="approve-review" value="reject">Ablehnen</button>
+									<button class="form-control btn-danger" type="submit" name="approve-review" value="reject">Ablehnen</button>
 								</div>
     						</form>	
 						</div>
