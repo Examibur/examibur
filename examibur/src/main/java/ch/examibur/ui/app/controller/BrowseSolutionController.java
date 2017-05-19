@@ -31,54 +31,49 @@ public class BrowseSolutionController implements Controller {
   public String getFirstExerciseSolutionByParticipation(Request request, Response response)
       throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
-        UrlParameter.PARTICIPANT_ID);
-    redirectToNextExerciseSolution(request, response, BrowseSolutionsMode.BY_PARTICIPATION, examId,
-        participantId, 0);
-    return null;
+    long participantId =
+        RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    return redirectToNextExerciseSolution(request, response, BrowseSolutionsMode.BY_PARTICIPATION,
+        examId, participantId, 0);
   }
 
   public String getFirstExerciseSolutionByParticipations(Request request, Response response)
       throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    redirectToNextExerciseSolution(request, response, BrowseSolutionsMode.BY_PARTICIPATIONS, examId,
-        0, 0);
-    return null;
+    return redirectToNextExerciseSolution(request, response, BrowseSolutionsMode.BY_PARTICIPATIONS,
+        examId, 0, 0);
   }
 
   public String getFirstExerciseSolutionByExercise(Request request, Response response)
       throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
     long exerciseId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXERCISE_ID);
-    redirectToNextExerciseSolution(request, response, BrowseSolutionsMode.BY_EXERCISE, examId,
-        exerciseId, 0);
-    return null;
+    return redirectToNextExerciseSolution(request, response, BrowseSolutionsMode.BY_EXERCISE,
+        examId, exerciseId, 0);
   }
 
   public String getFirstExerciseSolutionByExercises(Request request, Response response)
       throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    redirectToNextExerciseSolution(request, response, BrowseSolutionsMode.BY_EXERCISES, examId, 0,
-        0);
-    return null;
+    return redirectToNextExerciseSolution(request, response, BrowseSolutionsMode.BY_EXERCISES,
+        examId, 0, 0);
   }
 
   public String getNextExerciseSolution(Request request, Response response)
       throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
-        UrlParameter.PARTICIPANT_ID);
-    long exerciseSolutionId = RoutingHelpers.getUnsignedLongUrlParameter(request,
-        UrlParameter.SOLUTION_ID);
+    long participantId =
+        RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long exerciseSolutionId =
+        RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
     String paramBrowse = request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString());
     BrowseSolutionsMode browseMode = BrowseSolutionsMode.forName(paramBrowse);
 
-    redirectToNextExerciseSolution(request, response, browseMode, examId, participantId,
+    return redirectToNextExerciseSolution(request, response, browseMode, examId, participantId,
         exerciseSolutionId);
-    return null;
   }
 
-  private void redirectToNextExerciseSolution(Request request, Response response,
+  private String redirectToNextExerciseSolution(Request request, Response response,
       BrowseSolutionsMode browseMode, long examId, long queryResourceId, long exerciseSolutionId)
       throws ExamiburException {
     ExerciseSolution nextExerciseSolution = exerciseSolutionService
@@ -95,5 +90,6 @@ public class BrowseSolutionController implements Controller {
       target = RouteBuilder.toExam(examId);
     }
     response.redirect(target, HttpStatus.FOUND_302);
+    return null;
   }
 }
