@@ -1,3 +1,9 @@
+.dropdown-menu > li > a {
+	background-color: inherit;
+	border: none;
+	text-align: left;
+}
+
 .navbar-brand {
 	padding-top: 3px;
 }
