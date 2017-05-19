@@ -9,4 +9,4 @@ RUN mkdir -p /src/screenshots /src/.build /src/.gradle
 RUN chown -R examibur:examibur /src/
 
 WORKDIR /src/
-CMD ./gradlew clean --stacktrace uiTest integrationTest
+CMD ./gradlew --stacktrace uiTest integrationTest
