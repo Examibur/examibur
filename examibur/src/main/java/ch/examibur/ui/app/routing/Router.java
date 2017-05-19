@@ -10,6 +10,7 @@ import ch.examibur.ui.app.controller.ExamReportController;
 import ch.examibur.ui.app.controller.ExceptionController;
 import ch.examibur.ui.app.controller.ExerciseController;
 import ch.examibur.ui.app.controller.ExerciseGradingController;
+import ch.examibur.ui.app.controller.ExerciseParticipationController;
 import ch.examibur.ui.app.controller.ExerciseSolutionController;
 import ch.examibur.ui.app.filter.Filters;
 import com.google.inject.Inject;
@@ -38,6 +39,9 @@ public final class Router {
 
   @Inject
   ExerciseGradingController exerciseGradingController;
+  
+  @Inject
+  ExerciseParticipationController exerciseParticipationController;
 
   @Inject
   ExceptionController exceptionController;
@@ -79,6 +83,9 @@ public final class Router {
 
     beforeAll(Route.EXERCISE, exerciseController::addSpecificBreadCrumb);
     get(Route.EXERCISE, exerciseController::displayExercise);
+    
+    beforeAll(Route.EXERCISE_PARTICIPANTS, exerciseParticipationController::addBreadCrumb);
+    get(Route.EXERCISE_PARTICIPANTS, exerciseParticipationController::listExerciseParticipations);
 
     beforeAll(Route.PARTICIPANTS, participationController::addBreadCrumb);
     get(Route.PARTICIPANTS, participationController::listExamParticipations);

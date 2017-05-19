@@ -25,6 +25,14 @@ public interface ExerciseSolutionDao {
   List<ExerciseSolution> getExerciseSolutionsForExamParticipation(long examParticipationId);
 
   /**
+   * @param exerciseId
+   *          the id of the {@link Exercise}
+   * @return a list of {@link ExerciseSolution} corresponding to the {@link Exercise} with the given
+   *         id.
+   */
+  List<ExerciseSolution> getExerciseSolutionsForExercise(long exerciseId);
+
+  /**
    * @param participationId
    *          the id of the {@link ExamParticipation}.
    * @return the first {@link ExerciseSolution} of the given {@link ExamParticipation} ordered by

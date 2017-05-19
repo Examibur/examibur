@@ -15,10 +15,8 @@
 	</div>
 
 	<ul class="nav nav-tabs">
-		<li role="presentation"><a href="../">Informationen</a></li>
+		<li role="presentation"><a href="../">Aufgabenstellung</a></li>
 		<li role="presentation" class="active"><a href="#">Teilnahmen</a></li>
-		<li role="presentation"><a href="../exercises">Aufgaben</a></li>
-		<li role="presentation"><a href="../reports">Auswertung</a></li>
 	</ul>	
 
 	<div class="tab-body">
@@ -26,7 +24,7 @@
 			<div class="col-md-12">
 				<@participant_list/>
 			</div>
-		</div>					
+		</div>	
 	</div>
 </#macro>
 
