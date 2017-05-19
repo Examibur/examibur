@@ -12,7 +12,7 @@
 	<div class="row">
 		<div class="pull-right">
 			<#if browse??>
-				<a class="btn btn-primary" href="?browse=${browse}&querynext=" role="button" id="querynext">Nächste Aufgabe</a>
+				<a class="btn btn-primary" href="query-next-solution/?browse=${browse}" role="button" id="querynext">Nächste Aufgabe</a>
 			<#else>
 				<a class="btn btn-default" href="?browse=exercise" role="button" id="browse-solutions">Aufgabenweise korrigieren</a>
 			</#if>

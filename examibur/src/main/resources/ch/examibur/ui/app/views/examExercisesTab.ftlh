@@ -6,7 +6,7 @@
 	</header>
 
 	<div class="top-navigation pull-right">
-		<button class="btn btn-default" type="submit">Prüfung korrigieren</button>
+		<a class="btn btn-default" href="query-first-solution/" role="button" id="querynext">Aufgabenweise korrigieren</a>
 	</div>
 
 	<ul class="nav nav-tabs">

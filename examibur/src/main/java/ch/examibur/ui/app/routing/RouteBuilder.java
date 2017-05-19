@@ -1,5 +1,7 @@
 package ch.examibur.ui.app.routing;
 
+import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
+
 public final class RouteBuilder {
 
   private RouteBuilder() {
@@ -84,7 +86,7 @@ public final class RouteBuilder {
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     return url;
   }
-  
+
   /**
    * Returns the absolute url to all reports of the given exam. It is the responsibility of the
    * caller to provide a valid id!
@@ -112,14 +114,14 @@ public final class RouteBuilder {
    * {@link QueryParameter} "BROWSE_SOLUTIONS" if it's not null.
    */
   public static String toExerciseSolution(long examId, long participantId, long solutionId,
-      BrowseSolutionsValue browseSolutionsValue) {
+      BrowseSolutionsMode browseSolutionsMode) {
     String url = Route.SOLUTION.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
-    if (browseSolutionsValue != null) {
+    if (browseSolutionsMode != null) {
       url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
-          browseSolutionsValue.toString());
+          browseSolutionsMode.toString());
     }
     return url;
   }

@@ -4,7 +4,7 @@ import static ch.examibur.ui.app.util.ScreenshotUtil.assertScreenshots;
 import static ch.examibur.ui.app.util.ScreenshotUtil.getDriver;
 
 import ch.examibur.business.DatabaseResource;
-import ch.examibur.ui.app.routing.BrowseSolutionsValue;
+import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.util.RandomBlockJUnit4ClassRunner;
 import java.io.IOException;
@@ -240,7 +240,7 @@ public class UiTest {
   public void testQueryExerciseSolutionByExerciseQueryNext() throws IOException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL
-        + RouteBuilder.toExerciseSolution(8, 17, 51, BrowseSolutionsValue.BY_EXERCISE);
+        + RouteBuilder.toExerciseSolution(8, 17, 51, BrowseSolutionsMode.BY_EXERCISE);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
@@ -255,7 +255,7 @@ public class UiTest {
   public void testQueryExerciseSolutionByExerciseQueryLast() throws IOException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL
-        + RouteBuilder.toExerciseSolution(8, 18, 54, BrowseSolutionsValue.BY_EXERCISE);
+        + RouteBuilder.toExerciseSolution(8, 18, 54, BrowseSolutionsMode.BY_EXERCISE);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
@@ -270,7 +270,7 @@ public class UiTest {
   public void testQueryExerciseSolutionByParticipationQueryNext() throws IOException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL
-        + RouteBuilder.toExerciseSolution(8, 18, 53, BrowseSolutionsValue.BY_PARTICIPATION);
+        + RouteBuilder.toExerciseSolution(8, 18, 53, BrowseSolutionsMode.BY_PARTICIPATION);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
@@ -285,7 +285,7 @@ public class UiTest {
   public void testQueryExerciseSolutionByParticipationQueryLast() throws IOException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL
-        + RouteBuilder.toExerciseSolution(8, 17, 54, BrowseSolutionsValue.BY_PARTICIPATION);
+        + RouteBuilder.toExerciseSolution(8, 17, 54, BrowseSolutionsMode.BY_PARTICIPATION);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 

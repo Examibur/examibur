@@ -1,5 +1,6 @@
 package ch.examibur.ui.app.routing;
 
+import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -63,7 +64,7 @@ public class RouteBuilderTest {
   @Test
   public void testExerciseSolutionRouteWithQueryParameterBrowseSolutions() {
     Assert.assertEquals("/exams/1/participants/2/solutions/3/?browse=exercise",
-        RouteBuilder.toExerciseSolution(1, 2, 3, BrowseSolutionsValue.BY_EXERCISE));
+        RouteBuilder.toExerciseSolution(1, 2, 3, BrowseSolutionsMode.BY_EXERCISE));
   }
 
   @Test

@@ -1,13 +1,13 @@
 package ch.examibur.ui.app.controller;
 
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
 import ch.examibur.service.ExerciseGradingService;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
-import ch.examibur.ui.app.routing.BrowseSolutionsValue;
 import ch.examibur.ui.app.routing.QueryParameter;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
@@ -66,7 +66,7 @@ public class ExerciseGradingController {
 
     response.redirect(
         RouteBuilder.toExerciseSolution(examId, participantId, solutionId,
-            BrowseSolutionsValue
+            BrowseSolutionsMode
                 .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()))),
         HttpStatus.FOUND_302);
     return null;

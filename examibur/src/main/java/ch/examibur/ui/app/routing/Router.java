@@ -3,6 +3,7 @@ package ch.examibur.ui.app.routing;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.ui.app.controller.AuthenticationController;
+import ch.examibur.ui.app.controller.BrowseSolutionController;
 import ch.examibur.ui.app.controller.DashboardController;
 import ch.examibur.ui.app.controller.ExamController;
 import ch.examibur.ui.app.controller.ExamParticipationController;
@@ -46,6 +47,9 @@ public final class Router {
   AuthenticationController authenticationController;
 
   @Inject
+  BrowseSolutionController browseSolutionController;
+
+  @Inject
   Filters filters;
 
   /**
@@ -66,6 +70,16 @@ public final class Router {
     get(Route.LOGIN, authenticationController::displayLoginForm);
     post(Route.LOGIN, authenticationController::performLogin);
     get(Route.LOGOUT, authenticationController::logout);
+
+    get(Route.QUERY_NEXT_SOLUTION, browseSolutionController::getNextExerciseSolution);
+    get(Route.QUERY_FIRST_SOLUTION_BY_EXERCISE,
+        browseSolutionController::getFirstExerciseSolutionByExercise);
+    get(Route.QUERY_FIRST_SOLUTION_BY_EXERCISES,
+        browseSolutionController::getFirstExerciseSolutionByExercises);
+    get(Route.QUERY_FIRST_SOLUTION_BY_PARTICIPATION,
+        browseSolutionController::getFirstExerciseSolutionByParticipation);
+    get(Route.QUERY_FIRST_SOLUTION_BY_PARTICIPATIONS,
+        browseSolutionController::getFirstExerciseSolutionByParticipations);
 
     beforeAll(Route.EXAMS, examController::addBreadCrumb);
     get(Route.EXAMS, examController::listExams);

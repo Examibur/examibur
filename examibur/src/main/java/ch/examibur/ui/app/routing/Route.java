@@ -14,7 +14,12 @@ public enum Route {
   PARTICIPANT(PARTICIPANTS, UrlParameter.PARTICIPANT_ID),
   SOLUTIONS(PARTICIPANT, "solutions/"),
   SOLUTION(SOLUTIONS, UrlParameter.SOLUTION_ID),
-  GRADINGS(SOLUTION, "gradings/");
+  GRADINGS(SOLUTION, "gradings/"),
+  QUERY_FIRST_SOLUTION_BY_PARTICIPATION(PARTICIPANT, "query-first-solution/"),
+  QUERY_FIRST_SOLUTION_BY_PARTICIPATIONS(PARTICIPANTS, "query-first-solution/"),
+  QUERY_FIRST_SOLUTION_BY_EXERCISE(EXERCISE, "query-first-solution/"),
+  QUERY_FIRST_SOLUTION_BY_EXERCISES(EXERCISES, "query-first-solution/"),
+  QUERY_NEXT_SOLUTION(SOLUTION, "query-next-solution/");
 
   private final String url;
 
