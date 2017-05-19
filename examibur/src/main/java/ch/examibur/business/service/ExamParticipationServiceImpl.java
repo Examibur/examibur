@@ -53,7 +53,8 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
     for (ExamParticipation examParticipation : examParticipations) {
       ExamParticipantOverview examParticipantOverview = new ExamParticipantOverview();
 
-      examParticipantOverview.setExamParticipation(examParticipation);
+      examParticipantOverview.setId(examParticipation.getId());
+      examParticipantOverview.setPseudonym(examParticipation.getPseudonym());
 
       long examParticipationId = examParticipation.getId();
       boolean areAllExercisesAreGraded = exerciseGradingDao.checkIfAllExercisesAreGraded(examId,

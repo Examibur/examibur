@@ -1,4 +1,5 @@
 <#include "../templates/bodyTemplate.ftlh">
+<#include "../includes/participantComponent.ftlh">
 
 <#macro body_main>
 	<header>
@@ -21,38 +22,7 @@
 	<div class="tab-body">
 		<div class="row">
 			<div class="col-md-12">
-				<#list exerciseParticipantsOverview>
-					<table class="table table-striped table-bordered table-hover">
-						<thead>
-							<tr>						
-								<th>Prüfling</th>
-								<th>Punkte</th>
-								<th>Note</th>
-								<th>Erledigt</th>
-							</tr>
-						</thead>
-						<tbody>
-							<#items as exerciseParticipantOverview>
-							<tr>
-								<td><a href="/exams/${exam.id}/participants/${exerciseParticipantOverview.exerciseSolution.participation.id}">${exerciseParticipantOverview.exerciseSolution.participation.pseudonym}</a></td>
-								<td>${exerciseParticipantOverview.totalPoints}</td>
-								<#if exerciseParticipantOverview.grading.isPresent()>
-									<td>
-										${exerciseParticipantOverview.grading.get()}
-									</td>
-								<#else>
-									<td>-</td>
-								</#if>	
-								<td>
-									${exerciseParticipantOverview.exerciseSolution.isDone()?string('Ja', 'Nein')}								
-								</td>
-							</tr>
-							</#items>
-						</tbody>
-					</table>
-				<#else>
-					<p>keine Teilnahmen gefunden</p>
-				</#list>
+				<@participant_list/>
 			</div>
 		</div>	
 	</div>

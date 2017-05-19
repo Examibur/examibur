@@ -142,7 +142,9 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
     for (ExerciseSolution exerciseSolution : exerciseSolutions) {
       ExerciseParticipantOverview exerciseParticipantOverview = new ExerciseParticipantOverview();
 
-      exerciseParticipantOverview.setExerciseSolution(exerciseSolution);
+      exerciseParticipantOverview.setId(exerciseSolution.getParticipation().getId());
+      exerciseParticipantOverview.setPseudonym(exerciseSolution.getParticipation().getPseudonym());
+      exerciseParticipantOverview.setDone(exerciseSolution.isDone());
 
       long examId = exerciseSolution.getExercise().getExam().getId();
       long examParticipationId = exerciseSolution.getParticipation().getId();

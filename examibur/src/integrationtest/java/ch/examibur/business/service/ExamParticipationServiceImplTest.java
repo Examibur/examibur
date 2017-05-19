@@ -58,8 +58,8 @@ public class ExamParticipationServiceImplTest {
         .getExamParticipantsOverview(4);
     Assert.assertEquals(3, examParticipantOverviewList.size());
 
-    Collections.sort(examParticipantOverviewList, (ep1, ep2) -> Long
-        .compare(ep2.getExamParticipation().getId(), ep1.getExamParticipation().getId()));
+    Collections.sort(examParticipantOverviewList,
+        (ep1, ep2) -> Long.compare(ep2.getId(), ep1.getId()));
     testExamParticipantOverview(examParticipantOverviewList.get(0), 4, 4.33, 3d,
         SUM_EXAM_GRADINGS_EXAM_4, "100.00%"); // ParticipantionId: 1 (Anonymes Einhorn)
     testExamParticipantOverview(examParticipantOverviewList.get(1), 3, 3.5, 2d,

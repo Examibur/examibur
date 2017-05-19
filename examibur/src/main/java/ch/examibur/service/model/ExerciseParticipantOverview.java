@@ -1,36 +1,15 @@
 package ch.examibur.service.model;
 
-import ch.examibur.domain.ExerciseSolution;
-import java.util.Optional;
+public final class ExerciseParticipantOverview extends AbstractParticipantOverview {
 
-public final class ExerciseParticipantOverview {
+  private boolean isDone;
 
-  private ExerciseSolution exerciseSolution;
-  private double totalPoints;
-  private Optional<Double> grading;
-
-  public ExerciseSolution getExerciseSolution() {
-    return exerciseSolution;
+  public boolean isDone() {
+    return isDone;
   }
 
-  public void setExerciseSolution(ExerciseSolution exerciseSolution) {
-    this.exerciseSolution = exerciseSolution;
-  }
-
-  public double getTotalPoints() {
-    return totalPoints;
-  }
-
-  public void setTotalPoints(double totalPoints) {
-    this.totalPoints = totalPoints;
-  }
-
-  public Optional<Double> getGrading() {
-    return grading;
-  }
-
-  public void setGrading(Optional<Double> grading) {
-    this.grading = grading;
+  public void setDone(boolean isDone) {
+    this.isDone = isDone;
   }
 
 }

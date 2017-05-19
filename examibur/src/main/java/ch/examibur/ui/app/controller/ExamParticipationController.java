@@ -87,6 +87,7 @@ public class ExamParticipationController implements Controller {
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
     model.put("participantsOverview", examParticipationService.getExamParticipantsOverview(examId));
+    model.put("visibleColumns", new String[] { "testee", "points", "grade", "passed", "progress" });
     return engine.render(model, "views/examParticipationsTab.ftlh");
   }
 

@@ -197,6 +197,6 @@ public class ExerciseSolutionServiceImplTest {
     } else {
       Assert.assertEquals(expectedGrading, exerciseParticipantOverview.getGrading());
     }
-    Assert.assertEquals(expectedIsDone, exerciseParticipantOverview.getExerciseSolution().isDone());
+    Assert.assertEquals(expectedIsDone, exerciseParticipantOverview.isDone());
   }
 }
