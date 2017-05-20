@@ -153,6 +153,52 @@ public final class RouteBuilder {
   }
 
   /**
+   * Returns the absolute url to the participation with the given id. It also adds the url parameter
+   * "query-by-participation/" which directly redirects to the first unprocessed exercise solution
+   * of this participation when called.
+   */
+  public static String toQueryFirstSolutionByParticipation(long examId, long participationId) {
+    String url = Route.QUERY_FIRST_SOLUTION_BY_PARTICIPATION.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
+    url = replace(url, UrlParameter.PARTICIPANT_ID, participationId);
+    return url;
+  }
+
+  /**
+   * Returns the absolute url to the exam with the given id. It also adds the url parameter
+   * "query-by-participations/" which directly redirects to the first unprocessed exercise solution
+   * of the first possible participation when called.
+   */
+  public static String toQueryFirstSolutionByParticipations(long examId) {
+    String url = Route.QUERY_FIRST_SOLUTION_BY_PARTICIPATIONS.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
+    return url;
+  }
+
+  /**
+   * Returns the absolute url to the exercise with the given id. It also adds the url parameter
+   * "query-by-exercise/" which directly redirects to the first unprocessed exercise solution of
+   * this exercise when called.
+   */
+  public static String toQueryFirstSolutionByExercise(long examId, long exerciseId) {
+    String url = Route.QUERY_FIRST_SOLUTION_BY_EXERCISE.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
+    url = replace(url, UrlParameter.EXERCISE_ID, exerciseId);
+    return url;
+  }
+
+  /**
+   * Returns the absolute url to the exam with the given id. It also adds the url parameter
+   * "query-by-exercises/" which directly redirects to the first unprocessed exercise solution of
+   * the first possible exercise when called.
+   */
+  public static String toQueryFirstSolutionByExercises(long examId) {
+    String url = Route.QUERY_FIRST_SOLUTION_BY_EXERCISES.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
+    return url;
+  }
+
+  /**
    * Returns the absolute url to all exercise gradings of the given exercise solution. It is the
    * responsibility of the caller to provide valid ids!
    */

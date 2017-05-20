@@ -1,6 +1,7 @@
 package ch.examibur.ui.app.routing;
 
 import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
+import ch.examibur.service.exception.InvalidParameterException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -65,6 +66,36 @@ public class RouteBuilderTest {
   public void testExerciseSolutionRouteWithQueryParameterBrowseSolutions() {
     Assert.assertEquals("/exams/1/participants/2/solutions/3/?browse=exercise",
         RouteBuilder.toExerciseSolution(1, 2, 3, BrowseSolutionsMode.BY_EXERCISE));
+  }
+
+  @Test
+  public void testQueryNextSolutionRoute() throws InvalidParameterException {
+    Assert.assertEquals("/exams/8/participants/17/solutions/51/query-next/?browse=exercise",
+        RouteBuilder.toQueryNextSolution(8, 17, 51, BrowseSolutionsMode.BY_EXERCISE));
+  }
+
+  @Test
+  public void testQueryFirstSolutionByParticipationRoute() throws InvalidParameterException {
+    Assert.assertEquals("/exams/8/participants/17/query-by-participation/",
+        RouteBuilder.toQueryFirstSolutionByParticipation(8, 17));
+  }
+
+  @Test
+  public void testQueryFirstSolutionByParticipationsRoute() throws InvalidParameterException {
+    Assert.assertEquals("/exams/8/query-by-participations/",
+        RouteBuilder.toQueryFirstSolutionByParticipations(8));
+  }
+
+  @Test
+  public void testQueryFirstSolutionByExerciseRoute() throws InvalidParameterException {
+    Assert.assertEquals("/exams/8/exercises/16/query-by-exercise/",
+        RouteBuilder.toQueryFirstSolutionByExercise(8, 16));
+  }
+
+  @Test
+  public void testQueryFirstSolutionByExercisesRoute() throws InvalidParameterException {
+    Assert.assertEquals("/exams/8/query-by-exercises/",
+        RouteBuilder.toQueryFirstSolutionByExercises(8));
   }
 
   @Test
