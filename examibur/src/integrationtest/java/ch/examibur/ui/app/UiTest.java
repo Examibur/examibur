@@ -207,6 +207,25 @@ public class UiTest {
   }
 
   @Test
+  public void testAddGradingToExerciseSolutionAndContinue() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl =
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 50, BrowseSolutionsMode.BY_PARTICIPATION);
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("points-addgrading")).sendKeys("1");
+    getDriver().findElement(By.id("comment-addgrading"))
+        .sendKeys("Diese Lösung ist nicht korrekt.");
+    getDriver().findElement(By.id("reasoning-addgrading")).sendKeys("1 Punkt für Argumentation");
+    getDriver().findElement(By.id("submit-addgrading-continue")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/solutions/51");
+    });
+    assertScreenshots();
+  }
+
+  @Test
   public void testAddReviewToExerciseSolution() throws IOException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(6, 12, 35, null);
@@ -311,6 +330,45 @@ public class UiTest {
     final String testUrl = TEST_URL + RouteBuilder.toExerciseSolutions(8, 17);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("query-by-participation")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/solutions/49");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryFirstExerciseSolutionByParticipations() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + RouteBuilder.toQueryFirstSolutionByParticipations(8);
+    getDriver().get(testUrl);
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/solutions/49");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryFirstExerciseSolutionByExercise() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + RouteBuilder.toQueryFirstSolutionByExercise(8, 16);
+    getDriver().get(testUrl);
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/solutions/49");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryFirstExerciseSolutionByExercises() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + RouteBuilder.toQueryFirstSolutionByExercises(8);
+    getDriver().get(testUrl);
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
