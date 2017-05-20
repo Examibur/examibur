@@ -227,7 +227,7 @@ public class UiTest {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, null);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("browse-solutions")).click();
+    getDriver().findElement(By.id("query-by-exercise")).click();
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
@@ -239,10 +239,10 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByExerciseQueryNext() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL
-        + RouteBuilder.toExerciseSolution(8, 17, 51, BrowseSolutionsMode.BY_EXERCISE);
+    final String testUrl =
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, BrowseSolutionsMode.BY_EXERCISE);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("querynext")).click();
+    getDriver().findElement(By.id("query-next")).click();
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
@@ -254,10 +254,10 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByExerciseQueryLast() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL
-        + RouteBuilder.toExerciseSolution(8, 18, 54, BrowseSolutionsMode.BY_EXERCISE);
+    final String testUrl =
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 18, 54, BrowseSolutionsMode.BY_EXERCISE);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("querynext")).click();
+    getDriver().findElement(By.id("query-next")).click();
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
@@ -269,10 +269,10 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByParticipationQueryNext() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL
-        + RouteBuilder.toExerciseSolution(8, 18, 53, BrowseSolutionsMode.BY_PARTICIPATION);
+    final String testUrl =
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 18, 53, BrowseSolutionsMode.BY_PARTICIPATION);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("querynext")).click();
+    getDriver().findElement(By.id("query-next")).click();
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
@@ -284,10 +284,10 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByParticipationQueryLast() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL
-        + RouteBuilder.toExerciseSolution(8, 17, 54, BrowseSolutionsMode.BY_PARTICIPATION);
+    final String testUrl =
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 54, BrowseSolutionsMode.BY_PARTICIPATION);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("querynext")).click();
+    getDriver().findElement(By.id("query-next")).click();
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
@@ -299,8 +299,8 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionWithWrongParameter() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, null)
-        + "?browse=wrong&querynext=";
+    final String testUrl =
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, null) + "query-next/?browse=wrong";
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -310,7 +310,7 @@ public class UiTest {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + RouteBuilder.toExerciseSolutions(8, 17);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("querynext")).click();
+    getDriver().findElement(By.id("query-by-participation")).click();
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
@@ -322,8 +322,7 @@ public class UiTest {
   @Test
   public void testQueryFirstExerciseSolutionWithWrongParameter() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolutions(8, 17)
-        + "?browse=wrong&querynext=";
+    final String testUrl = TEST_URL + RouteBuilder.toExamParticipation(8, 17) + "query-by-wrong/";
     getDriver().get(testUrl);
     assertScreenshots();
   }

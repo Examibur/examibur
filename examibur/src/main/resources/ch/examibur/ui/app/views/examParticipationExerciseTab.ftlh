@@ -9,7 +9,7 @@
 	<div class="top-navigation pull-right">
 		<#if examState == "CORRECTION">
 			<a class="btn btn-default" href="../query-by-participation/" role="button" id="query-by-participation">Teilnahme korrigieren</a>
-		<#elseif examState == "REVIEW" || exam.state == "APPROVAL">
+		<#elseif examState == "REVIEW" || examState == "APPROVAL">
 			<a class="btn btn-default" href="../query-by-participation/" role="button" id="query-by-participation">Teilnahme reviewen</a>
 		</#if>
 	</div>

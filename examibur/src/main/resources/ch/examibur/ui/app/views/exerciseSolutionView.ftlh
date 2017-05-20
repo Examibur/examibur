@@ -13,9 +13,9 @@
 			<#if browse??>
 				<a class="btn btn-primary" href="query-next/?browse=${browse}" role="button" id="query-next">Nächste Aufgabe</a>
 			<#elseif examState == "CORRECTION">
-				<a class="btn btn-default" href="query-next/?browse=exercise" role="button" id="query-next">Aufgabenweise korrigieren</a>
-			<#elseif examState == "REVIEW" || exam.state == "APPROVAL">
-				<a class="btn btn-default" href="query-next/?browse=exercise" role="button" id="query-next">Aufgabenweise reviewen</a>
+				<a class="btn btn-default" href="?browse=exercise" role="button" id="query-by-exercise">Aufgabenweise korrigieren</a>
+			<#elseif examState == "REVIEW" || examState == "APPROVAL">
+				<a class="btn btn-default" href="?browse=exercise" role="button" id="query-by-exercise">Aufgabenweise reviewen</a>
 			</#if>
 		</div>
 	</div>
