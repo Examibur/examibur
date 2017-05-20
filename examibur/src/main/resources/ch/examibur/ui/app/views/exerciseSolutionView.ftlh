@@ -144,11 +144,14 @@
 				    			<div class="col-md-4">
 				    				${user.username}
 				    			</div>
+							</div>
+							<div class="row">
 				    			<div class="pull-right">
+									<button type="submit" class="btn btn-primary" id="submit-addgrading" name="action" value="save">Speichern</button>
 									<#if browse??>
 										<input type="hidden" name="browse" value="${browse}">
+										<button type="submit" class="btn btn-primary" id="submit-addgrading-continue" name="action" value="saveandcontinue">Speichern und weiter</button>
 									</#if>
-									<input class="form-control" type="submit" id="submit-addgrading" value="Speichern" />
 				    			</div>
 				    		</div>
 				    	</form>

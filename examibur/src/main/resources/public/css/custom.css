@@ -1,3 +1,7 @@
+.panel-body > form > .row > .pull-right {
+	margin-right: 15px;
+}
+
 .container .row {
 	margin-left: 0;
 	margin-right: 0;

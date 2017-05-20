@@ -1,8 +1,14 @@
 package ch.examibur.ui.app.routing;
 
+import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
+import ch.examibur.service.exception.InvalidParameterException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class RouteBuilder {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(RouteBuilder.class);
 
   private RouteBuilder() {
   }
@@ -109,7 +115,7 @@ public final class RouteBuilder {
   }
 
   /**
-   * Returns the absolute url to the exercise soltion with the given id of the given participation.
+   * Returns the absolute url to the exercise solution with the given id of the given participation.
    * It is the responsibility of the caller to provide valid ids! It also adds the
    * {@link QueryParameter} "BROWSE_SOLUTIONS" if it's not null.
    */
@@ -123,6 +129,26 @@ public final class RouteBuilder {
       url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
           browseSolutionsMode.toString());
     }
+    return url;
+  }
+
+  /**
+   * Returns the absolute url to the exercise solution with the given id. It also adds the
+   * {@link QueryParameter} "BROWSE_SOLUTIONS" and the url parameter "query-next/" which directly
+   * redirects to the next unprocessed exercise solution when called.
+   *
+   * @throws InvalidParameterException
+   *           when the browseSolutionsMode is null.
+   */
+  public static String toQueryNextSolution(long examId, long participantId, long solutionId,
+      BrowseSolutionsMode browseSolutionsMode) throws InvalidParameterException {
+    ValidationHelper.checkForNullValue(browseSolutionsMode, LOGGER);
+    String url = Route.QUERY_NEXT_SOLUTION.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
+    url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
+    url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
+    url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
+        browseSolutionsMode.toString());
     return url;
   }
 

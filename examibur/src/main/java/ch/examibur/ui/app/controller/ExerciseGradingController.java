@@ -22,6 +22,7 @@ public class ExerciseGradingController {
   public static final String BODY_PARAM_POINTS = "points";
   public static final String BODY_PARAM_REASONING = "reasoning";
   public static final String BODY_PARAM_COMMENT = "comment";
+  public static final String BODY_PARAM_ACTION = "action";
 
   private final ExerciseGradingService exerciseGradingService;
 
@@ -61,14 +62,19 @@ public class ExerciseGradingController {
     String comment = request.queryParams(BODY_PARAM_COMMENT);
     String reasoning = request.queryParams(BODY_PARAM_REASONING);
     Double points = RoutingHelpers.getUnsignedDoubleBodyParameter(request, BODY_PARAM_POINTS);
+    String action = request.queryParams(BODY_PARAM_ACTION);
 
     exerciseGradingService.addGrading(solutionId, comment, reasoning, points);
 
-    response.redirect(
-        RouteBuilder.toExerciseSolution(examId, participantId, solutionId,
-            BrowseSolutionsMode
-                .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()))),
-        Redirect.Status.FOUND.intValue());
+    BrowseSolutionsMode browseMode = BrowseSolutionsMode
+        .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()));
+    String target;
+    if ("saveandcontinue".equals(action)) {
+      target = RouteBuilder.toQueryNextSolution(examId, participantId, solutionId, browseMode);
+    } else {
+      target = RouteBuilder.toExerciseSolution(examId, participantId, solutionId, browseMode);
+    }
+    response.redirect(target, Redirect.Status.FOUND.intValue());
     return null;
   }
 }
