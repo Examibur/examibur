@@ -1,5 +1,8 @@
 package ch.examibur.ui.app.controller;
 
+import ch.examibur.domain.Exam;
+import ch.examibur.domain.ExamParticipation;
+import ch.examibur.domain.Exercise;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
 import ch.examibur.service.ExerciseSolutionService;
@@ -28,6 +31,11 @@ public class BrowseSolutionController implements Controller {
     this.exerciseSolutionService = exerciseSolutionService;
   }
 
+  /**
+   * redirects to the next unprocessed {@link ExerciseSolution} of the same
+   * {@link ExamParticipation}. If the last ExerciseSolution is reached, it will redirect back to
+   * the {@link Exam} it belongs to.
+   */
   public String getFirstExerciseSolutionByParticipation(Request request, Response response)
       throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
@@ -37,6 +45,12 @@ public class BrowseSolutionController implements Controller {
         participantId, 0);
   }
 
+  /**
+   * redirects to the next unprocessed {@link ExerciseSolution} of the same
+   * {@link ExamParticipation}. If the last ExerciseSolution is reached, it will continue with the
+   * next Participation. If the very last ExerciseSolution is reached, it will redirect back to the
+   * {@link Exam} it belongs to.
+   */
   public String getFirstExerciseSolutionByParticipations(Request request, Response response)
       throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
@@ -44,6 +58,10 @@ public class BrowseSolutionController implements Controller {
         0, 0);
   }
 
+  /**
+   * redirects to the next unprocessed {@link ExerciseSolution} of the same {@link Exercise}. If the
+   * last ExerciseSolution is reached, it will redirect back to the {@link Exam} it belongs to.
+   */
   public String getFirstExerciseSolutionByExercise(Request request, Response response)
       throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
@@ -52,12 +70,22 @@ public class BrowseSolutionController implements Controller {
         exerciseId, 0);
   }
 
+  /**
+   * redirects to the next unprocessed {@link ExerciseSolution} of the same {@link Exercise}. If the
+   * last ExerciseSolution is reached, it will continue with the next Exercise. If the very last
+   * ExerciseSolution is reached, it will redirect back to the {@link Exam} it belongs to.
+   */
   public String getFirstExerciseSolutionByExercises(Request request, Response response)
       throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
     return redirectToNextExerciseSolution(response, BrowseSolutionsMode.BY_EXERCISES, examId, 0, 0);
   }
 
+  /**
+   * redirects to the next unprocessed {@link ExerciseSolution} according to the given
+   * {@link BrowseSolutionsMode} as query parameter. If the last ExerciseSolution is reached, it
+   * will redirect back to the {@link Exam} it belongs to.
+   */
   public String getNextExerciseSolution(Request request, Response response)
       throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
