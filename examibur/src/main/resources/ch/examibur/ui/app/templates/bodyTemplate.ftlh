@@ -67,11 +67,9 @@
 		</main>
 		
 		<div class="navbar">
-			<div class="container">
-				<footer>
-					<@body_footer/>
-				</footer>
-			</div>
+			<footer>
+				<@body_footer/>
+			</footer>
 		</div>
 	</div>
 </#macro>
