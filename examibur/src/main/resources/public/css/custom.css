@@ -1,7 +1,16 @@
+.container .row {
+	margin-left: 0;
+	margin-right: 0;
+}
+
 .dropdown-menu > li > a {
 	background-color: inherit;
 	border: none;
 	text-align: left;
+}
+
+.dropdown-menu input {
+	background-color: inherit;
 }
 
 .navbar-brand {
@@ -14,7 +23,11 @@
 }
 
 .tab-body {
-	padding: 15px;
+	padding: 15px 15px 0 15px;
+	border-left: 1px solid #dde3ea;
+	border-right: 1px solid #dde3ea;
+	border-bottom: 1px solid #dde3ea;
+	margin-bottom: 25px;
 }
 
 main > header {
@@ -36,7 +49,6 @@ footer {
 }
 
 .top-navigation {
-	padding-right: 15px;
 	padding-bottom: 7px;
 }
 
