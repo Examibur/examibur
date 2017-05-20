@@ -47,10 +47,10 @@
 									<input type="hidden" name="browse" value="${browse}">
 								</#if>
 								<div class="col-md-3">
-									<button class="form-control btn-success" type="submit" name="approve-review" value="accept">Akzeptieren</button>
+									<button class="form-control btn-success" type="submit" id="accept-review" name="approve-review" value="accept">Akzeptieren</button>
 								</div>
 								<div class="col-md-3">
-									<button class="form-control btn-danger" type="submit" name="approve-review" value="reject">Ablehnen</button>
+									<button class="form-control btn-danger" type="submit" id="reject-review" name="approve-review" value="reject">Ablehnen</button>
 								</div>
     						</form>	
 						</div>

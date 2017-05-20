@@ -2,6 +2,7 @@ package ch.examibur.business.service;
 
 import ch.examibur.business.util.AuthenticationUtil;
 import ch.examibur.business.util.ValidationHelper;
+import ch.examibur.domain.Exam;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.domain.User;
@@ -97,7 +98,12 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
       throw new IllegalOperationException(
           "Review or grading missing for ExerciseSolution with id " + exerciseSolutionId);
     }
-    if (reviewForSolution.getExerciseSolution().getId() != exerciseSolutionId) {
+    Exam exam = reviewForSolution.getExerciseSolution().getExercise().getExam();
+    if (exam.getState() != ExamState.APPROVAL) {
+      throw new IllegalOperationException(
+          "Exam " + exam.getId() + " is not in state " + ExamState.APPROVAL);
+    }
+    if (reviewForSolution.getId() != exerciseGradingId) {
       throw new IllegalOperationException("Review " + exerciseGradingId
           + " does not belong to ExerciseSolution " + exerciseSolutionId);
     }
