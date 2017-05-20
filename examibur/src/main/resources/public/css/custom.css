@@ -48,6 +48,10 @@ footer {
 	margin-bottom: 0;
 }
 
+.row > .top-navigation {
+	margin-top: -30px;
+}
+
 .top-navigation {
 	padding-bottom: 7px;
 }
