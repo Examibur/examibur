@@ -327,7 +327,7 @@ public class UiTest {
   @Test
   public void testQueryFirstExerciseSolutionByParticipation() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolutions(8, 17);
+    final String testUrl = TEST_URL + RouteBuilder.toExamParticipation(8, 17);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("query-by-participation")).click();
 
@@ -354,8 +354,9 @@ public class UiTest {
   @Test
   public void testQueryFirstExerciseSolutionByExercise() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + RouteBuilder.toQueryFirstSolutionByExercise(8, 16);
+    final String testUrl = TEST_URL + RouteBuilder.toExercise(8, 16);
     getDriver().get(testUrl);
+    getDriver().findElement(By.id("query-by-exercise")).click();
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
@@ -400,7 +401,7 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
-  
+
   @Test
   public void testExerciseOverviewUi() {
     login(USER_STEFAN_BOEHM);
@@ -408,7 +409,7 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
-  
+
   @Test
   public void testExerciseParticipantsUi() {
     login(USER_JUERGEN_KOENIG);
@@ -416,7 +417,7 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
-  
+
   @Test
   public void testExerciseParticipantsMissingGradingsUi() {
     login(USER_STEFAN_BOEHM);

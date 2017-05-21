@@ -2,16 +2,17 @@
 <#include "../includes/participantComponent.ftlh">
 
 <#macro body_main>
+	<#local examState = exam.state>
 	<header>
 		<h1>Prüfung ${exam.module.name}</h1>
 	</header>
 
 	<div class="top-navigation pull-right">
-		<form method="get">
-			<input type="hidden" name="browse" value="participations">
-			<input type="hidden" name="querynext">
-			<button type="submit" class="btn btn-default">Prüfungsweise korrigieren</button>
-		</form>
+		<#if examState == "CORRECTION">
+			<a class="btn btn-default" href="../query-by-exercise/" role="button" id="query-by-exercise">Aufgabenweise korrigieren</a>
+		<#elseif examState == "REVIEW" || examState == "APPROVAL">
+			<a class="btn btn-default" href="../query-by-exercise/" role="button" id="query-by-exercise">Aufgabenweise reviewen</a>
+		</#if>
 	</div>
 
 	<ul class="nav nav-tabs">
