@@ -140,6 +140,22 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
+  
+  @Test
+  public void testExamParticipationsInfoTab() {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + RouteBuilder.toExamParticipation(7, 14);
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
+  
+  @Test
+  public void testExamParticipationsInfoTabMissingGrading() {
+    login(USER_STEFAN_BOEHM);
+    final String testUrl = TEST_URL + RouteBuilder.toExamParticipation(8, 18);
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
 
   @Test
   public void testExerciseSolutionUiInApprovalWithApprovalPending() throws IOException {
