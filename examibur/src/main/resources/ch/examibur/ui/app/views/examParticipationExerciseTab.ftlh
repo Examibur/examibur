@@ -35,8 +35,8 @@
 			<tbody>
 				<#items as overview>
 				<tr>
-					<th scope="row"><a href="${overview.exerciseSolution.id}">${overview.exerciseSolution.exercise.orderInExam}</th>
-					<td><a href="#"><a href="${overview.exerciseSolution.id}">${overview.exerciseSolution.exercise.title}</a></td>
+					<th scope="row"><a href="${overview.exerciseSolution.id}">${overview.exerciseSolution.exercise.orderInExam}</a></th>
+					<td><a href="${overview.exerciseSolution.id}">${overview.exerciseSolution.exercise.title}</a></td>
 					<td>${overview.exerciseSolution.exercise.maxPoints}</td>
 					<td>
 						<#if overview.points.isPresent()>
