@@ -107,7 +107,7 @@ public final class RouteBuilder {
   }
 
   /**
-   * Returns the absolute url to the exercise soltion with the given id of the given participation.
+   * Returns the absolute url to the exercise solution with the given id of the given participation.
    * It is the responsibility of the caller to provide valid ids! It also adds the
    * {@link QueryParameter} "BROWSE_SOLUTIONS" if it's not null.
    */
@@ -133,6 +133,25 @@ public final class RouteBuilder {
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
+    return url;
+  }
+
+  /**
+   * Returns the absolute url to the exercise grading with the given id. It is the responsibility of
+   * the caller to provide valid ids! It also adds the {@link QueryParameter} "BROWSE_SOLUTIONS" if
+   * it's not null.
+   */
+  public static String toExerciseGrading(long examId, long participantId, long solutionId,
+      long gradingId, BrowseSolutionsValue browseSolutionsValue) {
+    String url = Route.GRADING.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
+    url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
+    url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
+    url = replace(url, UrlParameter.GRADING_ID, gradingId);
+    if (browseSolutionsValue != null) {
+      url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
+          browseSolutionsValue.toString());
+    }
     return url;
   }
 

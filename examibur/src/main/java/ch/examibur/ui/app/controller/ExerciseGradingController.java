@@ -5,8 +5,10 @@ import ch.examibur.service.ExerciseGradingService;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.service.exception.ValidationException;
 import ch.examibur.ui.app.routing.BrowseSolutionsValue;
 import ch.examibur.ui.app.routing.QueryParameter;
 import ch.examibur.ui.app.routing.RouteBuilder;
@@ -14,6 +16,7 @@ import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
 import com.google.inject.Inject;
 import org.eclipse.jetty.http.HttpStatus;
+import spark.Redirect;
 import spark.Request;
 import spark.Response;
 
@@ -22,6 +25,10 @@ public class ExerciseGradingController {
   public static final String BODY_PARAM_POINTS = "points";
   public static final String BODY_PARAM_REASONING = "reasoning";
   public static final String BODY_PARAM_COMMENT = "comment";
+
+  public static final String BODY_PARAM_APPROVAL = "approve-review";
+  public static final String REVIEW_ACCEPT = "accept";
+  public static final String REVIEW_REJECT = "reject";
 
   private final ExerciseGradingService exerciseGradingService;
 
@@ -69,6 +76,36 @@ public class ExerciseGradingController {
             BrowseSolutionsValue
                 .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()))),
         HttpStatus.FOUND_302);
+    return null;
+  }
+
+  /**
+   * Either accept or reject a review during the approval phase.
+   * 
+   * @throws ExamiburException
+   *           throws {@link NotFoundException} if the {@link ExerciseSolution} does not exist.
+   *           Throws {@link IllegalOperationException} if the grading is not a review. Throws
+   *           {@link InvalidParameterException} if an id is negative. Throws
+   *           {@link ValidationException} if the approval result is invalid. Throws
+   *           {@link AuthorizationException} if the user is not authorized to approve. Throws
+   *           {@link CommunicationException} if an error during the communication occurs.
+   */
+  public String processApproval(Request request, Response response) throws ExamiburException {
+    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId =
+        RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long solutionId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+    long gradingId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.GRADING_ID);
+
+    String acceptParam = request.queryParams(BODY_PARAM_APPROVAL);
+
+    exerciseGradingService.approveReview(solutionId, gradingId, acceptParam);
+
+    response.redirect(
+        RouteBuilder.toExerciseSolution(examId, participantId, solutionId,
+            BrowseSolutionsValue
+                .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()))),
+        Redirect.Status.FOUND.intValue());
     return null;
   }
 }

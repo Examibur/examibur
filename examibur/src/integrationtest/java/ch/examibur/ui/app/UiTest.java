@@ -239,6 +239,30 @@ public class UiTest {
   }
 
   @Test
+  public void testAcceptReview() throws IOException {
+    login(USER_STEFAN_BOEHM);
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(4, 4, 10, null);
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("accept-review")).click();
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("review-panel")));
+
+    assertScreenshots();
+  }
+
+  @Test
+  public void testRejectReview() throws IOException {
+    login(USER_STEFAN_BOEHM);
+    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(4, 4, 10, null);
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("reject-review")).click();
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("review-panel")));
+
+    assertScreenshots();
+  }
+
+  @Test
   public void testQueryExerciseSolutionByExercise() throws IOException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, null);
