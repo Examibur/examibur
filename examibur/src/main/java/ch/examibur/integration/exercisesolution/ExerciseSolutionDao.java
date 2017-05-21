@@ -2,6 +2,7 @@ package ch.examibur.integration.exercisesolution;
 
 import ch.examibur.domain.Exam;
 import ch.examibur.domain.ExamParticipation;
+import ch.examibur.domain.Exercise;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.service.exception.ExamiburException;
 import java.util.List;
@@ -24,6 +25,14 @@ public interface ExerciseSolutionDao {
    *         the given id.
    */
   List<ExerciseSolution> getExerciseSolutionsForExamParticipation(long examParticipationId);
+
+  /**
+   * @param exerciseId
+   *          the id of the {@link Exercise}
+   * @return a list of {@link ExerciseSolution} corresponding to the {@link Exercise} with the given
+   *         id.
+   */
+  List<ExerciseSolution> getExerciseSolutionsForExercise(long exerciseId);
 
   /**
    * @param browseMode

@@ -9,6 +9,8 @@ import ch.examibur.service.ExamReportService;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -21,8 +23,29 @@ public class ExamReportServiceImplTest {
   @Rule
   public final DatabaseResource res = new DatabaseResource();
 
-  private final ExamReportService examReportService = IntegrationTestUtil.getInjector()
-      .getInstance(ExamReportService.class);
+  private static final Comparator<ExerciseAverageMaxPointsComparison> EXERCISE_AVERAGE_MAXPOINTS_COMPARISON_CMPR =
+      new Comparator<ExerciseAverageMaxPointsComparison>() {
+        @Override
+        public int compare(ExerciseAverageMaxPointsComparison o1,
+            ExerciseAverageMaxPointsComparison o2) {
+          int titleCmpr = o1.getTitle().compareTo(o2.getTitle());
+          if (titleCmpr != 0) {
+            return titleCmpr;
+          }
+          int maxPointCmpr = Double.compare(o1.getMaxPoints(), o2.getMaxPoints());
+          if (maxPointCmpr != 0) {
+            return maxPointCmpr;
+          }
+          int averagePointsCmpr = Double.compare(o1.getAveragePoints(), o2.getAveragePoints());
+          if (averagePointsCmpr != 0) {
+            return averagePointsCmpr;
+          }
+          return 0;
+        }
+      };
+
+  private final ExamReportService examReportService =
+      IntegrationTestUtil.getInjector().getInstance(ExamReportService.class);
 
   @Test
   public void testIsReportRetrievalPossible() throws ExamiburException {
@@ -69,8 +92,8 @@ public class ExamReportServiceImplTest {
 
   @Test
   public void testGetPassedParticipationComparisonReport() throws ExamiburException {
-    PassedParticipationComparison passedParticipationComparison = examReportService
-        .getPassedParticipationComparisonReport(6L);
+    PassedParticipationComparison passedParticipationComparison =
+        examReportService.getPassedParticipationComparisonReport(6L);
     Assert.assertEquals(2 / 3D * 100,
         passedParticipationComparison.getPercentageOfSuccessfulParticipations(), DOUBLE_DELTA); // 66.66...
     Assert.assertEquals(1 / 3D * 100,
@@ -79,8 +102,8 @@ public class ExamReportServiceImplTest {
 
   @Test
   public void testGetPassedParticipationComparisonReportMissingGradings() throws ExamiburException {
-    PassedParticipationComparison passedParticipationComparison = examReportService
-        .getPassedParticipationComparisonReport(8L);
+    PassedParticipationComparison passedParticipationComparison =
+        examReportService.getPassedParticipationComparisonReport(8L);
     Assert.assertEquals(0, passedParticipationComparison.getPercentageOfSuccessfulParticipations(),
         DOUBLE_DELTA);
     Assert.assertEquals(100,
@@ -107,43 +130,34 @@ public class ExamReportServiceImplTest {
 
   @Test
   public void testGetExerciseAverageMaxPointsComparisonReport() throws ExamiburException {
-    List<ExerciseAverageMaxPointsComparison> exerciseAverageMaxPointsComparisonList = examReportService
-        .getExerciseAverageMaxPointsComparisonReport(6L);
+    List<ExerciseAverageMaxPointsComparison> exerciseAverageMaxPointsComparisonList =
+        examReportService.getExerciseAverageMaxPointsComparisonReport(6L);
     Assert.assertEquals(3, exerciseAverageMaxPointsComparisonList.size());
-    for (ExerciseAverageMaxPointsComparison exerciseAverageMaxPointsComparison : exerciseAverageMaxPointsComparisonList) {
-      if (exerciseAverageMaxPointsComparison.getTitle().equals("Verordnung gegen Verfassung")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 2D, 4 / 3D); // 1.33...
-      } else if (exerciseAverageMaxPointsComparison.getTitle().equals("Datenbearbeitung")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 2D, 1D);
-      } else if (exerciseAverageMaxPointsComparison.getTitle()
-          .equals("Zuständige Aufsichtsbehörde")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 2D, 5 / 3D); // 1.77...
-      } else {
-        Assert.fail("unknown ExerciseAverageMaxPointsComparison in list: "
-            + exerciseAverageMaxPointsComparison.getTitle());
-      }
-    }
+
+    Collections.sort(exerciseAverageMaxPointsComparisonList,
+        EXERCISE_AVERAGE_MAXPOINTS_COMPARISON_CMPR);
+    testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparisonList.get(0), 2D, 1D); // Datenbearbeitung
+    testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparisonList.get(1), 2D,
+        4 / 3D); // Verordnung gegen Verfassung
+    testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparisonList.get(2), 2D,
+        5 / 3D); // Zuständige Aufsichtsbehörde
   }
 
   @Test
   public void testGetExerciseAverageMaxPointsComparisonReportMissingGradings()
       throws ExamiburException {
-    List<ExerciseAverageMaxPointsComparison> exerciseAverageMaxPointsComparisonList = examReportService
-        .getExerciseAverageMaxPointsComparisonReport(8L);
+    List<ExerciseAverageMaxPointsComparison> exerciseAverageMaxPointsComparisonList =
+        examReportService.getExerciseAverageMaxPointsComparisonReport(8L);
     Assert.assertEquals(3, exerciseAverageMaxPointsComparisonList.size());
-    for (ExerciseAverageMaxPointsComparison exerciseAverageMaxPointsComparison : exerciseAverageMaxPointsComparisonList) {
-      if (exerciseAverageMaxPointsComparison.getTitle().equals("AES-CBC Disk Encryption")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 1D);
-      } else if (exerciseAverageMaxPointsComparison.getTitle()
-          .equals("XTS-AES Speicherplatz Ausnutzung")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 5D);
-      } else if (exerciseAverageMaxPointsComparison.getTitle().equals("XTS-AES Verschiebung")) {
-        testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparison, 5D, 0D);
-      } else {
-        Assert.fail("unknown ExerciseAverageMaxPointsComparison in list: "
-            + exerciseAverageMaxPointsComparison.getTitle());
-      }
-    }
+
+    Collections.sort(exerciseAverageMaxPointsComparisonList,
+        EXERCISE_AVERAGE_MAXPOINTS_COMPARISON_CMPR);
+    // AES-CBC Disk Encryption
+    testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparisonList.get(0), 5D, 1D);
+    // XTS-AES Speicherplatz Ausnutzung
+    testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparisonList.get(1), 5D, 5D);
+    // XTS-AES Verschiebung
+    testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparisonList.get(2), 5D, 0D);
   }
 
   @Test(expected = NotFoundException.class)

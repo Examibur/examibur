@@ -8,6 +8,7 @@ public enum Route {
   EXAM(EXAMS, UrlParameter.EXAM_ID),
   EXERCISES(EXAM, "exercises/"),
   EXERCISE(EXERCISES, UrlParameter.EXERCISE_ID),
+  EXERCISE_PARTICIPANTS(EXERCISE, "participants/"),
   PARTICIPANTS(EXAM, "participants/"),
   REPORTS(EXAM, "reports/"),
   REPORTS_JSON(REPORTS, "json/"),

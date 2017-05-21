@@ -8,15 +8,19 @@ import ch.examibur.service.ExerciseSolutionService;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.service.model.ExerciseParticipantOverview;
 import ch.examibur.service.model.ExerciseSolutionOverview;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 
 public class ExerciseSolutionServiceImplTest {
+
+  private static final double DOUBLE_DELTA = 0.0001;
 
   @Rule
   public final DatabaseResource res = new DatabaseResource();
@@ -117,16 +121,9 @@ public class ExerciseSolutionServiceImplTest {
     Assert.assertNotNull(overviews);
     Assert.assertEquals(3, overviews.size());
 
-    for (ExerciseSolutionOverview overview : overviews) {
-      Assert.assertNotNull(overview.getExerciseSolution());
-      if (overview.getExerciseSolution().getId() == 37L) {
-        Assert.assertEquals(3.0, overview.getPoints().get(), 0.01);
-      } else if (overview.getExerciseSolution().getId() == 38L) {
-        Assert.assertEquals(5.0, overview.getPoints().get(), 0.01);
-      } else if (overview.getExerciseSolution().getId() == 39L) {
-        Assert.assertEquals(0.0, overview.getPoints().get(), 0.01);
-      }
-    }
+    Assert.assertEquals(3.0, overviews.get(0).getPoints().get(), 0.01); // ExerciseSolutionId: 37
+    Assert.assertEquals(5.0, overviews.get(1).getPoints().get(), 0.01); // ExerciseSolutionId: 38
+    Assert.assertEquals(0.0, overviews.get(2).getPoints().get(), 0.01); // ExerciseSolutionId: 39
   }
 
   @Test(expected = InvalidParameterException.class)
@@ -197,9 +194,51 @@ public class ExerciseSolutionServiceImplTest {
   }
 
   @Test
+
   public void testGetFirstExerciseSolutionByExercises() throws ExamiburException {
     ExerciseSolution nextExerciseSolution = exerciseSolutionService
         .getNextExerciseSolution(BrowseSolutionsMode.BY_EXERCISES, 8L, 17L, 0);
     Assert.assertEquals(49L, nextExerciseSolution.getId());
+  }
+
+  public void testGetExerciseParticipantsOverview() throws ExamiburException {
+    List<ExerciseParticipantOverview> exerciseParticipantsOverview =
+        exerciseSolutionService.getExerciseParticipantsOverview(8);
+    Assert.assertEquals(3, exerciseParticipantsOverview.size());
+
+    testExerciseParticipantOverview(exerciseParticipantsOverview.get(0), 9D, Optional.of(5.5D),
+        false); // Anonymer Löwe
+    testExerciseParticipantOverview(exerciseParticipantsOverview.get(1), 6D, Optional.of(4D),
+        false); // Anonymes Lama
+    testExerciseParticipantOverview(exerciseParticipantsOverview.get(2), 8D, Optional.of(5D),
+        false); // Anonymes Pony
+  }
+
+  @Test
+  public void testGetExerciseParticipantsOverviewMissingGradings() throws ExamiburException {
+    List<ExerciseParticipantOverview> exerciseParticipantsOverview =
+        exerciseSolutionService.getExerciseParticipantsOverview(17);
+    Assert.assertEquals(3, exerciseParticipantsOverview.size());
+
+    testExerciseParticipantOverview(exerciseParticipantsOverview.get(0), 5D, Optional.of(2.67D),
+        true); // Anonymer Panda
+    testExerciseParticipantOverview(exerciseParticipantsOverview.get(1), 0D, Optional.empty(),
+        false); // Anonymer Elefant
+    testExerciseParticipantOverview(exerciseParticipantsOverview.get(2), 2D, Optional.empty(),
+        false); // Anonymer Flamingo
+  }
+
+  private void testExerciseParticipantOverview(
+      ExerciseParticipantOverview exerciseParticipantOverview, double expectedTotalPoints,
+      Optional<Double> expectedGrading, boolean expectedIsDone) {
+    Assert.assertEquals(expectedTotalPoints, exerciseParticipantOverview.getTotalPoints(),
+        DOUBLE_DELTA);
+    if (expectedGrading.isPresent()) {
+      Assert.assertEquals(expectedGrading.get(), exerciseParticipantOverview.getGrading().get(),
+          DOUBLE_DELTA);
+    } else {
+      Assert.assertEquals(expectedGrading, exerciseParticipantOverview.getGrading());
+    }
+    Assert.assertEquals(expectedIsDone, exerciseParticipantOverview.isDone());
   }
 }

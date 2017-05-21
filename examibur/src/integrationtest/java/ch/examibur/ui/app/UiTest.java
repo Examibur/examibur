@@ -400,6 +400,30 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
+  
+  @Test
+  public void testExerciseOverviewUi() {
+    login(USER_STEFAN_BOEHM);
+    final String testUrl = TEST_URL + "/exams/8/exercises/16/";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
+  
+  @Test
+  public void testExerciseParticipantsUi() {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + "/exams/5/exercises/8/participants/";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
+  
+  @Test
+  public void testExerciseParticipantsMissingGradingsUi() {
+    login(USER_STEFAN_BOEHM);
+    final String testUrl = TEST_URL + "/exams/8/exercises/16/participants/";
+    getDriver().get(testUrl);
+    assertScreenshots();
+  }
 
   @Test
   public void testXssVulnerability() {

@@ -1,5 +1,4 @@
 <#include "../templates/bodyTemplate.ftlh">
-<#include "../includes/startGradingDropDown.ftlh">
 <#include "../includes/participantComponent.ftlh">
 
 <#macro body_main>
@@ -8,14 +7,16 @@
 	</header>
 
 	<div class="top-navigation pull-right">
-		<@start_grading_dropdown examState=exam.state relativePath="../"/>
+		<form method="get">
+			<input type="hidden" name="browse" value="participations">
+			<input type="hidden" name="querynext">
+			<button type="submit" class="btn btn-default">Prüfungsweise korrigieren</button>
+		</form>
 	</div>
 
 	<ul class="nav nav-tabs">
-		<li role="presentation"><a href="../">Informationen</a></li>
+		<li role="presentation"><a href="../">Aufgabenstellung</a></li>
 		<li role="presentation" class="active"><a href="#">Teilnahmen</a></li>
-		<li role="presentation"><a href="../exercises">Aufgaben</a></li>
-		<li role="presentation"><a href="../reports">Auswertung</a></li>
 	</ul>	
 
 	<div class="tab-body">
@@ -23,7 +24,7 @@
 			<div class="col-md-12">
 				<@participant_list/>
 			</div>
-		</div>					
+		</div>	
 	</div>
 </#macro>
 

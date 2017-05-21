@@ -34,4 +34,17 @@ public class ExerciseDaoImpl implements ExerciseDao {
     return exercisesQuery.setParameter("examId", examId).getResultList();
   }
 
+  @Override
+  public Exercise getExercise(long exerciseId) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      TypedQuery<Exercise> exerciseQuery = entityManager.createQuery(
+          "SELECT e FROM Exercise e WHERE e.id = :exerciseId",
+          Exercise.class);
+      return exerciseQuery.setParameter("exerciseId", exerciseId).getSingleResult();
+    } finally {
+      entityManager.close();
+    }
+  }
+
 }
