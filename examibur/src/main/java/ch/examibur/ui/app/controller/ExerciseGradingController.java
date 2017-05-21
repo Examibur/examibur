@@ -16,6 +16,7 @@ import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
 import com.google.inject.Inject;
 import org.eclipse.jetty.http.HttpStatus;
+import spark.Redirect;
 import spark.Request;
 import spark.Response;
 
@@ -104,7 +105,7 @@ public class ExerciseGradingController {
         RouteBuilder.toExerciseSolution(examId, participantId, solutionId,
             BrowseSolutionsValue
                 .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()))),
-        HttpStatus.FOUND_302);
+        Redirect.Status.FOUND.intValue());
     return null;
   }
 }

@@ -89,16 +89,19 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
     ValidationHelper.checkForNegativeId(exerciseSolutionId, LOGGER);
     ValidationHelper.checkForNegativeId(exerciseGradingId, LOGGER);
 
-    ExerciseGrading reviewForSolution =
+    final ApprovalResult approval =
+        ValidationHelper.getValidatedApprovalResult(approvalResult, LOGGER);
+
+    final ExerciseGrading reviewForSolution =
         exerciseGradingDao.getGradingCreatedInState(exerciseSolutionId, ExamState.REVIEW);
-    ExerciseGrading gradingForSolution =
+    final ExerciseGrading gradingForSolution =
         exerciseGradingDao.getGradingCreatedInState(exerciseSolutionId, ExamState.CORRECTION);
 
     if (reviewForSolution == null || gradingForSolution == null) {
       throw new IllegalOperationException(
           "Review or grading missing for ExerciseSolution with id " + exerciseSolutionId);
     }
-    Exam exam = reviewForSolution.getExerciseSolution().getExercise().getExam();
+    final Exam exam = reviewForSolution.getExerciseSolution().getExercise().getExam();
     if (exam.getState() != ExamState.APPROVAL) {
       throw new IllegalOperationException(
           "Exam " + exam.getId() + " is not in state " + ExamState.APPROVAL);
@@ -107,7 +110,6 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
       throw new IllegalOperationException("Review " + exerciseGradingId
           + " does not belong to ExerciseSolution " + exerciseSolutionId);
     }
-    ApprovalResult approval = ValidationHelper.getValidatedApprovalResult(approvalResult, LOGGER);
 
     LOGGER.info("Approve Review for solution {}: {}", exerciseSolutionId, approval);
     if (approval == ApprovalResult.ACCEPT) {
