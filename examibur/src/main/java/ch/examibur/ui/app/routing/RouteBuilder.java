@@ -210,6 +210,25 @@ public final class RouteBuilder {
     return url;
   }
 
+  /**
+   * Returns the absolute url to the exercise grading with the given id. It is the responsibility of
+   * the caller to provide valid ids! It also adds the {@link QueryParameter} "BROWSE_SOLUTIONS" if
+   * it's not null.
+   */
+  public static String toExerciseGrading(long examId, long participantId, long solutionId,
+      long gradingId, BrowseSolutionsMode browseSolutionsMode) {
+    String url = Route.GRADING.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
+    url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
+    url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
+    url = replace(url, UrlParameter.GRADING_ID, gradingId);
+    if (browseSolutionsMode != null) {
+      url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
+          browseSolutionsMode.toString());
+    }
+    return url;
+  }
+
   private static String replace(String url, UrlParameter param, Object replacement) {
     return url.replaceFirst(param.toUrl(), replacement == null ? "" : replacement.toString());
   }

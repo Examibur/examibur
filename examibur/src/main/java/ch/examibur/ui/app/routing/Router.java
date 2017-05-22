@@ -118,6 +118,7 @@ public final class Router {
     get(Route.SOLUTION, exerciseSolutionController::displayExerciseSolution);
 
     post(Route.GRADINGS, exerciseGradingController::addExerciseGrading);
+    post(Route.GRADING, exerciseGradingController::processApproval);
 
     Spark.get("*", exceptionController::handleNotFound);
     Spark.exception(NotFoundException.class, exceptionController::handleNotFoundException);

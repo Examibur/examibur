@@ -6,6 +6,7 @@ import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.domain.User;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.IllegalOperationException;
+import ch.examibur.service.exception.NotFoundException;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 
@@ -99,4 +100,11 @@ public interface ExerciseGradingDao {
   void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
       User gradingAuthor) throws ExamiburException;
 
+  /**
+   * Sets the isFinal flag for an {@link ExerciseGrading}
+   * 
+   * @throws NotFoundException
+   *           if the {@link ExerciseGrading} with the given id does not exist.
+   */
+  void setFinalGrading(long exerciseGradingId, boolean isFinal) throws NotFoundException;
 }

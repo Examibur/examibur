@@ -4,6 +4,15 @@
 			<div class="panel-heading">
 				<strong>${grading.gradingAuthor.firstName} ${grading.gradingAuthor.lastName}</strong>
 				<#if isReview == true>reviewte<#else>bewertete</#if> am ${grading.creationDate}
+				<#if isReview && examState != "REVIEW" && exerciseSolution.isDone()>
+					<div id="review-result" class="pull-right">
+						<#if grading.isFinalGrading()>
+							<span class="label label-success">akzeptiert</span>
+						<#else>
+							<span class="label label-danger">abgelehnt</span>
+						</#if>
+					</div>
+				</#if>
 			</div>
 			<div class="panel-body">
 				<div class="row">
@@ -33,16 +42,20 @@
 				<#if isReview == true>
 					<#if examState == "APPROVAL" && !exerciseSolution.isDone()>
 						<div class="row">
-							<div class="col-md-3">
-	    						<form action="gradings" method="POST">
-	    							<input type="hidden" id="accept-review" value="true" />
-	    							<input type="submit" class="form-control" value="Akzeptieren" />
-	    						</form>
-							</div>
-							<div class="col-md-3">
-	    						<form action="#reject-review" method="POST">
-	    							<input type="submit" class="form-control" value="Ablehnen" />
-	    						</form>	
+							<div class="col-md-12">
+								<form action="gradings/${grading.id}/" method="POST">
+									<#if browse??>
+										<input type="hidden" name="browse" value="${browse}">
+									</#if>
+									<div class="btn-toolbar pull-right">
+										<div class="btn-group">
+											<button class="form-control btn btn-success" type="submit" id="accept-review" name="approve-review" value="accept">Akzeptieren</button>
+										</div>
+										<div class="btn-group">
+											<button class="form-control btn btn-danger" type="submit" id="reject-review" name="approve-review" value="reject">Ablehnen</button>
+										</div>
+									</div>
+								</form>
 							</div>
 						</div>
 					</#if>

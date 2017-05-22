@@ -4,6 +4,7 @@ import ch.examibur.domain.ExamParticipation;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
+import ch.examibur.service.exception.NotFoundException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
@@ -57,7 +58,6 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
       entityManager.close();
     }
   }
-  
 
   @Override
   public List<ExerciseSolution> getExerciseSolutionsForExercise(long exerciseId) {
@@ -66,8 +66,29 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
       TypedQuery<ExerciseSolution> exerciseSolutionQuery = entityManager.createQuery(
           "SELECT es FROM ExerciseSolution es WHERE es.exercise.id = :exerciseId ORDER BY es.id",
           ExerciseSolution.class);
-      return exerciseSolutionQuery.setParameter("exerciseId", exerciseId)
-          .getResultList();
+      return exerciseSolutionQuery.setParameter("exerciseId", exerciseId).getResultList();
+    } finally {
+      entityManager.close();
+    }
+  }
+
+  @Override
+  public void setIsDone(long exerciseSolutionId, boolean isDone) throws NotFoundException {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      entityManager.getTransaction().begin();
+      ExerciseSolution solution = entityManager.find(ExerciseSolution.class, exerciseSolutionId);
+      if (solution == null) {
+        NotFoundException ex = new NotFoundException(
+            "exerciseSolution with id " + exerciseSolutionId + " does not exist");
+        LOGGER.error(ex.getMessage(), ex);
+        throw ex;
+      }
+      solution.setDone(isDone);
+      entityManager.getTransaction().commit();
+    } catch (Exception ex) {
+      entityManager.getTransaction().rollback();
+      throw ex;
     } finally {
       entityManager.close();
     }

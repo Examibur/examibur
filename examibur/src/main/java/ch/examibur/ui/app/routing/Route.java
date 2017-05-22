@@ -16,6 +16,7 @@ public enum Route {
   SOLUTIONS(PARTICIPANT, "solutions/"),
   SOLUTION(SOLUTIONS, UrlParameter.SOLUTION_ID),
   GRADINGS(SOLUTION, "gradings/"),
+  GRADING(GRADINGS, UrlParameter.GRADING_ID),
   QUERY_FIRST_SOLUTION_BY_PARTICIPATION(PARTICIPANT, "query-by-participation/"),
   QUERY_FIRST_SOLUTION_BY_PARTICIPATIONS(EXAM, "query-by-participations/"),
   QUERY_FIRST_SOLUTION_BY_EXERCISE(EXERCISE, "query-by-exercise/"),
