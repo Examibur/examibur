@@ -2,13 +2,18 @@ package ch.examibur.integration.exercisesolution;
 
 import ch.examibur.domain.ExamParticipation;
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.service.exception.NotFoundException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseSolutionDaoImpl.class);
 
   private final Provider<EntityManager> entityManagerProvider;
 
@@ -48,6 +53,43 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
           ExerciseSolution.class);
       return exerciseSolutionQuery.setParameter("examParticipationId", examParticipationId)
           .getResultList();
+    } finally {
+      entityManager.close();
+    }
+  }
+  
+
+  @Override
+  public List<ExerciseSolution> getExerciseSolutionsForExercise(long exerciseId) {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      TypedQuery<ExerciseSolution> exerciseSolutionQuery = entityManager.createQuery(
+          "SELECT es FROM ExerciseSolution es WHERE es.exercise.id = :exerciseId ORDER BY es.id",
+          ExerciseSolution.class);
+      return exerciseSolutionQuery.setParameter("exerciseId", exerciseId)
+          .getResultList();
+    } finally {
+      entityManager.close();
+    }
+  }
+
+  @Override
+  public void setIsDone(long exerciseSolutionId, boolean isDone) throws NotFoundException {
+    EntityManager entityManager = entityManagerProvider.get();
+    try {
+      entityManager.getTransaction().begin();
+      ExerciseSolution solution = entityManager.find(ExerciseSolution.class, exerciseSolutionId);
+      if (solution == null) {
+        NotFoundException ex = new NotFoundException(
+            "exerciseSolution with id " + exerciseSolutionId + " does not exist");
+        LOGGER.error(ex.getMessage(), ex);
+        throw ex;
+      }
+      solution.setDone(isDone);
+      entityManager.getTransaction().commit();
+    } catch (Exception ex) {
+      entityManager.getTransaction().rollback();
+      throw ex;
     } finally {
       entityManager.close();
     }

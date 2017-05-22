@@ -4,6 +4,8 @@ import ch.examibur.business.DatabaseResource;
 import ch.examibur.business.IntegrationTestUtil;
 import ch.examibur.domain.Exercise;
 import ch.examibur.service.ExerciseService;
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +14,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 public class ExerciseServiceImplTest {
+
+  private static final double DOUBLE_DELTA = 0.0001;
 
   @Rule
   public final DatabaseResource res = new DatabaseResource();
@@ -54,6 +58,19 @@ public class ExerciseServiceImplTest {
     List<Exercise> expectedList = new ArrayList<>(exList);
     Collections.sort(expectedList, (ex1, ex2) -> ex1.getOrderInExam() - ex2.getOrderInExam());
     Assert.assertEquals(expectedList, exList);
+  }
+
+  @Test
+  public void testGetExercise() throws ExamiburException {
+    Exercise exercise = exerciseService.getExercise(17L);
+    Assert.assertNotNull(exercise);
+    Assert.assertEquals(17L, exercise.getId());
+    Assert.assertEquals(5D, exercise.getMaxPoints(), DOUBLE_DELTA);
+  }
+
+  @Test(expected = InvalidParameterException.class)
+  public void testGetExerciseWithNegativeId() throws ExamiburException {
+    exerciseService.getExercise(-1L);
   }
 
 }

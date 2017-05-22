@@ -29,6 +29,9 @@ public class ExerciseGradingServiceImplTest {
   public final DatabaseResource res = new DatabaseResource();
 
   private static final String USER_MAXIMILIAN_MUELLER = "maximilian.mueller";
+  private static final String USER_UWE_BAER = "uwe.baer";
+  private static final String USER_JUERGEN_KOENIG = "juergen.koenig";
+
   private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
   private final ExerciseGradingService exerciseGradingService = IntegrationTestUtil.getInjector()
@@ -188,6 +191,73 @@ public class ExerciseGradingServiceImplTest {
   public void testAddGradingWithLessThanZeroPoints() throws ExamiburException {
     fakeLogin(USER_MAXIMILIAN_MUELLER);
     exerciseGradingService.addGrading(51L, "random comment", "random reasoning", -1D);
+  }
+
+  @Test
+  public void testAcceptGrading() throws ExamiburException {
+    fakeLogin(USER_UWE_BAER);
+    final long exerciseSolutionId = 10L;
+    exerciseGradingService.approveReview(exerciseSolutionId, 53L, "accept");
+    ExerciseGrading review =
+        exerciseGradingService.getReviewForExerciseSolution(exerciseSolutionId);
+    ExerciseGrading grading =
+        exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId);
+    ExerciseSolution solution = exerciseSolutionService.getExerciseSolution(exerciseSolutionId);
+
+    Assert.assertNotNull(review);
+    Assert.assertNotNull(solution);
+    Assert.assertTrue(solution.isDone());
+    Assert.assertTrue(review.isFinalGrading());
+    Assert.assertFalse(grading.isFinalGrading());
+
+  }
+
+  @Test
+  public void testRejectGrading() throws ExamiburException {
+    fakeLogin(USER_UWE_BAER);
+    final long exerciseSolutionId = 10L;
+    exerciseGradingService.approveReview(exerciseSolutionId, 53L, "reject");
+    ExerciseGrading review =
+        exerciseGradingService.getReviewForExerciseSolution(exerciseSolutionId);
+    ExerciseGrading grading =
+        exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId);
+    ExerciseSolution solution = exerciseSolutionService.getExerciseSolution(exerciseSolutionId);
+
+    Assert.assertNotNull(review);
+    Assert.assertNotNull(solution);
+    Assert.assertTrue(solution.isDone());
+    Assert.assertTrue(grading.isFinalGrading());
+    Assert.assertFalse(review.isFinalGrading());
+  }
+
+  @Test(expected = ValidationException.class)
+  public void testApproveReviewWithWrongParameter() throws ExamiburException {
+    fakeLogin(USER_UWE_BAER);
+    exerciseGradingService.approveReview(10L, 53L, "somestring");
+  }
+
+  @Test(expected = InvalidParameterException.class)
+  public void testApproveReviewWithNegativeIds() throws ExamiburException {
+    fakeLogin(USER_UWE_BAER);
+    exerciseGradingService.approveReview(-1L, -1L, "accept");
+  }
+
+  @Test(expected = IllegalOperationException.class)
+  public void testApproveReviewWithWrongSolution() throws ExamiburException {
+    fakeLogin(USER_UWE_BAER);
+    exerciseGradingService.approveReview(9L, 53L, "accept");
+  }
+
+  @Test(expected = IllegalOperationException.class)
+  public void testApproveReviewWithWrongGrading() throws ExamiburException {
+    fakeLogin(USER_UWE_BAER);
+    exerciseGradingService.approveReview(10L, 10L, "reject");
+  }
+
+  @Test(expected = IllegalOperationException.class)
+  public void testApproveReviewInWrongExamstate() throws ExamiburException {
+    fakeLogin(USER_JUERGEN_KOENIG);
+    exerciseGradingService.approveReview(21L, 56L, "accept");
   }
 
   private void fakeLogin(String username) throws ExamiburException {

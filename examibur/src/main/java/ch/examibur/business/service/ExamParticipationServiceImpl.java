@@ -46,38 +46,55 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
   }
 
   @Override
-  public List<ExamParticipantOverview> getExamParticipantsOverview(long examId) {
+  public List<ExamParticipantOverview> getExamParticipantOverviewList(long examId)
+      throws ExamiburException {
     List<ExamParticipation> examParticipations = examParticipationDao.getExamParticipations(examId);
 
     List<ExamParticipantOverview> examParticipantsOverview = new ArrayList<>();
     for (ExamParticipation examParticipation : examParticipations) {
-      ExamParticipantOverview examParticipantOverview = new ExamParticipantOverview();
-
-      examParticipantOverview.setExamParticipation(examParticipation);
-
-      long examParticipationId = examParticipation.getId();
-      boolean areAllExercisesAreGraded = exerciseGradingDao.checkIfAllExercisesAreGraded(examId,
-          examParticipationId);
-
-      double totalPoints = exerciseGradingDao.getTotalPointsOfExamGradings(examParticipationId);
-      examParticipantOverview.setTotalPoints(totalPoints);
-
-      if (areAllExercisesAreGraded) {
-        double maxPoints = examDao.getMaxPoints(examId);
-
-        double grading = GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints,
-            maxPoints);
-        examParticipantOverview.setGrading(Optional.of(grading));
-      } else {
-        examParticipantOverview.setGrading(Optional.empty());
-      }
-      double progress = exerciseGradingDao.getProgressOfExamGradings(examId, examParticipationId);
-      examParticipantOverview.setProgress(progress);
-
-      examParticipantsOverview.add(examParticipantOverview);
+      examParticipantsOverview.add(createExamParticipantOverview(examParticipation));
     }
-
     return examParticipantsOverview;
+  }
+
+  @Override
+  public ExamParticipantOverview getExamParticipantOverview(long examParticipationId)
+      throws ExamiburException {
+    ExamParticipation examParticipation =
+        examParticipationDao.getExamParticipation(examParticipationId);
+    return createExamParticipantOverview(examParticipation);
+  }
+
+  private ExamParticipantOverview createExamParticipantOverview(ExamParticipation examParticipation)
+      throws ExamiburException {
+    long examId = examParticipation.getExam().getId();
+
+    ExamParticipantOverview examParticipantOverview = new ExamParticipantOverview();
+
+    examParticipantOverview.setId(examParticipation.getId());
+    examParticipantOverview.setPseudonym(examParticipation.getPseudonym());
+
+    long examParticipationId = examParticipation.getId();
+    boolean areAllExercisesAreGraded =
+        exerciseGradingDao.checkIfAllExercisesAreGraded(examId, examParticipationId);
+
+    double totalPoints = exerciseGradingDao.getTotalPointsOfExamGradings(examParticipationId);
+    examParticipantOverview.setTotalPoints(totalPoints);
+
+    if (areAllExercisesAreGraded) {
+      double maxPoints = examDao.getMaxPoints(examId);
+
+      double grading =
+          GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints, maxPoints);
+      examParticipantOverview.setGrading(Optional.of(grading));
+    } else {
+      examParticipantOverview.setGrading(Optional.empty());
+    }
+    double progress = exerciseGradingDao.getProgressOfExamGradings(examId, examParticipationId);
+    examParticipantOverview.setProgress(progress);
+
+    examParticipantOverview.setExamState(examParticipation.getExam().getState());
+    return examParticipantOverview;
   }
 
   @Override

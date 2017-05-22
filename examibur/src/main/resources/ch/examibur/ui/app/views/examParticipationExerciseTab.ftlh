@@ -12,7 +12,6 @@
 	<ul class="nav nav-tabs">
 		<li role="presentation"><a href="..">Informationen</a></li>
 		<li role="presentation" class="active"><a href="#">Aufgaben</a></li>
-		<li role="presentation"><a href="#">Auswertung</a></li>
 	</ul>	
 
 	<div class="tab-body">

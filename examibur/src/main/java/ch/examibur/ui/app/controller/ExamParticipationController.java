@@ -59,10 +59,11 @@ public class ExamParticipationController implements Controller {
    */
   public String displayExamParticipation(Request request, Response response)
       throws ExamiburException {
-    long examParticipationId = RoutingHelpers.getUnsignedLongUrlParameter(request,
-        UrlParameter.PARTICIPANT_ID);
+    long examParticipationId =
+        RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
-    model.put("participation", examParticipationService.getExamParticipation(examParticipationId));
+    model.put("participantOverview",
+        examParticipationService.getExamParticipantOverview(examParticipationId));
     return engine.render(model, "views/examParticipationInfoTab.ftlh");
   }
 
@@ -86,7 +87,9 @@ public class ExamParticipationController implements Controller {
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
-    model.put("participantsOverview", examParticipationService.getExamParticipantsOverview(examId));
+    model.put("participantsOverview",
+        examParticipationService.getExamParticipantOverviewList(examId));
+    model.put("visibleColumns", new String[] { "testee", "points", "grade", "passed", "progress" });
     return engine.render(model, "views/examParticipationsTab.ftlh");
   }
 
@@ -110,8 +113,8 @@ public class ExamParticipationController implements Controller {
   public void addSpecificBreadCrumb(Request request, Response response)
       throws InvalidParameterException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
-        UrlParameter.PARTICIPANT_ID);
+    long participantId =
+        RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
 
     RequestHelper.pushBreadCrumb(request, "Teilnehmer #" + participantId,
         RouteBuilder.toExamParticipation(examId, participantId));
