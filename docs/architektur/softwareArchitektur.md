@@ -92,7 +92,7 @@ Die vom Benutzer und dem System erzeugten Daten werden in einer relationalen Dat
 Das OR-Mapping von der Datenbank zu den Java-Objekten wird anhand des [Datenmodells](#datenmodell) mit EclipseLink umgesetzt.
 
 ### Logging-, Error- und Exception-Handling
-Das Logging-, Error- und Exception-Handling ist im Kapitel [Error-Handling Policy](../projektplan/error-handling-policy.html) genauer beschrieben.
+Das Logging-, Error- und Exception-Handling ist im Kapitel [Error-Handling Policy](../quality/error-handling-policy.html) genauer beschrieben.
 
 
 ## Design der Programmkonstrukte
