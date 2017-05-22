@@ -2,6 +2,8 @@ package ch.examibur.integration.exam;
 
 import ch.examibur.domain.Exam;
 import ch.examibur.domain.ExamState;
+import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.service.exception.NotFoundException;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -27,4 +29,19 @@ public interface ExamDao {
    */
   double getMaxPoints(long examId, EntityManager entityManager);
 
+  /**
+   * Changes the {@link ExamState} of an {@link Exam} and resets all belonging
+   * {@link ExerciseSolution} to unfinished (isDone = false).
+   *
+   * @throws NotFoundException
+   *           if the {@link Exam} with the given id does not exist.
+   */
+  void changeState(long examId, ExamState newState) throws NotFoundException;
+
+  /**
+   * Checks if there are any {@link ExerciseSolution} in this {@link Exam} which are not done yet.
+   *
+   * @return true if all ExerciseSolutions are done (isDone = true)
+   */
+  public boolean isFinished(long examId);
 }
