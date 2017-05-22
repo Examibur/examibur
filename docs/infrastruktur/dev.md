@@ -36,10 +36,9 @@ title: Entwicklungsumgebung
 ### Editor konfigurieren
 Der Google Checkstyle verlangt für die Einrückung Spaces, in Eclipse werden aber standardmässig Tabs eingefügt. Zudem sind in Eclipse die Imports noch nach gewissen Packages sortiert (Java, Javax, etc.), im Checkstyle hingegen nur in lexikographischer Reihenfolge.
 
-1. Rechtsklick auf das Examibur-Projekt im Package Explorer - `Checkstyle` - `Create Formatter Profile`
 2. Einstellungen öffnen mit `Window` - `Preferences`
 3. Auf `Java` - `Code Style` - `Formatter` navigieren
-	1. Das neue Profil `eclipse-cs examibur` wählen
+	1. Das [Formatter-Profil](resources/Formatter.xml) importieren.
 4. Auf `Java` - `Code Style` - `Organize Imports` navigieren
 	1. Alle vordefinierten Packages löschen (`Java`, `Javax`, `org`, `com`)
 
