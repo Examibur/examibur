@@ -2,8 +2,10 @@
 	<#if exam.state == "CORRECTION" || exam.state == "REVIEW" || exam.state == "APPROVAL">
 		<#if examState == "CORRECTION">
 			<#local action = "Korrektur">
-		<#else>
+		<#elseif examState == "REVIEW">
 			<#local action = "Review">
+		<#else>
+			<#local action = "Approval">
 		</#if>
 		<div class="btn-group">
 			<button type="button" id="query-next" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

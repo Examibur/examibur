@@ -9,8 +9,10 @@
 	<div class="top-navigation pull-right">
 		<#if examState == "CORRECTION">
 			<a class="btn btn-default" href="query-by-exercise/" role="button" id="query-by-exercise">Aufgabenweise korrigieren</a>
-		<#elseif examState == "REVIEW" || examState == "APPROVAL">
+		<#elseif examState == "REVIEW">
 			<a class="btn btn-default" href="query-by-exercise/" role="button" id="query-by-exercise">Aufgabenweise reviewen</a>
+		<#elseif examState == "APPROVAL">
+			<a class="btn btn-default" href="query-by-exercise/" role="button" id="query-by-exercise">Aufgabenweise approven</a>
 		</#if>
 	</div>
 
