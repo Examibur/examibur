@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.ashot.AShot;
@@ -438,11 +439,12 @@ public class UiTest {
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
-      return !getDriver().findElements(By.id("exam-state")).get(0).getText().equals("CORRECTION");
+      WebElement state = getDriver().findElement(By.id("exam-state"));
+      return state.isDisplayed() && !state.getText().equals("Correction");
     });
 
     Assert.assertTrue("Wrong ExamState after transition!",
-        getDriver().findElements(By.id("exam-state")).get(0).getText().equals("REVIEW"));
+        getDriver().findElements(By.id("exam-state")).get(0).getText().equals("Review"));
     assertScreenshots();
   }
 
