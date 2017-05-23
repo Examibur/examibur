@@ -439,12 +439,15 @@ public class UiTest {
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
+      if (getDriver().findElement(By.id("exam-state")).getText().equals("Correction")) {
+        return false;
+      }
       WebElement state = getDriver().findElement(By.id("exam-state"));
       return state.isDisplayed() && !state.getText().equals("Correction");
     });
 
     Assert.assertTrue("Wrong ExamState after transition!",
-        getDriver().findElements(By.id("exam-state")).get(0).getText().equals("Review"));
+        getDriver().findElement(By.id("exam-state")).getText().equals("Review"));
     assertScreenshots();
   }
 
