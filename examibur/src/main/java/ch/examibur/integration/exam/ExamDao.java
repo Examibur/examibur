@@ -40,6 +40,7 @@ public interface ExamDao {
 
   /**
    * Checks if there are any {@link ExerciseSolution} in this {@link Exam} which are not done yet.
+   * If there is no Exam with this id, true will be returned.
    *
    * @return true if all ExerciseSolutions are done (isDone = true)
    */
