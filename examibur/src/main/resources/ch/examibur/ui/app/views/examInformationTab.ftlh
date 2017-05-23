@@ -49,7 +49,7 @@
 				    		<div class="col-md-4">
 								<label>Status</label>
 							</div>
-							<div class="col-md-3">
+							<div class="col-md-3" id="exam-state">
 								${exam.state}
 							</div>
 							<#if (exam.state == "CORRECTION" || exam.state == "REVIEW" || exam.state == "APPROVAL")>

@@ -140,7 +140,7 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
-  
+
   @Test
   public void testExamParticipationsInfoTab() {
     login(USER_JUERGEN_KOENIG);
@@ -148,7 +148,7 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
-  
+
   @Test
   public void testExamParticipationsInfoTabMissingGrading() {
     login(USER_STEFAN_BOEHM);
@@ -279,8 +279,8 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByExerciseQueryNext() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL
-        + RouteBuilder.toExerciseSolution(8, 17, 51, BrowseSolutionsValue.BY_EXERCISE);
+    final String testUrl =
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, BrowseSolutionsValue.BY_EXERCISE);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
@@ -294,8 +294,8 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByExerciseQueryLast() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL
-        + RouteBuilder.toExerciseSolution(8, 18, 54, BrowseSolutionsValue.BY_EXERCISE);
+    final String testUrl =
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 18, 54, BrowseSolutionsValue.BY_EXERCISE);
     getDriver().get(testUrl);
     getDriver().findElement(By.id("querynext")).click();
 
@@ -339,8 +339,8 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionWithWrongParameter() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, null)
-        + "?browse=wrong&querynext=";
+    final String testUrl =
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, null) + "?browse=wrong&querynext=";
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -362,8 +362,8 @@ public class UiTest {
   @Test
   public void testQueryFirstExerciseSolutionWithWrongParameter() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolutions(8, 17)
-        + "?browse=wrong&querynext=";
+    final String testUrl =
+        TEST_URL + RouteBuilder.toExerciseSolutions(8, 17) + "?browse=wrong&querynext=";
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -383,7 +383,7 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
-  
+
   @Test
   public void testExerciseOverviewUi() {
     login(USER_STEFAN_BOEHM);
@@ -391,7 +391,7 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
-  
+
   @Test
   public void testExerciseParticipantsUi() {
     login(USER_JUERGEN_KOENIG);
@@ -399,7 +399,7 @@ public class UiTest {
     getDriver().get(testUrl);
     assertScreenshots();
   }
-  
+
   @Test
   public void testExerciseParticipantsMissingGradingsUi() {
     login(USER_STEFAN_BOEHM);
@@ -427,6 +427,32 @@ public class UiTest {
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("grading-panel")));
 
     Assert.assertTrue("XSS possible!", getDriver().findElements(By.id(xssDivId)).isEmpty());
+  }
+
+  @Test
+  public void testTransitionToReview() {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + RouteBuilder.toExam(7L);
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("start-transition")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return !getDriver().findElements(By.id("exam-state")).get(0).getText().equals("CORRECTION");
+    });
+
+    Assert.assertTrue("Wrong ExamState after transition!",
+        getDriver().findElements(By.id("exam-state")).get(0).getText().equals("REVIEW"));
+    assertScreenshots();
+  }
+
+  @Test
+  public void testTransitionWithUnfinishedExerciseSolutions() {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + RouteBuilder.toExam(6L);
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("start-transition")).click();
+    assertScreenshots();
   }
 
   private void login(String username) {
