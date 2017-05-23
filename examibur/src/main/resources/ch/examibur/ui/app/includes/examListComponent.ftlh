@@ -14,7 +14,7 @@
 				<tr>
 					<td><a href="/exams/${exam.id}">${exam.module.name}</a></td>
 					<td>${exam.author.firstName} ${exam.author.lastName}</td>
-					<td>${exam.state}</td>
+					<td>${exam.state.displayName}</td>
 					<td>
 						<#list exam.allowedUtilities as allowedUtility>
 							${allowedUtility}

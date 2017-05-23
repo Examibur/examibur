@@ -5,13 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ExamState {
-  CORRECTION(0),
-  REVIEW(1),
-  APPROVAL(2),
-  APPEAL(3),
-  ARCHIVED(4);
+  CORRECTION(0, "Correction"),
+  REVIEW(1, "Review"),
+  APPROVAL(2, "Approval"),
+  APPEAL(3, "Appeal"),
+  ARCHIVED(4, "Archived");
 
   private final int order;
+  private final String displayName;
+
   private static final Map<Integer, ExamState> nameToValueMap = new HashMap<>();
 
   static {
@@ -20,8 +22,9 @@ public enum ExamState {
     }
   }
 
-  private ExamState(int order) {
+  private ExamState(int order, String displayName) {
     this.order = order;
+    this.displayName = displayName;
   }
 
   public int getOrder() {
@@ -37,4 +40,9 @@ public enum ExamState {
   public static ExamState forName(int order) {
     return nameToValueMap.get(order);
   }
+
+  public String getDisplayName() {
+    return displayName;
+  }
+
 }
