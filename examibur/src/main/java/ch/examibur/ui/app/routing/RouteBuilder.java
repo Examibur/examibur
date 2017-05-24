@@ -1,6 +1,16 @@
 package ch.examibur.ui.app.routing;
 
+import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.IllegalOperationException;
+import ch.examibur.ui.app.model.MessageType;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public final class RouteBuilder {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(RouteBuilder.class);
 
   private RouteBuilder() {
   }
@@ -84,7 +94,7 @@ public final class RouteBuilder {
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     return url;
   }
-  
+
   /**
    * Returns the absolute url to all reports of the given exam. It is the responsibility of the
    * caller to provide a valid id!
@@ -118,7 +128,7 @@ public final class RouteBuilder {
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
     if (browseSolutionsValue != null) {
-      url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
+      url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS,
           browseSolutionsValue.toString());
     }
     return url;
@@ -149,7 +159,7 @@ public final class RouteBuilder {
     url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
     url = replace(url, UrlParameter.GRADING_ID, gradingId);
     if (browseSolutionsValue != null) {
-      url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
+      url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS,
           browseSolutionsValue.toString());
     }
     return url;
@@ -176,6 +186,47 @@ public final class RouteBuilder {
       delimiter = '&';
     }
     return url + delimiter + key + '=' + value;
+  }
+
+  /**
+   * A convenience method, equivalent to {@link #addQueryParameter(String, String, String)} with a
+   * {@link QueryParameter} input for predefined query parameters.
+   */
+  public static String addQueryParameter(String url, QueryParameter queryParameter, String value) {
+    return addQueryParameter(url, queryParameter.toString(), value);
+  }
+
+  /**
+   * @param url
+   *          the given url
+   * @param message
+   *          the notification message text
+   * @param type
+   *          the type of the message
+   * @return the given url appended by the message (UTF-8 encoded) and its key as query parameters.
+   *         If a message already exists in the url it will be appended also (no replacement).
+   * @throws ExamiburException
+   *           throws an {@link IllegalOperationException} if the url encoding fails.
+   */
+  public static String addMessageParameter(String url, String message, MessageType type)
+      throws ExamiburException {
+    String encodedMessage;
+    try {
+      encodedMessage = URLEncoder.encode(message, "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      LOGGER.error(e.getMessage());
+      IllegalOperationException illegalOperationException =
+          new IllegalOperationException("Error while encoding the query parameter "
+              + QueryParameter.NOTIFICATION_MESSAGE.toString());
+      LOGGER.error(illegalOperationException.getMessage(), illegalOperationException);
+      throw illegalOperationException;
+    }
+    String target = url;
+    target =
+        RouteBuilder.addQueryParameter(target, QueryParameter.NOTIFICATION_MESSAGE, encodedMessage);
+    target =
+        RouteBuilder.addQueryParameter(target, QueryParameter.NOTIFICATION_TYPE, type.getType());
+    return target;
   }
 
 }

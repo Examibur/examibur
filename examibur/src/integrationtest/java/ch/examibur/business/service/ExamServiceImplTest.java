@@ -6,6 +6,7 @@ import ch.examibur.domain.Exam;
 import ch.examibur.domain.ExamState;
 import ch.examibur.service.ExamService;
 import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import java.sql.Date;
@@ -23,8 +24,8 @@ public class ExamServiceImplTest {
 
   private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-  private final ExamService examService = IntegrationTestUtil.getInjector()
-      .getInstance(ExamService.class);
+  private final ExamService examService =
+      IntegrationTestUtil.getInjector().getInstance(ExamService.class);
 
   @Test
   public void testGetExamsForAuthor() throws ExamiburException {
@@ -117,6 +118,29 @@ public class ExamServiceImplTest {
   @Test(expected = NotFoundException.class)
   public void testGetMaxPointsWithNonexistentExamId() throws ExamiburException {
     examService.getMaxPoints(0);
+  }
+
+  @Test
+  public void testTransitionToReview() throws ExamiburException {
+    long examId = 7L;
+    examService.setNextState(examId);
+    Exam exam = examService.getExam(examId);
+    Assert.assertEquals(ExamState.REVIEW, exam.getState());
+  }
+
+  @Test(expected = IllegalOperationException.class)
+  public void testTransitionWithUnfinishedExerciseSolutions() throws ExamiburException {
+    examService.setNextState(6L);
+  }
+
+  @Test(expected = IllegalOperationException.class)
+  public void testTransitionOverLastState() throws ExamiburException {
+    examService.setNextState(1L);
+  }
+
+  @Test(expected = NotFoundException.class)
+  public void testTransitionWithNonexistentExamId() throws ExamiburException {
+    examService.setNextState(0L);
   }
 
 }

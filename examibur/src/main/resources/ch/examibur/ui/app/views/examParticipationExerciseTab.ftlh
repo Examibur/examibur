@@ -40,7 +40,7 @@
 							-
 						</#if>
 					</td>
-					<td>${overview.exerciseSolution.participation.exam.state}</td>
+					<td>${overview.exerciseSolution.participation.exam.state.displayName}</td>
 					<td>
 						<#if overview.exerciseSolution.isDone()>
 							Ja

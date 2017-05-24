@@ -55,7 +55,7 @@
 				    			<label>Status</label>
 				    		</div>
 				    		<div class="col-md-4">
-				    			${participantOverview.examState}
+				    			${participantOverview.examState.displayName}
 				    		</div>
 						</div>
 				  	</div>
