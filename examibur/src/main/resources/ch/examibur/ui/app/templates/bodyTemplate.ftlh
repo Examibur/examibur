@@ -12,6 +12,28 @@
 	</ol>
 </#macro>
 
+<#macro body_header_notification_bar>
+	<#if notificationMessage??>
+		<#switch notificationMessage.type>
+		  <#case "SUCCESS">
+		     <#local messageClass = "bg-success">
+		     <#break>
+		  <#case "INFO">
+		     <#local messageClass = "bg-info">
+		     <#break>
+		  <#case "WARNING">
+		     <#local messageClass = "bg-warning">
+		     <#break>
+		  <#default>
+		     <#local messageClass = "bg-danger">
+		</#switch>
+		<div id="notification-message" class="alert ${messageClass} alert-dismissible fade in" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			${notificationMessage.messageText}
+		</div>
+    </#if>
+</#macro>
+
 <#macro header>
     <nav class="navbar navbar-inverse">
       <div class="container">
@@ -60,6 +82,7 @@
 	<div class="container">
 	<header>
     	<@body_header_navigation/>
+		<@body_header_notification_bar/>
     </header>
 		
 		<main>
