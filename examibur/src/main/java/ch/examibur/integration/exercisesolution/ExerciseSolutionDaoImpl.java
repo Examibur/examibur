@@ -48,7 +48,8 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
           .getSingleResult();
 
       TypedQuery<ExerciseSolution> exerciseSolutionQuery = entityManager.createQuery(
-          "SELECT es FROM ExerciseSolution es WHERE es.participation.id = :examParticipationId ORDER BY es.exercise.orderInExam",
+          "SELECT es FROM ExerciseSolution es WHERE es.participation.id = :examParticipationId "
+              + "ORDER BY es.exercise.orderInExam",
           ExerciseSolution.class);
       return exerciseSolutionQuery.setParameter("examParticipationId", examParticipationId)
           .getResultList();
@@ -112,20 +113,20 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
         currentExerciseSolution.getExercise().getId());
   }
 
-  @Override
-  public ExerciseSolution getNextExerciseSolutionFromParticipation(long currentExerciseSolutionId) {
-    ExerciseSolution currentExerciseSolution = getExerciseSolution(currentExerciseSolutionId);
-    return getNextExerciseSolutionFromParticipation(
-        currentExerciseSolution.getParticipation().getId(),
-        currentExerciseSolution.getExercise().getId());
-  }
-
   private ExerciseSolution getExerciseSolutionFromNextParticipation(long participationId,
       long exerciseId) {
     String query = "SELECT e FROM ExerciseSolution e WHERE e.isDone = false "
         + "AND e.exercise.id = :exerciseId "
         + "AND e.participation.id > :participationId ORDER BY e.participation.id";
     return getNextExerciseSolution(participationId, exerciseId, query);
+  }
+
+  @Override
+  public ExerciseSolution getNextExerciseSolutionFromParticipation(long currentExerciseSolutionId) {
+    ExerciseSolution currentExerciseSolution = getExerciseSolution(currentExerciseSolutionId);
+    return getNextExerciseSolutionFromParticipation(
+        currentExerciseSolution.getParticipation().getId(),
+        currentExerciseSolution.getExercise().getId());
   }
 
   private ExerciseSolution getNextExerciseSolutionFromParticipation(long participationId,
@@ -140,12 +141,12 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
       String query) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<ExerciseSolution> nextExerciseSolutionQuery = entityManager.createQuery(query,
-          ExerciseSolution.class);
+      TypedQuery<ExerciseSolution> nextExerciseSolutionQuery =
+          entityManager.createQuery(query, ExerciseSolution.class);
       // can't use getSingleResult() because null should also be possible
-      List<ExerciseSolution> resultList = nextExerciseSolutionQuery
-          .setParameter("exerciseId", exerciseId).setParameter("participationId", participationId)
-          .setMaxResults(1).getResultList();
+      List<ExerciseSolution> resultList =
+          nextExerciseSolutionQuery.setParameter("exerciseId", exerciseId)
+              .setParameter("participationId", participationId).setMaxResults(1).getResultList();
       if (resultList.isEmpty()) {
         return null;
       }

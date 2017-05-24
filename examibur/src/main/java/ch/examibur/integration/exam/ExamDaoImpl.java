@@ -33,9 +33,9 @@ public final class ExamDaoImpl implements ExamDao {
   public List<Exam> getExamsForAuthor(long authorId, ExamState state) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<Exam> examsForAuthorQuery = entityManager.createQuery(
-          "SELECT e FROM Exam e WHERE e.author.id = :authorId AND e.state = :examState ORDER BY e.id",
-          Exam.class);
+      TypedQuery<Exam> examsForAuthorQuery =
+          entityManager.createQuery("SELECT e FROM Exam e WHERE e.author.id = :authorId "
+              + "AND e.state = :examState ORDER BY e.id", Exam.class);
       examsForAuthorQuery.setParameter("authorId", authorId);
       examsForAuthorQuery.setParameter("examState", state);
       return examsForAuthorQuery.getResultList();
@@ -48,8 +48,8 @@ public final class ExamDaoImpl implements ExamDao {
   public Exam getExam(long examId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<Exam> examQuery = entityManager
-          .createQuery("SELECT e FROM Exam e WHERE e.id = :examId", Exam.class);
+      TypedQuery<Exam> examQuery =
+          entityManager.createQuery("SELECT e FROM Exam e WHERE e.id = :examId", Exam.class);
       return examQuery.setParameter("examId", examId).getSingleResult();
     } finally {
       entityManager.close();
@@ -69,8 +69,8 @@ public final class ExamDaoImpl implements ExamDao {
   @Override
   public double getMaxPoints(long examId, EntityManager entityManager) {
     // check if exam exists, throws an exception if it doesn't
-    TypedQuery<Exam> examQuery = entityManager
-        .createQuery("SELECT e.id FROM Exam e WHERE e.id = :examId", Exam.class);
+    TypedQuery<Exam> examQuery =
+        entityManager.createQuery("SELECT e.id FROM Exam e WHERE e.id = :examId", Exam.class);
     examQuery.setParameter("examId", examId).getSingleResult();
 
     TypedQuery<Double> maxPointsQuery = entityManager.createQuery(

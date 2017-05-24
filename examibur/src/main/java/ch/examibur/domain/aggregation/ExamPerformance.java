@@ -7,6 +7,9 @@ public final class ExamPerformance {
   private final int totalParticipations;
   private final int includedParticipations;
 
+  /**
+   * Constructor to initialize all fields.
+   */
   public ExamPerformance(double averageGrade, double medianGrade, int totalParticipations,
       int includedParticipations) {
     this.averageGrade = averageGrade;

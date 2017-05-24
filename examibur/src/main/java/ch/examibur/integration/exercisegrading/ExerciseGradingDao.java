@@ -39,7 +39,8 @@ public interface ExerciseGradingDao {
   double getTotalPointsOfExamGradings(long examParticipationId);
 
   /**
-   * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao#getTotalPointsOfExamGradings(long)
+   * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao
+   *      #getTotalPointsOfExamGradings(long)
    * @param entityManager
    *          this method is used in another dao and a global transaction will be used
    */
@@ -73,8 +74,8 @@ public interface ExerciseGradingDao {
   boolean checkIfAllExercisesAreGraded(long examId, long participationId);
 
   /**
-   * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao#checkIfAllExercisesAreGraded(long,
-   *      long)
+   * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao
+   *      #checkIfAllExercisesAreGraded(long, long)
    * @param entityManager
    *          this method is used in another dao and a global transaction will be used
    */

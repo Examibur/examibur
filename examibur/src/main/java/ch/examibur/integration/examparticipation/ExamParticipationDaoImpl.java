@@ -35,6 +35,14 @@ public class ExamParticipationDaoImpl implements ExamParticipationDao {
   }
 
   @Override
+  public List<ExamParticipation> getExamParticipations(long examId, EntityManager entityManager) {
+    TypedQuery<ExamParticipation> examParticipationsQuery = entityManager.createQuery(
+        "SELECT ep FROM ExamParticipation ep WHERE ep.exam.id = :examId ORDER BY ep.id",
+        ExamParticipation.class);
+    return examParticipationsQuery.setParameter("examId", examId).getResultList();
+  }
+
+  @Override
   public ExamParticipation getExamParticipation(long examParticipationId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
@@ -47,14 +55,6 @@ public class ExamParticipationDaoImpl implements ExamParticipationDao {
     } finally {
       entityManager.close();
     }
-  }
-
-  @Override
-  public List<ExamParticipation> getExamParticipations(long examId, EntityManager entityManager) {
-    TypedQuery<ExamParticipation> examParticipationsQuery = entityManager.createQuery(
-        "SELECT ep FROM ExamParticipation ep WHERE ep.exam.id = :examId ORDER BY ep.id",
-        ExamParticipation.class);
-    return examParticipationsQuery.setParameter("examId", examId).getResultList();
   }
 
 }
