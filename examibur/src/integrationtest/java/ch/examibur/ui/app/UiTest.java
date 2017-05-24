@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.ashot.AShot;
@@ -262,8 +263,11 @@ public class UiTest {
     login(USER_STEFAN_BOEHM);
     final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(4, 4, 10, null);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("accept-review")).click();
+    WebElement acceptButton = getDriver().findElement(By.id("accept-review"));
+    acceptButton.click();
+
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until(ExpectedConditions.invisibilityOf(acceptButton));
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("review-panel")));
 
     assertScreenshots();
@@ -274,10 +278,11 @@ public class UiTest {
     login(USER_STEFAN_BOEHM);
     final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(4, 4, 10, null);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("reject-review")).click();
+    WebElement rejectButton = getDriver().findElement(By.id("reject-review"));
+    rejectButton.click();
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until(ExpectedConditions.invisibilityOf(rejectButton));
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("review-panel")));
-
     assertScreenshots();
   }
 
