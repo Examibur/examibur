@@ -5,8 +5,8 @@
 			<#items as exam>
 				<tr>
 					<td><a href="/exams/${exam.id}">${exam.module.name}</a><td>
-					<td><a href="#">Aufgabenweise ${verb}</a><td>
-					<td><a href="#">Prüfungsweise ${verb}</a><td>
+					<td><a href="/exams/${exam.id}/query-by-exercises/">Aufgabenweise ${verb}</a><td>
+					<td><a href="/exams/${exam.id}/query-by-participations/">Prüfungsweise ${verb}</a><td>
 				</tr>
 			</#items>
 		</table>

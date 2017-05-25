@@ -1,25 +1,25 @@
-package ch.examibur.ui.app.routing;
+package ch.examibur.integration.exercisesolution;
 
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum BrowseSolutionsValue {
+public enum BrowseSolutionsMode {
   BY_EXERCISE("exercise"),
   BY_PARTICIPATION("participation"),
   BY_EXERCISES("exercises"),
   BY_PARTICIPATIONS("participations");
 
   private final String name;
-  private static final Map<String, BrowseSolutionsValue> nameToValueMap = new HashMap<>();
+  private static final Map<String, BrowseSolutionsMode> nameToValueMap = new HashMap<>();
 
   static {
-    for (BrowseSolutionsValue value : EnumSet.allOf(BrowseSolutionsValue.class)) {
+    for (BrowseSolutionsMode value : EnumSet.allOf(BrowseSolutionsMode.class)) {
       nameToValueMap.put(value.toString(), value);
     }
   }
 
-  private BrowseSolutionsValue(String name) {
+  private BrowseSolutionsMode(String name) {
     this.name = name;
   }
 
@@ -34,7 +34,7 @@ public enum BrowseSolutionsValue {
    * @return returns the enum object which belongs to the given property "name". Returns null if no
    *         matching enum is found.
    */
-  public static BrowseSolutionsValue forName(String name) {
+  public static BrowseSolutionsMode forName(String name) {
     if (name == null) {
       return null;
     }

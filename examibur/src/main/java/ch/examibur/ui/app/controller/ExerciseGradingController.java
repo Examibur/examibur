@@ -1,6 +1,7 @@
 package ch.examibur.ui.app.controller;
 
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
 import ch.examibur.service.ExerciseGradingService;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
@@ -9,13 +10,11 @@ import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.service.exception.ValidationException;
-import ch.examibur.ui.app.routing.BrowseSolutionsValue;
 import ch.examibur.ui.app.routing.QueryParameter;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
 import ch.examibur.ui.app.routing.UrlParameter;
 import com.google.inject.Inject;
-import org.eclipse.jetty.http.HttpStatus;
 import spark.Redirect;
 import spark.Request;
 import spark.Response;
@@ -25,6 +24,7 @@ public class ExerciseGradingController {
   public static final String BODY_PARAM_POINTS = "points";
   public static final String BODY_PARAM_REASONING = "reasoning";
   public static final String BODY_PARAM_COMMENT = "comment";
+  public static final String BODY_PARAM_ACTION = "action";
 
   public static final String BODY_PARAM_APPROVAL = "approve-review";
   public static final String REVIEW_ACCEPT = "accept";
@@ -61,21 +61,26 @@ public class ExerciseGradingController {
    */
   public String addExerciseGrading(Request request, Response response) throws ExamiburException {
     long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
-        UrlParameter.PARTICIPANT_ID);
+    long participantId =
+        RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
     long solutionId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
 
     String comment = request.queryParams(BODY_PARAM_COMMENT);
     String reasoning = request.queryParams(BODY_PARAM_REASONING);
     Double points = RoutingHelpers.getUnsignedDoubleBodyParameter(request, BODY_PARAM_POINTS);
+    String action = request.queryParams(BODY_PARAM_ACTION);
 
     exerciseGradingService.addGrading(solutionId, comment, reasoning, points);
 
-    response.redirect(
-        RouteBuilder.toExerciseSolution(examId, participantId, solutionId,
-            BrowseSolutionsValue
-                .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()))),
-        HttpStatus.FOUND_302);
+    BrowseSolutionsMode browseMode = BrowseSolutionsMode
+        .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()));
+    String target;
+    if ("saveandcontinue".equals(action)) {
+      target = RouteBuilder.toQueryNextSolution(examId, participantId, solutionId, browseMode);
+    } else {
+      target = RouteBuilder.toExerciseSolution(examId, participantId, solutionId, browseMode);
+    }
+    response.redirect(target, Redirect.Status.FOUND.intValue());
     return null;
   }
 
@@ -103,7 +108,7 @@ public class ExerciseGradingController {
 
     response.redirect(
         RouteBuilder.toExerciseSolution(examId, participantId, solutionId,
-            BrowseSolutionsValue
+            BrowseSolutionsMode
                 .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()))),
         Redirect.Status.FOUND.intValue());
     return null;

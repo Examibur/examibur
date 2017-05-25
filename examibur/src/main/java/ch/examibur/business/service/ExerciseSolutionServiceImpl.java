@@ -4,6 +4,7 @@ import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.integration.exam.ExamDao;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
+import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
 import ch.examibur.integration.exercisesolution.ExerciseSolutionDao;
 import ch.examibur.integration.util.grading.GradingUtil;
 import ch.examibur.integration.util.grading.strategy.BaseGradingStrategy;
@@ -16,7 +17,6 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,52 +82,22 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
   }
 
   @Override
-  public ExerciseSolution getFirstExerciseSolutionFromParticipation(long participationId)
-      throws ExamiburException {
-    LOGGER.info("Get the first ExerciseSolution of a Participation (ParticipationId {})",
-        participationId);
-
-    return getNextExerciseSolution(participationId,
-        exerciseSolutionDao::getFirstExerciseSolutionFromParticipation);
-  }
-
-  @Override
-  public ExerciseSolution getFirstExerciseSolutionFromExercise(long exerciseId)
-      throws ExamiburException {
-    LOGGER.info("Get the first ExerciseSolution of an Exercise (ExerciseId {})", exerciseId);
-
-    return getNextExerciseSolution(exerciseId,
-        exerciseSolutionDao::getFirstExerciseSolutionFromExercise);
-  }
-
-  @Override
-  public ExerciseSolution getExerciseSolutionFromNextParticipation(long currentExerciseSolutionId)
-      throws ExamiburException {
-    LOGGER.info("Get ExerciseSolution of the same Exercise from the next Participation "
-        + "(current ExerciseSolutionId {})", currentExerciseSolutionId);
-
-    return getNextExerciseSolution(currentExerciseSolutionId,
-        exerciseSolutionDao::getExerciseSolutionFromNextParticipation);
-  }
-
-  @Override
-  public ExerciseSolution getNextExerciseSolutionFromParticipation(long currentExerciseSolutionId)
-      throws ExamiburException {
-    LOGGER.info("Get ExerciseSolution of the next Exercise from the same Participation "
-        + "(current ExerciseSolutionId {})", currentExerciseSolutionId);
-
-    return getNextExerciseSolution(currentExerciseSolutionId,
-        exerciseSolutionDao::getNextExerciseSolutionFromParticipation);
-  }
-
-  private ExerciseSolution getNextExerciseSolution(long resourceId,
-      Function<Long, ExerciseSolution> queryFunction) throws ExamiburException {
-    ValidationHelper.checkForNegativeId(resourceId, LOGGER);
+  public ExerciseSolution getNextExerciseSolution(BrowseSolutionsMode browseMode, long examId,
+      long queryResourceId, long exerciseSolutionId) throws ExamiburException {
+    ValidationHelper.checkForNegativeId(examId, LOGGER);
+    ValidationHelper.checkForNegativeId(queryResourceId, LOGGER);
+    ValidationHelper.checkForNegativeId(exerciseSolutionId, LOGGER);
+    ValidationHelper.checkForNullValue(browseMode, LOGGER);
+    LOGGER.info(
+        "Get the next ExerciseSolution by {} "
+            + "(ExamId: {}, queryResourceId: {}, ExerciseSolutionId: {})",
+        browseMode.toString(), examId, queryResourceId, exerciseSolutionId);
     try {
-      return queryFunction.apply(resourceId);
+      return exerciseSolutionDao.getNextExerciseSolution(browseMode, examId, queryResourceId,
+          exerciseSolutionId);
     } catch (NoResultException ex) {
-      NotFoundException notFoundException =
-          new NotFoundException("ExerciseSolution with id " + resourceId + " not found", ex);
+      NotFoundException notFoundException = new NotFoundException(
+          "ExerciseSolution with id " + exerciseSolutionId + " not found", ex);
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
     }

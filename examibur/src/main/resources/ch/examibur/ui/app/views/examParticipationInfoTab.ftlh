@@ -1,17 +1,24 @@
 <#include "../templates/bodyTemplate.ftlh">
 
 <#macro body_main>
+	<#local examState = participantOverview.examState>
 	<header>
-	<h1>${participantOverview.pseudonym}</h1>
+		<h1>${participantOverview.pseudonym}</h1>
 	</header>
 
 	<div class="top-navigation pull-right">
-		<a class="btn btn-default" href="?browse=participation&querynext=" role="button" id="querynext">Teilnahme korrigieren</a>
+		<#if examState == "CORRECTION">
+			<a class="btn btn-default" href="query-by-participation/" role="button" id="query-by-participation">Teilnahme korrigieren</a>
+		<#elseif examState == "REVIEW">
+			<a class="btn btn-default" href="query-by-participation/" role="button" id="query-by-participation">Teilnahme reviewen</a>
+		<#elseif examState == "APPROVAL">
+			<a class="btn btn-default" href="query-by-participation/" role="button" id="query-by-participation">Teilnahme approven</a>
+		</#if>
 	</div>
 
 	<ul class="nav nav-tabs">
-	<li role="presentation" class="active"><a href="#">Informationen</a></li>
-	<li role="presentation"><a href="solutions">Aufgaben</a></li>
+		<li role="presentation" class="active"><a href="#">Informationen</a></li>
+		<li role="presentation"><a href="solutions">Aufgaben</a></li>
 	</ul>	
 
 	<div class="tab-body">

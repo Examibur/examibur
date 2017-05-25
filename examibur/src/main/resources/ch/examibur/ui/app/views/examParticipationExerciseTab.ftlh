@@ -1,12 +1,19 @@
 <#include "../templates/bodyTemplate.ftlh">
 
 <#macro body_main>
+	<#local examState = participation.exam.state>
 	<header>
 		<h1>${participation.pseudonym}</h1>
 	</header>
 
 	<div class="top-navigation pull-right">
-		<a class="btn btn-default" href="?browse=participation&querynext=" role="button" id="querynext">Teilnahme korrigieren</a>
+		<#if examState == "CORRECTION">
+			<a class="btn btn-default" href="../query-by-participation/" role="button" id="query-by-participation">Teilnahme korrigieren</a>
+		<#elseif examState == "REVIEW">
+			<a class="btn btn-default" href="../query-by-participation/" role="button" id="query-by-participation">Teilnahme reviewen</a>
+		<#elseif examState == "APPROVAL">
+			<a class="btn btn-default" href="../query-by-participation/" role="button" id="query-by-participation">Teilnahme approven</a>
+		</#if>
 	</div>
 
 	<ul class="nav nav-tabs">
@@ -30,8 +37,8 @@
 			<tbody>
 				<#items as overview>
 				<tr>
-					<th scope="row"><a href="${overview.exerciseSolution.id}">${overview.exerciseSolution.exercise.orderInExam}</th>
-					<td><a href="#"><a href="${overview.exerciseSolution.id}">${overview.exerciseSolution.exercise.title}</a></td>
+					<th scope="row"><a href="${overview.exerciseSolution.id}">${overview.exerciseSolution.exercise.orderInExam}</a></th>
+					<td><a href="${overview.exerciseSolution.id}">${overview.exerciseSolution.exercise.title}</a></td>
 					<td>${overview.exerciseSolution.exercise.maxPoints}</td>
 					<td>
 						<#if overview.points.isPresent()>

@@ -4,7 +4,7 @@ import static ch.examibur.ui.app.util.ScreenshotUtil.assertScreenshots;
 import static ch.examibur.ui.app.util.ScreenshotUtil.getDriver;
 
 import ch.examibur.business.DatabaseResource;
-import ch.examibur.ui.app.routing.BrowseSolutionsValue;
+import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.util.RandomBlockJUnit4ClassRunner;
 import java.io.IOException;
@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.ashot.AShot;
@@ -223,6 +224,25 @@ public class UiTest {
   }
 
   @Test
+  public void testAddGradingToExerciseSolutionAndContinue() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl =
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 50, BrowseSolutionsMode.BY_PARTICIPATION);
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("points-addgrading")).sendKeys("1");
+    getDriver().findElement(By.id("comment-addgrading"))
+        .sendKeys("Diese Lösung ist nicht korrekt.");
+    getDriver().findElement(By.id("reasoning-addgrading")).sendKeys("1 Punkt für Argumentation");
+    getDriver().findElement(By.id("submit-addgrading-continue")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/solutions/51");
+    });
+    assertScreenshots();
+  }
+
+  @Test
   public void testAddReviewToExerciseSolution() throws IOException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(6, 12, 35, null);
@@ -243,8 +263,11 @@ public class UiTest {
     login(USER_STEFAN_BOEHM);
     final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(4, 4, 10, null);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("accept-review")).click();
+    WebElement acceptButton = getDriver().findElement(By.id("accept-review"));
+    acceptButton.click();
+
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until(ExpectedConditions.invisibilityOf(acceptButton));
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("review-panel")));
 
     assertScreenshots();
@@ -255,10 +278,11 @@ public class UiTest {
     login(USER_STEFAN_BOEHM);
     final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(4, 4, 10, null);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("reject-review")).click();
+    WebElement rejectButton = getDriver().findElement(By.id("reject-review"));
+    rejectButton.click();
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until(ExpectedConditions.invisibilityOf(rejectButton));
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("review-panel")));
-
     assertScreenshots();
   }
 
@@ -267,7 +291,7 @@ public class UiTest {
     login(USER_JUERGEN_KOENIG);
     final String testUrl = TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, null);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("browse-solutions")).click();
+    getDriver().findElement(By.id("query-by-exercise")).click();
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
@@ -280,9 +304,9 @@ public class UiTest {
   public void testQueryExerciseSolutionByExerciseQueryNext() throws IOException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl =
-        TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, BrowseSolutionsValue.BY_EXERCISE);
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, BrowseSolutionsMode.BY_EXERCISE);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("querynext")).click();
+    getDriver().findElement(By.id("query-next")).click();
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
@@ -295,9 +319,9 @@ public class UiTest {
   public void testQueryExerciseSolutionByExerciseQueryLast() throws IOException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl =
-        TEST_URL + RouteBuilder.toExerciseSolution(8, 18, 54, BrowseSolutionsValue.BY_EXERCISE);
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 18, 54, BrowseSolutionsMode.BY_EXERCISE);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("querynext")).click();
+    getDriver().findElement(By.id("query-next")).click();
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
@@ -309,10 +333,10 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByParticipationQueryNext() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL
-        + RouteBuilder.toExerciseSolution(8, 18, 53, BrowseSolutionsValue.BY_PARTICIPATION);
+    final String testUrl =
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 18, 53, BrowseSolutionsMode.BY_PARTICIPATION);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("querynext")).click();
+    getDriver().findElement(By.id("query-next")).click();
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
@@ -324,10 +348,10 @@ public class UiTest {
   @Test
   public void testQueryExerciseSolutionByParticipationQueryLast() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL
-        + RouteBuilder.toExerciseSolution(8, 17, 54, BrowseSolutionsValue.BY_PARTICIPATION);
+    final String testUrl =
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 54, BrowseSolutionsMode.BY_PARTICIPATION);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("querynext")).click();
+    getDriver().findElement(By.id("query-next")).click();
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
@@ -340,7 +364,7 @@ public class UiTest {
   public void testQueryExerciseSolutionWithWrongParameter() throws IOException {
     login(USER_JUERGEN_KOENIG);
     final String testUrl =
-        TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, null) + "?browse=wrong&querynext=";
+        TEST_URL + RouteBuilder.toExerciseSolution(8, 17, 51, null) + "query-next/?browse=wrong";
     getDriver().get(testUrl);
     assertScreenshots();
   }
@@ -348,9 +372,49 @@ public class UiTest {
   @Test
   public void testQueryFirstExerciseSolutionByParticipation() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl = TEST_URL + RouteBuilder.toExerciseSolutions(8, 17);
+    final String testUrl = TEST_URL + RouteBuilder.toExamParticipation(8, 17);
     getDriver().get(testUrl);
-    getDriver().findElement(By.id("querynext")).click();
+    getDriver().findElement(By.id("query-by-participation")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/solutions/49");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryFirstExerciseSolutionByParticipations() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + RouteBuilder.toQueryFirstSolutionByParticipations(8);
+    getDriver().get(testUrl);
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/solutions/49");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryFirstExerciseSolutionByExercise() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + RouteBuilder.toExercise(8, 16);
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("query-by-exercise")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().getCurrentUrl().contains("/solutions/49");
+    });
+    assertScreenshots();
+  }
+
+  @Test
+  public void testQueryFirstExerciseSolutionByExercises() throws IOException {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + RouteBuilder.toQueryFirstSolutionByExercises(8);
+    getDriver().get(testUrl);
 
     WebDriverWait wait = new WebDriverWait(getDriver(), 25);
     wait.until((x) -> {
@@ -362,8 +426,7 @@ public class UiTest {
   @Test
   public void testQueryFirstExerciseSolutionWithWrongParameter() throws IOException {
     login(USER_JUERGEN_KOENIG);
-    final String testUrl =
-        TEST_URL + RouteBuilder.toExerciseSolutions(8, 17) + "?browse=wrong&querynext=";
+    final String testUrl = TEST_URL + RouteBuilder.toExamParticipation(8, 17) + "query-by-wrong/";
     getDriver().get(testUrl);
     assertScreenshots();
   }

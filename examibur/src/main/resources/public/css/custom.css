@@ -1,3 +1,21 @@
+.panel-body > form > .row > .pull-right {
+	margin-right: 15px;
+}
+
+.container .row {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.dropdown-menu > li > a {
+	background-color: inherit;
+	border: none;
+	text-align: left;
+}
+
+.dropdown-menu input {
+	background-color: inherit;
+}
 header > .alert {
 	margin-top: 7px;
 	padding-top: 5px;
@@ -14,7 +32,11 @@ header > .alert {
 }
 
 .tab-body {
-	padding: 15px;
+	padding: 15px 15px 0 15px;
+	border-left: 1px solid #dde3ea;
+	border-right: 1px solid #dde3ea;
+	border-bottom: 1px solid #dde3ea;
+	margin-bottom: 25px;
 }
 
 main > header {
@@ -35,8 +57,12 @@ footer {
 	margin-bottom: 0;
 }
 
+.row > .top-navigation {
+	margin-top: -30px;
+}
+
 .top-navigation {
-	padding-right: 15px;
+	padding-bottom: 7px;
 }
 
 td.td-ellipsis {

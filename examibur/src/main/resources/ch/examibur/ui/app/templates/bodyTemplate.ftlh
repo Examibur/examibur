@@ -39,7 +39,7 @@
       <div class="container">
         <div class="navbar-header">
           <a class="navbar-brand" href="/">
-			<img src="/images/logo-white-transparent-rotated.png">
+			<img src="/images/logo-white-transparent-rotated.png" alt="examibur-logo">
             Examibur
           </a>
         </div>
@@ -53,12 +53,13 @@
 		            <span class="glyphicon glyphicon-chevron-down"></span>
 		        </a>
 		        <ul class="dropdown-menu">
-					<div class="navbar-login navbar-login-session">
-			            <form action="/logout" method="POST">
-							<input class="btn btn-block" type="submit" value="Logout" id="logout">
-			            </form>
-					</div>
-
+					<li>
+						<div class="navbar-login navbar-login-session">
+				            <form action="/logout" method="POST">
+								<input class="btn btn-block" type="submit" value="Logout" id="logout">
+				            </form>
+						</div>
+					</li>
 		        </ul>
 		    </li>
 		    <#else>
@@ -90,11 +91,9 @@
 		</main>
 		
 		<div class="navbar">
-			<div class="container">
-				<footer>
-					<@body_footer/>
-				</footer>
-			</div>
+			<footer>
+				<@body_footer/>
+			</footer>
 		</div>
 	</div>
 </#macro>

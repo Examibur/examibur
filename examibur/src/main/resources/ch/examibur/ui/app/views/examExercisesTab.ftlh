@@ -1,4 +1,5 @@
 <#include "../templates/bodyTemplate.ftlh">
+<#include "../includes/startGradingDropDown.ftlh">
 
 <#macro body_main>
 	<header>
@@ -6,7 +7,7 @@
 	</header>
 
 	<div class="top-navigation pull-right">
-		<button class="btn btn-default" type="submit">Prüfung korrigieren</button>
+		<@start_grading_dropdown examState=exam.state relativePath="../"/>
 	</div>
 
 	<ul class="nav nav-tabs">
@@ -32,7 +33,7 @@
 						<tbody>
 							<#items as exercise>
 							<tr>
-								<td><a href="/exams/${exam.id}/exercises/${exercise.id}">${exercise.id}</a></td>
+								<td><a href="/exams/${exam.id}/exercises/${exercise.id}">${exercise.orderInExam}</a></td>
 								<td><a href="/exams/${exam.id}/exercises/${exercise.id}">${exercise.title}</a></td>
 								<td>${exercise.maxPoints}</td>
 								<td class="td-ellipsis">${exercise.taskDescription}</td>

@@ -1,7 +1,10 @@
 package ch.examibur.ui.app.routing;
 
+import ch.examibur.business.util.ValidationHelper;
+import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.IllegalOperationException;
+import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.ui.app.model.MessageType;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -122,15 +125,81 @@ public final class RouteBuilder {
    * {@link QueryParameter} "BROWSE_SOLUTIONS" if it's not null.
    */
   public static String toExerciseSolution(long examId, long participantId, long solutionId,
-      BrowseSolutionsValue browseSolutionsValue) {
+      BrowseSolutionsMode browseSolutionsMode) {
     String url = Route.SOLUTION.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
-    if (browseSolutionsValue != null) {
-      url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS,
-          browseSolutionsValue.toString());
+    if (browseSolutionsMode != null) {
+      url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
+          browseSolutionsMode.toString());
     }
+    return url;
+  }
+
+  /**
+   * Returns the absolute url to the exercise solution with the given id. It also adds the
+   * {@link QueryParameter} "BROWSE_SOLUTIONS" and the url parameter "query-next/" which directly
+   * redirects to the next unprocessed exercise solution when called.
+   *
+   * @throws InvalidParameterException
+   *           when the browseSolutionsMode is null.
+   */
+  public static String toQueryNextSolution(long examId, long participantId, long solutionId,
+      BrowseSolutionsMode browseSolutionsMode) throws InvalidParameterException {
+    ValidationHelper.checkForNullValue(browseSolutionsMode, LOGGER);
+    String url = Route.QUERY_NEXT_SOLUTION.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
+    url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
+    url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
+    url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
+        browseSolutionsMode.toString());
+    return url;
+  }
+
+  /**
+   * Returns the absolute url to the participation with the given id. It also adds the url parameter
+   * "query-by-participation/" which directly redirects to the first unprocessed exercise solution
+   * of this participation when called.
+   */
+  public static String toQueryFirstSolutionByParticipation(long examId, long participationId) {
+    String url = Route.QUERY_FIRST_SOLUTION_BY_PARTICIPATION.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
+    url = replace(url, UrlParameter.PARTICIPANT_ID, participationId);
+    return url;
+  }
+
+  /**
+   * Returns the absolute url to the exam with the given id. It also adds the url parameter
+   * "query-by-participations/" which directly redirects to the first unprocessed exercise solution
+   * of the first possible participation when called.
+   */
+  public static String toQueryFirstSolutionByParticipations(long examId) {
+    String url = Route.QUERY_FIRST_SOLUTION_BY_PARTICIPATIONS.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
+    return url;
+  }
+
+  /**
+   * Returns the absolute url to the exercise with the given id. It also adds the url parameter
+   * "query-by-exercise/" which directly redirects to the first unprocessed exercise solution of
+   * this exercise when called.
+   */
+  public static String toQueryFirstSolutionByExercise(long examId, long exerciseId) {
+    String url = Route.QUERY_FIRST_SOLUTION_BY_EXERCISE.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
+    url = replace(url, UrlParameter.EXERCISE_ID, exerciseId);
+    return url;
+  }
+
+  /**
+   * Returns the absolute url to the exam with the given id. It also adds the url parameter
+   * "query-by-exercises/" which directly redirects to the first unprocessed exercise solution of
+   * the first possible exercise when called.
+   */
+  public static String toQueryFirstSolutionByExercises(long examId) {
+    String url = Route.QUERY_FIRST_SOLUTION_BY_EXERCISES.url();
+    url = replace(url, UrlParameter.EXAM_ID, examId);
     return url;
   }
 
@@ -152,15 +221,15 @@ public final class RouteBuilder {
    * it's not null.
    */
   public static String toExerciseGrading(long examId, long participantId, long solutionId,
-      long gradingId, BrowseSolutionsValue browseSolutionsValue) {
+      long gradingId, BrowseSolutionsMode browseSolutionsMode) {
     String url = Route.GRADING.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
     url = replace(url, UrlParameter.GRADING_ID, gradingId);
-    if (browseSolutionsValue != null) {
-      url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS,
-          browseSolutionsValue.toString());
+    if (browseSolutionsMode != null) {
+      url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
+          browseSolutionsMode.toString());
     }
     return url;
   }

@@ -5,8 +5,8 @@
  */
 
 /*!
- * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=e4dd68740e2206ae662e5b6849ade654)
- * Config saved to config.json and https://gist.github.com/e4dd68740e2206ae662e5b6849ade654
+ * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=a85d97aeda241286dd8aebe3a653befd)
+ * Config saved to config.json and https://gist.github.com/a85d97aeda241286dd8aebe3a653befd
  */
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
@@ -1190,7 +1190,7 @@ h6,
 .h5,
 .h6 {
   font-family: inherit;
-  font-weight: 500;
+  font-weight: 300;
   line-height: 1.1;
   color: inherit;
 }
@@ -1270,15 +1270,15 @@ h6 .small,
 }
 h1,
 .h1 {
-  font-size: 36px;
+  font-size: 32px;
 }
 h2,
 .h2 {
-  font-size: 30px;
+  font-size: 24px;
 }
 h3,
 .h3 {
-  font-size: 24px;
+  font-size: 20px;
 }
 h4,
 .h4 {

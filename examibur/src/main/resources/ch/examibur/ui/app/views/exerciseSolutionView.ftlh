@@ -8,19 +8,17 @@
 		<h2>Prüfung ${exerciseSolution.exercise.exam.id} - Aufgabe ${exerciseSolution.exercise.orderInExam}</h2>
 	</header>
 	
-	
 	<div class="row">
-		<div class="pull-right">
-			<form method="get">
-				<#if browse??>
-					<input type="hidden" name="browse" value="${browse}">
-					<input type="hidden" name="querynext">
-					<button type="submit" class="btn btn-primary" id="querynext">Nächste Aufgabe</button>
-				<#else>
-					<input type="hidden" name="browse" value="exercise">
-					<button type="submit" class="btn btn-default" id="browse-solutions">Aufgabenweise korrigieren</button>
-				</#if>
-			</form>
+		<div class="top-navigation pull-right">
+			<#if browse??>
+				<a class="btn btn-primary" href="query-next/?browse=${browse}" role="button" id="query-next">Nächste Aufgabe</a>
+			<#elseif examState == "CORRECTION">
+				<a class="btn btn-default" href="?browse=exercise" role="button" id="query-by-exercise">Aufgabenweise korrigieren</a>
+			<#elseif examState == "REVIEW">
+				<a class="btn btn-default" href="?browse=exercise" role="button" id="query-by-exercise">Aufgabenweise reviewen</a>
+			<#elseif examState == "APPROVAL">
+				<a class="btn btn-default" href="?browse=exercise" role="button" id="query-by-exercise">Aufgabenweise approven</a>
+			</#if>
 		</div>
 	</div>
 	
@@ -148,11 +146,14 @@
 				    			<div class="col-md-4">
 				    				${user.username}
 				    			</div>
+							</div>
+							<div class="row">
 				    			<div class="pull-right">
+									<button type="submit" class="btn btn-primary" id="submit-addgrading" name="action" value="save">Speichern</button>
 									<#if browse??>
 										<input type="hidden" name="browse" value="${browse}">
+										<button type="submit" class="btn btn-primary" id="submit-addgrading-continue" name="action" value="saveandcontinue">Speichern und weiter</button>
 									</#if>
-									<input class="form-control" type="submit" id="submit-addgrading" value="Speichern" />
 				    			</div>
 				    		</div>
 				    	</form>

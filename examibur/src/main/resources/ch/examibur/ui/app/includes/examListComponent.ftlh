@@ -21,7 +21,6 @@
 						</#list>
 					</td>
 				</tr>
-				</tr>
 				</#items>
 			</tbody>
 		</table>
