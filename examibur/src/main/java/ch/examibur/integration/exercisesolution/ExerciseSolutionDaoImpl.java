@@ -2,6 +2,7 @@ package ch.examibur.integration.exercisesolution;
 
 import ch.examibur.domain.ExamParticipation;
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.domain.aggregation.BrowseSolutionsMode;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;

@@ -9,9 +9,9 @@ import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.ui.app.render.Renderer;
-import ch.examibur.ui.app.routing.RouteBuilder;
-import ch.examibur.ui.app.routing.RoutingHelpers;
-import ch.examibur.ui.app.routing.UrlParameter;
+import ch.examibur.ui.app.url.Link;
+import ch.examibur.ui.app.url.UrlHelpers;
+import ch.examibur.ui.app.url.UrlParameter;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
@@ -60,7 +60,7 @@ public class ExamParticipationController implements Controller {
   public String displayExamParticipation(Request request, Response response)
       throws ExamiburException {
     long examParticipationId =
-        RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+        UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("participantOverview",
         examParticipationService.getExamParticipantOverview(examParticipationId));
@@ -83,7 +83,7 @@ public class ExamParticipationController implements Controller {
    */
   public String listExamParticipations(Request request, Response response)
       throws ExamiburException {
-    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
@@ -100,8 +100,8 @@ public class ExamParticipationController implements Controller {
    *           if the examid parameter is not set or < 0.
    */
   public void addBreadCrumb(Request request, Response response) throws InvalidParameterException {
-    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    RequestHelper.pushBreadCrumb(request, "Teilnehmer", RouteBuilder.toExamParticipations(examId));
+    long examId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    RequestHelper.pushBreadCrumb(request, "Teilnehmer", Link.toExamParticipations(examId));
   }
 
   /**
@@ -112,12 +112,12 @@ public class ExamParticipationController implements Controller {
    */
   public void addSpecificBreadCrumb(Request request, Response response)
       throws InvalidParameterException {
-    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
     long participantId =
-        RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+        UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
 
     RequestHelper.pushBreadCrumb(request, "Teilnehmer #" + participantId,
-        RouteBuilder.toExamParticipation(examId, participantId));
+        Link.toExamParticipation(examId, participantId));
   }
 
 }

@@ -37,19 +37,25 @@ In diesem Abschnitt wird vertiefter in die einzelnen Teile bis auf die Top-Level
 Application ist der zentrale Einstiegspunkt der Spark-Applikation.
 Das Routing der Requests auf die einzelnen Controller wird in dieser Schicht durchgeführt.
 
+#### routing
+Das Routing-Paket hängt Controller, Filter und URLs zur gemeinsamen Applikation zusammen.
+
 #### controller
 Die clientspezifische Business-Logik ist in dieser Schicht enthalten. So werden unter anderem die Serviceaufrufe auf die Business-Layer abgewickelt.
-Dazu gehört auch das Aufbereiten der Daten in die clientinternen Datenmodelle, das Überführen in die zuständigen Views sowie das Abarbeiten von Events. Die Kontroller sind eng mit dem Routing verbunden.
+Dazu gehört auch das Aufbereiten der Daten in die clientinternen Datenmodelle, das Überführen in die zuständigen Views sowie das Abarbeiten von Events.
 Alle Controller-Methoden müssen Thread-Safe implementiert sein!
 
-#### routing
-Enthält die Logik, welche URLs auf welche Controller führen sowie Hilfsklassen zum Erstellen von URLs.
+#### filter
+Enthält Spark-Filtermethoden, welche die Bearbeitung von Requests in den Controllern vereinfacht inklusive Umleitungen wenn der Benutzer nicht angemeldet ist.
+
+#### url
+Enthält die Definitionen der URLs sowie Hilfsklassen für interne URLs.
 
 #### renderer
 Eine Thread-sichere Rendering-Implementation, welche von den Controllern verwendet wird.
 
-#### filter
-Enthält Spark-Filtermethoden, welche die Bearbeitung von Requests in den Controllern vereinfacht.
+#### model
+Enthält UI-Spezifische Modelle. Wann immer möglich wird aber der Domain-Layer direkt verwendet. 
 
 ### REST oder rpc
 Diese Schicht agiert als Proxy zwischen der clientspezifischen Business Logik und der Business Schicht. **In einem ersten Schritt wird diese Schicht weggelassen.** Falls die Applikation auf eine verteilte Applikation umgestellt werden muss, sei dies aus Performance- oder Sicherheits-Gründen, kann diese Schicht schnell dazwischen geschaltet werden.

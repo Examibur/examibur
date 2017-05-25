@@ -4,8 +4,7 @@ import ch.examibur.domain.Exam;
 import ch.examibur.domain.ExamParticipation;
 import ch.examibur.domain.Exercise;
 import ch.examibur.domain.ExerciseSolution;
-import ch.examibur.service.exception.ExamiburException;
-import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.domain.aggregation.BrowseSolutionsMode;
 import java.util.List;
 import javax.persistence.NoResultException;
 
@@ -35,11 +34,7 @@ public interface ExerciseSolutionDao {
    */
   List<ExerciseSolution> getExerciseSolutionsForExercise(long exerciseId);
 
-  /**
-   * @throws NotFoundException
-   *           if the {@link ExerciseSolution} for the given id does not exist.
-   */
-  void setIsDone(long exerciseSolutionId, boolean isDone) throws NotFoundException;
+  void setIsDone(long exerciseSolutionId, boolean isDone);
 
   /**
    * @param browseMode
@@ -57,5 +52,5 @@ public interface ExerciseSolutionDao {
    *         returned.
    */
   ExerciseSolution getNextExerciseSolution(BrowseSolutionsMode browseMode, long examId,
-      long queryResourceId, long exerciseSolutionId) throws ExamiburException;
+      long queryResourceId, long exerciseSolutionId);
 }

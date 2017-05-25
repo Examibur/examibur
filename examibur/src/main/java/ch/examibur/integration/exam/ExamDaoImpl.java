@@ -3,7 +3,6 @@ package ch.examibur.integration.exam;
 import ch.examibur.domain.Exam;
 import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseSolution;
-import ch.examibur.service.exception.NotFoundException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
@@ -89,13 +88,13 @@ public final class ExamDaoImpl implements ExamDao {
   }
 
   @Override
-  public void changeState(long examId, ExamState newState) throws NotFoundException {
+  public void changeState(long examId, ExamState newState) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
       entityManager.getTransaction().begin();
       Exam exam = entityManager.find(Exam.class, examId);
       if (exam == null) {
-        NotFoundException ex = new NotFoundException("Exam with id " + examId + " does not exist.");
+        NoResultException ex = new NoResultException("Exam with id " + examId + " does not exist.");
         LOGGER.error(ex.getMessage(), ex);
         throw ex;
       }

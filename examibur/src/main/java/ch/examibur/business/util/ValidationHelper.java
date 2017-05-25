@@ -1,6 +1,6 @@
 package ch.examibur.business.util;
 
-import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
+import ch.examibur.domain.aggregation.BrowseSolutionsMode;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.ValidationException;
 import ch.examibur.service.model.ApprovalResult;

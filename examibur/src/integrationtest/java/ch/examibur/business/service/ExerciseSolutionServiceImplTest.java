@@ -3,7 +3,7 @@ package ch.examibur.business.service;
 import ch.examibur.business.DatabaseResource;
 import ch.examibur.business.IntegrationTestUtil;
 import ch.examibur.domain.ExerciseSolution;
-import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
+import ch.examibur.domain.aggregation.BrowseSolutionsMode;
 import ch.examibur.service.ExerciseSolutionService;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;

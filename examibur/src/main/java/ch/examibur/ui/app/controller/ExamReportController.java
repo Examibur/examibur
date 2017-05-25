@@ -8,9 +8,9 @@ import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.ui.app.render.Renderer;
-import ch.examibur.ui.app.routing.RouteBuilder;
-import ch.examibur.ui.app.routing.RoutingHelpers;
-import ch.examibur.ui.app.routing.UrlParameter;
+import ch.examibur.ui.app.url.Link;
+import ch.examibur.ui.app.url.UrlHelpers;
+import ch.examibur.ui.app.url.UrlParameter;
 import ch.examibur.ui.app.util.ReportType;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
@@ -61,7 +61,7 @@ public final class ExamReportController implements Controller {
    *           throws {@link CommunicationException} if an exception during the communication occurs
    */
   public String displayReports(Request request, Response response) throws ExamiburException {
-    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
@@ -92,7 +92,7 @@ public final class ExamReportController implements Controller {
    *           communication occurs
    */
   public String getReportAsJson(Request request, Response response) throws ExamiburException {
-    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
 
     String reportType = request.queryParams(QUERY_PARAM_REPORT);
     if (reportType == null) {
@@ -115,8 +115,8 @@ public final class ExamReportController implements Controller {
    *           if the examid parameter is not set or < 0.
    */
   public void addBreadCrumb(Request request, Response response) throws InvalidParameterException {
-    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    RequestHelper.pushBreadCrumb(request, "Reports", RouteBuilder.toReports(examId));
+    long examId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    RequestHelper.pushBreadCrumb(request, "Reports", Link.toReports(examId));
   }
 
 }

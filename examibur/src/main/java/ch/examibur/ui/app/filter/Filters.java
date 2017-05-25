@@ -9,8 +9,8 @@ import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.model.AuthenticationInformation;
 import ch.examibur.ui.app.model.Message;
 import ch.examibur.ui.app.model.MessageType;
-import ch.examibur.ui.app.routing.QueryParameter;
-import ch.examibur.ui.app.routing.RouteBuilder;
+import ch.examibur.ui.app.url.Link;
+import ch.examibur.ui.app.url.QueryParameter;
 import ch.examibur.ui.app.util.BreadCrumbEntry;
 import ch.examibur.ui.app.util.CookieHelpers;
 import ch.examibur.ui.app.util.RequestAttributes;
@@ -27,6 +27,8 @@ import spark.Response;
 import spark.Spark;
 
 public class Filters {
+
+  private static final String CHARACTER_ENCODING = "UTF-8";
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Filters.class);
 
@@ -54,8 +56,8 @@ public class Filters {
   }
 
   public void utf8Encoding(Request request, Response response) throws UnsupportedEncodingException {
-    request.raw().setCharacterEncoding("UTF-8");
-    response.raw().setCharacterEncoding("UTF-8");
+    request.raw().setCharacterEncoding(CHARACTER_ENCODING);
+    response.raw().setCharacterEncoding(CHARACTER_ENCODING);
   }
 
   /**
@@ -85,9 +87,9 @@ public class Filters {
         MessageType.forName(request.queryParams(QueryParameter.NOTIFICATION_TYPE.toString()));
     if (message != null && !message.isEmpty() && messageType != null) {
       try {
-        message = URLDecoder.decode(message, "UTF-8");
+        message = URLDecoder.decode(message, CHARACTER_ENCODING);
       } catch (UnsupportedEncodingException e) {
-        LOGGER.error(e.getMessage());
+        LOGGER.error("Error while decoding the query parameter!", e);
         IllegalOperationException illegalOperationException =
             new IllegalOperationException("Error while decoding the query parameter "
                 + QueryParameter.NOTIFICATION_MESSAGE.toString());
@@ -119,8 +121,8 @@ public class Filters {
       AuthenticationUtil.setCurrentUser(user);
       request.attribute(RequestAttributes.USER, user);
 
-      if (request.uri().startsWith(RouteBuilder.toLogin())) {
-        response.redirect(RouteBuilder.toDashboard());
+      if (request.uri().startsWith(Link.toLogin())) {
+        response.redirect(Link.toDashboard());
         Spark.halt();
       }
     } catch (InvalidParameterException e) {
@@ -129,9 +131,9 @@ public class Filters {
   }
 
   private void redirectToLoginPage(Request request, Response response) {
-    if (!request.uri().startsWith(RouteBuilder.toLogin())) {
+    if (!request.uri().startsWith(Link.toLogin())) {
       String redirectUrl =
-          RouteBuilder.addQueryParameter(RouteBuilder.toLogin(), QueryParameter.REF, request.uri());
+          Link.addQueryParameter(Link.toLogin(), QueryParameter.REF, request.uri());
       response.redirect(redirectUrl);
       Spark.halt();
     }

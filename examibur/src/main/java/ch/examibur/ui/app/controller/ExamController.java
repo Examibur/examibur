@@ -12,13 +12,15 @@ import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.ui.app.model.MessageType;
 import ch.examibur.ui.app.render.Renderer;
-import ch.examibur.ui.app.routing.RouteBuilder;
-import ch.examibur.ui.app.routing.RoutingHelpers;
-import ch.examibur.ui.app.routing.UrlParameter;
+import ch.examibur.ui.app.url.Link;
+import ch.examibur.ui.app.url.UrlHelpers;
+import ch.examibur.ui.app.url.UrlParameter;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Redirect;
 import spark.Request;
 import spark.Response;
@@ -27,6 +29,7 @@ public class ExamController implements Controller {
 
   private final ExamService examService;
   private final Renderer engine;
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExamController.class);
 
   /**
    * Constructor.
@@ -58,7 +61,7 @@ public class ExamController implements Controller {
    */
 
   public String displayExam(Request request, Response response) throws ExamiburException {
-    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("exam", examService.getExam(examId));
@@ -93,14 +96,15 @@ public class ExamController implements Controller {
    * @return nothing to return. It redirects back to the Exam.
    */
   public String setNextExamState(Request request, Response response) throws ExamiburException {
-    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    String target = RouteBuilder.toExam(examId);
+    long examId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    String target = Link.toExam(examId);
     try {
       examService.setNextState(examId);
-      target = RouteBuilder.addMessageParameter(target, "Prüfungsstatus erfolgreich aktualisiert!",
+      target = Link.addMessageParameter(target, "Prüfungsstatus erfolgreich aktualisiert!",
           MessageType.SUCCESS);
     } catch (IllegalOperationException e) {
-      target = RouteBuilder.addMessageParameter(target,
+      LOGGER.debug("Illegal occured Operation on NextExamState", e);
+      target = Link.addMessageParameter(target,
           "Fehler: Diese Prüfung hat noch unbearbeitete Aufgaben.", MessageType.DANGER);
     }
     response.redirect(target, Redirect.Status.FOUND.intValue());
@@ -111,7 +115,7 @@ public class ExamController implements Controller {
    * Adds breadcurmb for `/exams`.
    */
   public void addBreadCrumb(Request request, Response response) {
-    RequestHelper.pushBreadCrumb(request, "Prüfungen", RouteBuilder.toExams());
+    RequestHelper.pushBreadCrumb(request, "Prüfungen", Link.toExams());
   }
 
   /**
@@ -122,7 +126,7 @@ public class ExamController implements Controller {
    */
   public void addSpecificBreadCrumb(Request request, Response response)
       throws InvalidParameterException {
-    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    RequestHelper.pushBreadCrumb(request, "Prüfung #" + examId, RouteBuilder.toExam(examId));
+    long examId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    RequestHelper.pushBreadCrumb(request, "Prüfung #" + examId, Link.toExam(examId));
   }
 }

@@ -36,7 +36,7 @@ public interface ExamDao {
    * @throws NotFoundException
    *           if the {@link Exam} with the given id does not exist.
    */
-  void changeState(long examId, ExamState newState) throws NotFoundException;
+  void changeState(long examId, ExamState newState);
 
   /**
    * Checks if there are any {@link ExerciseSolution} in this {@link Exam} which are not done yet.

@@ -1,4 +1,4 @@
-package ch.examibur.ui.app.routing;
+package ch.examibur.ui.app.url;
 
 public enum UrlParameter {
   EXAM_ID("examId"),

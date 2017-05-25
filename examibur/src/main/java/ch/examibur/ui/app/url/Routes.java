@@ -1,6 +1,6 @@
-package ch.examibur.ui.app.routing;
+package ch.examibur.ui.app.url;
 
-public enum Route {
+public enum Routes {
   ROOT("/"),
   LOGIN(ROOT, "login/"),
   LOGOUT(ROOT, "logout/"),
@@ -25,19 +25,19 @@ public enum Route {
 
   private final String url;
 
-  private Route(String url) {
+  private Routes(String url) {
     this.url = url;
   }
 
-  private Route(Route paramRoute, String url) {
+  private Routes(Routes paramRoute, String url) {
     this.url = paramRoute.url + url;
   }
 
-  private Route(Route paramRoute, UrlParameter urlParameter) {
+  private Routes(Routes paramRoute, UrlParameter urlParameter) {
     this.url = paramRoute.url + urlParameter.toUrl() + '/';
   }
 
-  String url() {
+  public String url() {
     return url;
   }
 

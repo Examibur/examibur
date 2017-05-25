@@ -7,7 +7,7 @@ import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.ui.app.render.Renderer;
-import ch.examibur.ui.app.routing.RouteBuilder;
+import ch.examibur.ui.app.url.Link;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
@@ -59,6 +59,6 @@ public class DashboardController implements Controller {
    * Add / in the breadcrumbs.
    */
   public void addBreadCrumb(Request request, Response response) {
-    RequestHelper.pushBreadCrumb(request, "Dashboard", RouteBuilder.toDashboard());
+    RequestHelper.pushBreadCrumb(request, "Dashboard", Link.toDashboard());
   }
 }
