@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public final class FormatUtil {
-  
+
   public static final int SCALE_NEAREST_HUNDRED = 2;
-  
-  private FormatUtil(){
+
+  private FormatUtil() {
   }
 
   /**
@@ -23,7 +23,7 @@ public final class FormatUtil {
     if (places < 0) {
       throw new IllegalArgumentException();
     }
-      
+
     BigDecimal bdToRound = BigDecimal.valueOf(value);
     bdToRound = bdToRound.setScale(places, RoundingMode.HALF_UP);
     return bdToRound.doubleValue();

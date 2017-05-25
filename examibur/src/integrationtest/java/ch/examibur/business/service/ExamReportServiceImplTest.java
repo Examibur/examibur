@@ -147,8 +147,7 @@ public class ExamReportServiceImplTest {
         examReportService.getExerciseAverageMaxPointsComparisonReport(8L);
     Assert.assertEquals(3, exerciseAverageMaxPointsComparisonList.size());
 
-    Collections.sort(exerciseAverageMaxPointsComparisonList,
-        AVG_MAXPOINTS_COMPARATOR);
+    Collections.sort(exerciseAverageMaxPointsComparisonList, AVG_MAXPOINTS_COMPARATOR);
     // AES-CBC Disk Encryption
     testExerciseAverageMaxPointsComparison(exerciseAverageMaxPointsComparisonList.get(0), 5D, 1D);
     // XTS-AES Speicherplatz Ausnutzung

@@ -19,8 +19,8 @@ public class ExerciseServiceImplTest {
 
   @Rule
   public final DatabaseResource res = new DatabaseResource();
-  private final ExerciseService exerciseService = IntegrationTestUtil.getInjector()
-      .getInstance(ExerciseService.class);
+  private final ExerciseService exerciseService =
+      IntegrationTestUtil.getInjector().getInstance(ExerciseService.class);
 
   @Test
   public void testGetExercises() {

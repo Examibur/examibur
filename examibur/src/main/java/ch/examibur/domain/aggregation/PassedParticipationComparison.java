@@ -15,8 +15,8 @@ public final class PassedParticipationComparison {
    */
   public PassedParticipationComparison(int numberOfSuccessfulParticipations,
       int totalParticipations) {
-    percentageOfSuccessfulParticipations = (double) numberOfSuccessfulParticipations
-        / totalParticipations * 100;
+    percentageOfSuccessfulParticipations =
+        (double) numberOfSuccessfulParticipations / totalParticipations * 100;
     percentageOfUnsuccessfulParticipations = 100 - percentageOfSuccessfulParticipations;
   }
 

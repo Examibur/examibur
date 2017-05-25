@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public final class DbConnectionChecker {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DbConnectionChecker.class);
-  
+
   private final JdbcCredentials jdbcCredentials;
   private final int timeoutSec;
   private final int triesMs;
