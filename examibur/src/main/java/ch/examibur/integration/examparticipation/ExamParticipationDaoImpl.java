@@ -7,12 +7,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ExamParticipationDaoImpl implements ExamParticipationDao {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExamParticipationDaoImpl.class);
 
   private final Provider<EntityManager> entityManagerProvider;
 
@@ -26,9 +22,6 @@ public class ExamParticipationDaoImpl implements ExamParticipationDao {
     EntityManager entityManager = entityManagerProvider.get();
     try {
       return getExamParticipations(examId, entityManager);
-    } catch (Exception e) {
-      LOGGER.error("Error occured during getExamParticipations call", e);
-      throw e;
     } finally {
       entityManager.close();
     }

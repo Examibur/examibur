@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 public class ExerciseDaoImpl implements ExerciseDao {
@@ -38,10 +39,11 @@ public class ExerciseDaoImpl implements ExerciseDao {
   public Exercise getExercise(long exerciseId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<Exercise> exerciseQuery = entityManager.createQuery(
-          "SELECT e FROM Exercise e WHERE e.id = :exerciseId",
-          Exercise.class);
-      return exerciseQuery.setParameter("exerciseId", exerciseId).getSingleResult();
+      Exercise exercise = entityManager.find(Exercise.class, exerciseId);
+      if (exercise == null) {
+        throw new NoResultException("Exercise with id " + exerciseId + " not found.");
+      }
+      return exercise;
     } finally {
       entityManager.close();
     }

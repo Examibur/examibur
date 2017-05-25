@@ -29,6 +29,9 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
   private final ExerciseGradingDao exerciseGradingDao;
   private final ExamDao examDao;
 
+  /**
+   * Constructor for ExerciseeSolutionServiceImpl.
+   */
   @Inject
   public ExerciseSolutionServiceImpl(ExerciseSolutionDao exerciseSolutionDao,
       ExerciseGradingDao exerciseGradingDao, ExamDao examDao) {
@@ -60,8 +63,8 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
     LOGGER.info("Get ExerciseSolutions for ExamParticipation with id {}", examParticipationId);
     List<ExerciseSolution> exerciseSolutions;
     try {
-      exerciseSolutions = exerciseSolutionDao
-          .getExerciseSolutionsForExamParticipation(examParticipationId);
+      exerciseSolutions =
+          exerciseSolutionDao.getExerciseSolutionsForExamParticipation(examParticipationId);
     } catch (NoResultException ex) {
       NotFoundException notFoundException = new NotFoundException(
           "ExamParticipation with id " + examParticipationId + " does not exist", ex);
@@ -71,8 +74,8 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
 
     List<ExerciseSolutionOverview> overviewList = new ArrayList<>();
     for (ExerciseSolution exerciseSolution : exerciseSolutions) {
-      Optional<Double> points = exerciseGradingDao
-          .getPointsOfExerciseSolution(exerciseSolution.getId());
+      Optional<Double> points =
+          exerciseGradingDao.getPointsOfExerciseSolution(exerciseSolution.getId());
       overviewList.add(new ExerciseSolutionOverview(exerciseSolution, points));
     }
     return overviewList;
@@ -123,8 +126,8 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
     try {
       return queryFunction.apply(resourceId);
     } catch (NoResultException ex) {
-      NotFoundException notFoundException = new NotFoundException(
-          "ExerciseSolution with id " + resourceId + " not found", ex);
+      NotFoundException notFoundException =
+          new NotFoundException("ExerciseSolution with id " + resourceId + " not found", ex);
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
     }
@@ -135,8 +138,8 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
       throws ExamiburException {
     ValidationHelper.checkForNegativeId(exerciseId, LOGGER);
 
-    List<ExerciseSolution> exerciseSolutions = exerciseSolutionDao
-        .getExerciseSolutionsForExercise(exerciseId);
+    List<ExerciseSolution> exerciseSolutions =
+        exerciseSolutionDao.getExerciseSolutionsForExercise(exerciseId);
     List<ExerciseParticipantOverview> exerciseParticipantsOverview = new ArrayList<>();
 
     for (ExerciseSolution exerciseSolution : exerciseSolutions) {
@@ -148,8 +151,8 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
 
       long examId = exerciseSolution.getExercise().getExam().getId();
       long examParticipationId = exerciseSolution.getParticipation().getId();
-      boolean areAllExercisesAreGraded = exerciseGradingDao.checkIfAllExercisesAreGraded(examId,
-          examParticipationId);
+      boolean areAllExercisesAreGraded =
+          exerciseGradingDao.checkIfAllExercisesAreGraded(examId, examParticipationId);
 
       double totalPoints = exerciseGradingDao.getTotalPointsOfExamGradings(examParticipationId);
       exerciseParticipantOverview.setTotalPoints(totalPoints);
@@ -157,8 +160,8 @@ public class ExerciseSolutionServiceImpl implements ExerciseSolutionService {
       if (areAllExercisesAreGraded) {
         double maxPoints = examDao.getMaxPoints(examId);
 
-        double grading = GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints,
-            maxPoints);
+        double grading =
+            GradingUtil.calculateGrading(new BaseGradingStrategy(), totalPoints, maxPoints);
         exerciseParticipantOverview.setGrading(Optional.of(grading));
       } else {
         exerciseParticipantOverview.setGrading(Optional.empty());
