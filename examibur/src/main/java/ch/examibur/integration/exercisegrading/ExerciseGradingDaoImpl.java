@@ -4,10 +4,6 @@ import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.domain.User;
-import ch.examibur.service.exception.ExamiburException;
-import ch.examibur.service.exception.IllegalOperationException;
-import ch.examibur.service.exception.NotFoundException;
-import ch.examibur.service.exception.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.Date;
@@ -17,12 +13,8 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseGradingDao.class);
 
   private final Provider<EntityManager> entityManagerProvider;
 
@@ -39,9 +31,9 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
           "SELECT eg FROM ExerciseGrading eg WHERE "
               + "eg.exerciseSolution.id = :exerciseSolutionId and eg.createdInState = :state",
           ExerciseGrading.class);
-      List<ExerciseGrading> result = exerciseSolutionQuery
-          .setParameter("exerciseSolutionId", exerciseSolutionId).setParameter("state", state)
-          .getResultList();
+      List<ExerciseGrading> result =
+          exerciseSolutionQuery.setParameter("exerciseSolutionId", exerciseSolutionId)
+              .setParameter("state", state).getResultList();
       return !result.isEmpty() ? result.get(0) : null;
     } finally {
       entityManager.close();
@@ -62,22 +54,21 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   public double getTotalPointsOfExamGradings(long examParticipationId,
       EntityManager entityManager) {
 
-    TypedQuery<Double> totalPointsOfExamGradingsQuery = entityManager
-        .createQuery("SELECT COALESCE(SUM(eg.points), 0) FROM ExerciseGrading eg "
+    TypedQuery<Double> totalPointsOfExamGradingsQuery =
+        entityManager.createQuery("SELECT COALESCE(SUM(eg.points), 0) FROM ExerciseGrading eg "
             + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
             + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
             + "WHERE eg.isFinalGrading = true AND ep.id = :examParticipationId", Double.class);
     return totalPointsOfExamGradingsQuery.setParameter("examParticipationId", examParticipationId)
         .getSingleResult();
-
   }
 
   @Override
   public Optional<Double> getPointsOfExerciseSolution(long exerciseSolutionId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<Double> totalPointsOfExerciseSolutionQuery = entityManager
-          .createQuery("SELECT eg.points FROM ExerciseGrading eg "
+      TypedQuery<Double> totalPointsOfExerciseSolutionQuery =
+          entityManager.createQuery("SELECT eg.points FROM ExerciseGrading eg "
               + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = :exerciseSolutionId "
               + "WHERE eg.isFinalGrading = true", Double.class);
       List<Double> resultList = totalPointsOfExerciseSolutionQuery
@@ -92,8 +83,8 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   public double getProgressOfExamGradings(long examId, long participationId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<Long> getCountOfGradingsQuery = entityManager
-          .createQuery("SELECT COUNT(DISTINCT es.exercise.id) FROM ExerciseGrading eg "
+      TypedQuery<Long> getCountOfGradingsQuery =
+          entityManager.createQuery("SELECT COUNT(DISTINCT es.exercise.id) FROM ExerciseGrading eg "
               + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
               + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
               + "WHERE es.isDone = true AND ep.id = :participationId", Long.class);
@@ -103,8 +94,8 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
 
       long countOfGradings = getCountOfGradingsQuery
           .setParameter("participationId", participationId).getSingleResult();
-      long countOfExercises = getCountOfExercisesQuery.setParameter("examId", examId)
-          .getSingleResult();
+      long countOfExercises =
+          getCountOfExercisesQuery.setParameter("examId", examId).getSingleResult();
       return (double) countOfGradings / countOfExercises;
     } finally {
       entityManager.close();
@@ -113,8 +104,8 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
 
   @Override
   public double getAveragePointsOfExercise(long exerciseId, EntityManager entityManager) {
-    TypedQuery<Double> avgPointsOfExerciseQuery = entityManager
-        .createQuery("SELECT AVG(eg.points) FROM ExerciseGrading eg "
+    TypedQuery<Double> avgPointsOfExerciseQuery =
+        entityManager.createQuery("SELECT AVG(eg.points) FROM ExerciseGrading eg "
             + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
             + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
             + "WHERE eg.isFinalGrading = true AND es.exercise.id = :exerciseId", Double.class);
@@ -134,8 +125,8 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   @Override
   public boolean checkIfAllExercisesAreGraded(long examId, long participationId,
       EntityManager entityManager) {
-    TypedQuery<Long> getExerciseIdsOfGradingsQuery = entityManager
-        .createQuery("SELECT DISTINCT es.exercise.id FROM ExerciseGrading eg "
+    TypedQuery<Long> getExerciseIdsOfGradingsQuery =
+        entityManager.createQuery("SELECT DISTINCT es.exercise.id FROM ExerciseGrading eg "
             + "INNER JOIN ExerciseSolution es ON eg.exerciseSolution.id = es.id "
             + "INNER JOIN ExamParticipation ep ON es.participation.id = ep.id "
             + "WHERE ep.id = :participationId", Long.class);
@@ -151,37 +142,37 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
 
   @Override
   public void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
-      User gradingAuthor) throws ExamiburException {
+      User gradingAuthor) {
     EntityManager entityManager = entityManagerProvider.get();
 
     try {
       entityManager.getTransaction().begin();
 
-      ExerciseSolution exerciseSolution = entityManager.find(ExerciseSolution.class,
-          exerciseSolutionId);
+      ExerciseSolution exerciseSolution =
+          entityManager.find(ExerciseSolution.class, exerciseSolutionId);
       if (exerciseSolution == null) {
-        throw new NoResultException();
+        throw new NoResultException(
+            "ExerciseSolution with id " + exerciseSolutionId + " does not exist");
       }
       checkIfPointsInRange(exerciseSolution, points);
 
       ExamState examState = exerciseSolution.getParticipation().getExam().getState();
       if (examState != ExamState.CORRECTION && examState != ExamState.REVIEW) {
-        throw new IllegalOperationException(
+        throw new IllegalStateException(
             "Not possible to add a new grading in exam state " + examState.toString());
       }
 
       checkIfGradingAlreadyIsDone(exerciseSolution, examState);
       exerciseSolution.setDone(true);
 
-      ExerciseGrading exerciseGrading = new ExerciseGrading(
-          new Date(Calendar.getInstance().getTime().getTime()), comment, reasoning, points,
-          examState, true, gradingAuthor, exerciseSolution);
+      ExerciseGrading exerciseGrading =
+          new ExerciseGrading(new Date(Calendar.getInstance().getTime().getTime()), comment,
+              reasoning, points, examState, true, gradingAuthor, exerciseSolution);
       entityManager.persist(exerciseGrading);
 
       entityManager.getTransaction().commit();
     } catch (Exception ex) {
       entityManager.getTransaction().rollback();
-      LOGGER.error("Error while adding new grading to exerciseSolution " + exerciseSolutionId, ex);
       throw ex;
     } finally {
       entityManager.close();
@@ -189,16 +180,14 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
   }
 
   @Override
-  public void setFinalGrading(long exerciseGradingId, boolean isFinal) throws NotFoundException {
+  public void setFinalGrading(long exerciseGradingId, boolean isFinal) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
       entityManager.getTransaction().begin();
       ExerciseGrading grading = entityManager.find(ExerciseGrading.class, exerciseGradingId);
       if (grading == null) {
-        NotFoundException ex = new NotFoundException(
+        throw new NoResultException(
             "exerciseGrading with id " + exerciseGradingId + " does not exist");
-        LOGGER.error(ex.getMessage(), ex);
-        throw ex;
       }
       grading.setFinalGrading(isFinal);
       entityManager.getTransaction().commit();
@@ -210,25 +199,18 @@ public class ExerciseGradingDaoImpl implements ExerciseGradingDao {
     }
   }
 
-  private void checkIfPointsInRange(ExerciseSolution exerciseSolution, double points)
-      throws ExamiburException {
+  private void checkIfPointsInRange(ExerciseSolution exerciseSolution, double points) {
     if (points > exerciseSolution.getExercise().getMaxPoints() || points < 0) {
-      ValidationException validationException = new ValidationException(
+      throw new IllegalArgumentException(
           points + " points are not allowed for this ExerciseSolution (id = "
               + exerciseSolution.getId() + ")");
-      LOGGER.error(validationException.getMessage(), validationException);
-      throw validationException;
     }
   }
 
-  private void checkIfGradingAlreadyIsDone(ExerciseSolution exerciseSolution, ExamState examState)
-      throws IllegalOperationException {
+  private void checkIfGradingAlreadyIsDone(ExerciseSolution exerciseSolution, ExamState examState) {
     if (exerciseSolution.isDone()) {
-      IllegalOperationException illegalOperationException = new IllegalOperationException(
-          examState.toString() + " is done already for the exerciseSolution "
-              + exerciseSolution.getId());
-      LOGGER.error(illegalOperationException.getMessage(), illegalOperationException);
-      throw illegalOperationException;
+      throw new IllegalStateException(examState.toString()
+          + " is done already for the exerciseSolution " + exerciseSolution.getId());
     }
   }
 

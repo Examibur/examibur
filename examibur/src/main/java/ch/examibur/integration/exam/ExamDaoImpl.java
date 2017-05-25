@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 public final class ExamDaoImpl implements ExamDao {
@@ -48,9 +49,11 @@ public final class ExamDaoImpl implements ExamDao {
   public Exam getExam(long examId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<Exam> examQuery =
-          entityManager.createQuery("SELECT e FROM Exam e WHERE e.id = :examId", Exam.class);
-      return examQuery.setParameter("examId", examId).getSingleResult();
+      Exam exam = entityManager.find(Exam.class, examId);
+      if (exam == null) {
+        throw new NoResultException("Exam with id " + examId + " not found.");
+      }
+      return exam;
     } finally {
       entityManager.close();
     }
