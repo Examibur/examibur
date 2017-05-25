@@ -60,9 +60,15 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
   @Override
   public ExamParticipantOverview getExamParticipantOverview(long examParticipationId)
       throws ExamiburException {
-    ExamParticipation examParticipation =
-        examParticipationDao.getExamParticipation(examParticipationId);
-    return createExamParticipantOverview(examParticipation);
+    try {
+      ExamParticipation examParticipation =
+          examParticipationDao.getExamParticipation(examParticipationId);
+      return createExamParticipantOverview(examParticipation);
+    } catch (NoResultException ex) {
+      NotFoundException notFoundException = new NotFoundException(ex.getMessage(), ex);
+      LOGGER.error(notFoundException.getMessage(), notFoundException);
+      throw notFoundException;
+    }
   }
 
   private ExamParticipantOverview createExamParticipantOverview(ExamParticipation examParticipation)
@@ -103,8 +109,7 @@ public class ExamParticipationServiceImpl implements ExamParticipationService {
     try {
       return examParticipationDao.getExamParticipation(examParticipationId);
     } catch (NoResultException ex) {
-      NotFoundException notFoundException = new NotFoundException(
-          "ExampParticipation with id " + examParticipationId + " not found", ex);
+      NotFoundException notFoundException = new NotFoundException(ex.getMessage(), ex);
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
     }

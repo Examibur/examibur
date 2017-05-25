@@ -2,7 +2,9 @@ package ch.examibur.ui.app.routing;
 
 public enum QueryParameter {
   REF("ref"),
-  BROWSE_SOLUTIONS("browse");
+  BROWSE_SOLUTIONS("browse"),
+  NOTIFICATION_MESSAGE("notification-message"),
+  NOTIFICATION_TYPE("notification-type");
 
   private final String name;
 
@@ -14,5 +16,4 @@ public enum QueryParameter {
   public String toString() {
     return name;
   }
-
 }

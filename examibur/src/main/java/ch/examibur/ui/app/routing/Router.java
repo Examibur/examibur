@@ -90,7 +90,7 @@ public final class Router {
 
     beforeAll(Route.EXAM, examController::addSpecificBreadCrumb);
     get(Route.EXAM, examController::displayExam);
-    post(Route.EXAM, examController::updateExam);
+    post(Route.EXAM, examController::setNextExamState);
 
     beforeAll(Route.EXERCISES, exerciseController::addBreadCrumb);
     get(Route.EXERCISES, exerciseController::listExercises);

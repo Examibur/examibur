@@ -2,20 +2,14 @@ package ch.examibur.integration.exercisesolution;
 
 import ch.examibur.domain.ExamParticipation;
 import ch.examibur.domain.ExerciseSolution;
-import ch.examibur.service.exception.ExamiburException;
-import ch.examibur.service.exception.InvalidParameterException;
-import ch.examibur.service.exception.NotFoundException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExerciseSolutionDaoImpl.class);
 
   private final Provider<EntityManager> entityManagerProvider;
 
@@ -28,11 +22,14 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
   public ExerciseSolution getExerciseSolution(long exerciseSolutionId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<ExerciseSolution> exerciseSolutionQuery = entityManager.createQuery(
-          "SELECT es FROM ExerciseSolution es WHERE es.id = :exerciseSolutionId",
-          ExerciseSolution.class);
-      return exerciseSolutionQuery.setParameter("exerciseSolutionId", exerciseSolutionId)
-          .getSingleResult();
+      ExerciseSolution exerciseSolution =
+          entityManager.find(ExerciseSolution.class, exerciseSolutionId);
+      if (exerciseSolution == null) {
+        throw new NoResultException(
+            "ExerciseSolution with id " + exerciseSolutionId + " not found.");
+      }
+      return exerciseSolution;
+
     } finally {
       entityManager.close();
     }
@@ -50,7 +47,8 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
           .getSingleResult();
 
       TypedQuery<ExerciseSolution> exerciseSolutionQuery = entityManager.createQuery(
-          "SELECT es FROM ExerciseSolution es WHERE es.participation.id = :examParticipationId ORDER BY es.exercise.orderInExam",
+          "SELECT es FROM ExerciseSolution es WHERE es.participation.id = :examParticipationId"
+              + " ORDER BY es.exercise.orderInExam",
           ExerciseSolution.class);
       return exerciseSolutionQuery.setParameter("examParticipationId", examParticipationId)
           .getResultList();
@@ -63,9 +61,9 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
   public List<ExerciseSolution> getExerciseSolutionsForExercise(long exerciseId) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
-      TypedQuery<ExerciseSolution> exerciseSolutionQuery = entityManager.createQuery(
-          "SELECT es FROM ExerciseSolution es WHERE es.exercise.id = :exerciseId ORDER BY es.id",
-          ExerciseSolution.class);
+      TypedQuery<ExerciseSolution> exerciseSolutionQuery = entityManager
+          .createQuery("SELECT es FROM ExerciseSolution es WHERE es.exercise.id = :exerciseId "
+              + "ORDER BY es.id", ExerciseSolution.class);
       return exerciseSolutionQuery.setParameter("exerciseId", exerciseId).getResultList();
     } finally {
       entityManager.close();
@@ -73,16 +71,14 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
   }
 
   @Override
-  public void setIsDone(long exerciseSolutionId, boolean isDone) throws NotFoundException {
+  public void setIsDone(long exerciseSolutionId, boolean isDone) {
     EntityManager entityManager = entityManagerProvider.get();
     try {
       entityManager.getTransaction().begin();
       ExerciseSolution solution = entityManager.find(ExerciseSolution.class, exerciseSolutionId);
       if (solution == null) {
-        NotFoundException ex = new NotFoundException(
+        throw new NoResultException(
             "exerciseSolution with id " + exerciseSolutionId + " does not exist");
-        LOGGER.error(ex.getMessage(), ex);
-        throw ex;
       }
       solution.setDone(isDone);
       entityManager.getTransaction().commit();
@@ -96,7 +92,7 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
 
   @Override
   public ExerciseSolution getNextExerciseSolution(BrowseSolutionsMode browseMode, long examId,
-      long queryResourceId, long exerciseSolutionId) throws ExamiburException {
+      long queryResourceId, long exerciseSolutionId) {
     long participantId =
         browseMode.equals(BrowseSolutionsMode.BY_PARTICIPATION) ? queryResourceId : 0;
     long exerciseId = browseMode.equals(BrowseSolutionsMode.BY_EXERCISE) ? queryResourceId : 0;
@@ -123,8 +119,7 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
   }
 
   private TypedQuery<ExerciseSolution> buildQuery(EntityManager entityManager,
-      BrowseSolutionsMode browseMode, long examId, long participantId, long exerciseId)
-      throws ExamiburException {
+      BrowseSolutionsMode browseMode, long examId, long participantId, long exerciseId) {
     TypedQuery<ExerciseSolution> nextExerciseSolutionQuery;
     String query = getQueryString(browseMode);
     nextExerciseSolutionQuery = entityManager.createQuery(query, ExerciseSolution.class);
@@ -137,7 +132,7 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
     return nextExerciseSolutionQuery;
   }
 
-  private String getQueryString(BrowseSolutionsMode browseMode) throws ExamiburException {
+  private String getQueryString(BrowseSolutionsMode browseMode) {
     String baseCondition = "SELECT e FROM ExerciseSolution e WHERE e.isDone = false AND ";
     String exerciseCondition =
         "e.exercise.id = :exerciseId AND e.participation.id > :participantId";
@@ -157,10 +152,8 @@ public class ExerciseSolutionDaoImpl implements ExerciseSolutionDao {
             + "OR (e.participation.exam.id = :examId AND e.participation.id > :participantId)) "
             + "ORDER BY e.participation.id, e.exercise.id";
       default:
-        InvalidParameterException invalidParameterException = new InvalidParameterException(
-            "BrowseSolutionsMode with value '" + browseMode.toString() + "' is not defined");
-        LOGGER.error(invalidParameterException.getMessage(), invalidParameterException);
-        throw invalidParameterException;
+        throw new IllegalArgumentException(new IllegalArgumentException(
+            "BrowseSolutionsMode with value '" + browseMode.toString() + "' is not defined"));
     }
   }
 }

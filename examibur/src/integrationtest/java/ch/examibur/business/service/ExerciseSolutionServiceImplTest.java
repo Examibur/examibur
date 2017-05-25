@@ -194,13 +194,13 @@ public class ExerciseSolutionServiceImplTest {
   }
 
   @Test
-
   public void testGetFirstExerciseSolutionByExercises() throws ExamiburException {
     ExerciseSolution nextExerciseSolution = exerciseSolutionService
         .getNextExerciseSolution(BrowseSolutionsMode.BY_EXERCISES, 8L, 17L, 0);
     Assert.assertEquals(49L, nextExerciseSolution.getId());
   }
 
+  @Test
   public void testGetExerciseParticipantsOverview() throws ExamiburException {
     List<ExerciseParticipantOverview> exerciseParticipantsOverview =
         exerciseSolutionService.getExerciseParticipantsOverview(8);

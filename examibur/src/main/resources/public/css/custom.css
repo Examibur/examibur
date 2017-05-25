@@ -16,6 +16,11 @@
 .dropdown-menu input {
 	background-color: inherit;
 }
+header > .alert {
+	margin-top: 7px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
 
 .navbar-brand {
 	padding-top: 3px;

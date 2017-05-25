@@ -7,12 +7,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ExamParticipationDaoImpl implements ExamParticipationDao {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExamParticipationDaoImpl.class);
 
   private final Provider<EntityManager> entityManagerProvider;
 
@@ -26,12 +22,17 @@ public class ExamParticipationDaoImpl implements ExamParticipationDao {
     EntityManager entityManager = entityManagerProvider.get();
     try {
       return getExamParticipations(examId, entityManager);
-    } catch (Exception e) {
-      LOGGER.error("Error occured during getExamParticipations call", e);
-      throw e;
     } finally {
       entityManager.close();
     }
+  }
+
+  @Override
+  public List<ExamParticipation> getExamParticipations(long examId, EntityManager entityManager) {
+    TypedQuery<ExamParticipation> examParticipationsQuery = entityManager.createQuery(
+        "SELECT ep FROM ExamParticipation ep WHERE ep.exam.id = :examId ORDER BY ep.id",
+        ExamParticipation.class);
+    return examParticipationsQuery.setParameter("examId", examId).getResultList();
   }
 
   @Override
@@ -47,14 +48,6 @@ public class ExamParticipationDaoImpl implements ExamParticipationDao {
     } finally {
       entityManager.close();
     }
-  }
-
-  @Override
-  public List<ExamParticipation> getExamParticipations(long examId, EntityManager entityManager) {
-    TypedQuery<ExamParticipation> examParticipationsQuery = entityManager.createQuery(
-        "SELECT ep FROM ExamParticipation ep WHERE ep.exam.id = :examId ORDER BY ep.id",
-        ExamParticipation.class);
-    return examParticipationsQuery.setParameter("examId", examId).getResultList();
   }
 
 }

@@ -1,12 +1,16 @@
 package ch.examibur.ui.app.controller;
 
+import ch.examibur.domain.Exam;
+import ch.examibur.domain.ExamState;
 import ch.examibur.domain.User;
 import ch.examibur.service.ExamService;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.ui.app.model.MessageType;
 import ch.examibur.ui.app.render.Renderer;
 import ch.examibur.ui.app.routing.RouteBuilder;
 import ch.examibur.ui.app.routing.RoutingHelpers;
@@ -15,6 +19,7 @@ import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
 import java.util.Map;
+import spark.Redirect;
 import spark.Request;
 import spark.Response;
 
@@ -82,16 +87,23 @@ public class ExamController implements Controller {
   }
 
   /**
-   * Updates a specific exam and redirects to the GET controller.
+   * Updates the {@link ExamState} of the {@link Exam} according to the following transition logic:
+   * CORRECTION -> REVIEW -> APPROVAL -> APPEAL -> ARCHIVED
    * 
-   * @param request
-   *          the HTTP request
-   * @param response
-   *          the HTTP response
-   * @return nothing to return
+   * @return nothing to return. It redirects back to the Exam.
    */
-  public String updateExam(Request request, Response response) {
-    response.redirect(request.pathInfo(), 302);
+  public String setNextExamState(Request request, Response response) throws ExamiburException {
+    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    String target = RouteBuilder.toExam(examId);
+    try {
+      examService.setNextState(examId);
+      target = RouteBuilder.addMessageParameter(target, "Prüfungsstatus erfolgreich aktualisiert!",
+          MessageType.SUCCESS);
+    } catch (IllegalOperationException e) {
+      target = RouteBuilder.addMessageParameter(target,
+          "Fehler: Diese Prüfung hat noch unbearbeitete Aufgaben.", MessageType.DANGER);
+    }
+    response.redirect(target, Redirect.Status.FOUND.intValue());
     return null;
   }
 

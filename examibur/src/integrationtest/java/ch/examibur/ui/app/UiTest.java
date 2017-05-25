@@ -492,6 +492,40 @@ public class UiTest {
     Assert.assertTrue("XSS possible!", getDriver().findElements(By.id(xssDivId)).isEmpty());
   }
 
+  @Test
+  public void testTransitionToReview() {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + RouteBuilder.toExam(7L);
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("start-transition")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().findElement(By.id("notification-message")).isDisplayed();
+    });
+
+    Assert.assertTrue("Transition not successful!", getDriver()
+        .findElement(By.id("notification-message")).getAttribute("class").contains("bg-success"));
+    assertScreenshots();
+  }
+
+  @Test
+  public void testTransitionWithUnfinishedExerciseSolutions() {
+    login(USER_JUERGEN_KOENIG);
+    final String testUrl = TEST_URL + RouteBuilder.toExam(6L);
+    getDriver().get(testUrl);
+    getDriver().findElement(By.id("start-transition")).click();
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), 25);
+    wait.until((x) -> {
+      return getDriver().findElement(By.id("notification-message")).isDisplayed();
+    });
+
+    Assert.assertTrue("No error message displayed after impossible transition!", getDriver()
+        .findElement(By.id("notification-message")).getAttribute("class").contains("bg-danger"));
+    assertScreenshots();
+  }
+
   private void login(String username) {
     login(username, true);
   }

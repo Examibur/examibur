@@ -4,11 +4,9 @@ import ch.examibur.domain.ExamState;
 import ch.examibur.domain.ExerciseGrading;
 import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.domain.User;
-import ch.examibur.service.exception.ExamiburException;
-import ch.examibur.service.exception.IllegalOperationException;
-import ch.examibur.service.exception.NotFoundException;
 import java.util.Optional;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 public interface ExerciseGradingDao {
 
@@ -39,7 +37,8 @@ public interface ExerciseGradingDao {
   double getTotalPointsOfExamGradings(long examParticipationId);
 
   /**
-   * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao#getTotalPointsOfExamGradings(long)
+   * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao
+   *      #getTotalPointsOfExamGradings(long)
    * @param entityManager
    *          this method is used in another dao and a global transaction will be used
    */
@@ -73,8 +72,8 @@ public interface ExerciseGradingDao {
   boolean checkIfAllExercisesAreGraded(long examId, long participationId);
 
   /**
-   * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao#checkIfAllExercisesAreGraded(long,
-   *      long)
+   * @see ch.examibur.integration.exercisegrading.ExerciseGradingDao
+   *      #checkIfAllExercisesAreGraded(long, long)
    * @param entityManager
    *          this method is used in another dao and a global transaction will be used
    */
@@ -82,29 +81,23 @@ public interface ExerciseGradingDao {
       EntityManager entityManager);
 
   /**
+   * Adds a new grading to an {@link ExerciseSolution}. Throws an {@link IllegalArgumentException}
+   * if points are not in range. Throws an {@link IllegalStateException} if the exam is in the wrong
+   * state or the grading already exists. Throws a {@link NoResultException} if the
+   * {@link ExerciseSolution} doesnt exist.
+   * 
    * @param exerciseSolutionId
    *          the id of the {@link ExerciseSolution} which is graded
    * @param comment
    *          the comment which describes the solution
    * @param reasoning
-   *          the reasoning which describes how much points were given
-   * @param points
-   *          the number of points given for the solution
-   * @param gradingAuthor
-   *          the author of this grading
-   * @throws ExamiburException
-   *           throws {@link IllegalOperationException} if the exam is not in CORRECTION nor in
-   *           REVIEW. throws {@link IllegalOperationException} if there is already a grading for
-   *           this {@link ExerciseSolution} in the same state.
+   *          the reasoning which describes how much points were given.
    */
   void addGrading(long exerciseSolutionId, String comment, String reasoning, double points,
-      User gradingAuthor) throws ExamiburException;
+      User gradingAuthor);
 
   /**
-   * Sets the isFinal flag for an {@link ExerciseGrading}
-   * 
-   * @throws NotFoundException
-   *           if the {@link ExerciseGrading} with the given id does not exist.
+   * Sets the isFinal flag for an {@link ExerciseGrading}.
    */
-  void setFinalGrading(long exerciseGradingId, boolean isFinal) throws NotFoundException;
+  void setFinalGrading(long exerciseGradingId, boolean isFinal);
 }

@@ -14,6 +14,7 @@ import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
+import ch.examibur.service.exception.ValidationException;
 import ch.examibur.service.model.ApprovalResult;
 import com.google.inject.Inject;
 import javax.persistence.NoResultException;
@@ -35,11 +36,9 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
       ExerciseSolutionDao exerciseSolutionDao) {
     this.exerciseGradingDao = exerciseGradingDao;
     this.exerciseSolutionDao = exerciseSolutionDao;
-
   }
 
   @Override
-
   public ExerciseGrading getGradingForExerciseSolution(long exerciseSolutionId)
       throws ExamiburException {
     LOGGER.info("Get Grading vor ExerciseSolution {}", exerciseSolutionId);
@@ -67,8 +66,8 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
 
     User gradingAuthor = AuthenticationUtil.getCurrentUser();
     if (gradingAuthor == null) {
-      AuthorizationException authorizationException = new AuthorizationException(
-          "No user logged in to create the grading");
+      AuthorizationException authorizationException =
+          new AuthorizationException("No user logged in to create the grading");
       LOGGER.error(authorizationException.getMessage(), authorizationException);
       throw authorizationException;
     }
@@ -76,10 +75,18 @@ public class ExerciseGradingServiceImpl implements ExerciseGradingService {
     try {
       exerciseGradingDao.addGrading(exerciseSolutionId, comment, reasoning, points, gradingAuthor);
     } catch (NoResultException ex) {
-      NotFoundException notFoundException = new NotFoundException(
-          "ExerciseSolution with id " + exerciseSolutionId + " does not exist", ex);
+      NotFoundException notFoundException = new NotFoundException(ex.getMessage(), ex);
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
+    } catch (IllegalArgumentException ex) {
+      ValidationException validationException = new ValidationException(ex.getMessage(), ex);
+      LOGGER.error(validationException.getMessage(), validationException);
+      throw validationException;
+    } catch (IllegalStateException ex) {
+      IllegalOperationException illegalOperationException =
+          new IllegalOperationException(ex.getMessage(), ex);
+      LOGGER.error(illegalOperationException.getMessage(), illegalOperationException);
+      throw illegalOperationException;
     }
   }
 

@@ -7,6 +7,7 @@ import ch.examibur.integration.exam.ExamDao;
 import ch.examibur.integration.exam.ExamDaoImpl;
 import ch.examibur.service.ExamService;
 import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.NotFoundException;
 import com.google.inject.Inject;
 import java.util.List;
@@ -43,8 +44,8 @@ public final class ExamServiceImpl implements ExamService {
     try {
       return examDao.getExam(examId);
     } catch (NoResultException ex) {
-      NotFoundException notFoundException = new NotFoundException(
-          "Exam with id " + examId + " not found", ex);
+      NotFoundException notFoundException =
+          new NotFoundException("Exam with id " + examId + " not found", ex);
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
     }
@@ -57,10 +58,42 @@ public final class ExamServiceImpl implements ExamService {
     try {
       return examDao.getMaxPoints(examId);
     } catch (NoResultException ex) {
-      NotFoundException notFoundException = new NotFoundException(
-          "Exam with id " + examId + " does not exist", ex);
+      NotFoundException notFoundException =
+          new NotFoundException("Exam with id " + examId + " does not exist", ex);
       LOGGER.error(notFoundException.getMessage(), notFoundException);
       throw notFoundException;
+    }
+  }
+
+  @Override
+  public void setNextState(long examId) throws ExamiburException {
+    ValidationHelper.checkForNegativeId(examId, LOGGER);
+
+    Exam exam = getExam(examId);
+    ExamState nextState = getNextState(exam.getState());
+    checkIsDone(examId);
+
+    examDao.changeState(examId, nextState);
+  }
+
+  private ExamState getNextState(ExamState currentState) throws IllegalOperationException {
+    ExamState nextState = ExamState.forName(currentState.getOrder() + 1);
+    if (nextState == null) {
+      IllegalOperationException illegalOperationException = new IllegalOperationException(
+          "Last state reached. No more transitions possible for this Exam.");
+      LOGGER.error(illegalOperationException.getMessage(), illegalOperationException);
+      throw illegalOperationException;
+    }
+    return nextState;
+  }
+
+  private void checkIsDone(long examId) throws IllegalOperationException {
+    if (!examDao.isFinished(examId)) {
+      IllegalOperationException illegalOperationException =
+          new IllegalOperationException("The Exam with id " + examId
+              + " has unfinished ExerciseSolutions and therefore can not change its state.");
+      LOGGER.error(illegalOperationException.getMessage(), illegalOperationException);
+      throw illegalOperationException;
     }
   }
 

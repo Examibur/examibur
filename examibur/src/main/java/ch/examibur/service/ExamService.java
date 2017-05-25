@@ -2,9 +2,11 @@ package ch.examibur.service;
 
 import ch.examibur.domain.Exam;
 import ch.examibur.domain.ExamState;
+import ch.examibur.domain.ExerciseSolution;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;
+import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import java.util.List;
@@ -60,5 +62,19 @@ public interface ExamService {
    *           {@link CommunicationException} if an exception during the communication occurs.
    */
   double getMaxPoints(long examId) throws ExamiburException;
+
+  /**
+   * Updates the {@link ExamState} of an {@link Exam} according to the following transition logic:
+   * CORRECTION -> REVIEW -> APPROVAL -> APPEAL -> ARCHIVED
+   *
+   * @throws ExamiburException
+   *           throws {@link InvalidParameterException} if examid < 0. throws
+   *           {@link NotFoundException} if the {@link Exam} with the given id doesn't exist. throws
+   *           {@link IllegalOperationException} if the transition is not possible or if there are
+   *           any unfinished {@link ExerciseSolution}. throws {@link AuthorizationException} if the
+   *           user is not authorized. throws {@link CommunicationException} if an exception during
+   *           the communication occurs.
+   */
+  void setNextState(long examId) throws ExamiburException;
 
 }
