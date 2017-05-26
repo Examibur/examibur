@@ -26,7 +26,7 @@ public class ExamParticipationServiceImplTest {
   private static final double SUM_EXAM_GRADINGS_EXAM_7 = 3D;
   private static final double SUM_EXAM_GRADINGS_EXAM_8 = 3D;
 
-  private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+  private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
   @Rule
   public final DatabaseResource res = new DatabaseResource();

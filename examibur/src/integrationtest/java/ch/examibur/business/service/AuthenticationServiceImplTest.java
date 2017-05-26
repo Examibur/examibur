@@ -16,11 +16,11 @@ public class AuthenticationServiceImplTest {
   @Rule
   public final DatabaseResource res = new DatabaseResource();
 
-  private final AuthenticationService authenticationService = IntegrationTestUtil.getInjector()
-      .getInstance(AuthenticationService.class);
+  private final AuthenticationService authenticationService =
+      IntegrationTestUtil.getInjector().getInstance(AuthenticationService.class);
 
-  private static final User USER_MAXIMILIAN_MUELLER = new User(1L, "Maximilian", "Mueller",
-      "maximilian.mueller");
+  private static final User USER_MAXIMILIAN_MUELLER =
+      new User(1L, "Maximilian", "Mueller", "maximilian.mueller");
 
   @Test
   public void testLoginWithToken() throws ExamiburException {

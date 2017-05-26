@@ -4,8 +4,8 @@ import ch.examibur.service.AuthenticationService;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.model.AuthenticationInformation;
 import ch.examibur.ui.app.render.Renderer;
-import ch.examibur.ui.app.routing.QueryParameter;
-import ch.examibur.ui.app.routing.RouteBuilder;
+import ch.examibur.ui.app.url.Link;
+import ch.examibur.ui.app.url.QueryParameter;
 import ch.examibur.ui.app.util.CookieHelpers;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
@@ -45,14 +45,14 @@ public class AuthenticationController implements Controller {
 
       CookieHelpers.setUserCookie(response, login.getToken());
 
-      String ref = RouteBuilder.toDashboard();
+      String ref = Link.toDashboard();
       if (request.queryParams(QueryParameter.REF.toString()) != null) {
         ref = request.queryParams(QueryParameter.REF.toString());
       }
 
       response.redirect(ref);
     } catch (ExamiburException e) {
-      response.redirect(RouteBuilder.toLogin());
+      response.redirect(Link.toLogin());
     }
     return null;
   }
@@ -64,7 +64,7 @@ public class AuthenticationController implements Controller {
     authenticationService.logout(request.cookie(CookieHelpers.USER_COOKIE));
     response.cookie(CookieHelpers.USER_COOKIE_PATH, CookieHelpers.USER_COOKIE, "invalid", 0,
         CookieHelpers.USER_COOKIE_SECURE);
-    response.redirect(RouteBuilder.toLogin());
+    response.redirect(Link.toLogin());
     return null;
   }
 
@@ -72,6 +72,6 @@ public class AuthenticationController implements Controller {
    * Add / in the breadcrumbs.
    */
   public void addBreadCrumb(Request request, Response response) {
-    RequestHelper.pushBreadCrumb(request, "Login", RouteBuilder.toLogin());
+    RequestHelper.pushBreadCrumb(request, "Login", Link.toLogin());
   }
 }

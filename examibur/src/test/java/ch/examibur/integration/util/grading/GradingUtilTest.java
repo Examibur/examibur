@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class GradingUtilTest {
-  
+
   private static final double DOUBLE_DELTA = 0.0001;
 
   @Test
@@ -33,7 +33,7 @@ public class GradingUtilTest {
     gradings.add(5D);
     Assert.assertEquals(4D, GradingUtil.calculateMedianGrade(gradings), DOUBLE_DELTA);
   }
-  
+
   @Test
   public void testCalculateMedianGradeEven() {
     List<Double> gradings = new ArrayList<>();
@@ -43,7 +43,7 @@ public class GradingUtilTest {
     gradings.add(5D);
     Assert.assertEquals(3.75D, GradingUtil.calculateMedianGrade(gradings), DOUBLE_DELTA);
   }
-  
+
   @Test
   public void testCalculateMedianGradeEvenTwo() {
     List<Double> gradings = new ArrayList<>();

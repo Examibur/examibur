@@ -1,4 +1,4 @@
-package ch.examibur.integration.exercisesolution;
+package ch.examibur.domain.aggregation;
 
 import java.util.EnumSet;
 import java.util.HashMap;

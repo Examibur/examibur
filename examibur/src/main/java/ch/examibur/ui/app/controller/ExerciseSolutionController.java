@@ -1,7 +1,7 @@
 package ch.examibur.ui.app.controller;
 
 import ch.examibur.domain.ExerciseSolution;
-import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
+import ch.examibur.domain.aggregation.BrowseSolutionsMode;
 import ch.examibur.service.ExamParticipationService;
 import ch.examibur.service.ExerciseGradingService;
 import ch.examibur.service.ExerciseSolutionService;
@@ -11,10 +11,10 @@ import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.ui.app.render.Renderer;
-import ch.examibur.ui.app.routing.QueryParameter;
-import ch.examibur.ui.app.routing.RouteBuilder;
-import ch.examibur.ui.app.routing.RoutingHelpers;
-import ch.examibur.ui.app.routing.UrlParameter;
+import ch.examibur.ui.app.url.Link;
+import ch.examibur.ui.app.url.QueryParameter;
+import ch.examibur.ui.app.url.UrlHelpers;
+import ch.examibur.ui.app.url.UrlParameter;
 import ch.examibur.ui.app.util.RequestAttributes;
 import ch.examibur.ui.app.util.RequestHelper;
 import com.google.inject.Inject;
@@ -70,8 +70,8 @@ public class ExerciseSolutionController implements Controller {
    */
   public String displayExerciseSolution(Request request, Response response)
       throws ExamiburException {
-    long exerciseSolutionId = RoutingHelpers.getUnsignedLongUrlParameter(request,
-        UrlParameter.SOLUTION_ID);
+    long exerciseSolutionId =
+        UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
 
@@ -96,8 +96,8 @@ public class ExerciseSolutionController implements Controller {
    * @return the rendered page content
    */
   public String listExerciseSolutions(Request request, Response response) throws ExamiburException {
-    long examParticipationId = RoutingHelpers.getUnsignedLongUrlParameter(request,
-        UrlParameter.PARTICIPANT_ID);
+    long examParticipationId =
+        UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
 
     Map<String, Object> model = request.attribute(RequestAttributes.MODEL);
     model.put("participation", examParticipationService.getExamParticipation(examParticipationId));
@@ -113,12 +113,12 @@ public class ExerciseSolutionController implements Controller {
    *           if an id parameter is not set or < 0.
    */
   public void addBreadCrumb(Request request, Response response) throws InvalidParameterException {
-    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
-        UrlParameter.PARTICIPANT_ID);
+    long examId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId =
+        UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
 
     RequestHelper.pushBreadCrumb(request, "Aufgabenlösungen",
-        RouteBuilder.toExerciseSolutions(examId, participantId));
+        Link.toExerciseSolutions(examId, participantId));
   }
 
   /**
@@ -129,13 +129,13 @@ public class ExerciseSolutionController implements Controller {
    */
   public void addSpecificBreadCrumb(Request request, Response response)
       throws InvalidParameterException {
-    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
-    long participantId = RoutingHelpers.getUnsignedLongUrlParameter(request,
-        UrlParameter.PARTICIPANT_ID);
-    long solutionId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+    long examId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long participantId =
+        UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long solutionId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
 
     RequestHelper.pushBreadCrumb(request, "Aufgabenlösung #" + solutionId,
-        RouteBuilder.toExerciseSolution(examId, participantId, solutionId, BrowseSolutionsMode
+        Link.toExerciseSolution(examId, participantId, solutionId, BrowseSolutionsMode
             .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()))));
   }
 

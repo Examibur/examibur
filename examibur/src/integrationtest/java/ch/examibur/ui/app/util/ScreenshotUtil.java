@@ -116,8 +116,8 @@ public class ScreenshotUtil {
 
       WebDriver driver = getDriver();
       Set<Coords> ignoredCoords = getCoords(ashot.getIgnoredLocators());
-      Screenshot actualScreenshot = ashot.shootingStrategy(ShootingStrategies.viewportPasting(100))
-          .takeScreenshot(driver);
+      Screenshot actualScreenshot =
+          ashot.shootingStrategy(ShootingStrategies.viewportPasting(100)).takeScreenshot(driver);
 
       String screenshotName = format("{0}_{1, number,#}w.png", sceneName, 800);
 

@@ -1,7 +1,6 @@
-package ch.examibur.ui.app.routing;
+package ch.examibur.ui.app.url;
 
-import ch.examibur.business.util.ValidationHelper;
-import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
+import ch.examibur.domain.aggregation.BrowseSolutionsMode;
 import ch.examibur.service.exception.ExamiburException;
 import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
@@ -11,39 +10,39 @@ import java.net.URLEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class RouteBuilder {
+public final class Link {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(RouteBuilder.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Link.class);
 
-  private RouteBuilder() {
+  private Link() {
   }
 
   /**
    * Returns the absolute url to the dashboard.
    */
   public static String toDashboard() {
-    return Route.ROOT.url();
+    return Routes.ROOT.url();
   }
 
   /**
    * Returns the absolute url to the login page.
    */
   public static String toLogin() {
-    return Route.LOGIN.url();
+    return Routes.LOGIN.url();
   }
 
   /**
    * Returns the absolute url to the logout page.
    */
   public static String toLogout() {
-    return Route.LOGOUT.url();
+    return Routes.LOGOUT.url();
   }
 
   /**
    * Returns the absolute url to the list of exams.
    */
   public static String toExams() {
-    return Route.EXAMS.url();
+    return Routes.EXAMS.url();
   }
 
   /**
@@ -51,7 +50,7 @@ public final class RouteBuilder {
    * to provide a valid id!
    */
   public static String toExam(long examId) {
-    String url = Route.EXAM.url();
+    String url = Routes.EXAM.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     return url;
   }
@@ -61,7 +60,7 @@ public final class RouteBuilder {
    * caller to provide a valid id!
    */
   public static String toExercises(long examId) {
-    String url = Route.EXERCISES.url();
+    String url = Routes.EXERCISES.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     return url;
   }
@@ -71,7 +70,7 @@ public final class RouteBuilder {
    * responsibility of the caller to provide valid ids!
    */
   public static String toExercise(long examId, long exerciseId) {
-    String url = Route.EXERCISE.url();
+    String url = Routes.EXERCISE.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.EXERCISE_ID, exerciseId);
     return url;
@@ -82,7 +81,7 @@ public final class RouteBuilder {
    * caller to provide a valid id!
    */
   public static String toExamParticipations(long examId) {
-    String url = Route.PARTICIPANTS.url();
+    String url = Routes.PARTICIPANTS.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     return url;
   }
@@ -92,7 +91,7 @@ public final class RouteBuilder {
    * responsibility of the caller to provide valid ids!
    */
   public static String toExamParticipation(long examId, long participantId) {
-    String url = Route.PARTICIPANT.url();
+    String url = Routes.PARTICIPANT.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     return url;
@@ -103,7 +102,7 @@ public final class RouteBuilder {
    * caller to provide a valid id!
    */
   public static String toReports(long examId) {
-    String url = Route.REPORTS.url();
+    String url = Routes.REPORTS.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     return url;
   }
@@ -113,7 +112,7 @@ public final class RouteBuilder {
    * responsibility of the caller to provide valid ids!
    */
   public static String toExerciseSolutions(long examId, long participantId) {
-    String url = Route.SOLUTIONS.url();
+    String url = Routes.SOLUTIONS.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     return url;
@@ -126,12 +125,12 @@ public final class RouteBuilder {
    */
   public static String toExerciseSolution(long examId, long participantId, long solutionId,
       BrowseSolutionsMode browseSolutionsMode) {
-    String url = Route.SOLUTION.url();
+    String url = Routes.SOLUTION.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
     if (browseSolutionsMode != null) {
-      url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
+      url = Link.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
           browseSolutionsMode.toString());
     }
     return url;
@@ -147,12 +146,19 @@ public final class RouteBuilder {
    */
   public static String toQueryNextSolution(long examId, long participantId, long solutionId,
       BrowseSolutionsMode browseSolutionsMode) throws InvalidParameterException {
-    ValidationHelper.checkForNullValue(browseSolutionsMode, LOGGER);
-    String url = Route.QUERY_NEXT_SOLUTION.url();
+
+    if (browseSolutionsMode == null) {
+      InvalidParameterException invalidParameterException =
+          new InvalidParameterException("BrowseSolutionsMode parameter is null");
+      LOGGER.error(invalidParameterException.getMessage(), invalidParameterException);
+      throw invalidParameterException;
+    }
+
+    String url = Routes.QUERY_NEXT_SOLUTION.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
-    url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
+    url = Link.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
         browseSolutionsMode.toString());
     return url;
   }
@@ -163,7 +169,7 @@ public final class RouteBuilder {
    * of this participation when called.
    */
   public static String toQueryFirstSolutionByParticipation(long examId, long participationId) {
-    String url = Route.QUERY_FIRST_SOLUTION_BY_PARTICIPATION.url();
+    String url = Routes.QUERY_FIRST_SOLUTION_BY_PARTICIPATION.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.PARTICIPANT_ID, participationId);
     return url;
@@ -175,7 +181,7 @@ public final class RouteBuilder {
    * of the first possible participation when called.
    */
   public static String toQueryFirstSolutionByParticipations(long examId) {
-    String url = Route.QUERY_FIRST_SOLUTION_BY_PARTICIPATIONS.url();
+    String url = Routes.QUERY_FIRST_SOLUTION_BY_PARTICIPATIONS.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     return url;
   }
@@ -186,7 +192,7 @@ public final class RouteBuilder {
    * this exercise when called.
    */
   public static String toQueryFirstSolutionByExercise(long examId, long exerciseId) {
-    String url = Route.QUERY_FIRST_SOLUTION_BY_EXERCISE.url();
+    String url = Routes.QUERY_FIRST_SOLUTION_BY_EXERCISE.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.EXERCISE_ID, exerciseId);
     return url;
@@ -198,7 +204,7 @@ public final class RouteBuilder {
    * the first possible exercise when called.
    */
   public static String toQueryFirstSolutionByExercises(long examId) {
-    String url = Route.QUERY_FIRST_SOLUTION_BY_EXERCISES.url();
+    String url = Routes.QUERY_FIRST_SOLUTION_BY_EXERCISES.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     return url;
   }
@@ -208,7 +214,7 @@ public final class RouteBuilder {
    * responsibility of the caller to provide valid ids!
    */
   public static String toExerciseGradings(long examId, long participantId, long solutionId) {
-    String url = Route.GRADINGS.url();
+    String url = Routes.GRADINGS.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
@@ -222,13 +228,13 @@ public final class RouteBuilder {
    */
   public static String toExerciseGrading(long examId, long participantId, long solutionId,
       long gradingId, BrowseSolutionsMode browseSolutionsMode) {
-    String url = Route.GRADING.url();
+    String url = Routes.GRADING.url();
     url = replace(url, UrlParameter.EXAM_ID, examId);
     url = replace(url, UrlParameter.PARTICIPANT_ID, participantId);
     url = replace(url, UrlParameter.SOLUTION_ID, solutionId);
     url = replace(url, UrlParameter.GRADING_ID, gradingId);
     if (browseSolutionsMode != null) {
-      url = RouteBuilder.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
+      url = Link.addQueryParameter(url, QueryParameter.BROWSE_SOLUTIONS.toString(),
           browseSolutionsMode.toString());
     }
     return url;
@@ -283,7 +289,7 @@ public final class RouteBuilder {
     try {
       encodedMessage = URLEncoder.encode(message, "UTF-8");
     } catch (UnsupportedEncodingException e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error("Error while encoding the query parameter", e);
       IllegalOperationException illegalOperationException =
           new IllegalOperationException("Error while encoding the query parameter "
               + QueryParameter.NOTIFICATION_MESSAGE.toString());
@@ -291,10 +297,8 @@ public final class RouteBuilder {
       throw illegalOperationException;
     }
     String target = url;
-    target =
-        RouteBuilder.addQueryParameter(target, QueryParameter.NOTIFICATION_MESSAGE, encodedMessage);
-    target =
-        RouteBuilder.addQueryParameter(target, QueryParameter.NOTIFICATION_TYPE, type.getType());
+    target = Link.addQueryParameter(target, QueryParameter.NOTIFICATION_MESSAGE, encodedMessage);
+    target = Link.addQueryParameter(target, QueryParameter.NOTIFICATION_TYPE, type.getType());
     return target;
   }
 

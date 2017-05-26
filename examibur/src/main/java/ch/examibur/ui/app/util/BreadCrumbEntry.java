@@ -12,7 +12,6 @@ public final class BreadCrumbEntry {
    *          the href location of this breadcurmb entry.
    */
   public BreadCrumbEntry(String title, String location) {
-    super();
     this.title = title;
     this.location = location;
   }

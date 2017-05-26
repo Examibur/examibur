@@ -2,9 +2,9 @@ package ch.examibur.business.service;
 
 import ch.examibur.business.util.ValidationHelper;
 import ch.examibur.domain.ExerciseSolution;
+import ch.examibur.domain.aggregation.BrowseSolutionsMode;
 import ch.examibur.integration.exam.ExamDao;
 import ch.examibur.integration.exercisegrading.ExerciseGradingDao;
-import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
 import ch.examibur.integration.exercisesolution.ExerciseSolutionDao;
 import ch.examibur.integration.util.grading.GradingUtil;
 import ch.examibur.integration.util.grading.strategy.BaseGradingStrategy;

@@ -4,7 +4,7 @@ import ch.examibur.domain.Exam;
 import ch.examibur.domain.ExamParticipation;
 import ch.examibur.domain.Exercise;
 import ch.examibur.domain.ExerciseSolution;
-import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
+import ch.examibur.domain.aggregation.BrowseSolutionsMode;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
 import ch.examibur.service.exception.ExamiburException;

@@ -1,7 +1,7 @@
 package ch.examibur.ui.app.controller;
 
 import ch.examibur.domain.ExerciseSolution;
-import ch.examibur.integration.exercisesolution.BrowseSolutionsMode;
+import ch.examibur.domain.aggregation.BrowseSolutionsMode;
 import ch.examibur.service.ExerciseGradingService;
 import ch.examibur.service.exception.AuthorizationException;
 import ch.examibur.service.exception.CommunicationException;
@@ -10,10 +10,10 @@ import ch.examibur.service.exception.IllegalOperationException;
 import ch.examibur.service.exception.InvalidParameterException;
 import ch.examibur.service.exception.NotFoundException;
 import ch.examibur.service.exception.ValidationException;
-import ch.examibur.ui.app.routing.QueryParameter;
-import ch.examibur.ui.app.routing.RouteBuilder;
-import ch.examibur.ui.app.routing.RoutingHelpers;
-import ch.examibur.ui.app.routing.UrlParameter;
+import ch.examibur.ui.app.url.Link;
+import ch.examibur.ui.app.url.QueryParameter;
+import ch.examibur.ui.app.url.UrlHelpers;
+import ch.examibur.ui.app.url.UrlParameter;
 import com.google.inject.Inject;
 import spark.Redirect;
 import spark.Request;
@@ -60,14 +60,14 @@ public class ExerciseGradingController {
    *           {@link CommunicationException} if an exception during the communication occurs.
    */
   public String addExerciseGrading(Request request, Response response) throws ExamiburException {
-    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
     long participantId =
-        RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
-    long solutionId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+        UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long solutionId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
 
     String comment = request.queryParams(BODY_PARAM_COMMENT);
     String reasoning = request.queryParams(BODY_PARAM_REASONING);
-    Double points = RoutingHelpers.getUnsignedDoubleBodyParameter(request, BODY_PARAM_POINTS);
+    Double points = UrlHelpers.getUnsignedDoubleBodyParameter(request, BODY_PARAM_POINTS);
     String action = request.queryParams(BODY_PARAM_ACTION);
 
     exerciseGradingService.addGrading(solutionId, comment, reasoning, points);
@@ -76,9 +76,9 @@ public class ExerciseGradingController {
         .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()));
     String target;
     if ("saveandcontinue".equals(action)) {
-      target = RouteBuilder.toQueryNextSolution(examId, participantId, solutionId, browseMode);
+      target = Link.toQueryNextSolution(examId, participantId, solutionId, browseMode);
     } else {
-      target = RouteBuilder.toExerciseSolution(examId, participantId, solutionId, browseMode);
+      target = Link.toExerciseSolution(examId, participantId, solutionId, browseMode);
     }
     response.redirect(target, Redirect.Status.FOUND.intValue());
     return null;
@@ -96,18 +96,18 @@ public class ExerciseGradingController {
    *           {@link CommunicationException} if an error during the communication occurs.
    */
   public String processApproval(Request request, Response response) throws ExamiburException {
-    long examId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
+    long examId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.EXAM_ID);
     long participantId =
-        RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
-    long solutionId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
-    long gradingId = RoutingHelpers.getUnsignedLongUrlParameter(request, UrlParameter.GRADING_ID);
+        UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.PARTICIPANT_ID);
+    long solutionId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.SOLUTION_ID);
+    long gradingId = UrlHelpers.getUnsignedLongUrlParameter(request, UrlParameter.GRADING_ID);
 
     String acceptParam = request.queryParams(BODY_PARAM_APPROVAL);
 
     exerciseGradingService.approveReview(solutionId, gradingId, acceptParam);
 
     response.redirect(
-        RouteBuilder.toExerciseSolution(examId, participantId, solutionId,
+        Link.toExerciseSolution(examId, participantId, solutionId,
             BrowseSolutionsMode
                 .forName(request.queryParams(QueryParameter.BROWSE_SOLUTIONS.toString()))),
         Redirect.Status.FOUND.intValue());

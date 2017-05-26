@@ -32,14 +32,14 @@ public class ExerciseGradingServiceImplTest {
   private static final String USER_UWE_BAER = "uwe.baer";
   private static final String USER_JUERGEN_KOENIG = "juergen.koenig";
 
-  private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+  private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-  private final ExerciseGradingService exerciseGradingService = IntegrationTestUtil.getInjector()
-      .getInstance(ExerciseGradingService.class);
-  private final ExerciseSolutionService exerciseSolutionService = IntegrationTestUtil.getInjector()
-      .getInstance(ExerciseSolutionService.class);
-  private final AuthenticationService authenticationService = IntegrationTestUtil.getInjector()
-      .getInstance(AuthenticationService.class);
+  private final ExerciseGradingService exerciseGradingService =
+      IntegrationTestUtil.getInjector().getInstance(ExerciseGradingService.class);
+  private final ExerciseSolutionService exerciseSolutionService =
+      IntegrationTestUtil.getInjector().getInstance(ExerciseSolutionService.class);
+  private final AuthenticationService authenticationService =
+      IntegrationTestUtil.getInjector().getInstance(AuthenticationService.class);
 
   @Test
   public void testGetGradingForExerciseSolution() throws ParseException, ExamiburException {
@@ -113,10 +113,10 @@ public class ExerciseGradingServiceImplTest {
     Double points = 1D;
 
     exerciseGradingService.addGrading(exerciseSolutionId, comment, reasoning, points);
-    ExerciseGrading exerciseGrading = exerciseGradingService
-        .getGradingForExerciseSolution(exerciseSolutionId);
-    ExerciseSolution exerciseSolution = exerciseSolutionService
-        .getExerciseSolution(exerciseSolutionId);
+    ExerciseGrading exerciseGrading =
+        exerciseGradingService.getGradingForExerciseSolution(exerciseSolutionId);
+    ExerciseSolution exerciseSolution =
+        exerciseSolutionService.getExerciseSolution(exerciseSolutionId);
 
     Assert.assertEquals(comment, exerciseGrading.getComment());
     Assert.assertEquals(reasoning, exerciseGrading.getReasoning());
@@ -133,10 +133,10 @@ public class ExerciseGradingServiceImplTest {
     Double points = 1D;
 
     exerciseGradingService.addGrading(exerciseSolutionId, comment, reasoning, points);
-    ExerciseGrading exerciseReview = exerciseGradingService
-        .getReviewForExerciseSolution(exerciseSolutionId);
-    ExerciseSolution exerciseSolution = exerciseSolutionService
-        .getExerciseSolution(exerciseSolutionId);
+    ExerciseGrading exerciseReview =
+        exerciseGradingService.getReviewForExerciseSolution(exerciseSolutionId);
+    ExerciseSolution exerciseSolution =
+        exerciseSolutionService.getExerciseSolution(exerciseSolutionId);
 
     Assert.assertEquals(comment, exerciseReview.getComment());
     Assert.assertEquals(reasoning, exerciseReview.getReasoning());

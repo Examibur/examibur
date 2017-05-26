@@ -12,8 +12,8 @@ public class IndexBundleTest {
 
   @Test
   public void loadIndexBundleWelcomeMessage() {
-    ResourceBundle resBundle = 
-          ResourceBundle.getBundle("ch/examibur/resources/i18n/IndexBundle", Locale.ROOT);
+    ResourceBundle resBundle =
+        ResourceBundle.getBundle("ch/examibur/resources/i18n/IndexBundle", Locale.ROOT);
     String rawMessage = resBundle.getString("welcomeMessage");
     String messageTxt = MessageFormat.format(rawMessage, "Examibur");
     assertEquals("Hallo Examibur", messageTxt);
