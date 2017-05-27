@@ -84,8 +84,8 @@ public class ExamParticipationServiceImplTest {
     Collections.sort(examParticipantOverviewList,
         (ep1, ep2) -> Long.compare(ep2.getId(), ep1.getId()));
     // ParticipantionId: 18 (Anonymer Flamingo)
-    testSingleExamParticipantOverview(examParticipantOverviewList.get(0), 2D, Optional.empty(), 0D,
-        SUM_EXAM_GRADINGS_EXAM_8, "0.00%", ExamState.CORRECTION);
+    testSingleExamParticipantOverview(examParticipantOverviewList.get(0), 2D, Optional.empty(), 1D,
+        SUM_EXAM_GRADINGS_EXAM_8, "33.33%", ExamState.CORRECTION);
     // ParticipantionId: 17 (Anonymer Elefant)
     testSingleExamParticipantOverview(examParticipantOverviewList.get(1), 0D, Optional.empty(), 0D,
         SUM_EXAM_GRADINGS_EXAM_8, "0.00%", ExamState.CORRECTION);
