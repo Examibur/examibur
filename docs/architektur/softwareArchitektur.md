@@ -29,7 +29,7 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 
 ![](resources/softwareArchitektur/schichtenDiagram.png)
 
-In diesem Abschnitt wird vertiefter in die einzelnen Teile bis auf die Top-Level-Konstrukte eingegangen. Nachfolgend werden die einzelnen Schichten und Konstrukte weiter ausgeführt. **Grau markierte Schichten sind nicht Scope des Projekts und werden weggelassen. So erfolgt der Zugriff des UI direkt auf die Business-Schicht und auf ein Benutzeraktion-Tracking für Auditing-Zwecke wird verzichtet.**
+In diesem Abschnitt wird vertiefter in die einzelnen Teile bis auf die Top-Level-Konstrukte eingegangen. Nachfolgend werden die einzelnen Schichten und Konstrukte weiter ausgeführt. **Grau markierte Schichten sind nicht Scope des Projekts und werden weggelassen. So erfolgt der Zugriff des UI direkt auf die Business-Schicht und auf ein Benutzeraktion-Tracking für Auditing-Zwecke wird verzichtet.**. Weitere details dazu finden sich im Abschnitt [Deployment-Varianten](#deployment-varianten)
 
 ### ui
 #### Application
@@ -100,6 +100,25 @@ Das OR-Mapping von der Datenbank zu den Java-Objekten wird anhand des [Datenmode
 ### Logging-, Error- und Exception-Handling
 Das Logging-, Error- und Exception-Handling ist im Kapitel [Error-Handling Policy](../quality/error-handling-policy.html) genauer beschrieben.
 
+## Deployment-Varianten
+
+### Variante "Einfach"
+
+![](resources/softwareArchitektur/deployment-einfach.png)
+
+Diese Variante ist eine typische Deployment-Variante einer Java-Webapplikation. Alle Layers werden gemeinsam in ein Java Webarchiv gepackt und auf einem Java Applikationsserver (Bsp. Tomcat) deployed. Dies ist die Variante, welche im Engineering-Projekt umgesetzt wurde.
+
+### Variante "Verteilt"
+
+![](resources/softwareArchitektur/deployment-verteilt.png)
+
+Diese Variante ist für grosse Institutionen und für online Prüfungen geeignet (nicht im Scope des Engineering-Projekts).
+
+Mehrere Frontend-Instanzen sind zustandslos und cachen so viel wie möglich. Auf ihnen ist nur die UI-Schicht deployed. Sie kommunizieren über REST oder RPC mit dem Service, welche den Busines-Layer und den Integration-Layer beinhaltet.
+
+Der Service-Layer kann theoretisch auch skaliert werden, dafür müssen aber noch Entscheide zu Datenbank- und Session-Caching getroffen werden.
+
+Diese Verteilung ist bereits in der Architektur vorgesehen aber noch nicht implementiert.
 
 ## Design der Programmkonstrukte
 
