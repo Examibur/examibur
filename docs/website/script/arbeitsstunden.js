@@ -2,12 +2,9 @@ $(function() {
     var DATE_FORMAT = 'DD.MM.YYYY';
     var EXPORT_DATE_KEY = 'export_date';
 
-    function getWeekNumber(date) {
-        date.setHours(0, 0, 0, 0);
-        date.setDate(date.getDate() + 4 - (date.getDay() || 7));
-        var yearStart = new Date(date.getFullYear(), 0, 1);
-        var weekNo = Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
-        return weekNo;
+    function getWeekNumber(date) {    
+        // fix week number at the end of the project to the last projekt week
+        return 21;
     };
 
     function round(valueToRound) {
