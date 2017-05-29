@@ -14,7 +14,7 @@ USERS = {
     897664: 'Robin Suter'
 }
 
-TARGETS = ['worktime', 'worktime_per_issue', 'weekly_worktime']
+TARGETS = ['worktime', 'worktime_per_issue']
 
 
 def worktime(project, export_date, output_directory):
@@ -32,6 +32,7 @@ def worktime(project, export_date, output_directory):
     _dump_json('worktime', output_directory, result)
     _dump_csv('worktime', output_directory, ['user', 'total_spent'],
               result['team'].items())
+
 
 def worktime_per_issue(project, export_date, output_directory):
     result = {
@@ -53,16 +54,6 @@ def worktime_per_issue(project, export_date, output_directory):
               ['issue_id', 'issue_title', 'estimated', 'spent', 'milestone'],
               [[iid] + list(data.values()) for iid, data in result['data'].items()])
 
-def weekly_worktime(project, export_date, output_directory):
-    result = {}
-    for weeknumber in range(8, 22):
-        result[weeknumber] = 0
-    for issue in project['issues']:
-        for log in issue['timelogs']:
-                formatted_date = datetime.datetime.strptime(log['created_at'], '%Y-%m-%dT%H:%M:%S.%fZ')
-                weeknumber = formatted_date.isocalendar()[1]
-                result[weeknumber] += log['time_spent']/3600
-    _dump_csv('weeklyWorktime', output_directory, result.keys(), [result.values()])
 
 def _datetime_in_ms(date_to_convert):
     epoch = datetime.datetime.utcfromtimestamp(0)
