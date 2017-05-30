@@ -19,7 +19,9 @@ Die Benutzeranleitung zeigt die gängigsten Szenarien als Screencasts. Vor den V
 
 <video controls="controls" width="100%">
   <source type="video/mp4" src="resources/videos/demo_login_view-exam.mp4"></source>
-  <p>Your browser does not support the video element.</p>
+  <p>Your browser does not support the video element.
+    <a href="resources/videos/demo_login_view-exam.mp4">Download the video here.</a>
+  </p>
 </video>
 
 ## Aufgabenansicht
@@ -33,7 +35,9 @@ Die Benutzeranleitung zeigt die gängigsten Szenarien als Screencasts. Vor den V
 
 <video controls="controls" width="100%">
   <source type="video/mp4" src="resources/videos/demo_exercise_points-per-exercise.mp4"></source>
-  <p>Your browser does not support the video element.</p>
+  <p>Your browser does not support the video element.
+    <a href="resources/videos/demo_exercise_points-per-exercise.mp4">Download the video here.</a>
+  </p>
 </video>
 
 ## Durchführungsansicht
@@ -47,7 +51,9 @@ Die Benutzeranleitung zeigt die gängigsten Szenarien als Screencasts. Vor den V
 
 <video controls="controls" width="100%">
   <source type="video/mp4" src="resources/videos/demo_participation_mark_points-per-exercise.mp4"></source>
-  <p>Your browser does not support the video element.</p>
+  <p>Your browser does not support the video element.
+    <a href="resources/videos/demo_participation_mark_points-per-exercise.mp4">Download the video here.</a>
+  </p>
 </video>
 
 ## Aufgabenweise korrigieren
@@ -60,7 +66,9 @@ Die Benutzeranleitung zeigt die gängigsten Szenarien als Screencasts. Vor den V
 
 <video controls="controls" width="100%">
   <source type="video/mp4" src="resources/videos/demo_correction-by-exercise.mp4"></source>
-  <p>Your browser does not support the video element.</p>
+  <p>Your browser does not support the video element.
+    <a href="resources/videos/demo_correction-by-exercise.mp4">Download the video here.</a>
+  </p>
 </video>
 
 ## Prüfungsweise reviewen
@@ -73,7 +81,9 @@ Die Benutzeranleitung zeigt die gängigsten Szenarien als Screencasts. Vor den V
 
 <video controls="controls" width="100%">
   <source type="video/mp4" src="resources/videos/demo_review-by-participation.mp4"></source>
-  <p>Your browser does not support the video element.</p>
+  <p>Your browser does not support the video element.
+    <a href="resources/videos/demo_review-by-participation.mp4">Download the video here.</a>
+  </p>
 </video>
 
 ## Korrektur abschliessen
@@ -85,5 +95,7 @@ Die Benutzeranleitung zeigt die gängigsten Szenarien als Screencasts. Vor den V
 
 <video controls="controls" width="100%">
   <source type="video/mp4" src="resources/videos/demo_transition.mp4"></source>
-  <p>Your browser does not support the video element.</p>
+  <p>Your browser does not support the video element.
+    <a href="resources/videos/demo_transition.mp4">Download the video here.</a>
+  </p>
 </video>
