@@ -135,19 +135,19 @@ Anschliessend wird der Testperson ein Szenario nach dem anderen vorgegeben.
         * Es würde wohl Sinn machen, die Spalte je nach Status anders zu benennen.
     * Die Einrückung der Korrekturen und Reviews wird als irritierend empfunden.
     * Die Testperson bemängelt, dass ihr nicht klar ist, wo sie bei der Korrektur hinschauen muss.
-        * Die UI-Elemente nehemn sehr viel Platz ein.
+        * Die UI-Elemente nehmen sehr viel Platz ein.
         * Wichtiges hervorheben, also primär die Dinge, die sich beim Blättern verändern (Bsp. die Antwort des Studenten)
-        * Für Leere Felder einen platzhalter verwenden. "Der Teilnehmer hat diese Aufgabe leer abgegeben"
+        * Für Leere Felder einen Platzhalter verwenden. "Der Teilnehmer hat diese Aufgabe leer abgegeben"
     * Gleiche Punkte zum Button "Reviewen" wie bereits bei der Korrektur bemängelt. 
 
 * Szenario 4:
     * Die Bezeichnung `approval` ist nicht eindeutig.
     * Was wird approved? Die Korrektur? Das Review? Die Prüfung?
     * "Ein Review ist Review und muss nicht approved werden"
-    * Auf der Prüfungsübersicht wäre es noch nützlich, zu sehen, wie viele Teinehmer und Aufgaben die Prüfung hat.
+    * Auf der Prüfungsübersicht wäre es noch nützlich, zu sehen, wie viele Teilnehmer und Aufgaben die Prüfung hat.
     * Bei der Auswertung müsste auch ein Vergleich zwischen Erstkorrektur und dem Review (=2. Korrektur) gemacht werden.
     * "Median ist cool, wäre aber noch cool je Aufgabe"
-    * Wenn das Review etwas korrekt bemängelt, aber keine Teilpunkte gibt, muss das Review ablehnen.
+    * Wenn das Review etwas korrekt bemängelt, aber keine Teilpunkte gibt, muss das Review abgelehnt werden.
     * Blättern geht nicht automatisch weiter wie bei Review und Korrektur. Das ist irritierend.
     * Nach dem Approval muss wieder nach unten gescrollt werden, was mühsam ist (Reisezeit der Maus).
         * Ist aber von der Bildschirmgrösse abhängig.

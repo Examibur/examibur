@@ -16,11 +16,10 @@ Der Gültigkeitsbereich beschränkt sich auf die Projektdauer vom 20.02.17 bis 0
 
 In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche für das Projekt von Relevanz sind. Diese Liste wird laufend auf dem aktuellen Stand gehalten.
 
-| **Name**                          | **Referenz**                                                                                                                                                                                                                                         |
-| --------------------------------- | ----------------------------- |
-| Freemarker                        | [http://freemarker.org/](http://freemarker.org/)  |
-| velocity                          | [http://velocity.apache.org/](http://velocity.apache.org/)  |
-| Bootstrap                         | [http://getbootstrap.com/](http://getbootstrap.com/) |
+| **Name**   | **Referenz**                                         |
+|------------|------------------------------------------------------|
+| Freemarker | [http://freemarker.org/](http://freemarker.org/)     |
+| Bootstrap  | [http://getbootstrap.com/](http://getbootstrap.com/) |
 
 
 # Software Architektur
@@ -31,7 +30,7 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 
 In diesem Abschnitt wird vertiefter in die einzelnen Teile bis auf die Top-Level-Konstrukte eingegangen. Nachfolgend werden die einzelnen Schichten und Konstrukte weiter ausgeführt. **Grau markierte Schichten sind nicht Scope des Projekts und werden weggelassen. So erfolgt der Zugriff des UI direkt auf die Business-Schicht und auf ein Benutzeraktion-Tracking für Auditing-Zwecke wird verzichtet.**. Weitere details dazu finden sich im Abschnitt [Deployment-Varianten](#deployment-varianten)
 
-### ui
+### UI-Layer
 #### Application
 
 Application ist der zentrale Einstiegspunkt der Spark-Applikation.
@@ -46,7 +45,7 @@ Dazu gehört auch das Aufbereiten der Daten in die clientinternen Datenmodelle, 
 Alle Controller-Methoden müssen Thread-Safe implementiert sein!
 
 #### filter
-Enthält Spark-Filtermethoden, welche die Bearbeitung von Requests in den Controllern vereinfacht inklusive Umleitungen wenn der Benutzer nicht angemeldet ist.
+Enthält Spark-Filtermethoden, welche die Bearbeitung von Requests in den Controllern vereinfacht, inklusive Umleitungen, wenn der Benutzer nicht angemeldet ist.
 
 #### url
 Enthält die Definitionen der URLs sowie Hilfsklassen für interne URLs.
@@ -57,7 +56,7 @@ Eine Thread-sichere Rendering-Implementation, welche von den Controllern verwend
 #### model
 Enthält UI-Spezifische Modelle. Wann immer möglich wird aber der Domain-Layer direkt verwendet. 
 
-### REST oder rpc
+### REST oder RPC
 Diese Schicht agiert als Proxy zwischen der clientspezifischen Business Logik und der Business Schicht. **In einem ersten Schritt wird diese Schicht weggelassen.** Falls die Applikation auf eine verteilte Applikation umgestellt werden muss, sei dies aus Performance- oder Sicherheits-Gründen, kann diese Schicht schnell dazwischen geschaltet werden.
 
 Es würde sich dabei um Proxy-Methoden halten, die die Aufrufe einfach in die Business-Schicht weiterleiten und keine eigene Logik enthalten.
@@ -159,7 +158,7 @@ Alle Templates basieren auf einem Basis-Template mit dem Namen `base.ftl`. Dadur
 Design und Layout wird über Cascading Stylesheets (CSS) gesteuert. GUI-Elemente und Styling werden von [Bootstrap](http://getbootstrap.com/) verwendet.
 Das applikationsspezifische Styling von Examibur wird im separaten CSS-Dokument `custom.css` definiert und überschreibt die Regeln von Bootstrap automatisch.
 
-Um das User-Feeling zu verbessern, wird teilweise Javascript verwendet.
+Für die Darstellung der Prüfungs-Auswertungen wird teilweise Javascript verwendet.
 
 ### Programmkonstrukt Business-Schicht
 In der Business-Schicht ist die Geschäftslogik gekapselt.
@@ -177,7 +176,7 @@ In der Domain-Schicht sind die zu persistierenden Domain-Objekte gekapselt. Dara
 In der Datenbank-Schicht werden die Daten in einer relationalen Datenbank gespeichert. Als Datenbankserver wird Postgres verwendet.
 
 ## Zusammenspiel der Programmkonstrukte
-In diesem Kapitel wird das Zusammenspiel der einzelnen Programmkonstrukte beschrieben. Dazu gehört auch der Zugriff auf die eigenen Datenbank. Das Zusammenspiel wird anhand von UML-Sequenzdiagrammen dargestellt.
+In diesem Kapitel wird das Zusammenspiel der einzelnen Programmkonstrukte beschrieben. Dazu gehört auch der Zugriff auf die Datenbank. Das Zusammenspiel wird anhand von UML-Sequenzdiagrammen dargestellt.
 
 Zur Veranschaulichung des Zusammenspiels der Programmkonstrukte wird der Use Case "UC002 Prüfung öffnen" in einem Sequenzdiagram dargestellt.
 
@@ -208,7 +207,7 @@ Sowohl Controller als auch Services müssen Thread-Safe sein, denn sie werden gl
 
 Bei einem Request steht der aktuelle Benutzer (sofern er angemeldet ist) als `User`-Objekt den Controllern und dem Business-Layer zur Verfügung. Der Zugriff erfolgt aber unterschiedlich:
 
-In UI-Layer wird das Benutzer-Objekt als [Attribut auf dem aktuellen Request](http://sparkjava.com/documentation#request) gesetzt. Da im UI-Layer das Request-Objekt an vielen Orten gebraucht wird macht es Sinn auch gleich dort den Benutzer mitzuliefern.
+In UI-Layer wird das Benutzer-Objekt als [Attribut auf dem aktuellen Request](http://sparkjava.com/documentation#request) gesetzt. Da im UI-Layer das Request-Objekt an vielen Orten gebraucht wird, macht es Sinn auch gleich dort den Benutzer mitzuliefern.
 
 Im Business-Layer ist der aktuelle Benutzer (des aktuellen Threads) über die statische-Methode `AuthenticationUtil.getCurrentUser()` erreichbar. Die Alternative wäre, dass das Benutzer-Objekt bei jeder Service Methoden mitgegeben würde, was diese unleserlich und unnötig komplex machen würde.
 

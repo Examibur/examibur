@@ -16,10 +16,14 @@ Der Gültigkeitsbereich beschränkt sich auf die Projektdauer vom 20.02.17 bis 0
 
 In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche für das Projekt von Relevanz sind. Diese Liste wird laufend auf dem aktuellen Stand gehalten.
 
-| **Name**                          | **Referenz**                                                                                                                                                                                                                                         |
-| --------------------------------- | ----------------------------- |
-| Freemarker                        | [http://freemarker.org/](http://freemarker.org/)  |
-| velocity                          | [http://velocity.apache.org/](http://velocity.apache.org/)  |
+| **Name**       | **Referenz**                                               |
+|----------------|------------------------------------------------------------|
+| Spring Boot    | [https://projects.spring.io/spring-boot/]
+| Play Framework | [https://playframework.com/]                               |
+| Spark Java     | [http://sparkjava.com/]                                    |
+| Freemarker     | [http://freemarker.org/](http://freemarker.org/)           |
+| velocity       | [http://velocity.apache.org/](http://velocity.apache.org/) |
+
 
 # Framework Evaluation
 
