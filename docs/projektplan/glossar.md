@@ -21,8 +21,6 @@ Begriff                     |  Beschreibung
  PostgreSQL                 | Open-Source Datenbankserver
  Scrum                      | Software-Projektmanagement-Methode für agile Entwicklung
  Sonar Cube                 | Software zur Analyse von Code-Metriken
- Spring Boot                | Eine Variante des Java Webframework Spring, die schnelleres Prototyping
+ Spring Boot                | Eine Variante des Java Webframework Spring, die schnelleres Prototyping ermöglicht
  Stand-Up Meeting           | Kurze, tägliche Sitzung, in der abgesprochen wird, wer an was aktuell arbeitet
  JUnit                      | Unit-Testing Framework für Java
-
-## Quellen
