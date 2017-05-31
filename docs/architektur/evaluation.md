@@ -18,11 +18,11 @@ In der nachfolgenden Tabelle sind alle Dokumente und Links aufgelistet, welche f
 
 | **Name**       | **Referenz**                                               |
 |----------------|------------------------------------------------------------|
-| Spring Boot    | [https://projects.spring.io/spring-boot/]
-| Play Framework | [https://playframework.com/]                               |
-| Spark Java     | [http://sparkjava.com/]                                    |
-| Freemarker     | [http://freemarker.org/](http://freemarker.org/)           |
-| velocity       | [http://velocity.apache.org/](http://velocity.apache.org/) |
+| Spring Boot    | https://projects.spring.io/spring-boot/
+| Play Framework | https://playframework.com/                               |
+| Spark Java     | http://sparkjava.com/                                    |
+| Freemarker     | http://freemarker.org/           |
+| velocity       | http://velocity.apache.org/ |
 
 
 # Framework Evaluation
