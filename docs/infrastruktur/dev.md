@@ -95,5 +95,5 @@ Hierfür ist es wichtig, dass alle Umgebungsvariablen korrekt gesetzt sind. Mitt
 Um reproduzierbare Screenshots zu bekommen müssen diese Tests in einem Docker-Container laufen. Die UI-Tests können einfach mit folgendem Kommando im Projekt-Root ausgeführt werden:
 
 ```bash
-./run-integration.sh
+./tools/run-test-coverage.sh
 ```
