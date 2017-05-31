@@ -46,7 +46,7 @@ Die nicht-funktionalen Anforderungen, die direkt mit der Implementation zu tun h
 ## Metriken
 Zusammenfassend haben wir eine Übersicht von Metriken erstellt. Herauszuheben sind insbesondere die durchschnittliche zyklomatische Zahl, die grosse Anzahl CI-Builds und die vielen Integration Tests.
 
-![](resources/schlussbericht/metrics.png)
+<img src="resources/schlussbericht/metrics.png" style="max-width: 65%"/>
 
 # Zeitauswertung
 
