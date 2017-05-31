@@ -117,22 +117,6 @@ generate_pages:
     paths:
     - docs/public/
 
-pages:
-  stage: deploy
-  image: python:3.6
-  script:
-  - python ./tools/backup.py gitlab
-  - python ./tools/report.py "./backups/gitlab/" "./docs/public/projektmanagement/resources/export/" all
-  - cp -r docs/public public/
-  artifacts:
-    paths:
-    - public
-    expire_in: 47 yrs 6 mos and 4d
-  only:
-    - master
-  allow_failure: true
-  when: manual
-
 examibur_image:
   stage: deploy
   image: docker:latest
